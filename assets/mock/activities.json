@@ -1,0 +1,46 @@
+{
+  "activities": [
+    {
+      "id": "1",
+      "title": "Class Activity",
+      "subtitle": "Grade 3 • 2 hours ago",
+      "imageUrl": "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=400&q=80",
+      "iconType": "class"
+    },
+    {
+      "id": "2",
+      "title": "Art & Craft Session",
+      "subtitle": "Grade 2 • 4 hours ago",
+      "imageUrl": "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400&q=80",
+      "iconType": "art"
+    },
+    {
+      "id": "3",
+      "title": "Sports Activity",
+      "subtitle": "Grade 4 • 1 day ago",
+      "imageUrl": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=400&q=80",
+      "iconType": "sports"
+    },
+    {
+      "id": "4",
+      "title": "Annual Day Practice",
+      "subtitle": "Grade 1 • 1 day ago",
+      "imageUrl": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&q=80",
+      "iconType": "event"
+    },
+    {
+      "id": "5",
+      "title": "Library Session",
+      "subtitle": "Grade 5 • 2 days ago",
+      "imageUrl": "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?w=400&q=80",
+      "iconType": "library"
+    },
+    {
+      "id": "6",
+      "title": "Science Experiment",
+      "subtitle": "Grade 6 • 2 days ago",
+      "imageUrl": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&q=80",
+      "iconType": "science"
+    }
+  ]
+}

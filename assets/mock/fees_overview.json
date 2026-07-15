@@ -1,0 +1,160 @@
+{
+  "outstandingBalance": {
+    "amount": "12,500",
+    "dueDate": "25 Jul 2026"
+  },
+  "summary": [
+    {
+      "type": "Total Fees",
+      "amount": "40,000",
+      "color": "purple"
+    },
+    {
+      "type": "Paid",
+      "amount": "27,500",
+      "color": "green"
+    },
+    {
+      "type": "Balance",
+      "amount": "12,500",
+      "color": "orange"
+    }
+  ],
+  "progress": {
+    "year": "2026 - 2027",
+    "percentage": 69,
+    "paid": "27,500",
+    "total": "40,000"
+  },
+  "upcomingPayments": [
+    {
+      "title": "July Tuition Fee",
+      "dueDate": "Due on 25 Jul 2026",
+      "amount": "4,000",
+      "iconType": "book"
+    },
+    {
+      "title": "Transport Fee",
+      "dueDate": "Due on 25 Jul 2026",
+      "amount": "1,500",
+      "iconType": "bus"
+    },
+    {
+      "title": "Activity Fee",
+      "dueDate": "Due on 30 Jul 2026",
+      "amount": "500",
+      "iconType": "activity"
+    }
+  ],
+  "paymentHistory": [
+    {
+      "date": "10 Jun 2026",
+      "title": "Tuition Fee (June)",
+      "amount": "4,000",
+      "status": "Paid"
+    },
+    {
+      "date": "10 May 2026",
+      "title": "Transport Fee (May)",
+      "amount": "1,500",
+      "status": "Paid"
+    },
+    {
+      "date": "12 Apr 2026",
+      "title": "Admission Fee",
+      "amount": "10,000",
+      "status": "Paid"
+    }
+  ],
+  "feeBreakdown": {
+    "year": "2026 - 2027",
+    "total": "40,000",
+    "totalPaid": "16,550",
+    "items": [
+      {
+        "title": "Tuition Fee",
+        "amount": "24,000",
+        "paidAmount": "14,400",
+        "iconType": "tuition",
+        "percentage": 60
+      },
+      {
+        "title": "Transport Fee",
+        "amount": "8,000",
+        "paidAmount": "1,600",
+        "iconType": "transport",
+        "percentage": 20
+      },
+      {
+        "title": "Books & Material",
+        "amount": "3,000",
+        "paidAmount": "225",
+        "iconType": "books",
+        "percentage": 7.5
+      },
+      {
+        "title": "Activities Fee",
+        "amount": "2,000",
+        "paidAmount": "100",
+        "iconType": "activities",
+        "percentage": 5
+      },
+      {
+        "title": "Uniform Fee",
+        "amount": "3,000",
+        "paidAmount": "225",
+        "iconType": "uniform",
+        "percentage": 7.5
+      }
+    ]
+  },
+  "recentReceipts": [
+    {
+      "receiptNo": "Receipt #2054",
+      "date": "10 Jun 2026",
+      "amount": "4,000"
+    },
+    {
+      "receiptNo": "Receipt #1982",
+      "date": "10 May 2026",
+      "amount": "1,500"
+    },
+    {
+      "receiptNo": "Receipt #1876",
+      "date": "12 Apr 2026",
+      "amount": "10,000"
+    }
+  ],
+  "paymentMethods": [
+    {
+      "type": "UPI",
+      "details": "PhonePe •••• 3456",
+      "iconType": "upi"
+    },
+    {
+      "type": "Debit / Credit Card",
+      "details": "Visa •••• 4242",
+      "iconType": "card"
+    },
+    {
+      "type": "Net Banking",
+      "details": "HDFC Bank",
+      "iconType": "bank"
+    }
+  ],
+  "scholarships": [
+    {
+      "status": "Scholarship Applied",
+      "name": "Merit Scholarship",
+      "description": "For academic excellence",
+      "pillText": "Applied",
+      "amount": "5,000"
+    }
+  ],
+  "fineDetails": {
+    "title": "Fine Details",
+    "type": "Late Fee",
+    "condition": "Applies after 25 Jul 2026",
+    "amount": "200"
+  }
+}

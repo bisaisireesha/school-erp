@@ -1,0 +1,44 @@
+{
+  "actions": [
+    {
+      "id": "1",
+      "title": "Dashboard",
+      "iconType": "dashboard"
+    },
+    {
+      "id": "3",
+      "title": "Academics",
+      "iconType": "academics"
+    },
+    {
+      "id": "4",
+      "title": "Attendance",
+      "iconType": "attendance"
+    },
+    {
+      "id": "5",
+      "title": "Homework",
+      "iconType": "homework"
+    },
+    {
+      "id": "6",
+      "title": "Exams & Results",
+      "iconType": "exams"
+    },
+    {
+      "id": "7",
+      "title": "Timetable",
+      "iconType": "timetable"
+    },
+    {
+      "id": "8",
+      "title": "Fees & Payments",
+      "iconType": "fees"
+    },
+    {
+      "id": "10",
+      "title": "Events",
+      "iconType": "events"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "progress": [
+    {
+      "subject": "Mathematics",
+      "percentage": 80,
+      "colorHex": "3B82F6",
+      "iconType": "maths"
+    },
+    {
+      "subject": "Science",
+      "percentage": 70,
+      "colorHex": "22C55E",
+      "iconType": "science"
+    },
+    {
+      "subject": "English",
+      "percentage": 90,
+      "colorHex": "F97316",
+      "iconType": "english"
+    },
+    {
+      "subject": "Social Studies",
+      "percentage": 75,
+      "colorHex": "8B5CF6",
+      "iconType": "social_studies"
+    }
+  ]
+}
