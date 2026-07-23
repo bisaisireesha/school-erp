@@ -9,12 +9,33 @@ import 'more/more_screen.dart';
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
 
+  static void pushSubScreen(BuildContext context, Widget screen) {
+    context.findAncestorStateOfType<_MainLayoutState>()?.pushSubScreen(screen);
+  }
+
+  static void popSubScreen(BuildContext context) {
+    context.findAncestorStateOfType<_MainLayoutState>()?.popSubScreen();
+  }
+
   @override
   State<MainLayout> createState() => _MainLayoutState();
 }
 
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
+  Widget? _subScreen;
+
+  void pushSubScreen(Widget screen) {
+    setState(() {
+      _subScreen = screen;
+    });
+  }
+
+  void popSubScreen() {
+    setState(() {
+      _subScreen = null;
+    });
+  }
 
   final List<Widget> _screens = [
     const ParentDashboardScreen(),
@@ -131,7 +152,7 @@ class _MainLayoutState extends State<MainLayout> {
                 const SizedBox(height: 16),
                 // Dynamic Scrollable Content
                 Expanded(
-                  child: _screens[_currentIndex],
+                  child: _subScreen ?? _screens[_currentIndex],
                 ),
               ],
             ),
@@ -260,10 +281,6 @@ class _MainLayoutState extends State<MainLayout> {
           hintText: 'Search anything...',
           hintStyle: const TextStyle(color: Color(0xFF9E9E9E), fontSize: 14, fontWeight: FontWeight.w500),
           prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF1E1E2D)), // Dark search icon
-          suffixIcon: const Padding(
-            padding: EdgeInsets.all(6.0),
-            child: Icon(Icons.tune_rounded, color: Color(0xFF6C4CF1), size: 24), // Purple icon, no box
-          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(24),
             borderSide: BorderSide.none,
@@ -329,6 +346,7 @@ class _MainLayoutState extends State<MainLayout> {
         onTap: () {
           setState(() {
             _currentIndex = index;
+            _subScreen = null;
           });
         },
         behavior: HitTestBehavior.opaque,

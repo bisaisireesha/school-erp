@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:math';
-import '../parent_dashboard/parent_dashboard_screen.dart';
-import '../academics/academics_screen.dart';
-import '../more/more_screen.dart';
 
 class FeesScreen extends StatefulWidget {
   const FeesScreen({super.key});
@@ -45,7 +42,7 @@ class _FeesScreenState extends State<FeesScreen> {
                               ...data['scholarships'].map<Widget>((s) => Padding(
                                 padding: const EdgeInsets.only(bottom: 20.0),
                                 child: _buildScholarshipCard(s),
-                              )).toList(),
+                              )),
                             _buildFineDetails(data['fineDetails']),
               const SizedBox(height: 120), // Bottom padding for navbar
             ],
@@ -111,163 +108,6 @@ class _FeesScreenState extends State<FeesScreen> {
                 Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 18),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWalletGraphic() {
-    return Container(
-      width: 120,
-      height: 120,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF6C4CF1).withValues(alpha: 0.1),
-            blurRadius: 20,
-            spreadRadius: 5,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Green money note 1 (back)
-          Positioned(
-            top: 25,
-            right: 40,
-            child: Transform.rotate(
-              angle: -0.2,
-              child: Container(
-                width: 40,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFC5EED6),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-          // Green money note 2 (front)
-          Positioned(
-            top: 20,
-            right: 30,
-            child: Transform.rotate(
-              angle: 0.3,
-              child: Container(
-                width: 40,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFB5E4CA),
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: const Color(0xFF8CD8AC), width: 1),
-                ),
-                child: const Center(
-                  child: Icon(Icons.currency_rupee_rounded, color: Color(0xFF4DBB7E), size: 18),
-                ),
-              ),
-            ),
-          ),
-          // Purple Wallet body
-          Positioned(
-            bottom: 25,
-            child: Container(
-              width: 70,
-              height: 45,
-              decoration: BoxDecoration(
-                color: const Color(0xFF8B6DFE),
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-          ),
-          // Wallet flap/clasp
-          Positioned(
-            bottom: 35,
-            right: 25,
-            child: Container(
-              width: 18,
-              height: 25,
-              decoration: BoxDecoration(
-                color: const Color(0xFF5A35EB),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Center(
-                child: Container(
-                  width: 6,
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickActions() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Quick Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-          const SizedBox(height: 24),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildQuickActionItem('Pay Now', Icons.account_balance_wallet_rounded),
-              _buildQuickActionItem('Receipts', Icons.receipt_long_rounded),
-              _buildQuickActionItem('Fee Schedule', Icons.calendar_month_rounded),
-              _buildQuickActionItem('Payment\nHistory', Icons.pie_chart_rounded),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickActionItem(String title, IconData icon) {
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: const Color(0xFF6C4CF1), size: 26),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -506,7 +346,7 @@ class _FeesScreenState extends State<FeesScreen> {
                 ),
               ],
             );
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -591,7 +431,7 @@ class _FeesScreenState extends State<FeesScreen> {
                 ),
               ],
             );
-          }).toList(),
+          }),
           const SizedBox(height: 4),
           const Divider(color: Color(0xFFF3EEFF), height: 32, thickness: 1.5),
           Row(
@@ -786,101 +626,7 @@ class _FeesScreenState extends State<FeesScreen> {
                 ),
               ],
             );
-          }).toList(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPaymentMethods(List methods) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Payment Methods', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF2C2849))),
-              Text('Manage', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
-            ],
-          ),
-          const SizedBox(height: 16),
-          ...methods.asMap().entries.map((entry) {
-            final index = entry.key;
-            final item = entry.value;
-            
-            Color iconBgColor;
-            Color iconColor;
-            IconData icon;
-            
-            switch (item['iconType']) {
-              case 'upi':
-                iconBgColor = const Color(0xFFF4F0FF);
-                iconColor = const Color(0xFF6C4CF1);
-                icon = Icons.currency_rupee_rounded;
-                break;
-              case 'card':
-                iconBgColor = const Color(0xFFF0F5FF);
-                iconColor = const Color(0xFF3B82F6);
-                icon = Icons.credit_card_rounded;
-                break;
-              case 'bank':
-                iconBgColor = const Color(0xFFF3FDF7);
-                iconColor = const Color(0xFF22C55E);
-                icon = Icons.account_balance_rounded;
-                break;
-              default:
-                iconBgColor = const Color(0xFFF4F0FF);
-                iconColor = const Color(0xFF6C4CF1);
-                icon = Icons.payment_rounded;
-            }
-            
-            return Column(
-              children: [
-                if (index != 0)
-                  const Divider(color: Color(0xFFF3EEFF), height: 32, thickness: 1.5),
-                Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: iconBgColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(icon, color: iconColor, size: 24),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(item['type'], style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF2C2849))),
-                          const SizedBox(height: 4),
-                          Text(item['details'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF7A7A9D))),
-                        ],
-                      ),
-                    ),
-                    const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF2C2849), size: 14),
-                  ],
-                ),
-              ],
-            );
-          }).toList(),
+          }),
         ],
       ),
     );

@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:math' as math;
-import '../more/more_screen.dart';
-
-import '../fees/fees_screen.dart';
 
 class AcademicsScreen extends StatefulWidget {
   const AcademicsScreen({super.key});

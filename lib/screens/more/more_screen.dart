@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
-import '../parent_dashboard/parent_dashboard_screen.dart';
-import '../academics/academics_screen.dart';
-import '../fees/fees_screen.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../homework/homework_screen.dart';
+import '../attendance/attendance_screen.dart';
+import '../main_layout.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({super.key});
@@ -36,6 +37,21 @@ class _MoreScreenState extends State<MoreScreen> {
     );
   }
 
+  final List<Map<String, dynamic>> _quickActions = [
+    {'title': 'My Child', 'icon': LucideIcons.users},
+    {'title': 'Homework', 'icon': LucideIcons.edit},
+    {'title': 'Attendance', 'icon': LucideIcons.calendarCheck}, 
+    {'title': 'Exams & Results', 'icon': LucideIcons.graduationCap},
+    {'title': 'Timetable', 'icon': LucideIcons.calendarDays},
+    {'title': 'Fees & Payments', 'icon': LucideIcons.wallet},
+    {'title': 'Hostel', 'icon': LucideIcons.building},
+    {'title': 'Calendar', 'icon': LucideIcons.calendar},
+    {'title': 'Leave Request', 'icon': LucideIcons.fileCheck},
+    {'title': 'Transport', 'icon': LucideIcons.bus},
+    {'title': 'CCTV Cameras', 'icon': LucideIcons.video},
+    {'title': 'Resources', 'icon': LucideIcons.folder},
+  ];
+
   Widget _buildQuickActions() {
     return Container(
       width: double.infinity,
@@ -57,61 +73,57 @@ class _MoreScreenState extends State<MoreScreen> {
         children: [
           const Text('Quick Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
           const SizedBox(height: 24),
-          FutureBuilder<String>(
-            future: rootBundle.loadString('assets/mock/quick_actions.json'),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
-              final data = json.decode(snapshot.data!)['actions'] as List;
-              return GridView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: data.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 24,
-                  childAspectRatio: 0.80,
-                ),
-                itemBuilder: (context, index) {
-                  final item = data[index];
-                  IconData iconData;
-                  switch (item['iconType']) {
-                    case 'dashboard': iconData = Icons.grid_view_rounded; break;
-                    case 'child': iconData = Icons.person_outline_rounded; break;
-                    case 'academics': iconData = Icons.menu_book_rounded; break;
-                    case 'attendance': iconData = Icons.calendar_today_rounded; break;
-                    case 'homework': iconData = Icons.edit_document; break;
-                    case 'exams': iconData = Icons.school_outlined; break;
-                    case 'timetable': iconData = Icons.calendar_month_rounded; break;
-                    case 'fees': iconData = Icons.account_balance_wallet_outlined; break;
-                    case 'messages': iconData = Icons.chat_bubble_outline_rounded; break;
-                    case 'events': iconData = Icons.event_rounded; break;
-                    default: iconData = Icons.grid_view_rounded;
+          GridView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _quickActions.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 24,
+              mainAxisExtent: 100, // Fixed height to prevent bottom overflow
+            ),
+            itemBuilder: (context, index) {
+              final item = _quickActions[index];
+              return GestureDetector(
+                onTap: () {
+                  if (item['title'] == 'Homework') {
+                    MainLayout.pushSubScreen(context, HomeworkScreen(
+                      onBack: () {
+                        MainLayout.popSubScreen(context);
+                      },
+                    ));
+                  } else if (item['title'] == 'Attendance') {
+                    MainLayout.pushSubScreen(context, AttendanceScreen(
+                      onBack: () {
+                        MainLayout.popSubScreen(context);
+                      },
+                    ));
                   }
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: 56,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(iconData, color: const Color(0xFF6C4CF1), size: 26),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        item['title'], 
-                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)), 
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  );
                 },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(item['icon'] as IconData, color: const Color(0xFF6C4CF1), size: 26),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      item['title'] as String, 
+                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)), 
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               );
             },
           ),
