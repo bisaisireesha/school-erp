@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import 'librarian_create_bottom_sheet.dart';
+import 'librarian_search_bar.dart';
 
 class LibrarianRacksScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -96,141 +98,32 @@ class _LibrarianRacksScreenState extends State<LibrarianRacksScreen> {
   }
 
   void _showAddRackModal() {
-    final rackCtrl = TextEditingController();
-    final aisleCtrl = TextEditingController();
-    final floorCtrl = TextEditingController(text: 'Floor 2');
-    final capCtrl = TextEditingController(text: '200');
-
-    showModalBottomSheet(
+    LibrarianCreateBottomSheet.show(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 20, right: 20, top: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF59E0B).withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Icon(LucideIcons.boxes, color: Color(0xFFF59E0B), size: 20),
-                  ),
-                  const SizedBox(width: 12),
-                  const Text(
-                    'Add New Shelf / Rack',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.grey),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              TextField(
-                controller: rackCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Rack Identifier (e.g. Rack B-06)',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: aisleCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Aisle Location (e.g. Aisle B)',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: floorCtrl,
-                      decoration: InputDecoration(
-                        labelText: 'Floor Location',
-                        filled: true,
-                        fillColor: const Color(0xFFF9F8FF),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  SizedBox(
-                    width: 110,
-                    child: TextField(
-                      controller: capCtrl,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: 'Max Capacity',
-                        filled: true,
-                        fillColor: const Color(0xFFF9F8FF),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {
-                    final rack = rackCtrl.text.trim();
-                    if (rack.isEmpty) return;
-                    final aisle = aisleCtrl.text.trim().isEmpty ? 'Aisle B' : aisleCtrl.text.trim();
-                    final int cap = int.tryParse(capCtrl.text.trim()) ?? 200;
+      type: LibrarianCreateType.rack,
+      onSubmit: (data) {
+        final rack = data['rackNo'] ?? '';
+        final floor = data['floor'] ?? 'Floor 2 - Main Wing';
+        final desc = data['description'] ?? '';
 
-                    setState(() {
-                      _racks.insert(0, {
-                        'rackNo': rack,
-                        'aisle': aisle,
-                        'floor': floorCtrl.text.trim().isEmpty ? 'Floor 2' : floorCtrl.text.trim(),
-                        'category': 'General',
-                        'currentBooks': 0,
-                        'capacity': cap,
-                        'status': 'Optimal',
-                        'color': const Color(0xFF10B981),
-                        'bg': const Color(0xFFECFDF5),
-                      });
-                    });
+        setState(() {
+          _racks.insert(0, {
+            'rackNo': rack,
+            'aisle': desc.isEmpty ? 'Aisle B (General)' : desc,
+            'floor': floor,
+            'category': 'General',
+            'currentBooks': 0,
+            'capacity': 200,
+            'status': 'Optimal',
+            'color': const Color(0xFF10B981),
+            'bg': const Color(0xFFECFDF5),
+          });
+        });
 
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Shelf "$rack" registered successfully!'),
-                        backgroundColor: const Color(0xFFF59E0B),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFF59E0B),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: const Text('Register Shelf', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white)),
-                ),
-              ),
-            ],
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Rack "$rack" registered successfully!'),
+            backgroundColor: const Color(0xFF6C4CF1),
           ),
         );
       },
@@ -281,24 +174,11 @@ class _LibrarianRacksScreenState extends State<LibrarianRacksScreen> {
             // Search Bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                height: AppSpacing.searchBarHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFEBE8FF)),
-                  boxShadow: AppShadows.soft,
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  onChanged: (val) => setState(() => _searchQuery = val),
-                  decoration: const InputDecoration(
-                    hintText: 'Search rack number, aisle or category...',
-                    prefixIcon: Icon(LucideIcons.search, size: 18, color: Color(0xFF7A7A9D)),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 12),
-                  ),
-                ),
+              child: LibrarianSearchBar(
+                controller: _searchController,
+                hintText: 'Search racks or shelves by name or floor...',
+                onChanged: (val) => setState(() => _searchQuery = val),
+                onClear: () => setState(() => _searchQuery = ''),
               ),
             ),
             const SizedBox(height: 14),

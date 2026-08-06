@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import 'librarian_create_bottom_sheet.dart';
+import 'librarian_search_bar.dart';
 
 class LibrarianCategoriesScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -90,118 +92,31 @@ class _LibrarianCategoriesScreenState extends State<LibrarianCategoriesScreen> {
   }
 
   void _showAddCategoryModal() {
-    final nameCtrl = TextEditingController();
-    final codeCtrl = TextEditingController();
-    final descCtrl = TextEditingController();
-
-    showModalBottomSheet(
+    LibrarianCreateBottomSheet.show(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 20, right: 20, top: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF3B82F6).withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Icon(LucideIcons.shapes, color: Color(0xFF3B82F6), size: 20),
-                  ),
-                  const SizedBox(width: 12),
-                  const Text(
-                    'Add New Category',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.grey),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              TextField(
-                controller: nameCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Category Name',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: codeCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Category Code (e.g. MTH)',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: descCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Description',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {
-                    final name = nameCtrl.text.trim();
-                    if (name.isEmpty) return;
-                    final code = codeCtrl.text.trim().isEmpty ? 'GEN' : codeCtrl.text.trim().toUpperCase();
+      type: LibrarianCreateType.category,
+      onSubmit: (data) {
+        final name = data['name'] ?? '';
+        final code = data['code'] ?? 'GEN';
+        final desc = data['description'] ?? 'General catalog section';
 
-                    setState(() {
-                      _mockCategories.insert(0, {
-                        'name': name,
-                        'code': code,
-                        'count': 120,
-                        'racks': 2,
-                        'icon': LucideIcons.bookmark,
-                        'color': const Color(0xFF6C4CF1),
-                        'bg': const Color(0xFFF3F0FF),
-                        'description': descCtrl.text.trim().isEmpty ? 'General catalog section' : descCtrl.text.trim(),
-                      });
-                    });
+        setState(() {
+          _mockCategories.insert(0, {
+            'name': name,
+            'code': code,
+            'count': 120,
+            'racks': 2,
+            'icon': LucideIcons.bookmark,
+            'color': const Color(0xFF6C4CF1),
+            'bg': const Color(0xFFF3F0FF),
+            'description': desc,
+          });
+        });
 
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Category "$name" ($code) added successfully!'),
-                        backgroundColor: const Color(0xFF3B82F6),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3B82F6),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: const Text('Save Category', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white)),
-                ),
-              ),
-            ],
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Category "$name" ($code) added successfully!'),
+            backgroundColor: const Color(0xFF6C4CF1),
           ),
         );
       },
@@ -252,24 +167,11 @@ class _LibrarianCategoriesScreenState extends State<LibrarianCategoriesScreen> {
             // Search Bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                height: AppSpacing.searchBarHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFEBE8FF)),
-                  boxShadow: AppShadows.soft,
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  onChanged: (val) => setState(() => _searchQuery = val),
-                  decoration: const InputDecoration(
-                    hintText: 'Search categories by name, code or keyword...',
-                    prefixIcon: Icon(LucideIcons.search, size: 18, color: Color(0xFF7A7A9D)),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 12),
-                  ),
-                ),
+              child: LibrarianSearchBar(
+                controller: _searchController,
+                hintText: 'Search categories by name or code...',
+                onChanged: (val) => setState(() => _searchQuery = val),
+                onClear: () => setState(() => _searchQuery = ''),
               ),
             ),
             const SizedBox(height: 14),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import 'librarian_search_bar.dart';
 
 class LibrarianDashboardScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -89,40 +90,19 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
           ),
         ),
         const SizedBox(height: 14),
-        Container(
-          height: AppSpacing.searchBarHeight,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(AppSpacing.searchBarRadius),
-            border: Border.all(color: const Color(0xFFEBE8FF)),
-            boxShadow: AppShadows.soft,
-          ),
-          child: TextField(
-            controller: _searchController,
-            onChanged: (val) {
-              setState(() {
-                _searchQuery = val;
-              });
-            },
-            decoration: InputDecoration(
-              hintText: 'Search books by title, author, ISBN or member...',
-              hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13.0),
-              prefixIcon: const Icon(LucideIcons.search, size: 18, color: Color(0xFF7A7A9D)),
-              suffixIcon: _searchQuery.isNotEmpty
-                  ? IconButton(
-                      icon: const Icon(Icons.close, size: 16, color: Colors.grey),
-                      onPressed: () {
-                        _searchController.clear();
-                        setState(() {
-                          _searchQuery = '';
-                        });
-                      },
-                    )
-                  : null,
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-          ),
+        LibrarianSearchBar(
+          controller: _searchController,
+          hintText: 'Search books by title, author, or ISBN...',
+          onChanged: (val) {
+            setState(() {
+              _searchQuery = val;
+            });
+          },
+          onClear: () {
+            setState(() {
+              _searchQuery = '';
+            });
+          },
         ),
       ],
     );

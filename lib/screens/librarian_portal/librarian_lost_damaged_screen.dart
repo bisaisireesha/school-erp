@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import 'librarian_search_bar.dart';
 
 class LibrarianLostDamagedScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -18,6 +19,14 @@ class LibrarianLostDamagedScreen extends StatefulWidget {
 
 class _LibrarianLostDamagedScreenState extends State<LibrarianLostDamagedScreen> {
   String _selectedFilter = 'All';
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   List<Map<String, dynamic>> get _items {
     final stockAlerts = (widget.data['stockAlerts'] as List? ?? []);
@@ -81,8 +90,12 @@ class _LibrarianLostDamagedScreenState extends State<LibrarianLostDamagedScreen>
   @override
   Widget build(BuildContext context) {
     final filtered = _items.where((i) {
-      if (_selectedFilter == 'All') return true;
-      return i['type'] == _selectedFilter;
+      final matchesFilter = _selectedFilter == 'All' || i['type'] == _selectedFilter;
+      if (_searchQuery.isEmpty) return matchesFilter;
+      final q = _searchQuery.toLowerCase();
+      final title = (i['title'] ?? '').toString().toLowerCase();
+      final desc = (i['description'] ?? '').toString().toLowerCase();
+      return matchesFilter && (title.contains(q) || desc.contains(q));
     }).toList();
 
     int damagedCount = _items.where((i) => i['type'] == 'Damaged').length;
@@ -180,7 +193,17 @@ class _LibrarianLostDamagedScreenState extends State<LibrarianLostDamagedScreen>
                 ],
               ),
             ),
-            const SizedBox(height: 14),
+            // Search Bar
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: LibrarianSearchBar(
+                controller: _searchController,
+                hintText: 'Search lost or damaged books...',
+                onChanged: (val) => setState(() => _searchQuery = val),
+                onClear: () => setState(() => _searchQuery = ''),
+              ),
+            ),
+            const SizedBox(height: 12),
 
             // Filter Chips
             Padding(

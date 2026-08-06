@@ -13,6 +13,9 @@ import 'librarian_portal/librarian_categories_screen.dart';
 import 'librarian_portal/librarian_racks_screen.dart';
 import 'librarian_portal/librarian_lost_damaged_screen.dart';
 import 'librarian_portal/librarian_profile_screen.dart';
+import 'librarian_portal/librarian_create_bottom_sheet.dart';
+import 'librarian_portal/librarian_messages_screen.dart';
+import 'librarian_portal/librarian_fines_overdue_screen.dart';
 
 class LibrarianMainLayout extends StatefulWidget {
   const LibrarianMainLayout({super.key});
@@ -84,10 +87,10 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
         _subScreen = null;
         _currentIndex = 3;
       } else if (screenKey == 'fines_overdue' || screenKey == 'overdue' || screenKey == 'due_today') {
-        _subScreen = null;
-        _currentIndex = 1;
-        _issueReturnInitialTab = 1; // Return tab
-        _prefilledReturnMember = prefilledMember;
+        _subScreen = LibrarianFinesOverdueScreen(
+          data: _librarianData,
+          onBack: popSubScreen,
+        );
       } else if (screenKey == 'members') {
         _subScreen = LibrarianMembersScreen(
           data: _librarianData,
@@ -118,6 +121,16 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
         );
       } else if (screenKey == 'profile') {
         _subScreen = LibrarianProfileScreen(
+          data: _librarianData,
+          onBack: popSubScreen,
+        );
+      } else if (screenKey == 'messages') {
+        _subScreen = LibrarianMessagesScreen(
+          data: _librarianData,
+          onBack: popSubScreen,
+        );
+      } else if (screenKey == 'fines_overdue') {
+        _subScreen = LibrarianFinesOverdueScreen(
           data: _librarianData,
           onBack: popSubScreen,
         );
@@ -485,317 +498,59 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
   }
 
   void _showAddBookModal() {
-    final titleCtrl = TextEditingController();
-    final authorCtrl = TextEditingController();
-    final isbnCtrl = TextEditingController();
-    final rackCtrl = TextEditingController();
-    final copiesCtrl = TextEditingController(text: '5');
-    String selectedCategory = 'Fiction';
-
-    showModalBottomSheet(
+    LibrarianCreateBottomSheet.show(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                left: 20, right: 20, top: 20,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF3B82F6).withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(LucideIcons.bookPlus, color: Color(0xFF3B82F6), size: 20),
-                        ),
-                        const SizedBox(width: 12),
-                        const Text(
-                          'Add New Book to Catalog',
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.close, color: Colors.grey),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 14),
-                    TextField(
-                      controller: titleCtrl,
-                      decoration: InputDecoration(
-                        labelText: 'Book Title',
-                        filled: true,
-                        fillColor: const Color(0xFFF9F8FF),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: authorCtrl,
-                      decoration: InputDecoration(
-                        labelText: 'Author Name',
-                        filled: true,
-                        fillColor: const Color(0xFFF9F8FF),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: isbnCtrl,
-                            decoration: InputDecoration(
-                              labelText: 'ISBN',
-                              filled: true,
-                              fillColor: const Color(0xFFF9F8FF),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: TextField(
-                            controller: rackCtrl,
-                            decoration: InputDecoration(
-                              labelText: 'Rack No. (e.g. B-04)',
-                              filled: true,
-                              fillColor: const Color(0xFFF9F8FF),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField<String>(
-                            initialValue: selectedCategory,
-                            decoration: InputDecoration(
-                              labelText: 'Category',
-                              filled: true,
-                              fillColor: const Color(0xFFF9F8FF),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                            ),
-                            items: ['Fiction', 'Science', 'Technology', 'History', 'Social Science']
-                                .map((cat) => DropdownMenuItem(value: cat, child: Text(cat)))
-                                .toList(),
-                            onChanged: (val) {
-                              if (val != null) setModalState(() => selectedCategory = val);
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            controller: copiesCtrl,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              labelText: 'Copies',
-                              filled: true,
-                              fillColor: const Color(0xFFF9F8FF),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          final title = titleCtrl.text.trim();
-                          if (title.isEmpty) return;
-                          final author = authorCtrl.text.trim().isEmpty ? 'Unknown Author' : authorCtrl.text.trim();
-                          final isbn = isbnCtrl.text.trim().isEmpty ? '978-0000000000' : isbnCtrl.text.trim();
-                          final rack = rackCtrl.text.trim().isEmpty ? 'R-01' : rackCtrl.text.trim();
-                          final int copies = int.tryParse(copiesCtrl.text.trim()) ?? 5;
-
-                          _addBook({
-                            'id': 'BK-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
-                            'title': title,
-                            'author': author,
-                            'isbn': isbn,
-                            'category': selectedCategory,
-                            'totalCopies': copies,
-                            'availableCopies': copies,
-                            'rackNumber': rack,
-                            'status': 'Available',
-                          });
-
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Added "$title" ($copies copies) to library catalog!'),
-                              backgroundColor: const Color(0xFF3B82F6),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF3B82F6),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
-                        child: const Text('Add Book to Catalog', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
+      type: LibrarianCreateType.book,
+      onSubmit: (data) {
+        final title = data['title'] ?? '';
+        final copies = data['totalCopies'] ?? 5;
+        _addBook({
+          'id': 'BK-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
+          'title': title,
+          'author': data['author'] ?? 'Unknown Author',
+          'isbn': data['isbn'] ?? '978-0000000000',
+          'category': data['category'] ?? 'Fiction',
+          'totalCopies': copies,
+          'availableCopies': copies,
+          'rackNumber': data['rackNumber'] ?? 'R-01',
+          'status': 'Available',
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Added "$title" ($copies copies) to library catalog!'),
+            backgroundColor: const Color(0xFF6C4CF1),
+          ),
         );
       },
     );
   }
 
   void _showAddStaffModal() {
-    final nameCtrl = TextEditingController();
-    final idCtrl = TextEditingController();
-    final deptCtrl = TextEditingController(text: 'Library Administration');
-    final emailCtrl = TextEditingController();
-
-    showModalBottomSheet(
+    LibrarianCreateBottomSheet.show(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 20, right: 20, top: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+      type: LibrarianCreateType.staff,
+      onSubmit: (data) {
+        final name = data['name'] ?? '';
+        final id = data['memberId'] ?? 'STF-5099';
+        _addMember({
+          'id': 'MEM-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
+          'name': name,
+          'memberId': id,
+          'role': 'Staff',
+          'department': data['department'] ?? 'Library Administration',
+          'activeIssued': 0,
+          'pendingFine': '₹0.00',
+          'email': data['email'] ?? '',
+          'phone': data['phone'] ?? '',
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Staff member "$name" ($id) added to library system!'),
+            backgroundColor: const Color(0xFF6C4CF1),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF59E0B).withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Icon(LucideIcons.userPlus, color: Color(0xFFF59E0B), size: 20),
-                  ),
-                  const SizedBox(width: 12),
-                  const Text(
-                    'Add Staff / Library Member',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.grey),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              TextField(
-                controller: nameCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Staff Full Name',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: idCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Employee ID (e.g. STF-5099)',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: deptCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Department / Role',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: emailCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Email Address',
-                  filled: true,
-                  fillColor: const Color(0xFFF9F8FF),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFEBE8FF))),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {
-                    final name = nameCtrl.text.trim();
-                    if (name.isEmpty) return;
-                    final id = idCtrl.text.trim().isEmpty ? 'STF-${DateTime.now().millisecondsSinceEpoch.toString().substring(8)}' : idCtrl.text.trim();
-
-                    _addMember({
-                      'id': 'MEM-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
-                      'name': name,
-                      'memberId': id,
-                      'role': 'Staff',
-                      'department': deptCtrl.text.trim().isEmpty ? 'Library Administration' : deptCtrl.text.trim(),
-                      'activeIssued': 0,
-                      'pendingFine': '₹0.00',
-                      'email': emailCtrl.text.trim().isEmpty ? '${name.toLowerCase().replaceAll(' ', '.')}@school.edu' : emailCtrl.text.trim(),
-                      'phone': '+1 (555) 000-0000',
-                    });
-
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Staff member "$name" ($id) added to library system!'),
-                        backgroundColor: const Color(0xFFF59E0B),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFF59E0B),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: const Text('Add Staff Account', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white)),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   // ─── BUILD 4 TOP-LEVEL SCREENS (Home, Issue & Return, Books, More) ──────
@@ -910,9 +665,7 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
                               badgeCount: 2,
                               badgeColor: const Color(0xFF5B5CEB),
                               onTap: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Librarian Messages & Notices')),
-                                );
+                                _navigateToScreen('messages');
                               },
                             ),
                             const SizedBox(width: AppSpacing.actionIconGap),
@@ -921,7 +674,7 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
                               badgeCount: (_librarianData['overdueBooks'] as List? ?? []).length,
                               badgeColor: const Color(0xFFFF4B4B),
                               onTap: () {
-                                _navigateToScreen('issue_return', initialTab: 1);
+                                _navigateToScreen('fines_overdue');
                               },
                             ),
                             const SizedBox(width: AppSpacing.actionIconGap),

@@ -14,15 +14,8 @@ class LibrarianMoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 6 Options matching user requirements, cloned from Driver App More screen design system
+    // 5 Options matching user requirements, cloned from Driver App More screen design system
     final modules = [
-      {
-        'key': 'members',
-        'title': 'Members',
-        'icon': LucideIcons.users,
-        'color': const Color(0xFF6C4CF1),
-        'subtitle': 'Library Directory',
-      },
       {
         'key': 'fines_overdue',
         'title': 'Fines & Overdue',

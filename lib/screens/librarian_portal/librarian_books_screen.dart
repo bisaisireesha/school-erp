@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import 'librarian_search_bar.dart';
 
 class LibrarianBooksScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -79,24 +80,11 @@ class _LibrarianBooksScreenState extends State<LibrarianBooksScreen> {
             // Search Bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                height: AppSpacing.searchBarHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(AppSpacing.searchBarRadius),
-                  border: Border.all(color: const Color(0xFFEBE8FF)),
-                  boxShadow: AppShadows.soft,
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  onChanged: (val) => setState(() => _searchQuery = val),
-                  decoration: const InputDecoration(
-                    hintText: 'Search by Title, Author, or ISBN...',
-                    prefixIcon: Icon(LucideIcons.search, size: 18, color: Color(0xFF7A7A9D)),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 12),
-                  ),
-                ),
+              child: LibrarianSearchBar(
+                controller: _searchController,
+                hintText: 'Search books by title, author, or ISBN...',
+                onChanged: (val) => setState(() => _searchQuery = val),
+                onClear: () => setState(() => _searchQuery = ''),
               ),
             ),
             const SizedBox(height: 12),
