@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:convert';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../my_child/my_child_screen.dart';
 import '../homework/homework_screen.dart';
 import '../attendance/attendance_screen.dart';
+import '../exams/exams_screen.dart';
+import '../timetable/timetable_screen.dart';
+import '../fees/fees_screen.dart';
+import '../calendar/calendar_screen.dart';
+import '../leave/leave_request_screen.dart';
+import '../transport/transport_screen.dart';
+import '../cctv/cctv_screen.dart';
+import '../resources/resources_screen.dart';
+import '../activity/activity_screen.dart';
+import '../library/library_screen.dart';
 import '../main_layout.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -14,225 +23,159 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
+
+  static const List<Map<String, dynamic>> _quickActions = [
+    {'title': 'My Child', 'icon': LucideIcons.users, 'key': 'My Child'},
+    {'title': 'Homework', 'icon': LucideIcons.squarePen, 'key': 'Homework'},
+    {
+      'title': 'Attendance',
+      'icon': LucideIcons.calendarCheck,
+      'key': 'Attendance',
+    },
+    {
+      'title': 'Exams & Results',
+      'icon': LucideIcons.graduationCap,
+      'key': 'Exams & Results',
+    },
+    {
+      'title': 'Timetable',
+      'icon': LucideIcons.calendarDays,
+      'key': 'Timetable',
+    },
+    {'title': 'Calendar', 'icon': LucideIcons.calendar, 'key': 'Calendar'},
+    {
+      'title': 'Leave Request',
+      'icon': LucideIcons.fileCheck,
+      'key': 'Leave Request',
+    },
+    {'title': 'Transport', 'icon': LucideIcons.bus, 'key': 'Transport'},
+    {'title': 'CCTV Cameras', 'icon': LucideIcons.video, 'key': 'CCTV Cameras'},
+    {'title': 'Resources', 'icon': LucideIcons.folder, 'key': 'Resources'},
+    {'title': 'Library', 'icon': LucideIcons.book, 'key': 'Library'},
+    {'title': 'Activity', 'icon': LucideIcons.activity, 'key': 'Activity'},
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return ValueListenableBuilder<int>(
+      valueListenable: MyChildScreen.selectedChildIndex,
+      builder: (context, selectedIndex, child) {
+        return SingleChildScrollView(
+          child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-                    // Quick Actions Section
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildQuickActions(),
-                    ),
-                    const SizedBox(height: 32),
-                    // Activity Updates Section
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildActivityUpdates(),
-                    ),
-        const SizedBox(height: 120), // Bottom padding for navbar
-      ],
-    ),
+          const SizedBox(height: 24),
+          // Profile Header with Switch Child
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: _buildProfileHeader(),
+          ),
+          const SizedBox(height: 28),
+          // Quick Actions Grid Tiles
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: _buildQuickActions(context),
+          ),
+          const SizedBox(height: 120),
+        ],
+      ),
+    );
+      },
     );
   }
 
-  final List<Map<String, dynamic>> _quickActions = [
-    {'title': 'My Child', 'icon': LucideIcons.users},
-    {'title': 'Homework', 'icon': LucideIcons.edit},
-    {'title': 'Attendance', 'icon': LucideIcons.calendarCheck}, 
-    {'title': 'Exams & Results', 'icon': LucideIcons.graduationCap},
-    {'title': 'Timetable', 'icon': LucideIcons.calendarDays},
-    {'title': 'Fees & Payments', 'icon': LucideIcons.wallet},
-    {'title': 'Hostel', 'icon': LucideIcons.building},
-    {'title': 'Calendar', 'icon': LucideIcons.calendar},
-    {'title': 'Leave Request', 'icon': LucideIcons.fileCheck},
-    {'title': 'Transport', 'icon': LucideIcons.bus},
-    {'title': 'CCTV Cameras', 'icon': LucideIcons.video},
-    {'title': 'Resources', 'icon': LucideIcons.folder},
-  ];
-
-  Widget _buildQuickActions() {
+  Widget _buildProfileHeader() {
+    final currentChild = MyChildScreen.childrenData[MyChildScreen.selectedChildIndex.value];
+    final String firstName = currentChild["firstName"];
+    final String lastName = currentChild["lastName"];
+    final String fullName = '$firstName $lastName';
+    final String grade = '${currentChild["grade"]}-${currentChild["section"]}';
+    final String initials = '${firstName[0]}${lastName[0]}';
+    final Color color = MyChildScreen.selectedChildIndex.value == 0 ? const Color(0xFF6C4CF1) : const Color(0xFF0EA5E9);
+    final Color bgColor = MyChildScreen.selectedChildIndex.value == 0 ? const Color(0xFFF3F0FF) : const Color(0xFFE0F2FE);
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          const Text('Quick Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-          const SizedBox(height: 24),
-          GridView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: _quickActions.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 24,
-              mainAxisExtent: 100, // Fixed height to prevent bottom overflow
+          Container(
+            width: 58,
+            height: 58,
+            decoration: BoxDecoration(
+              color: bgColor,
+              shape: BoxShape.circle,
             ),
-            itemBuilder: (context, index) {
-              final item = _quickActions[index];
-              return GestureDetector(
-                onTap: () {
-                  if (item['title'] == 'Homework') {
-                    MainLayout.pushSubScreen(context, HomeworkScreen(
-                      onBack: () {
-                        MainLayout.popSubScreen(context);
-                      },
-                    ));
-                  } else if (item['title'] == 'Attendance') {
-                    MainLayout.pushSubScreen(context, AttendanceScreen(
-                      onBack: () {
-                        MainLayout.popSubScreen(context);
-                      },
-                    ));
-                  }
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(item['icon'] as IconData, color: const Color(0xFF6C4CF1), size: 26),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      item['title'] as String, 
-                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)), 
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+            child: Center(
+              child: Text(
+                initials,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 19,
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActivityUpdates() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text('Activity Updates', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-            Text('View All', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
-          ],
-        ),
-        const SizedBox(height: 16),
-        FutureBuilder<String>(
-          future: rootBundle.loadString('assets/mock/activities.json'),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
-            final data = json.decode(snapshot.data!)['activities'] as List;
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: data.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 225 / 180,
-              ),
-              itemBuilder: (context, index) {
-                final item = data[index];
-                return _buildActivityCard(item);
-              },
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildActivityCard(Map<String, dynamic> item) {
-    IconData iconData;
-    switch (item['iconType']) {
-      case 'class': iconData = Icons.image_outlined; break;
-      case 'art': iconData = Icons.palette_outlined; break;
-      case 'sports': iconData = Icons.directions_run_rounded; break;
-      case 'event': iconData = Icons.theater_comedy_outlined; break;
-      default: iconData = Icons.event_note_outlined;
-    }
-    
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.6),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 100,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              child: Image.network(
-                item['imageUrl'],
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(color: Colors.grey.shade200, child: const Center(child: Icon(Icons.image, color: Colors.grey))),
               ),
             ),
           ),
+          const SizedBox(width: 16),
           Expanded(
-            flex: 80,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF6C4CF1).withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(iconData, color: const Color(0xFF6C4CF1), size: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  fullName,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(item['title'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)), maxLines: 1, overflow: TextOverflow.ellipsis),
-                        const SizedBox(height: 2),
-                        Text(item['subtitle'], style: TextStyle(fontSize: 10, color: Colors.grey.shade600, fontWeight: FontWeight.w500), maxLines: 1, overflow: TextOverflow.ellipsis),
-                      ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Parent • $grade',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF7A7A9D),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () => _showSwitchChildModal(context),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF3F0FF),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    LucideIcons.arrowLeftRight,
+                    size: 14,
+                    color: Color(0xFF6C4CF1),
+                  ),
+                  SizedBox(width: 6),
+                  Text(
+                    'Switch',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF6C4CF1),
                     ),
                   ),
                 ],
@@ -242,5 +185,317 @@ class _MoreScreenState extends State<MoreScreen> {
         ],
       ),
     );
+  }
+
+  void _showSwitchChildModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Switch Child', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(color: const Color(0xFFF8F9FA), borderRadius: BorderRadius.circular(12)),
+                    child: const Icon(LucideIcons.x, size: 20, color: Color(0xFF1E1E2D)),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            ...List.generate(MyChildScreen.childrenData.length, (index) {
+              final child = MyChildScreen.childrenData[index];
+              final isSelected = index == MyChildScreen.selectedChildIndex.value;
+              final Color color = index == 0 ? const Color(0xFF6C4CF1) : const Color(0xFF0EA5E9);
+              final Color bgColor = index == 0 ? const Color(0xFFF3F0FF) : const Color(0xFFE0F2FE);
+              
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: _buildChildSelectOption(
+                  name: '${child["firstName"]} ${child["lastName"]}', 
+                  grade: '${child["grade"]} - ${child["section"]}', 
+                  initials: '${child["firstName"][0]}${child["lastName"][0]}', 
+                  color: color, 
+                  bgColor: bgColor, 
+                  isSelected: isSelected,
+                  onTap: () {
+                    MyChildScreen.selectedChildIndex.value = index;
+                    Navigator.pop(context);
+                  }
+                ),
+              );
+            }),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChildSelectOption({
+    required String name,
+    required String grade,
+    required String initials,
+    required Color color,
+    required Color bgColor,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFFF3F0FF) : Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected
+                ? const Color(0xFF6C4CF1)
+                : const Color(0xFFF3EEFF),
+            width: 1.5,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
+              child: Center(
+                child: Text(
+                  initials,
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: isSelected
+                          ? const Color(0xFF6C4CF1)
+                          : const Color(0xFF1E1E2D),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    grade,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: isSelected
+                          ? const Color(0xFF6C4CF1).withValues(alpha: 0.7)
+                          : const Color(0xFF6C6C80),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF6C4CF1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  LucideIcons.check,
+                  color: Colors.white,
+                  size: 16,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuickActions(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Quick Actions',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
+        const SizedBox(height: 16),
+        GridView.builder(
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: _quickActions.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 0.88,
+          ),
+          itemBuilder: (context, index) {
+            final item = _quickActions[index];
+            return GestureDetector(
+              onTap: () => _handleTap(context, item['key'] as String),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: const Color(0xFFF3EEFF),
+                    width: 1.5,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 46,
+                      height: 46,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFF3F0FF),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        item['icon'] as IconData,
+                        color: const Color(0xFF6C4CF1),
+                        size: 22,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                      child: Text(
+                        item['title'] as String,
+                        style: const TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  void _handleTap(BuildContext context, String key) {
+    switch (key) {
+      case 'My Child':
+        MainLayout.pushSubScreen(
+          context,
+          MyChildScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Homework':
+        MainLayout.pushSubScreen(
+          context,
+          HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Attendance':
+        MainLayout.pushSubScreen(
+          context,
+          AttendanceScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Exams & Results':
+        MainLayout.pushSubScreen(
+          context,
+          ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Timetable':
+        MainLayout.pushSubScreen(
+          context,
+          TimetableScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Fees & Payments':
+        MainLayout.pushSubScreen(context, const FeesScreen());
+        break;
+      case 'Calendar':
+        MainLayout.pushSubScreen(
+          context,
+          CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Leave Request':
+        MainLayout.pushSubScreen(
+          context,
+          LeaveRequestScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Transport':
+        MainLayout.pushSubScreen(
+          context,
+          TransportScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'CCTV Cameras':
+        MainLayout.pushSubScreen(
+          context,
+          CCTVScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Resources':
+        MainLayout.pushSubScreen(
+          context,
+          ResourcesScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Library':
+        MainLayout.pushSubScreen(
+          context,
+          LibraryScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+      case 'Activity':
+        MainLayout.pushSubScreen(
+          context,
+          ActivityScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
+        break;
+    }
   }
 }

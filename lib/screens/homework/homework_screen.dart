@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import '../main_layout.dart';
 
 class HomeworkScreen extends StatefulWidget {
   final VoidCallback onBack;
+  final bool isStudentPortal;
 
-  const HomeworkScreen({super.key, required this.onBack});
+  const HomeworkScreen({super.key, required this.onBack, this.isStudentPortal = false});
 
   @override
   State<HomeworkScreen> createState() => _HomeworkScreenState();
@@ -138,179 +142,263 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   List<Map<String, dynamic>> _getAssignmentsForDate(DateTime date) {
     String key = '${date.year}-${date.month}-${date.day}';
     if (!_assignmentsCache.containsKey(key)) {
-       int count = (date.day % 5) + 3; // 3 to 7 items
-       List<Map<String, dynamic>> result = [];
-       for (int i = 0; i < count; i++) {
-         int index = (date.day * 7 + i * 11) % _assignments.length;
-         result.add(Map<String, dynamic>.from(_assignments[index]));
-       }
-       // Ensure at least one 'isToday' true and false for UI variety
-       if (result.isNotEmpty) result[0]['isToday'] = true;
-       if (result.length > 1) result[1]['isToday'] = false;
-       _assignmentsCache[key] = result;
+      List<Map<String, dynamic>> result = [];
+      for (int i = 0; i < _assignments.length; i++) {
+        final item = Map<String, dynamic>.from(_assignments[i]);
+        final isPending = (date.day + i) % 2 == 0;
+        item['status'] = isPending ? 'Pending' : 'Submitted';
+        item['isToday'] = (i < 3);
+        result.add(item);
+      }
+      _assignmentsCache[key] = result;
     }
     return _assignmentsCache[key]!;
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentAssignments = _getAssignmentsForDate(_selectedDate);
-    
-    // Filter logic
-    final displayedAssignments = currentAssignments.where((item) {
-      if (_selectedFilter == 'All') return true;
-      return item['status'] == _selectedFilter;
-    }).toList();
+    return ValueListenableBuilder<String>(
+      valueListenable: MainLayout.globalSearchQuery,
+      builder: (context, searchQuery, child) {
+        final query = searchQuery.toLowerCase().trim();
+        final currentAssignments = _getAssignmentsForDate(_selectedDate);
+        
+        // Filter logic
+        final displayedAssignments = currentAssignments.where((item) {
+          if (query.isNotEmpty) {
+            final desc = (item['desc'] ?? '').toString().toLowerCase();
+            final subject = (item['subject'] ?? '').toString().toLowerCase();
+            if (!desc.contains(query) && !subject.contains(query)) return false;
+          }
+          if (_selectedFilter == 'Submitted' && item['status'] != 'Submitted') return false;
+          if (_selectedFilter == 'Pending' && item['status'] != 'Pending') return false;
+          return true;
+        }).toList();
 
-    final todays = displayedAssignments.where((item) => item['isToday'] == true).toList();
-    final allOthers = displayedAssignments.where((item) => item['isToday'] == false).toList();
+        final todays = displayedAssignments.where((item) => item['isToday'] == true).toList();
+        final allOthers = displayedAssignments.where((item) => item['isToday'] == false).toList();
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Back button and title
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Row(
+        return Container(
+          color: const Color(0xFFF8F9FA),
+          width: double.infinity,
+          height: double.infinity,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: widget.onBack,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-                    ),
-                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                // Back button and title
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: widget.onBack,
+                        child: widget.isStudentPortal
+                            ? const Padding(
+                                padding: EdgeInsets.only(right: 8.0, top: 4, bottom: 4),
+                                child: Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 24),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                                ),
+                                child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                              ),
+                      ),
+                      const SizedBox(width: 16),
+                      const Text('Homework & Assignments', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 16),
-                const Text('Homework & Assignments', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
+                const SizedBox(height: 24),
 
-          // Date selector has been moved to the filters row
-
-          // Filters Row
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Row(
-              children: [
-                _buildFilterButton('All'),
-                const SizedBox(width: 12),
-                _buildFilterButton('Submitted'),
-                const SizedBox(width: 12),
-                _buildFilterButton('Pending'),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () => _selectDate(context),
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const Color(0xFFE8E3F8), width: 1.5),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(LucideIcons.calendar, color: Color(0xFF6C4CF1), size: 14),
-                        const SizedBox(width: 4),
-                        Text(
-                          _formatShortDate(_selectedDate),
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                // Filters Row
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Row(
+                    children: [
+                      _buildFilterButton('All'),
+                      const SizedBox(width: 12),
+                      _buildFilterButton('Submitted'),
+                      const SizedBox(width: 12),
+                      _buildFilterButton('Pending'),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () => _selectDate(context),
+                        behavior: HitTestBehavior.opaque,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: const Color(0xFFE8E3F8), width: 1.5),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(LucideIcons.calendar, color: Color(0xFF6C4CF1), size: 14),
+                              const SizedBox(width: 4),
+                              Text(
+                                _formatShortDate(_selectedDate),
+                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(LucideIcons.chevronDown, color: const Color(0xFF1E1E2D).withValues(alpha: 0.5), size: 14),
+                            ],
+                          ),
                         ),
-                        const SizedBox(width: 4),
-                        Icon(LucideIcons.chevronDown, color: const Color(0xFF1E1E2D).withValues(alpha: 0.5), size: 14),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+                const SizedBox(height: 24),
+
+                // Assignments or single unified empty state
+                if (displayedAssignments.isEmpty)
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 60.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFF3F0FF),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(LucideIcons.clipboardCheck, color: Color(0xFF6C4CF1), size: 36),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'No $_selectedFilter Homework',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'There are no $_selectedFilter assignments for ${_formatShortDate(_selectedDate)}.',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF7A7A9D),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                else ...[
+                  // Today's Homework Section
+                  if (todays.isNotEmpty) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildSectionHeader(
+                            title: "Today's Homework",
+                            subtitle: "${todays.length} Assignments",
+                            icon: LucideIcons.calendarCheck,
+                          ),
+                          const SizedBox(height: 16),
+                          _buildResponsiveList(todays),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+
+                  // All Homework Section
+                  if (allOthers.isNotEmpty) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildSectionHeader(
+                            title: "All Homework",
+                            subtitle: "${allOthers.length} Assignments",
+                            icon: LucideIcons.calendarDays,
+                            showArrow: true,
+                          ),
+                          const SizedBox(height: 16),
+                          _buildResponsiveList(allOthers),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+
+                const SizedBox(height: 120), // Bottom padding for navbar
               ],
             ),
           ),
-          const SizedBox(height: 24),
+        );
+      },
+    );
+  }
 
-          // Today's Homework Section
-          if (todays.isNotEmpty) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildSectionHeader(
-                    title: "Today's Homework",
-                    subtitle: "${todays.length} Assignments",
-                    icon: LucideIcons.calendarCheck,
-                  ),
-                  const SizedBox(height: 16),
-                  ...todays.map((item) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      child: _buildHomeworkItem(
-                        subject: item['subject'],
-                        description: item['desc'],
-                        icon: item['icon'],
-                        status: item['status'],
-                        item: item,
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-          ],
-
-          // All Homework Section
-          if (allOthers.isNotEmpty) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildSectionHeader(
-                    title: "All Homework",
-                    subtitle: "${allOthers.length} Assignments",
-                    icon: LucideIcons.calendarDays,
-                    showArrow: true,
-                  ),
-                  const SizedBox(height: 16),
-                  ...allOthers.map((item) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      child: _buildHomeworkItem(
-                        subject: item['subject'],
-                        description: item['desc'],
-                        icon: item['icon'],
-                        status: item['status'],
-                        item: item,
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ],
-
-          if (todays.isEmpty && allOthers.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
-              child: Center(
-                child: Text(
-                  'No assignments found.',
-                  style: TextStyle(color: Color(0xFF7A7A9D), fontSize: 16, fontWeight: FontWeight.w500),
+  Widget _buildResponsiveList(List<Map<String, dynamic>> items) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 900) {
+          return Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children: items.map((item) {
+              return SizedBox(
+                width: (constraints.maxWidth - 32) / 3,
+                child: _buildHomeworkItem(
+                  subject: item['subject'],
+                  description: item['desc'],
+                  icon: item['icon'],
+                  status: item['status'],
+                  item: item,
                 ),
-              ),
-            ),
-
-          const SizedBox(height: 120), // Bottom padding for navbar
-        ],
-      ),
+              );
+            }).toList(),
+          );
+        } else if (constraints.maxWidth > 500) {
+          return Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children: items.map((item) {
+              return SizedBox(
+                width: (constraints.maxWidth - 16) / 2,
+                child: _buildHomeworkItem(
+                  subject: item['subject'],
+                  description: item['desc'],
+                  icon: item['icon'],
+                  status: item['status'],
+                  item: item,
+                ),
+              );
+            }).toList(),
+          );
+        } else {
+          return Column(
+            children: items.map((item) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: _buildHomeworkItem(
+                  subject: item['subject'],
+                  description: item['desc'],
+                  icon: item['icon'],
+                  status: item['status'],
+                  item: item,
+                ),
+              );
+            }).toList(),
+          );
+        }
+      },
     );
   }
 
@@ -475,6 +563,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
 
   void _showHomeworkDetails(BuildContext context, String subject, String description, bool isSubmitted, Map<String, dynamic> item) {
     bool fileSelected = false;
+    String? selectedFileName;
 
     showDialog(
       context: context,
@@ -695,7 +784,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${subject}_Assignment.pdf',
+                                selectedFileName ?? '${subject}_Assignment.pdf',
                                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -741,22 +830,36 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
                               ),
                               const SizedBox(height: 24),
-                              _buildUploadOptionAction(context, LucideIcons.camera, 'Take a Photo', () {
-                                setDialogState(() {
-                                  fileSelected = true;
-                                });
+                              _buildUploadOptionAction(context, LucideIcons.camera, 'Take a Photo', () async {
+                                final picker = ImagePicker();
+                                final photo = await picker.pickImage(source: ImageSource.camera);
+                                if (photo != null) {
+                                  setDialogState(() {
+                                    fileSelected = true;
+                                    selectedFileName = photo.name;
+                                  });
+                                }
                               }),
                               const SizedBox(height: 16),
-                              _buildUploadOptionAction(context, LucideIcons.image, 'Choose from Gallery', () {
-                                setDialogState(() {
-                                  fileSelected = true;
-                                });
+                              _buildUploadOptionAction(context, LucideIcons.image, 'Choose from Gallery', () async {
+                                final picker = ImagePicker();
+                                final image = await picker.pickImage(source: ImageSource.gallery);
+                                if (image != null) {
+                                  setDialogState(() {
+                                    fileSelected = true;
+                                    selectedFileName = image.name;
+                                  });
+                                }
                               }),
                               const SizedBox(height: 16),
-                              _buildUploadOptionAction(context, LucideIcons.fileText, 'Select a Document', () {
-                                setDialogState(() {
-                                  fileSelected = true;
-                                });
+                              _buildUploadOptionAction(context, LucideIcons.fileText, 'Select a Document', () async {
+                                FilePickerResult? result = await FilePicker.pickFiles();
+                                if (result != null) {
+                                  setDialogState(() {
+                                    fileSelected = true;
+                                    selectedFileName = result.files.single.name;
+                                  });
+                                }
                               }),
                             ],
                           ),

@@ -1,0 +1,46 @@
+{
+  "results": [
+    {
+      "title": "Consolidated Academic Report",
+      "date": "Academic Year 2025-2026",
+      "percentage": "91.8%",
+      "grade": "A+",
+      "isNew": true
+    },
+    {
+      "title": "Annual Examination",
+      "date": "March 2026",
+      "percentage": "94.2%",
+      "grade": "A+",
+      "isNew": false
+    },
+    {
+      "title": "Half-Yearly Examination",
+      "date": "December 2025",
+      "percentage": "91.5%",
+      "grade": "A+",
+      "isNew": false
+    },
+    {
+      "title": "Quarterly Examination",
+      "date": "September 2025",
+      "percentage": "88.5%",
+      "grade": "A",
+      "isNew": false
+    },
+    {
+      "title": "Unit Test 2",
+      "date": "November 2025",
+      "percentage": "89.0%",
+      "grade": "A",
+      "isNew": false
+    },
+    {
+      "title": "Unit Test 1",
+      "date": "May 2025",
+      "percentage": "92.0%",
+      "grade": "A+",
+      "isNew": false
+    }
+  ]
+}

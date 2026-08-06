@@ -25,9 +25,15 @@ class _LoginScreenState extends State<LoginScreen> {
     _loadDemoCredentials();
   }
 
+  @override
+  void reassemble() {
+    super.reassemble();
+    _loadDemoCredentials();
+  }
+
   Future<void> _loadDemoCredentials() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/auth.json');
+      final String response = await rootBundle.loadString('assets/mock/auth.json', cache: false);
       final data = json.decode(response);
       setState(() {
         _demoUsers = data['users'] ?? [];
@@ -60,11 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (success) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login successful!')),
-      );
       
-      if (authProvider.currentUser?.role == 'parent') {
+      if (authProvider.currentUser?.role == 'parent' || authProvider.currentUser?.role == 'student' || authProvider.currentUser?.role == 'warden' || authProvider.currentUser?.role == 'front_desk' || authProvider.currentUser?.role == 'accountant') {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainLayout()),

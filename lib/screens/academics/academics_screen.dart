@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:math' as math;
+import '../main_layout.dart';
+import '../homework/homework_screen.dart';
+import '../exams/exams_screen.dart';
+import '../resources/resources_screen.dart';
 
 class AcademicsScreen extends StatefulWidget {
   const AcademicsScreen({super.key});
@@ -11,53 +15,115 @@ class AcademicsScreen extends StatefulWidget {
 }
 
 class _AcademicsScreenState extends State<AcademicsScreen> {
+  String _selectedExamFilter = 'Upcoming';
+
+  final List<Map<String, dynamic>> _subjects = [
+    {'icon': Icons.calculate_outlined, 'color': Color(0xFF3B82F6), 'subject': 'Mathematics', 'percentage': 92, 'grade': 'A+'},
+    {'icon': Icons.science_outlined, 'color': Color(0xFF22C55E), 'subject': 'Science', 'percentage': 88, 'grade': 'A'},
+    {'icon': Icons.menu_book_rounded, 'color': Color(0xFFF97316), 'subject': 'English', 'percentage': 81, 'grade': 'B+'},
+    {'icon': Icons.public_outlined, 'color': Color(0xFF8B5CF6), 'subject': 'Social Studies', 'percentage': 90, 'grade': 'A+'},
+    {'icon': Icons.computer_outlined, 'color': Color(0xFFEC4899), 'subject': 'Computer', 'percentage': 95, 'grade': 'A+'},
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Academic Overview
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildAcademicOverviewCard(),
-              ),
-              const SizedBox(height: 32),
-              // Subject Performance
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildSubjectPerformance(),
-              ),
-              const SizedBox(height: 32),
-              // Assignments
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildAssignmentsSection(),
-              ),
-              const SizedBox(height: 32),
-              // Upcoming Exams
-              _buildUpcomingExams(),
-              const SizedBox(height: 32),
-              // Syllabus Progress
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildSyllabusProgressSection(),
-              ),
-              const SizedBox(height: 24),
-              // Learning Resources
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildLearningResourcesSection(),
-              ),
-              const SizedBox(height: 24),
-              // Report Cards
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildReportCardsSection(),
-              ),
-        const SizedBox(height: 120), // Bottom padding for navbar
-      ],
-    ),
+    return ValueListenableBuilder<String>(
+      valueListenable: MainLayout.globalSearchQuery,
+      builder: (context, searchQuery, child) {
+        final query = searchQuery.toLowerCase();
+
+        if (query.isNotEmpty) {
+          // Show filtered subjects
+          final filteredSubjects = _subjects.where((s) => s['subject'].toString().toLowerCase().contains(query)).toList();
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Text('Subject Results', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                ),
+                const SizedBox(height: 16),
+                if (filteredSubjects.isEmpty)
+                  const Center(child: Padding(padding: EdgeInsets.only(top: 40), child: Text('No subjects found', style: TextStyle(color: Color(0xFF9E9E9E), fontSize: 16))))
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                      ),
+                      child: Column(
+                        children: filteredSubjects.map((s) => Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: _buildSubjectRow(
+                            icon: s['icon'],
+                            color: s['color'],
+                            subject: s['subject'],
+                            percentage: s['percentage'],
+                            grade: s['grade'],
+                          ),
+                        )).toList(),
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 120),
+              ],
+            ),
+          );
+        }
+
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Academic Overview
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: _buildAcademicOverviewCard(),
+                  ),
+                  const SizedBox(height: 32),
+                  // Subject Performance
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: _buildSubjectPerformance(context),
+                  ),
+                  const SizedBox(height: 32),
+                  // Assignments
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: _buildAssignmentsSection(context),
+                  ),
+                  const SizedBox(height: 32),
+                  // Upcoming Exams
+                  _buildUpcomingExams(context),
+                  const SizedBox(height: 32),
+                  // Syllabus Progress
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: _buildSyllabusProgressSection(),
+                  ),
+                  const SizedBox(height: 24),
+                  // Learning Resources
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: _buildLearningResourcesSection(context),
+                  ),
+                  const SizedBox(height: 24),
+                  // Report Cards
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: _buildReportCardsSection(context),
+                  ),
+            const SizedBox(height: 120), // Bottom padding for navbar
+          ],
+        ),
+      );
+      },
     );
   }
 
@@ -200,7 +266,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
     );
   }
 
-  Widget _buildSubjectPerformance() {
+  Widget _buildSubjectPerformance(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -220,9 +286,12 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Subject Performance', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
-              Text('View all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+            children: [
+              const Text('Subject Performance', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+              GestureDetector(
+                onTap: () => MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context))),
+                child: const Text('View all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -366,15 +435,18 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
     );
   }
 
-  Widget _buildAssignmentsSection() {
+  Widget _buildAssignmentsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text('Assignments', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
-            Text('View all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+          children: [
+            const Text('Assignments', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+            GestureDetector(
+              onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
+              child: const Text('View all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+            ),
           ],
         ),
         const SizedBox(height: 24),
@@ -390,6 +462,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             iconColor: const Color(0xFFEF4444),
             status: 'Pending',
             statusColor: const Color(0xFFEF4444),
+            onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
           ),
         ),
         _buildTimelineItem(
@@ -401,6 +474,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             iconColor: const Color(0xFF22C55E),
             status: 'Pending',
             statusColor: const Color(0xFFEF4444),
+            onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
           ),
         ),
         
@@ -415,6 +489,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             iconColor: const Color(0xFFF97316),
             status: 'Pending',
             statusColor: const Color(0xFFF97316),
+            onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
           ),
         ),
         _buildTimelineItem(
@@ -426,6 +501,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             iconColor: const Color(0xFF8B5CF6),
             status: 'Pending',
             statusColor: const Color(0xFFF97316),
+            onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
           ),
         ),
         
@@ -440,6 +516,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             iconColor: const Color(0xFF3B82F6),
             status: 'Upcoming',
             statusColor: const Color(0xFF3B82F6),
+            onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
           ),
         ),
         _buildTimelineItem(
@@ -451,6 +528,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             iconColor: const Color(0xFF3B82F6),
             status: 'Upcoming',
             statusColor: const Color(0xFF3B82F6),
+            onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
           ),
         ),
       ],
@@ -507,22 +585,26 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
     required Color iconColor,
     required String status,
     required Color statusColor,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
@@ -548,10 +630,11 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
           ),
         ],
       ),
+    ),
     );
   }
 
-  Widget _buildUpcomingExams() {
+  Widget _buildUpcomingExams(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Container(
@@ -581,29 +664,11 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(color: const Color(0xFF6C4CF1), borderRadius: BorderRadius.circular(20)),
-                      child: const Text('Upcoming', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
-                    ),
-                  ),
+                  _buildExamFilterTab('Upcoming'),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFF3EEFF))),
-                      child: const Text('This Week', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF7A7A9D), fontWeight: FontWeight.bold, fontSize: 13)),
-                    ),
-                  ),
+                  _buildExamFilterTab('This Week'),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFF3EEFF))),
-                      child: const Text('This Month', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF7A7A9D), fontWeight: FontWeight.bold, fontSize: 13)),
-                    ),
-                  ),
+                  _buildExamFilterTab('This Month'),
                 ],
               ),
             ),
@@ -614,7 +679,27 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
               future: rootBundle.loadString('assets/mock/upcoming_exams.json'),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Padding(padding: EdgeInsets.all(32.0), child: Center(child: CircularProgressIndicator()));
-                final data = json.decode(snapshot.data!)['exams'] as List;
+                final allData = json.decode(snapshot.data!)['exams'] as List;
+                
+                final data = allData.where((item) {
+                  if (_selectedExamFilter == 'Upcoming') return true;
+                  final daysLeftStr = item['daysLeft'].toString();
+                  final daysMatch = RegExp(r'\d+').firstMatch(daysLeftStr);
+                  if (daysMatch != null) {
+                    final days = int.parse(daysMatch.group(0)!);
+                    if (_selectedExamFilter == 'This Week') return days <= 7;
+                    if (_selectedExamFilter == 'This Month') return days <= 30;
+                  }
+                  return true;
+                }).toList();
+
+                if (data.isEmpty) {
+                  return const Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: Center(child: Text('No exams found.', style: TextStyle(color: Color(0xFF7A7A9D), fontWeight: FontWeight.bold))),
+                  );
+                }
+
                 return ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -626,7 +711,8 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
                     Color itemColor = Color(int.parse("0xFF${item['colorHex']}"));
                     return _buildExamListItem(
                       day: item['day'], month: item['month'], color: itemColor, 
-                      subject: item['subject'], type: item['type'], daysLeft: item['daysLeft']
+                      subject: item['subject'], type: item['type'], daysLeft: item['daysLeft'],
+                      onTap: () => MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context)))
                     );
                   },
                 );
@@ -637,20 +723,24 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             // View All Exams Button
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF6C4CF1).withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text('View All Exams', style: TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w800, fontSize: 15)),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF6C4CF1), size: 14),
-                  ],
+              child: GestureDetector(
+                onTap: () => MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context))),
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF6C4CF1).withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text('View All Exams', style: TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w800, fontSize: 15)),
+                      SizedBox(width: 8),
+                      Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF6C4CF1), size: 14),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -660,8 +750,38 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
     );
   }
 
-  Widget _buildExamListItem({required String day, required String month, required Color color, required String subject, required String type, required String daysLeft}) {
-    return Row(
+  Widget _buildExamFilterTab(String label) {
+    final isSelected = _selectedExamFilter == label;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => _selectedExamFilter = label),
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: isSelected ? const Color(0xFF6C4CF1) : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: isSelected ? null : Border.all(color: const Color(0xFFF3EEFF)),
+          ),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: isSelected ? Colors.white : const Color(0xFF7A7A9D),
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExamListItem({required String day, required String month, required Color color, required String subject, required String type, required String daysLeft, VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Row(
       children: [
         Container(
           width: 56,
@@ -700,18 +820,12 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
           ],
         ),
       ],
+    ),
     );
   }
 
 
-  Widget _buildLearningResourcesSection() {
-    final List<Map<String, dynamic>> quickAccessData = [
-      {'title': 'Recent', 'icon': Icons.access_time_rounded, 'color': const Color(0xFF3B82F6), 'bgColor': const Color(0xFFF4F8FF)},
-      {'title': 'Bookmarks', 'icon': Icons.bookmark_border_rounded, 'color': const Color(0xFF3B82F6), 'bgColor': const Color(0xFFF4F8FF)},
-      {'title': 'Downloads', 'icon': Icons.arrow_downward_rounded, 'color': const Color(0xFF22C55E), 'bgColor': const Color(0xFFF0FDF4)},
-      {'title': 'Shared', 'icon': Icons.share_outlined, 'color': const Color(0xFF3B82F6), 'bgColor': const Color(0xFFF4F8FF)},
-    ];
-
+  Widget _buildLearningResourcesSection(BuildContext context) {
     final List<Map<String, dynamic>> resourceLibraryData = [
       {'title': 'PDF Notes', 'subtitle': '124 Files', 'icon': Icons.article_rounded, 'color': const Color(0xFFEF4444), 'bgColor': const Color(0xFFFFF1F2)},
       {'title': 'Video Lessons', 'subtitle': '86 Videos', 'icon': Icons.smart_display_rounded, 'color': const Color(0xFF22C55E), 'bgColor': const Color(0xFFF0FDF4)},
@@ -739,168 +853,126 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Learning Resources', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
-              Text('View all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+            children: [
+              const Text('Learning Resources', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+              GestureDetector(
+                onTap: () => MainLayout.pushSubScreen(context, ResourcesScreen(onBack: () => MainLayout.popSubScreen(context))),
+                child: const Text('View all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+              ),
             ],
           ),
           const SizedBox(height: 24),
-          const Text('Quick Access', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: quickAccessData.map((data) => _buildQuickAccessItem(data)).toList(),
-          ),
-          const SizedBox(height: 24),
-          const Text('Resource Library', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-          const SizedBox(height: 16),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 2.1,
-            padding: EdgeInsets.zero,
-            children: resourceLibraryData.map((data) => _buildResourceLibraryCard(data)).toList(),
-          ),
-          const SizedBox(height: 12),
-          // Sample papers card
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF4F8FF),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
+          ...resourceLibraryData.asMap().entries.map((entry) {
+            final index = entry.key;
+            final data = entry.value;
+            return Column(
               children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF3B82F6),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.article_rounded, color: Colors.white, size: 24),
+                _buildSimpleResourceItem(
+                  title: data['title'],
+                  subtitle: data['subtitle'],
+                  icon: data['icon'],
+                  color: data['color'],
+                  bgColor: data['bgColor'],
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Sample Papers', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                      SizedBox(height: 4),
-                      Text('32 Papers', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF7A7A9D))),
-                    ],
-                  ),
-                ),
-                const Icon(Icons.chevron_right_rounded, color: Color(0xFF3B82F6), size: 24),
+                if (index != resourceLibraryData.length - 1)
+                  const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
               ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Explore all resources button
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF8F5FF),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('Explore all resources', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
-                SizedBox(width: 8),
-                Icon(Icons.chevron_right_rounded, color: Color(0xFF6C4CF1), size: 20),
-              ],
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );
   }
 
-  Widget _buildQuickAccessItem(Map<String, dynamic> data) {
-    return Flexible(
-      child: Column(
-        children: [
-          Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: data['bgColor'],
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(data['icon'], color: data['color'], size: 26),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            data['title'],
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildResourceLibraryCard(Map<String, dynamic> data) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: data['bgColor'],
-        borderRadius: BorderRadius.circular(16),
-      ),
+  Widget _buildSimpleResourceItem({required String title, required String subtitle, required IconData icon, required Color color, required Color bgColor}) {
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, ResourcesScreen(onBack: () => MainLayout.popSubScreen(context))),
+      behavior: HitTestBehavior.opaque,
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: data['color'],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(data['icon'], color: Colors.white, size: 22),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(14)),
+            child: Icon(icon, color: color, size: 24),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  data['title'],
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  data['subtitle'],
-                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF7A7A9D)),
-                ),
+                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                const SizedBox(height: 4),
+                Text(subtitle, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
               ],
             ),
           ),
+          const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF4A4A68), size: 14),
         ],
       ),
     );
   }
-  Widget _buildReportCardsSection() {
+  Widget _buildReportCardsSection(BuildContext context) {
     final List<Map<String, dynamic>> reportCardsData = [
-      {'title': 'Latest Report', 'subtitle': 'Term 1', 'score': '86%', 'grade': 'A', 'icon': Icons.description_outlined, 'color': const Color(0xFF6C4CF1)},
-      {'title': 'Term 2', 'subtitle': null, 'score': '88%', 'grade': 'A', 'icon': Icons.event_note_outlined, 'color': const Color(0xFF3B82F6)},
-      {'title': 'Half Yearly', 'subtitle': null, 'score': '87%', 'grade': 'A', 'icon': Icons.event_note_outlined, 'color': const Color(0xFF22C55E)},
-      {'title': 'Annual', 'subtitle': null, 'score': '89%', 'grade': 'A+', 'icon': Icons.event_note_outlined, 'color': const Color(0xFFF97316)},
-    ];
-
-    final List<Map<String, dynamic>> reportActionsData = [
-      {'title': 'All Reports', 'icon': Icons.inventory_2_outlined, 'color': const Color(0xFF6C4CF1)},
-      {'title': 'Download', 'icon': Icons.download_rounded, 'color': const Color(0xFF3B82F6)},
-      {'title': 'Compare', 'icon': Icons.trending_up_rounded, 'color': const Color(0xFF22C55E)},
-      {'title': 'History', 'icon': Icons.access_time_rounded, 'color': const Color(0xFFF97316)},
+      {
+        'title': 'Latest Report',
+        'subtitle': 'Term 1 · 2025–26',
+        'score': '86%',
+        'grade': 'A',
+        'icon': Icons.star_rounded,
+        'color': const Color(0xFF6C4CF1),
+        'subjects': [
+          {'name': 'Mathematics', 'marks': 92, 'max': 100, 'grade': 'A+'},
+          {'name': 'Science', 'marks': 88, 'max': 100, 'grade': 'A'},
+          {'name': 'English', 'marks': 81, 'max': 100, 'grade': 'B+'},
+          {'name': 'Social Studies', 'marks': 78, 'max': 100, 'grade': 'B'},
+          {'name': 'Computer', 'marks': 95, 'max': 100, 'grade': 'A+'},
+        ],
+      },
+      {
+        'title': 'Term 2',
+        'subtitle': '2024–25',
+        'score': '88%',
+        'grade': 'A',
+        'icon': Icons.bookmark_rounded,
+        'color': const Color(0xFF3B82F6),
+        'subjects': [
+          {'name': 'Mathematics', 'marks': 90, 'max': 100, 'grade': 'A+'},
+          {'name': 'Science', 'marks': 85, 'max': 100, 'grade': 'A'},
+          {'name': 'English', 'marks': 86, 'max': 100, 'grade': 'A'},
+          {'name': 'Social Studies', 'marks': 80, 'max': 100, 'grade': 'B+'},
+          {'name': 'Computer', 'marks': 98, 'max': 100, 'grade': 'A+'},
+        ],
+      },
+      {
+        'title': 'Half Yearly',
+        'subtitle': '2024–25',
+        'score': '87%',
+        'grade': 'A',
+        'icon': Icons.donut_large_rounded,
+        'color': const Color(0xFF22C55E),
+        'subjects': [
+          {'name': 'Mathematics', 'marks': 89, 'max': 100, 'grade': 'A'},
+          {'name': 'Science', 'marks': 91, 'max': 100, 'grade': 'A+'},
+          {'name': 'English', 'marks': 84, 'max': 100, 'grade': 'A'},
+          {'name': 'Social Studies', 'marks': 77, 'max': 100, 'grade': 'B'},
+          {'name': 'Computer', 'marks': 93, 'max': 100, 'grade': 'A+'},
+        ],
+      },
+      {
+        'title': 'Annual',
+        'subtitle': '2023–24',
+        'score': '89%',
+        'grade': 'A+',
+        'icon': Icons.emoji_events_rounded,
+        'color': const Color(0xFFF97316),
+        'subjects': [
+          {'name': 'Mathematics', 'marks': 94, 'max': 100, 'grade': 'A+'},
+          {'name': 'Science', 'marks': 90, 'max': 100, 'grade': 'A+'},
+          {'name': 'English', 'marks': 83, 'max': 100, 'grade': 'A'},
+          {'name': 'Social Studies', 'marks': 85, 'max': 100, 'grade': 'A'},
+          {'name': 'Computer', 'marks': 96, 'max': 100, 'grade': 'A+'},
+        ],
+      },
     ];
 
     return Container(
@@ -925,134 +997,251 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Report Cards', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-              Row(
-                children: const [
-                  Text('View all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
-                  SizedBox(width: 4),
-                  Icon(Icons.chevron_right_rounded, color: Color(0xFF6C4CF1), size: 20),
-                ],
+              GestureDetector(
+                onTap: () => MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context), initialTabIndex: 1)),
+                child: Row(
+                  children: const [
+                    Text('View all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+                    SizedBox(width: 4),
+                    Icon(Icons.chevron_right_rounded, color: Color(0xFF6C4CF1), size: 20),
+                  ],
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
+
+          // 2x2 grid of report cards
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             mainAxisSpacing: 12,
             crossAxisSpacing: 12,
-            childAspectRatio: 1.85,
+            childAspectRatio: 1.4,
             padding: EdgeInsets.zero,
-            children: reportCardsData.map((data) => _buildReportCard(data)).toList(),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: reportActionsData.map((data) => _buildReportActionItem(data)).toList(),
-          ),
-          const SizedBox(height: 16),
-          // View all report cards button
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF8F5FF),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('View all report cards', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
-                SizedBox(width: 8),
-                Icon(Icons.chevron_right_rounded, color: Color(0xFF6C4CF1), size: 20),
-              ],
-            ),
+            children: reportCardsData.map((data) => _buildReportCard(data, onTap: () => _showReportCardSheet(context, data))).toList(),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildReportCard(Map<String, dynamic> data) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: (data['color'] as Color).withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: data['color'],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(data['icon'], color: Colors.white, size: 22),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildReportCard(Map<String, dynamic> data, {VoidCallback? onTap}) {
+    final color = data['color'] as Color;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: color.withValues(alpha: 0.18), width: 1.5),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
               children: [
-                Text(
-                  data['title'],
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(data['icon'], color: Colors.white, size: 18),
                 ),
-                if (data['subtitle'] != null) ...[
-                  const SizedBox(height: 2),
-                  Text(
-                    data['subtitle'],
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF7A7A9D)),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(data['grade'], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: color)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(data['title'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(data['score'], style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: color)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showReportCardSheet(BuildContext context, Map<String, dynamic> data) {
+    final color = data['color'] as Color;
+    final subjects = data['subjects'] as List;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.85,
+          minChildSize: 0.5,
+          maxChildSize: 0.95,
+          builder: (_, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+              ),
+              child: ListView(
+                controller: scrollController,
+                padding: EdgeInsets.zero,
+                children: [
+                  // Drag handle
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 12, bottom: 4),
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(color: const Color(0xFFE5E7EB), borderRadius: BorderRadius.circular(2)),
+                    ),
+                  ),
+
+                  // Header banner
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [color, color.withValues(alpha: 0.75)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 56,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Icon(data['icon'], color: Colors.white, size: 30),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(data['subtitle'], style: const TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600)),
+                              const SizedBox(height: 4),
+                              Text(data['title'], style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900)),
+                            ],
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(data['score'], style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900, height: 1)),
+                            const SizedBox(height: 4),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.25), borderRadius: BorderRadius.circular(8)),
+                              child: Text('Grade ${data['grade']}', style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Subject breakdown
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(20, 24, 20, 12),
+                    child: Text('Subject-wise Performance', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                  ),
+
+                  ...subjects.map((s) {
+                    final pct = (s['marks'] as int) / (s['max'] as int);
+                    final subColor = pct >= 0.9 ? const Color(0xFF22C55E) : pct >= 0.8 ? const Color(0xFF6C4CF1) : pct >= 0.7 ? const Color(0xFF3B82F6) : const Color(0xFFF59E0B);
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF9F8FF),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(s['name'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                                ),
+                                Text('${s['marks']}/${s['max']}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: subColor)),
+                                const SizedBox(width: 10),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(color: subColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
+                                  child: Text(s['grade'], style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: subColor)),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: LinearProgressIndicator(
+                                value: pct,
+                                backgroundColor: subColor.withValues(alpha: 0.1),
+                                valueColor: AlwaysStoppedAnimation<Color>(subColor),
+                                minHeight: 6,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+
+                  // View Full Results button
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                          MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context), initialTabIndex: 1));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: color,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        ),
+                        child: const Text('View Full Results', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
                   ),
                 ],
-                const SizedBox(height: 6),
-                Text(
-                  '${data['score']}  |  ${data['grade']}',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: data['color']),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildReportActionItem(Map<String, dynamic> data) {
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: (data['color'] as Color).withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(data['icon'], color: data['color'], size: 24),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            data['title'],
-            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -1089,3 +1278,4 @@ class StatRingPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
+

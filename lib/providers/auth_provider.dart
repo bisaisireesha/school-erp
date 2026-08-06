@@ -21,18 +21,23 @@ class AuthProvider extends ChangeNotifier {
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 1));
 
-    final user = await _authService.login(email, password);
-    
-    if (user != null) {
+    try {
+      final user = await _authService.login(email, password);
+      
       _currentUser = user;
       _isLoading = false;
       notifyListeners();
       return true;
-    } else {
-      _errorMessage = 'Invalid email or password';
+    } catch (e) {
+      _errorMessage = e.toString().replaceAll('Exception: ', '');
       _isLoading = false;
       notifyListeners();
       return false;
     }
+  }
+
+  void logout() {
+    _currentUser = null;
+    notifyListeners();
   }
 }

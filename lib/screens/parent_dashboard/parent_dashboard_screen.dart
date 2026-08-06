@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import '../main_layout.dart';
+import '../my_child/my_child_screen.dart';
+import '../attendance/attendance_screen.dart';
+import '../exams/exams_screen.dart';
+import '../homework/homework_screen.dart';
+import '../calendar/calendar_screen.dart';
+import '../messages/messages_screen.dart';
+import '../transport/transport_screen.dart';
+import '../leave/leave_request_screen.dart';
+import '../activity/activity_screen.dart';
 
 class ParentDashboardScreen extends StatefulWidget {
   const ParentDashboardScreen({super.key});
@@ -9,146 +19,306 @@ class ParentDashboardScreen extends StatefulWidget {
 }
 
 class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
+  // Dashboard data lists — used for in-screen search filtering
+  final List<Map<String, dynamic>> _activities = [
+    {'icon': Icons.event_available_rounded, 'iconColor': Color(0xFF6C4CF1), 'iconBg': Color(0xFFF3F0FF), 'title': 'Assignment Added', 'subtitle': 'Maths - Worksheet 12', 'time': '10:30 AM'},
+    {'icon': Icons.fact_check_outlined, 'iconColor': Color(0xFF4CAF50), 'iconBg': Color(0xFFE8F5E9), 'title': 'Attendance Marked', 'subtitle': 'Today\'s attendance has been updated', 'time': '09:15 AM'},
+    {'icon': Icons.campaign_rounded, 'iconColor': Color(0xFFFF9800), 'iconBg': Color(0xFFFFF3E0), 'title': 'Notice Published', 'subtitle': 'Holiday on Friday', 'time': 'Yesterday'},
+  ];
+
+  final List<Map<String, dynamic>> _homeworkList = [
+    {'subject': 'Mathematics', 'title': 'Algebra Worksheet 12', 'dueDate': 'Tomorrow', 'iconColor': Color(0xFF6C4CF1), 'iconBg': Color(0xFFF3F0FF)},
+    {'subject': 'Science', 'title': 'Read Ch 4: Photosynthesis', 'dueDate': 'Due in 2 days', 'iconColor': Color(0xFF11B136), 'iconBg': Color(0xFFE8F5E9)},
+  ];
+
+  final List<Map<String, dynamic>> _events = [
+    {'dateDay': '21', 'dateMonth': 'MAY', 'color': Color(0xFF6C4CF1), 'bgColor': Color(0xFFF3F0FF), 'title': 'PTM (Parent Teacher Meeting)', 'subtitle': 'Tuesday, 21 May 2024', 'rightText': '11:00 AM'},
+    {'dateDay': '25', 'dateMonth': 'MAY', 'color': Color(0xFF11B136), 'bgColor': Color(0xFFE8F5E9), 'title': 'Science Exhibition', 'subtitle': 'Saturday, 25 May 2024', 'rightText': '09:00 AM'},
+    {'dateDay': '01', 'dateMonth': 'JUN', 'color': Color(0xFFFF9800), 'bgColor': Color(0xFFFFF3E0), 'title': 'Summer Break Begins', 'subtitle': 'Saturday, 01 June 2024', 'rightText': 'All Day'},
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          // Dashboard Body Content
+    return ValueListenableBuilder<String>(
+      valueListenable: MainLayout.globalSearchQuery,
+      builder: (context, searchQuery, child) {
+        final query = searchQuery.toLowerCase();
+
+        // Filter each data list by the query
+        final filteredActivities = _activities.where((a) =>
+          query.isEmpty || a['title'].toString().toLowerCase().contains(query) || a['subtitle'].toString().toLowerCase().contains(query)
+        ).toList();
+
+        final filteredHomework = _homeworkList.where((h) =>
+          query.isEmpty || h['title'].toString().toLowerCase().contains(query) || h['subject'].toString().toLowerCase().contains(query)
+        ).toList();
+
+        final filteredEvents = _events.where((e) =>
+          query.isEmpty || e['title'].toString().toLowerCase().contains(query) || e['subtitle'].toString().toLowerCase().contains(query)
+        ).toList();
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final isDesktop = constraints.maxWidth > 900;
+            
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: _buildAkshaarDashboardCard(context),
+                  ),
+                  const SizedBox(height: 24),
+
+                  if (isDesktop)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildAkshaarDashboardCard(),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Left Column
+                          Expanded(
+                            flex: 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (query.isEmpty) ...[
+                                  _buildHighlightsSection(context),
+                                  const SizedBox(height: 24),
+                                ],
+                                if (query.isEmpty) ...[
+                                  _buildPriorityOverviewSection(context),
+                                  const SizedBox(height: 24),
+                                ],
+                                if (query.isEmpty) ...[
+                                  _buildAttendanceSummarySection(context),
+                                  const SizedBox(height: 24),
+                                ],
+                                if (query.isEmpty) ...[
+                                  _buildQuickActionsSection(context),
+                                ],
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 24),
+                          // Right Column
+                          Expanded(
+                            flex: 4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (filteredActivities.isNotEmpty) ...[
+                                  _buildTodaysActivitySection(context, filteredActivities),
+                                  const SizedBox(height: 24),
+                                ],
+                                if (filteredHomework.isNotEmpty) ...[
+                                  _buildHomeworkSection(context, filteredHomework),
+                                  const SizedBox(height: 24),
+                                ],
+                                if (filteredEvents.isNotEmpty) ...[
+                                  _buildUpcomingEventsSection(context, filteredEvents),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    // Mobile & Tablet Layout (Single Column)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (query.isEmpty) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: _buildHighlightsSection(context),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
+                        if (filteredActivities.isNotEmpty) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: _buildTodaysActivitySection(context, filteredActivities),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
+                        if (query.isEmpty) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: _buildPriorityOverviewSection(context),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
+                        if (filteredHomework.isNotEmpty) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: _buildHomeworkSection(context, filteredHomework),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
+                        if (query.isEmpty) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: _buildAttendanceSummarySection(context),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
+                        if (filteredEvents.isNotEmpty) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: _buildUpcomingEventsSection(context, filteredEvents),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
+                        if (query.isEmpty) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: _buildQuickActionsSection(context),
+                          ),
+                        ],
+                      ],
                     ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildHighlightsSection(),
+
+                  // Empty state
+                  if (query.isNotEmpty && filteredActivities.isEmpty && filteredHomework.isEmpty && filteredEvents.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 60),
+                      child: Center(child: Text('No results found on the dashboard', style: TextStyle(color: Color(0xFF9E9E9E), fontSize: 16))),
                     ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildTodaysActivitySection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildPriorityOverviewSection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildAttendanceSummarySection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildUpcomingEventsSection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildQuickActionsSection(),
-                    ),
-        const SizedBox(height: 120), // Bottom padding for navbar
-      ],
-    ),
+
+                  const SizedBox(height: 120),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
-  Widget _buildSectionHeader(String title) {
+
+  Widget _buildSectionHeader(String title, {VoidCallback? onSeeAll}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
-        const Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+        GestureDetector(
+          onTap: onSeeAll,
+          behavior: HitTestBehavior.opaque,
+          child: const Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+        ),
       ],
     );
   }
 
-  Widget _buildAkshaarDashboardCard() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+  Widget _buildAkshaarDashboardCard(BuildContext context) {
+    return ValueListenableBuilder<int>(
+      valueListenable: MyChildScreen.selectedChildIndex,
+      builder: (context, selectedChildIndex, child) {
+        final currentChild = MyChildScreen.childrenData[selectedChildIndex];
+        final firstName = currentChild["firstName"];
+        final lastName = currentChild["lastName"];
+        final initials = '${firstName[0]}${lastName[0]}';
+        
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+                blurRadius: 15,
+                offset: const Offset(0, 5),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Avatar
-          Container(
-            width: 52,
-            height: 52,
-            decoration: const BoxDecoration(
-              color: Color(0xFFF3F0FF),
-              shape: BoxShape.circle,
-            ),
-            child: const Center(
-              child: Text(
-                'AK',
-                style: TextStyle(
-                  color: Color(0xFF6C4CF1),
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+          child: Row(
+            children: [
+              // Avatar
+              Container(
+                width: 52,
+                height: 52,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF3F0FF),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    initials,
+                    style: const TextStyle(
+                      color: Color(0xFF6C4CF1),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$firstName\'s Dashboard', 
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${currentChild["grade"]}-${currentChild["section"]} · ${currentChild["classTeacher"]}', 
+                      style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () => MainLayout.pushSubScreen(context, MyChildScreen(onBack: () => MainLayout.popSubScreen(context))),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF3F0FF),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    children: const [
+                      Text('View profile', style: TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w600, fontSize: 11)),
+                      SizedBox(width: 4),
+                      Icon(Icons.more_vert_rounded, color: Color(0xFF6C4CF1), size: 14),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Akshara\'s Dashboard', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                const SizedBox(height: 4),
-                Text('Grade 5-C · Mrs. Kavita Menon', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF3F0FF),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: const [
-                Text('View profile', style: TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w600, fontSize: 11)),
-                SizedBox(width: 4),
-                Icon(Icons.more_vert_rounded, color: Color(0xFF6C4CF1), size: 14),
-              ],
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildHighlightsSection() {
+  Widget _buildHighlightsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Highlights'),
+        _buildSectionHeader('Highlights', onSeeAll: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context)))),
         const SizedBox(height: 16),
         const FlippableHighlightCard(),
       ],
     );
   }
 
-  Widget _buildTodaysActivitySection() {
+  Widget _buildTodaysActivitySection(BuildContext context, List<Map<String, dynamic>> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Today\'s Activity'),
+        _buildSectionHeader('Today\'s Activity', onSeeAll: () => MainLayout.pushSubScreen(context, ActivityScreen(onBack: () => MainLayout.popSubScreen(context)))),
         const SizedBox(height: 16),
         Container(
           decoration: BoxDecoration(
@@ -158,32 +328,17 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
           ),
           child: Column(
             children: [
-              _buildActivityRow(
-                icon: Icons.event_available_rounded,
-                iconColor: const Color(0xFF6C4CF1),
-                iconBg: const Color(0xFFF3F0FF),
-                title: 'Assignment Added',
-                subtitle: 'Maths - Worksheet 12',
-                time: '10:30 AM',
-              ),
-              const Divider(height: 1, color: Color(0xFFF3EEFF)),
-              _buildActivityRow(
-                icon: Icons.fact_check_outlined,
-                iconColor: const Color(0xFF4CAF50),
-                iconBg: const Color(0xFFE8F5E9),
-                title: 'Attendance Marked',
-                subtitle: 'Today\'s attendance has been updated',
-                time: '09:15 AM',
-              ),
-              const Divider(height: 1, color: Color(0xFFF3EEFF)),
-              _buildActivityRow(
-                icon: Icons.campaign_rounded,
-                iconColor: const Color(0xFFFF9800),
-                iconBg: const Color(0xFFFFF3E0),
-                title: 'Notice Published',
-                subtitle: 'Holiday on Friday',
-                time: 'Yesterday',
-              ),
+              for (int i = 0; i < items.length; i++) ...[  
+                if (i > 0) const Divider(height: 1, color: Color(0xFFF3EEFF)),
+                _buildActivityRow(
+                  icon: items[i]['icon'],
+                  iconColor: items[i]['iconColor'],
+                  iconBg: items[i]['iconBg'],
+                  title: items[i]['title'],
+                  subtitle: items[i]['subtitle'],
+                  time: items[i]['time'],
+                ),
+              ],
             ],
           ),
         ),
@@ -191,30 +346,9 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     );
   }
 
-  Widget _buildPriorityOverviewSection() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFBFaff),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(
-              'Priority Overview',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D)),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              children: [
+  Widget _buildPriorityOverviewSection(BuildContext context) {
+    return Column(
+      children: [
                 Row(
                   children: [
                     Expanded(
@@ -231,6 +365,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
                         ),
                         bottomText: '92% this month',
                         bottomTextColor: const Color(0xFF4A4A68),
+                        onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -243,6 +378,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
                         valueRichText: const TextSpan(text: '₹12,500', style: TextStyle(color: Color(0xFF1E1E2D))),
                         bottomText: 'Due on 25 May',
                         bottomTextColor: const Color(0xFFFF4B4B),
+                        onTap: () => MainLayout.switchTab(2),
                       ),
                     ),
                   ],
@@ -259,6 +395,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
                         valueRichText: const TextSpan(text: '4 upcoming', style: TextStyle(color: Color(0xFF1E1E2D))),
                         bottomText: 'Latest avg: 86%',
                         bottomTextColor: const Color(0xFF4A4A68),
+                        onTap: () => MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context))),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -271,14 +408,87 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
                         valueRichText: const TextSpan(text: '1 pending', style: TextStyle(color: Color(0xFF1E1E2D))),
                         bottomText: '2 approved',
                         bottomTextColor: const Color(0xFF4A4A68),
+                        onTap: () => MainLayout.pushSubScreen(context, LeaveRequestScreen(onBack: () => MainLayout.popSubScreen(context))),
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
+      ],
+    );
+  }
+
+  Widget _buildHomeworkSection(BuildContext context, List<Map<String, dynamic>> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSectionHeader('Homework & Assignments', onSeeAll: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)))),
+        const SizedBox(height: 16),
+        for (int i = 0; i < items.length; i++) ...[  
+          if (i > 0) const SizedBox(height: 12),
+          _buildHomeworkCard(
+            subject: items[i]['subject'],
+            title: items[i]['title'],
+            dueDate: items[i]['dueDate'],
+            iconColor: items[i]['iconColor'],
+            iconBg: items[i]['iconBg'],
           ),
         ],
+      ],
+    );
+  }
+
+  Widget _buildHomeworkCard({required String subject, required String title, required String dueDate, required Color iconColor, required Color iconBg}) {
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(14)),
+              child: Icon(Icons.menu_book_rounded, color: iconColor, size: 24),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(subject, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: iconColor)),
+                  const SizedBox(height: 4),
+                  Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF1F0),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(dueDate, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFFFF5630))),
+                ),
+                const SizedBox(width: 8),
+                const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFFD1D5DB), size: 16),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -291,21 +501,25 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     required TextSpan valueRichText,
     required String bottomText,
     required Color bottomTextColor,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -358,6 +572,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
           ),
         ],
       ),
+    ),
     );
   }
 
@@ -395,7 +610,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     );
   }
 
-  Widget _buildQuickActionsSection() {
+  Widget _buildQuickActionsSection(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -421,18 +636,34 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 24,
+            mainAxisSpacing: 16,
             crossAxisSpacing: 8,
-            childAspectRatio: 0.8,
+            childAspectRatio: 0.70,
             children: [
-              _buildActionItem(Icons.people_outline_rounded, 'My Children'),
-              _buildActionItem(Icons.event_available_outlined, 'Attendance'),
-              _buildActionItem(Icons.assignment_outlined, 'Grades'),
-              _buildActionItem(Icons.menu_book_rounded, 'Homework'),
-              _buildActionItem(Icons.calendar_today_outlined, 'Events'),
-              _buildActionItem(Icons.campaign_outlined, 'Notices'),
-              _buildActionItem(Icons.directions_bus_outlined, 'Transport'),
-              _buildActionItem(Icons.account_balance_wallet_outlined, 'Fees & Payments'),
+              _buildActionItem(Icons.people_outline_rounded, 'My Children', onTap: () {
+                MainLayout.pushSubScreen(context, MyChildScreen(onBack: () => MainLayout.popSubScreen(context)));
+              }),
+              _buildActionItem(Icons.event_available_outlined, 'Attendance', onTap: () {
+                MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context)));
+              }),
+              _buildActionItem(Icons.assignment_outlined, 'Grades', onTap: () {
+                MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context)));
+              }),
+              _buildActionItem(Icons.menu_book_rounded, 'Homework', onTap: () {
+                MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)));
+              }),
+              _buildActionItem(Icons.calendar_today_outlined, 'Events', onTap: () {
+                MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context)));
+              }),
+              _buildActionItem(Icons.campaign_outlined, 'Notices', onTap: () {
+                MainLayout.pushSubScreen(context, MessagesScreen(onBack: () => MainLayout.popSubScreen(context)));
+              }),
+              _buildActionItem(Icons.directions_bus_outlined, 'Transport', onTap: () {
+                MainLayout.pushSubScreen(context, TransportScreen(onBack: () => MainLayout.popSubScreen(context)));
+              }),
+              _buildActionItem(Icons.account_balance_wallet_outlined, 'Fees & Payments', onTap: () {
+                MainLayout.switchTab(2);
+              }),
             ],
           ),
         ],
@@ -440,32 +671,36 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     );
   }
 
-  Widget _buildActionItem(IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
-            shape: BoxShape.circle,
+  Widget _buildActionItem(IconData icon, String label, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: const Color(0xFF6C4CF1), size: 26),
           ),
-          child: Icon(icon, color: const Color(0xFF6C4CF1), size: 26),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ],
+          const SizedBox(height: 10),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildAttendanceSummarySection() {
+  Widget _buildAttendanceSummarySection(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -485,9 +720,12 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Attendance Summary', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
-              Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+            children: [
+              const Text('Attendance Summary', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+              GestureDetector(
+                onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))),
+                child: const Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -580,7 +818,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     );
   }
 
-  Widget _buildUpcomingEventsSection() {
+  Widget _buildUpcomingEventsSection(BuildContext context, List<Map<String, dynamic>> events) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -594,41 +832,28 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Upcoming Events', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
-              Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+            children: [
+              const Text('Upcoming Events', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+              GestureDetector(
+                onTap: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context))),
+                child: const Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+              ),
             ],
           ),
           const SizedBox(height: 24),
-          _buildEventRow(
-            dateDay: '21',
-            dateMonth: 'MAY',
-            color: const Color(0xFF6C4CF1),
-            bgColor: const Color(0xFFF3F0FF),
-            title: 'PTM (Parent Teacher Meeting)',
-            subtitle: 'Tuesday, 21 May 2024',
-            rightText: '11:00 AM',
-          ),
-          const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
-          _buildEventRow(
-            dateDay: '25',
-            dateMonth: 'MAY',
-            color: const Color(0xFF11B136),
-            bgColor: const Color(0xFFE8F5E9),
-            title: 'Science Exhibition',
-            subtitle: 'Saturday, 25 May 2024',
-            rightText: '09:00 AM',
-          ),
-          const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
-          _buildEventRow(
-            dateDay: '01',
-            dateMonth: 'JUN',
-            color: const Color(0xFFFF9800),
-            bgColor: const Color(0xFFFFF3E0),
-            title: 'Summer Break Begins',
-            subtitle: 'Saturday, 01 June 2024',
-            rightText: 'All Day',
-          ),
+          for (int i = 0; i < events.length; i++) ...[  
+            if (i > 0) const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
+            _buildEventRow(
+              dateDay: events[i]['dateDay'],
+              dateMonth: events[i]['dateMonth'],
+              color: events[i]['color'],
+              bgColor: events[i]['bgColor'],
+              title: events[i]['title'],
+              subtitle: events[i]['subtitle'],
+              rightText: events[i]['rightText'],
+              onTap: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context))),
+            ),
+          ],
         ],
       ),
     );
@@ -642,43 +867,48 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     required String title,
     required String subtitle,
     required String rightText,
+    VoidCallback? onTap,
   }) {
-    return Row(
-      children: [
-        Container(
-          width: 52,
-          height: 60,
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(14),
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Row(
+        children: [
+          Container(
+            width: 52,
+            height: 60,
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(dateDay, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: color, height: 1.1)),
+                Text(dateMonth, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+              ],
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                const SizedBox(height: 4),
+                Text(subtitle, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
+              ],
+            ),
+          ),
+          Row(
             children: [
-              Text(dateDay, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: color, height: 1.1)),
-              Text(dateMonth, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+              Text(rightText, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: color)),
+              const SizedBox(width: 8),
+              const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF4A4A68), size: 14),
             ],
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-              const SizedBox(height: 4),
-              Text(subtitle, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
-            ],
-          ),
-        ),
-        Row(
-          children: [
-            Text(rightText, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: color)),
-            const SizedBox(width: 8),
-            const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF4A4A68), size: 14),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -931,9 +1161,12 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
     return (dy: 0.0, scale: 1.0, opacity: 0.0);
   }
 
-  Widget _layer(int index) {
+  Widget _layer(int index, BuildContext context) {
     final t = _transformFor(index);
     final double op = _clamp01(t.opacity);
+    final int rel = ((index - _currentIndex) % _len + _len) % _len;
+    final bool isTop = rel == 0;
+    
     return IgnorePointer(
       ignoring: op < 0.5,
       child: Opacity(
@@ -943,9 +1176,23 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
           child: Transform.scale(
             scale: t.scale,
             alignment: Alignment.topCenter,
-            child: SizedBox(
-              width: double.infinity,
-              child: _buildCardShell(_cardsData[index]),
+            child: GestureDetector(
+              onTap: isTop ? () {
+                final title = _cardsData[index]['title'];
+                if (title == '2 Assignments') {
+                  MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)));
+                } else if (title == 'Transport Update') {
+                  MainLayout.pushSubScreen(context, TransportScreen(onBack: () => MainLayout.popSubScreen(context)));
+                } else if (title == 'Fee Reminder') {
+                  MainLayout.switchTab(2); // Switch to Fees tab
+                } else if (title == 'Annual Sports Day') {
+                  MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context)));
+                }
+              } : null,
+              child: SizedBox(
+                width: double.infinity,
+                child: _buildCardShell(_cardsData[index]),
+              ),
             ),
           ),
         ),
@@ -1055,10 +1302,10 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            _layer(prev),
-            _layer(nextNext),
-            _layer(next),
-            _layer(cur),
+            _layer(prev, context),
+            _layer(nextNext, context),
+            _layer(next, context),
+            _layer(cur, context),
           ],
         ),
       ),
