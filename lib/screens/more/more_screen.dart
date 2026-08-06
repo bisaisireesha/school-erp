@@ -4,6 +4,10 @@ import 'dart:convert';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../homework/homework_screen.dart';
 import '../attendance/attendance_screen.dart';
+import '../my_child/my_child_screen.dart';
+import '../transport/transport_screen.dart';
+import '../cctv_cameras/cctv_cameras_screen.dart';
+import '../leave_request/leave_request_screen.dart';
 import '../main_layout.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -88,7 +92,31 @@ class _MoreScreenState extends State<MoreScreen> {
               final item = _quickActions[index];
               return GestureDetector(
                 onTap: () {
-                  if (item['title'] == 'Homework') {
+                  if (item['title'] == 'My Child') {
+                    MainLayout.pushSubScreen(context, MyChildScreen(
+                      onBack: () {
+                        MainLayout.popSubScreen(context);
+                      },
+                    ));
+                  } else if (item['title'] == 'Transport') {
+                    MainLayout.pushSubScreen(context, TransportScreen(
+                      onBack: () {
+                        MainLayout.popSubScreen(context);
+                      },
+                    ));
+                  } else if (item['title'] == 'CCTV Cameras') {
+                    MainLayout.pushSubScreen(context, CctvCamerasScreen(
+                      onBack: () {
+                        MainLayout.popSubScreen(context);
+                      },
+                    ));
+                  } else if (item['title'] == 'Leave Request') {
+                    MainLayout.pushSubScreen(context, LeaveRequestScreen(
+                      onBack: () {
+                        MainLayout.popSubScreen(context);
+                      },
+                    ));
+                  } else if (item['title'] == 'Homework') {
                     MainLayout.pushSubScreen(context, HomeworkScreen(
                       onBack: () {
                         MainLayout.popSubScreen(context);

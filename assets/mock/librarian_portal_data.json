@@ -1,0 +1,387 @@
+{
+  "quickStats": {
+    "totalBooks": 12450,
+    "availableBooks": 9820,
+    "issuedToday": 48,
+    "overdueBooks": 14,
+    "totalMembers": 1280,
+    "activeBorrowers": 312,
+    "totalFinesCollected": "$420.00",
+    "pendingFines": "$145.00"
+  },
+  "recentTransactions": [
+    {
+      "id": "TXN-501",
+      "bookName": "Data Structures & Algorithms in Java",
+      "studentName": "Ethan Vance",
+      "memberId": "STU-9921",
+      "status": "Issued",
+      "time": "12 mins ago"
+    },
+    {
+      "id": "TXN-502",
+      "bookName": "1984 - George Orwell",
+      "studentName": "Olivia Brown",
+      "memberId": "STU-8302",
+      "status": "Returned",
+      "time": "34 mins ago"
+    },
+    {
+      "id": "TXN-503",
+      "bookName": "Introduction to Quantum Mechanics",
+      "studentName": "Dr. Alan Turing",
+      "memberId": "FAC-3001",
+      "status": "Issued",
+      "time": "1 hour ago"
+    },
+    {
+      "id": "TXN-504",
+      "bookName": "Sapiens: A Brief History of Humankind",
+      "studentName": "Chloe Bennett",
+      "memberId": "STU-9112",
+      "status": "Returned",
+      "time": "2 hours ago"
+    },
+    {
+      "id": "TXN-505",
+      "bookName": "To Kill a Mockingbird",
+      "studentName": "Michael Scott",
+      "memberId": "STU-8842",
+      "status": "Issued",
+      "time": "3 hours ago"
+    }
+  ],
+  "recentlyIssuedBooks": [
+    {
+      "id": "ISS-101",
+      "studentName": "Ethan Vance",
+      "memberId": "STU-9921",
+      "bookName": "Data Structures & Algorithms in Java",
+      "isbn": "978-0672324536",
+      "issueDate": "03 Aug 2026",
+      "dueDate": "17 Aug 2026",
+      "status": "Issued"
+    },
+    {
+      "id": "ISS-102",
+      "studentName": "Dr. Alan Turing",
+      "memberId": "FAC-3001",
+      "bookName": "Introduction to Quantum Mechanics",
+      "isbn": "978-0131118928",
+      "issueDate": "03 Aug 2026",
+      "dueDate": "03 Sep 2026",
+      "status": "Issued"
+    },
+    {
+      "id": "ISS-103",
+      "studentName": "Sophia Martinez",
+      "memberId": "STU-7751",
+      "bookName": "The Great Gatsby",
+      "isbn": "978-0743273565",
+      "issueDate": "02 Aug 2026",
+      "dueDate": "16 Aug 2026",
+      "status": "Issued"
+    }
+  ],
+  "recentlyReturnedBooks": [
+    {
+      "id": "RET-101",
+      "studentName": "Olivia Brown",
+      "memberId": "STU-8302",
+      "bookName": "1984 - George Orwell",
+      "isbn": "978-0451524935",
+      "returnDate": "03 Aug 2026",
+      "finePaid": "$0.00",
+      "status": "Returned On Time",
+      "condition": "Good"
+    },
+    {
+      "id": "RET-102",
+      "studentName": "Chloe Bennett",
+      "memberId": "STU-9112",
+      "bookName": "Sapiens: A Brief History of Humankind",
+      "isbn": "978-0062316097",
+      "returnDate": "03 Aug 2026",
+      "finePaid": "$2.00",
+      "status": "Late Return",
+      "condition": "Good"
+    },
+    {
+      "id": "RET-103",
+      "studentName": "James Gordon",
+      "memberId": "STU-8819",
+      "bookName": "World History: Ancient Civilizations",
+      "isbn": "978-0030646829",
+      "returnDate": "02 Aug 2026",
+      "finePaid": "$0.00",
+      "status": "Returned On Time",
+      "condition": "Good"
+    }
+  ],
+  "overdueBooks": [
+    {
+      "id": "OD-101",
+      "memberName": "Michael Scott",
+      "memberId": "STU-8842",
+      "memberType": "Student (Grade 10)",
+      "bookTitle": "To Kill a Mockingbird",
+      "isbn": "978-0446310789",
+      "dueDate": "28 Jul 2026",
+      "daysOverdue": 6,
+      "fineAmount": "$12.00",
+      "status": "Overdue",
+      "avatar": "MS"
+    },
+    {
+      "id": "OD-102",
+      "memberName": "Emily Watson",
+      "memberId": "STU-9104",
+      "memberType": "Student (Grade 11)",
+      "bookTitle": "Principles of Physics Vol. 2",
+      "isbn": "978-0134988559",
+      "dueDate": "30 Jul 2026",
+      "daysOverdue": 4,
+      "fineAmount": "$8.00",
+      "status": "Overdue",
+      "avatar": "EW"
+    },
+    {
+      "id": "OD-103",
+      "memberName": "Prof. David Miller",
+      "memberId": "FAC-2041",
+      "memberType": "Teacher (Science)",
+      "bookTitle": "Advanced Organic Chemistry",
+      "isbn": "978-0387683546",
+      "dueDate": "31 Jul 2026",
+      "daysOverdue": 3,
+      "fineAmount": "$6.00",
+      "status": "Overdue",
+      "avatar": "DM"
+    },
+    {
+      "id": "OD-104",
+      "memberName": "Sophia Martinez",
+      "memberId": "STU-7751",
+      "memberType": "Student (Grade 9)",
+      "bookTitle": "The Great Gatsby",
+      "isbn": "978-0743273565",
+      "dueDate": "01 Aug 2026",
+      "daysOverdue": 2,
+      "fineAmount": "$4.00",
+      "status": "Overdue",
+      "avatar": "SM"
+    }
+  ],
+  "todaysDueReturns": [
+    {
+      "id": "RET-201",
+      "memberName": "Alexander Wright",
+      "memberId": "STU-9430",
+      "memberType": "Student (Grade 12)",
+      "bookTitle": "Calculus & Analytical Geometry",
+      "isbn": "978-0201531749",
+      "dueTime": "03:00 PM Today",
+      "status": "Due Today",
+      "avatar": "AW"
+    },
+    {
+      "id": "RET-202",
+      "memberName": "Clara Oswald",
+      "memberId": "FAC-1022",
+      "memberType": "Teacher (English)",
+      "bookTitle": "Complete Works of Shakespeare",
+      "isbn": "978-0451526922",
+      "dueTime": "04:30 PM Today",
+      "status": "Due Today",
+      "avatar": "CO"
+    },
+    {
+      "id": "RET-203",
+      "memberName": "James Gordon",
+      "memberId": "STU-8819",
+      "memberType": "Student (Grade 10)",
+      "bookTitle": "World History: Ancient Civilizations",
+      "isbn": "978-0030646829",
+      "dueTime": "05:00 PM Today",
+      "status": "Due Today",
+      "avatar": "JG"
+    }
+  ],
+  "recentActivity": [
+    {
+      "id": "ACT-301",
+      "type": "Issued",
+      "bookTitle": "Data Structures & Algorithms in Java",
+      "memberName": "Ethan Vance",
+      "memberId": "STU-9921",
+      "timestamp": "12 mins ago",
+      "statusBadge": "Issued",
+      "statusColor": "0xFF6C4CF1"
+    },
+    {
+      "id": "ACT-302",
+      "type": "Returned",
+      "bookTitle": "1984 - George Orwell",
+      "memberName": "Olivia Brown",
+      "memberId": "STU-8302",
+      "timestamp": "34 mins ago",
+      "statusBadge": "Returned On Time",
+      "statusColor": "0xFF10B981"
+    },
+    {
+      "id": "ACT-303",
+      "type": "Issued",
+      "bookTitle": "Introduction to Quantum Mechanics",
+      "memberName": "Dr. Alan Turing",
+      "memberId": "FAC-3001",
+      "timestamp": "1 hour ago",
+      "statusBadge": "Issued",
+      "statusColor": "0xFF6C4CF1"
+    },
+    {
+      "id": "ACT-304",
+      "type": "Returned",
+      "bookTitle": "Sapiens: A Brief History of Humankind",
+      "memberName": "Chloe Bennett",
+      "memberId": "STU-9112",
+      "timestamp": "2 hours ago",
+      "statusBadge": "Late Return ($2 Fine)",
+      "statusColor": "0xFFF59E0B"
+    }
+  ],
+  "stockAlerts": [
+    {
+      "id": "ALT-401",
+      "type": "Low Stock",
+      "count": 18,
+      "label": "Titles below 2 copies",
+      "description": "Popular Science & Modern Lit titles requiring restock",
+      "severity": "Warning",
+      "color": "0xFFF59E0B",
+      "bgColor": "0xFFFFFBEB"
+    },
+    {
+      "id": "ALT-402",
+      "type": "Damaged Books",
+      "count": 5,
+      "label": "Marked for repair/binding",
+      "description": "Torn covers & spine damage reported during recent returns",
+      "severity": "Alert",
+      "color": "0xFFEF4444",
+      "bgColor": "0xFFFEF2F2"
+    },
+    {
+      "id": "ALT-403",
+      "type": "Lost Books",
+      "count": 2,
+      "label": "Under replacement process",
+      "description": "Unreturned after 60+ days & billed to member accounts",
+      "severity": "Critical",
+      "color": "0xFF9333EA",
+      "bgColor": "0xFFF3E8FF"
+    }
+  ],
+  "books": [
+    {
+      "id": "BK-1001",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "978-0446310789",
+      "category": "Fiction",
+      "totalCopies": 10,
+      "availableCopies": 2,
+      "rackNumber": "A-04",
+      "status": "Available"
+    },
+    {
+      "id": "BK-1002",
+      "title": "Principles of Physics Vol. 2",
+      "author": "Halliday & Resnick",
+      "isbn": "978-0134988559",
+      "category": "Science",
+      "totalCopies": 15,
+      "availableCopies": 1,
+      "rackNumber": "S-12",
+      "status": "Low Stock"
+    },
+    {
+      "id": "BK-1003",
+      "title": "Data Structures & Algorithms in Java",
+      "author": "Robert Lafore",
+      "isbn": "978-0672324536",
+      "category": "Technology",
+      "totalCopies": 8,
+      "availableCopies": 6,
+      "rackNumber": "T-02",
+      "status": "Available"
+    },
+    {
+      "id": "BK-1004",
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "isbn": "978-0062316097",
+      "category": "History",
+      "totalCopies": 12,
+      "availableCopies": 8,
+      "rackNumber": "H-08",
+      "status": "Available"
+    },
+    {
+      "id": "BK-1005",
+      "title": "Modern Microeconomics",
+      "author": "A. Koutsoyiannis",
+      "isbn": "978-0333778081",
+      "category": "Social Science",
+      "totalCopies": 6,
+      "availableCopies": 0,
+      "rackNumber": "E-05",
+      "status": "Out of Stock"
+    }
+  ],
+  "members": [
+    {
+      "id": "MEM-01",
+      "name": "Michael Scott",
+      "memberId": "STU-8842",
+      "role": "Student",
+      "department": "Grade 10 - Section B",
+      "activeIssued": 2,
+      "pendingFine": "$12.00",
+      "email": "m.scott@student.school.edu",
+      "phone": "+1 (555) 234-5678"
+    },
+    {
+      "id": "MEM-02",
+      "name": "Prof. David Miller",
+      "memberId": "FAC-2041",
+      "role": "Teacher",
+      "department": "Science Department",
+      "activeIssued": 4,
+      "pendingFine": "$6.00",
+      "email": "d.miller@school.edu",
+      "phone": "+1 (555) 345-6789"
+    },
+    {
+      "id": "MEM-03",
+      "name": "Alexander Wright",
+      "memberId": "STU-9430",
+      "role": "Student",
+      "department": "Grade 12 - Section A",
+      "activeIssued": 1,
+      "pendingFine": "$0.00",
+      "email": "a.wright@student.school.edu",
+      "phone": "+1 (555) 456-7890"
+    },
+    {
+      "id": "MEM-04",
+      "name": "Sarah Jenkins (Staff)",
+      "memberId": "STF-5012",
+      "role": "Staff",
+      "department": "Library Administration",
+      "activeIssued": 0,
+      "pendingFine": "$0.00",
+      "email": "librarian@school.edu",
+      "phone": "+1 (555) 987-6543"
+    }
+  ]
+}

@@ -4,6 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../main_layout.dart';
+import '../student_main_layout.dart';
+import '../transport_main_layout.dart';
+import '../driver_main_layout.dart';
+import '../librarian_main_layout.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -61,17 +65,37 @@ class _LoginScreenState extends State<LoginScreen> {
     if (success) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login successful!')),
+        const SnackBar(
+          content: Text('Login successful! Welcome 👋'),
+          duration: Duration(seconds: 1),
+        ),
       );
-      
-      if (authProvider.currentUser?.role == 'parent') {
+
+      final role = authProvider.currentUser?.role;
+      if (role == 'student') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const StudentMainLayout()),
+        );
+      } else if (role == 'transport') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const TransportMainLayout()),
+        );
+      } else if (role == 'driver') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const DriverMainLayout()),
+        );
+      } else if (role == 'librarian') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LibrarianMainLayout()),
+        );
+      } else {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainLayout()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Welcome, logged in as ${authProvider.currentUser?.role}')),
         );
       }
     } else {
@@ -83,11 +107,12 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _fillDemoCredentials(String email, String password) {
+  void _autoLoginDemoUser(String email, String password) {
     setState(() {
       _emailController.text = email;
       _passwordController.text = password;
     });
+    _handleLogin();
   }
 
   @override
@@ -100,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           // Background Gradient and Icon
           Container(
-            height: size.height * 0.45,
+            height: size.height * 0.38,
             width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -115,11 +140,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 // Icon Card
                 Container(
-                  width: 90,
-                  height: 90,
+                  width: 84,
+                  height: 84,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -134,8 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                     child: Image.asset(
                       'lib/assets/graduation logo.png',
-                      width: 60,
-                      height: 60,
+                      width: 56,
+                      height: 56,
                       errorBuilder: (context, error, stackTrace) => const Icon(
                         Icons.school,
                         size: 40,
@@ -144,16 +169,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
               ],
             ),
           ),
 
-          // Bottom Sheet
+          // Bottom Sheet Content
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: size.height * 0.70,
+              height: size.height * 0.72,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -167,33 +192,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   topRight: Radius.circular(30),
                 ),
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Welcome back',
+                        'Smart School Portal',
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF1A1035),
+                          letterSpacing: -0.3,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       const Text(
-                        'Please log in to your account to continue',
+                        'Sign in to access your school, transport, or parent portal',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 13,
                           color: Colors.grey,
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 24),
 
                       // Email Field
                       const Text(
                         'Email Address',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 13.5,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF1A1035),
                         ),
@@ -202,9 +228,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextField(
                         controller: _emailController,
                         decoration: InputDecoration(
-                          hintText: 'teacher@school.edu',
-                          hintStyle: const TextStyle(color: Colors.grey),
-                          prefixIcon: const Icon(Icons.mail_outline, color: Colors.grey),
+                          hintText: 'user@school.edu',
+                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                          prefixIcon: const Icon(Icons.mail_outline, color: Colors.grey, size: 20),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -217,18 +243,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Color(0xFF8B78FF), width: 2),
+                            borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 2),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 14),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16),
 
                       // Password Field
                       const Text(
                         'Password',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 13.5,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF1A1035),
                         ),
@@ -238,13 +264,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
-                          hintText: '........',
-                          hintStyle: const TextStyle(color: Colors.grey),
-                          prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
+                          hintText: '••••••••',
+                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+                          prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey, size: 20),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                               color: Colors.grey,
+                              size: 20,
                             ),
                             onPressed: () {
                               setState(() {
@@ -264,70 +291,54 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Color(0xFF8B78FF), width: 2),
+                            borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 2),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 14),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12),
 
-                      // Remember Me & Forgot Password
+                      // Remember Me Checkbox
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: Checkbox(
-                                  value: _rememberMe,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _rememberMe = value ?? false;
-                                    });
-                                  },
-                                  activeColor: const Color(0xFF8B78FF),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                  side: const BorderSide(color: Colors.grey),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Remember me',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                          SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: Checkbox(
+                              value: _rememberMe,
+                              onChanged: (value) {
+                                setState(() {
+                                  _rememberMe = value ?? false;
+                                });
+                              },
+                              activeColor: const Color(0xFF6C4CF1),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                              side: const BorderSide(color: Colors.grey),
+                            ),
                           ),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Forgot password?',
-                              style: TextStyle(
-                                color: Color(0xFF8B78FF),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                              ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            'Remember me',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 20),
 
                       // Login Button
                       Consumer<AuthProvider>(
                         builder: (context, authProvider, child) {
                           return SizedBox(
                             width: double.infinity,
-                            height: 54,
+                            height: 50,
                             child: ElevatedButton(
                               onPressed: authProvider.isLoading ? null : _handleLogin,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF8B78FF),
+                                backgroundColor: const Color(0xFF6C4CF1),
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
@@ -336,24 +347,24 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               child: authProvider.isLoading
                                   ? const SizedBox(
-                                      height: 24,
-                                      width: 24,
+                                      height: 22,
+                                      width: 22,
                                       child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                                     )
                                   : const Text(
-                                      'Login',
+                                      'Login to Portal',
                                       style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                             ),
                           );
                         },
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 24),
 
-                      // Demo Credentials Box from JSON
+                      // Quick Access Portals Section
                       if (_demoUsers.isNotEmpty)
                         Container(
                           padding: const EdgeInsets.all(16),
@@ -365,31 +376,54 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
+                              const Row(
                                 children: [
-                                  const Icon(Icons.info_outline, size: 16, color: Color(0xFF8B78FF)),
-                                  const SizedBox(width: 8),
-                                  const Text(
-                                    'Demo Credentials (Tap to auto-fill)',
+                                  Icon(Icons.touch_app, size: 16, color: Color(0xFF6C4CF1)),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Quick Access Portals (Tap to Auto-fill & Login)',
                                     style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF8B78FF),
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF6C4CF1),
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 16),
-                              ..._demoUsers.map((user) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 12),
+                              const SizedBox(height: 12),
+                              ...(() {
+                                final Map<String, dynamic> uniqueRoleUsers = {};
+                                for (var user in _demoUsers) {
+                                  final r = user['role'];
+                                  if (!uniqueRoleUsers.containsKey(r)) {
+                                    uniqueRoleUsers[r] = user;
+                                  }
+                                }
+                                return uniqueRoleUsers.values;
+                              })().map((user) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
                                     child: _buildDemoCard(
-                                      icon: user['role'] == 'principal'
-                                          ? Icons.school_outlined
-                                          : Icons.person_outline,
-                                      title: user['name'] ?? 'Role',
+                                      icon: user['role'] == 'student'
+                                          ? Icons.school
+                                          : user['role'] == 'parent'
+                                              ? Icons.family_restroom
+                                              : user['role'] == 'driver'
+                                                  ? Icons.directions_bus_rounded
+                                                  : user['role'] == 'librarian'
+                                                      ? Icons.menu_book_rounded
+                                                      : Icons.directions_bus_rounded,
+                                      title: user['name'] ?? 'Portal User',
                                       email: user['email'] ?? '',
-                                      passwordText: user['password'] ?? '',
-                                      onTap: () => _fillDemoCredentials(
+                                      roleLabel: user['role'] == 'student'
+                                          ? '🎓 Student Portal'
+                                          : user['role'] == 'parent'
+                                              ? '👨‍👩‍👧 Parent Portal'
+                                              : user['role'] == 'driver'
+                                                  ? '🛞 Driver Portal'
+                                                  : user['role'] == 'librarian'
+                                                      ? '📚 Librarian Portal'
+                                                      : '🚌 Transport Portal',
+                                      onTap: () => _autoLoginDemoUser(
                                         user['email'],
                                         user['password'],
                                       ),
@@ -413,18 +447,18 @@ class _LoginScreenState extends State<LoginScreen> {
     required IconData icon,
     required String title,
     required String email,
-    required String passwordText,
+    required String roleLabel,
     required VoidCallback onTap,
   }) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade100),
+          border: Border.all(color: const Color(0xFFEBE8FF)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.02),
@@ -441,7 +475,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: const Color(0xFFF3F0FF),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: const Color(0xFF8B78FF), size: 20),
+              child: Icon(icon, color: const Color(0xFF6C4CF1), size: 18),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -450,11 +484,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5, color: Color(0xFF1E1E2D)),
                   ),
                   Text(
                     email,
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 11.5),
                   ),
                 ],
               ),
@@ -462,15 +496,15 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFFF9F8FF),
-                borderRadius: BorderRadius.circular(4),
+                color: const Color(0xFFF3EEFF),
+                borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
-                passwordText,
+                roleLabel,
                 style: const TextStyle(
-                  color: Color(0xFF8B78FF),
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF6C4CF1),
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -480,5 +514,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-

@@ -35,4 +35,10 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  void logout() {
+    _currentUser = null;
+    _errorMessage = null;
+    notifyListeners();
+  }
 }

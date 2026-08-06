@@ -1,0 +1,41 @@
+{
+  "leaveTypes": ["Sick Leave", "Casual Leave", "Family Function", "Medical Emergency", "Other"],
+  "history": [
+    {
+      "id": "LV-2024-001",
+      "type": "Sick Leave",
+      "fromDate": "18 Jul 2024",
+      "toDate": "19 Jul 2024",
+      "days": "2 Days",
+      "reason": "High fever and viral flu under doctor prescribed rest.",
+      "status": "APPROVED",
+      "appliedOn": "17 Jul 2024",
+      "approvedBy": "Mrs. Kavita Menon (Class Teacher)",
+      "attachment": "Medical_Certificate.pdf"
+    },
+    {
+      "id": "LV-2024-002",
+      "type": "Family Function",
+      "fromDate": "05 Aug 2024",
+      "toDate": "06 Aug 2024",
+      "days": "2 Days",
+      "reason": "Attending cousin's wedding ceremony in home town.",
+      "status": "PENDING",
+      "appliedOn": "22 Jul 2024",
+      "approvedBy": "Pending Review",
+      "attachment": null
+    },
+    {
+      "id": "LV-2024-003",
+      "type": "Casual Leave",
+      "fromDate": "10 Jun 2024",
+      "toDate": "10 Jun 2024",
+      "days": "1 Day",
+      "reason": "Personal work at home.",
+      "status": "APPROVED",
+      "appliedOn": "08 Jun 2024",
+      "approvedBy": "Mrs. Kavita Menon (Class Teacher)",
+      "attachment": null
+    }
+  ]
+}

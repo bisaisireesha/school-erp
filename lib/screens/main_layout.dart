@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
+import 'auth/login_screen.dart';
 
+import '../theme/app_theme.dart';
 import 'parent_dashboard/parent_dashboard_screen.dart';
 import 'academics/academics_screen.dart';
 import 'fees/fees_screen.dart';
@@ -83,73 +87,77 @@ class _MainLayoutState extends State<MainLayout> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Fixed Top Header Row
-                Padding(
-                  padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Shield Logo
-                      _buildShieldLogo(),
-                      const SizedBox(width: 14), // Perfect spacing between logo and text
-                      // Title & Subtitle
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                // Top Header Row (72px Height, 20px side padding, 16px bottom spacing)
+                SizedBox(
+                  height: AppSpacing.headerHeight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // School Logo (44 x 44px)
+                        _buildShieldLogo(),
+                        const SizedBox(width: AppSpacing.logoTextGap),
+                        // Title & Subtitle (28px Semibold, 16px Medium)
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sunrise Academy',
+                                style: AppTypography.schoolName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                'Parent Portal',
+                                style: AppTypography.portalSubtitle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Action Buttons (44 x 44px containers, 12px spacing)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
-                              'Sunrise Academy',
-                              style: TextStyle(
-                                fontSize: 24, // Updated to 24px
-                                fontWeight: FontWeight.w800,
-                                color: Color(0xFF1E1E2D),
-                                letterSpacing: -0.5,
-                                height: 1.1,
-                              ),
+                            _buildIconButton(
+                              icon: Icons.chat_bubble_outline_rounded,
+                              badgeCount: 2,
+                              badgeColor: const Color(0xFF6C4CF1),
+                              onTap: () {},
                             ),
-                            const SizedBox(height: 2),
-                            const Text(
-                              'Parent Portal',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF4A4A68), // Darker gray
-                              ),
+                            const SizedBox(width: AppSpacing.actionIconGap),
+                            _buildIconButton(
+                              icon: Icons.notifications_none_rounded,
+                              badgeCount: 5,
+                              badgeColor: const Color(0xFFFF4B4B),
+                              onTap: () {},
                             ),
+                            const SizedBox(width: AppSpacing.actionIconGap),
+                            _buildProfileAvatar(initials: 'RS'),
                           ],
                         ),
-                      ),
-                      // Action Buttons (Chat, Bell, Profile)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _buildIconButton(
-                            icon: Icons.chat_bubble_outline_rounded,
-                            badgeCount: 2,
-                            badgeColor: const Color(0xFF6C4CF1), // Primary Purple
-                            onTap: () {},
-                          ),
-                          const SizedBox(width: 10), // Reduced spacing slightly
-                          _buildIconButton(
-                            icon: Icons.notifications_none_rounded,
-                            badgeCount: 5,
-                            badgeColor: const Color(0xFFFF4B4B),
-                            onTap: () {},
-                          ),
-                          const SizedBox(width: 10),
-                          _buildProfileAvatar(initials: 'RS'),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8),
-                // Fixed Search Bar
+                const SizedBox(height: AppSpacing.headerBottomSpacing),
+
+                // Search Bar (Height: 48px, Radius: 24px, Padding: 16px, Margin Top: 16px, Margin Bottom: 20px)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.only(
+                    left: AppSpacing.screenPadding,
+                    right: AppSpacing.screenPadding,
+                    top: AppSpacing.searchBarMarginTop,
+                    bottom: AppSpacing.searchBarMarginBottom,
+                  ),
                   child: _buildSearchBar(),
                 ),
-                const SizedBox(height: 16),
+
                 // Dynamic Scrollable Content
                 Expanded(
                   child: _subScreen ?? _screens[_currentIndex],
@@ -169,20 +177,20 @@ class _MainLayoutState extends State<MainLayout> {
   // --- Shell UI Methods ---
   Widget _buildShieldLogo() {
     return Container(
-      width: 52,
-      height: 52,
+      width: AppSpacing.logoSize,
+      height: AppSpacing.logoSize,
       alignment: Alignment.center,
       child: const Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
             top: 2,
-            child: Icon(Icons.shield, color: Color(0x336C4CF1), size: 52),
+            child: Icon(Icons.shield, color: Color(0x336C4CF1), size: 44),
           ),
-          Icon(Icons.shield, color: Color(0xFF6C4CF1), size: 52),
-          Icon(Icons.shield, color: Colors.white, size: 46),
-          Icon(Icons.shield, color: Color(0xFFFFB300), size: 40),
-          Icon(Icons.menu_book_rounded, color: Color(0xFF6C4CF1), size: 20),
+          Icon(Icons.shield, color: Color(0xFF6C4CF1), size: 44),
+          Icon(Icons.shield, color: Colors.white, size: 38),
+          Icon(Icons.shield, color: Color(0xFFFFB300), size: 32),
+          Icon(Icons.menu_book_rounded, color: Color(0xFF6C4CF1), size: 16),
         ],
       ),
     );
@@ -200,26 +208,24 @@ class _MainLayoutState extends State<MainLayout> {
         clipBehavior: Clip.none,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            width: AppSpacing.actionContainerSize,
+            height: AppSpacing.actionContainerSize,
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+              boxShadow: AppShadows.soft,
             ),
-            child: Icon(icon, color: const Color(0xFF1E1E2D), size: 22),
+            child: Icon(icon, color: const Color(0xFF1E1E2D), size: AppSpacing.headerIconSize),
           ),
           if (badgeCount > 0)
             Positioned(
-              top: -2,
-              right: -2,
+              top: 0,
+              right: 0,
               child: Container(
-                padding: const EdgeInsets.all(4),
+                width: AppSpacing.badgeSize,
+                height: AppSpacing.badgeSize,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: badgeColor,
                   shape: BoxShape.circle,
@@ -242,21 +248,66 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   Widget _buildProfileAvatar({required String initials}) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: const Color(0xFFF3F0FF),
-        shape: BoxShape.circle,
-        border: Border.all(color: const Color(0xFFECE8F8), width: 2), // Border
-      ),
-      child: Center(
-        child: Text(
-          initials,
-          style: const TextStyle(
-            color: Color(0xFF6C4CF1), // Primary Purple
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
+    return PopupMenuButton<String>(
+      onSelected: (value) {
+        if (value == 'logout') {
+          final authProvider = Provider.of<AuthProvider>(context, listen: false);
+          authProvider.logout();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            (route) => false,
+          );
+        }
+      },
+      offset: const Offset(0, 50),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        const PopupMenuItem<String>(
+          enabled: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Signed in as', style: TextStyle(fontSize: 11, color: Color(0xFF6E6E8D))),
+              Text('Parent Portal', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+            ],
+          ),
+        ),
+        const PopupMenuDivider(),
+        const PopupMenuItem<String>(
+          value: 'logout',
+          child: Row(
+            children: [
+              Icon(Icons.logout_rounded, color: Color(0xFFEF4444), size: 18),
+              SizedBox(width: 10),
+              Text(
+                'Logout',
+                style: TextStyle(
+                  color: Color(0xFFEF4444),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13.5,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+      child: Container(
+        width: AppSpacing.actionContainerSize,
+        height: AppSpacing.actionContainerSize,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF3F0FF),
+          shape: BoxShape.circle,
+          border: Border.all(color: const Color(0xFFECE8F8), width: 2),
+        ),
+        child: Center(
+          child: Text(
+            initials,
+            style: const TextStyle(
+              color: Color(0xFF6C4CF1),
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
           ),
         ),
       ),
@@ -265,27 +316,27 @@ class _MainLayoutState extends State<MainLayout> {
 
   Widget _buildSearchBar() {
     return Container(
+      height: AppSpacing.searchBarHeight,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24), // 24px radius
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.25), // Soft shadow
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(AppSpacing.searchBarRadius),
+        boxShadow: AppShadows.soft,
       ),
       child: TextField(
+        style: AppTypography.bodyText,
         decoration: InputDecoration(
           hintText: 'Search anything...',
           hintStyle: const TextStyle(color: Color(0xFF9E9E9E), fontSize: 14, fontWeight: FontWeight.w500),
-          prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF1E1E2D)), // Dark search icon
+          prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF1E1E2D), size: AppSpacing.searchIconSize),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(AppSpacing.searchBarRadius),
             borderSide: BorderSide.none,
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.searchBarPaddingHorizontal,
+            vertical: 12,
+          ),
+          isDense: true,
         ),
       ),
     );
@@ -294,12 +345,16 @@ class _MainLayoutState extends State<MainLayout> {
   Widget _buildBottomNavigationBar() {
     return SafeArea(
       child: Container(
-        height: 86,
-        margin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-        padding: const EdgeInsets.symmetric(horizontal: 22.0),
+        height: AppSpacing.bottomNavHeight,
+        margin: const EdgeInsets.only(
+          left: AppSpacing.screenPadding,
+          right: AppSpacing.screenPadding,
+          bottom: AppSpacing.lg,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(43),
+          borderRadius: BorderRadius.circular(AppRadius.card),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF1E1E2D).withValues(alpha: 0.1),
@@ -311,28 +366,36 @@ class _MainLayoutState extends State<MainLayout> {
         child: Row(
           children: [
             _buildNavItem(
-              icon: Icons.home_rounded,
-              label: 'Dashboard',
+              activeIcon: Icons.home_rounded,
+              inactiveIcon: Icons.home_outlined,
+              label: 'Home',
               isActive: _currentIndex == 0,
               index: 0,
+              size: 26.5,
             ),
             _buildNavItem(
-              icon: Icons.menu_book_rounded,
+              activeIcon: Icons.menu_book_rounded,
+              inactiveIcon: Icons.menu_book_outlined,
               label: 'Academics',
               isActive: _currentIndex == 1,
               index: 1,
+              size: 24.0,
             ),
             _buildNavItem(
-              icon: Icons.account_balance_wallet_rounded,
+              activeIcon: Icons.account_balance_wallet_rounded,
+              inactiveIcon: Icons.account_balance_wallet_outlined,
               label: 'Fees',
               isActive: _currentIndex == 2,
               index: 2,
+              size: 24.0,
             ),
             _buildNavItem(
-              icon: Icons.grid_view_rounded,
+              activeIcon: Icons.grid_view_rounded,
+              inactiveIcon: Icons.grid_view_outlined,
               label: 'More',
               isActive: _currentIndex == 3,
               index: 3,
+              size: 24.0,
             ),
           ],
         ),
@@ -340,7 +403,14 @@ class _MainLayoutState extends State<MainLayout> {
     );
   }
 
-  Widget _buildNavItem({required IconData icon, required String label, required bool isActive, required int index}) {
+  Widget _buildNavItem({
+    required IconData activeIcon,
+    required IconData inactiveIcon,
+    required String label,
+    required bool isActive,
+    required int index,
+    double size = 24.0,
+  }) {
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -350,37 +420,36 @@ class _MainLayoutState extends State<MainLayout> {
           });
         },
         behavior: HitTestBehavior.opaque,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF7A7A9D),
-              size: 24,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF7A7A9D),
-              ),
-            ),
-            if (isActive) ...[
-              const SizedBox(height: 6),
-              Container(
-                width: 18,
-                height: 3,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF6C4CF1),
-                  borderRadius: BorderRadius.circular(2),
+        child: Container(
+          color: Colors.transparent,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 26,
+                height: 26,
+                child: Center(
+                  child: Icon(
+                    isActive ? activeIcon : inactiveIcon,
+                    color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF7A7A9D),
+                    size: size,
+                  ),
                 ),
               ),
-            ] else
-              const SizedBox(height: 9),
-          ],
+              const SizedBox(height: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+                  color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF7A7A9D),
+                  height: 1.2,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

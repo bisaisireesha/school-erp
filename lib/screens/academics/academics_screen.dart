@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:math' as math;
+import '../../theme/app_theme.dart';
 
 class AcademicsScreen extends StatefulWidget {
   const AcademicsScreen({super.key});
@@ -17,47 +18,48 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: AppSpacing.lg),
           // Academic Overview
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildAcademicOverviewCard(),
-              ),
-              const SizedBox(height: 32),
-              // Subject Performance
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildSubjectPerformance(),
-              ),
-              const SizedBox(height: 32),
-              // Assignments
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildAssignmentsSection(),
-              ),
-              const SizedBox(height: 32),
-              // Upcoming Exams
-              _buildUpcomingExams(),
-              const SizedBox(height: 32),
-              // Syllabus Progress
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildSyllabusProgressSection(),
-              ),
-              const SizedBox(height: 24),
-              // Learning Resources
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildLearningResourcesSection(),
-              ),
-              const SizedBox(height: 24),
-              // Report Cards
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildReportCardsSection(),
-              ),
-        const SizedBox(height: 120), // Bottom padding for navbar
-      ],
-    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildAcademicOverviewCard(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          // Subject Performance
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildSubjectPerformance(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          // Assignments
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildAssignmentsSection(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          // Upcoming Exams
+          _buildUpcomingExams(),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          // Syllabus Progress
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildSyllabusProgressSection(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          // Learning Resources
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildLearningResourcesSection(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          // Report Cards
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildReportCardsSection(),
+          ),
+          const SizedBox(height: 120), // Bottom padding for navbar
+        ],
+      ),
     );
   }
 
@@ -935,15 +937,18 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             ],
           ),
           const SizedBox(height: 24),
-          GridView.count(
-            crossAxisCount: 2,
+          GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 1.85,
+            itemCount: reportCardsData.length,
             padding: EdgeInsets.zero,
-            children: reportCardsData.map((data) => _buildReportCard(data)).toList(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              mainAxisExtent: 80,
+            ),
+            itemBuilder: (context, index) => _buildReportCard(reportCardsData[index]),
           ),
           const SizedBox(height: 16),
           Row(

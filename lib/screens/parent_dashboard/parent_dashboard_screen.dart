@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import '../../theme/app_theme.dart';
 
 class ParentDashboardScreen extends StatefulWidget {
   const ParentDashboardScreen({super.key});
@@ -15,45 +16,45 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
           // Dashboard Body Content
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildAkshaarDashboardCard(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildHighlightsSection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildTodaysActivitySection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildPriorityOverviewSection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildAttendanceSummarySection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildUpcomingEventsSection(),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildQuickActionsSection(),
-                    ),
-        const SizedBox(height: 120), // Bottom padding for navbar
-      ],
-    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildAkshaarDashboardCard(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildHighlightsSection(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildTodaysActivitySection(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildPriorityOverviewSection(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildAttendanceSummarySection(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildUpcomingEventsSection(),
+          ),
+          const SizedBox(height: AppSpacing.sectionSpacing),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+            child: _buildQuickActionsSection(),
+          ),
+          const SizedBox(height: 120), // Bottom padding for navbar
+        ],
+      ),
     );
   }
 
@@ -395,6 +396,17 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     );
   }
 
+  final List<Map<String, dynamic>> _quickActionItems = const [
+    {'icon': Icons.people_outline_rounded, 'label': 'My Children'},
+    {'icon': Icons.event_available_outlined, 'label': 'Attendance'},
+    {'icon': Icons.assignment_outlined, 'label': 'Grades'},
+    {'icon': Icons.menu_book_rounded, 'label': 'Homework'},
+    {'icon': Icons.calendar_today_outlined, 'label': 'Events'},
+    {'icon': Icons.campaign_outlined, 'label': 'Notices'},
+    {'icon': Icons.directions_bus_outlined, 'label': 'Transport'},
+    {'icon': Icons.account_balance_wallet_outlined, 'label': 'Fees & Payments'},
+  ];
+
   Widget _buildQuickActionsSection() {
     return Container(
       width: double.infinity,
@@ -416,24 +428,21 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
         children: [
           const Text('Quick Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
           const SizedBox(height: 24),
-          GridView.count(
-            crossAxisCount: 4,
+          GridView.builder(
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 24,
-            crossAxisSpacing: 8,
-            childAspectRatio: 0.8,
-            children: [
-              _buildActionItem(Icons.people_outline_rounded, 'My Children'),
-              _buildActionItem(Icons.event_available_outlined, 'Attendance'),
-              _buildActionItem(Icons.assignment_outlined, 'Grades'),
-              _buildActionItem(Icons.menu_book_rounded, 'Homework'),
-              _buildActionItem(Icons.calendar_today_outlined, 'Events'),
-              _buildActionItem(Icons.campaign_outlined, 'Notices'),
-              _buildActionItem(Icons.directions_bus_outlined, 'Transport'),
-              _buildActionItem(Icons.account_balance_wallet_outlined, 'Fees & Payments'),
-            ],
+            itemCount: _quickActionItems.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 24,
+              mainAxisExtent: 100,
+            ),
+            itemBuilder: (context, index) {
+              final item = _quickActionItems[index];
+              return _buildActionItem(item['icon'] as IconData, item['label'] as String);
+            },
           ),
         ],
       ),
@@ -453,7 +462,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
           ),
           child: Icon(icon, color: const Color(0xFF6C4CF1), size: 26),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
         Text(
           label,
           textAlign: TextAlign.center,

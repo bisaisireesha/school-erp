@@ -1,0 +1,316 @@
+{
+  "studentProfile": {
+    "name": "Alex Vance",
+    "studentId": "STU-2024-8842",
+    "gradeClass": "Class 10-A",
+    "rollNo": 24,
+    "section": "A",
+    "academicYear": "2024 - 2025",
+    "schoolName": "Sunrise International Academy",
+    "house": "Phoenix House",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400"
+  },
+  "quickStats": {
+    "attendance": 94.5,
+    "pendingAssignments": 3,
+    "nextExamDays": 2,
+    "libraryBooksDue": 1,
+    "gpa": "3.9 / 4.0"
+  },
+  "subjects": [
+    {
+      "id": "SUB-101",
+      "name": "Mathematics",
+      "code": "MATH-10",
+      "teacher": "Dr. Sarah Jenkins",
+      "progress": 78,
+      "color": "0xFF6C4CF1",
+      "icon": "calculator",
+      "syllabusCompleted": "14 of 18 Chapters",
+      "topics": ["Quadratic Equations", "Trigonometry", "Coordinate Geometry", "Probability"]
+    },
+    {
+      "id": "SUB-102",
+      "name": "Physics",
+      "code": "PHYS-10",
+      "teacher": "Prof. Robert Lang",
+      "progress": 82,
+      "color": "0xFF3B82F6",
+      "icon": "atom",
+      "syllabusCompleted": "12 of 15 Chapters",
+      "topics": ["Light Reflection & Refraction", "Electricity", "Magnetic Effects", "Sources of Energy"]
+    },
+    {
+      "id": "SUB-103",
+      "name": "Chemistry",
+      "code": "CHEM-10",
+      "teacher": "Mrs. Clara Oswald",
+      "progress": 70,
+      "color": "0xFF10B981",
+      "icon": "flaskConical",
+      "syllabusCompleted": "10 of 14 Chapters",
+      "topics": ["Chemical Reactions", "Acids, Bases & Salts", "Carbon Compounds", "Periodic Classification"]
+    },
+    {
+      "id": "SUB-104",
+      "name": "English Literature",
+      "code": "ENG-10",
+      "teacher": "Mr. David Miller",
+      "progress": 90,
+      "color": "0xFFF59E0B",
+      "icon": "bookOpen",
+      "syllabusCompleted": "18 of 20 Chapters",
+      "topics": ["First Flight: Prose & Poetry", "Footprints Without Feet", "Grammar & Essays"]
+    },
+    {
+      "id": "SUB-105",
+      "name": "Computer Science",
+      "code": "CS-10",
+      "teacher": "Ms. Anita Roy",
+      "progress": 95,
+      "color": "0xFFEC4899",
+      "icon": "code",
+      "syllabusCompleted": "19 of 20 Chapters",
+      "topics": ["Python Basics", "Data Structures", "Cyber Ethics", "Database & SQL"]
+    },
+    {
+      "id": "SUB-106",
+      "name": "Social Studies",
+      "code": "SST-10",
+      "teacher": "Mr. Rajesh Sharma",
+      "progress": 75,
+      "color": "0xFF8B5CF6",
+      "icon": "globe",
+      "syllabusCompleted": "15 of 20 Chapters",
+      "topics": ["History of Modern India", "Democracy & Governance", "Economic Development"]
+    }
+  ],
+  "attendance": {
+    "overall": 94.5,
+    "presentDays": 120,
+    "absentDays": 5,
+    "leaveDays": 2,
+    "totalDays": 127,
+    "monthlySummary": [
+      { "month": "Apr", "percentage": 96 },
+      { "month": "May", "percentage": 98 },
+      { "month": "Jun", "percentage": 92 },
+      { "month": "Jul", "percentage": 94.5 }
+    ],
+    "subjectBreakdown": [
+      { "subject": "Mathematics", "attended": 42, "total": 45, "percentage": 93.3 },
+      { "subject": "Physics", "attended": 38, "total": 40, "percentage": 95.0 },
+      { "subject": "Chemistry", "attended": 35, "total": 38, "percentage": 92.1 },
+      { "subject": "English", "attended": 40, "total": 40, "percentage": 100.0 },
+      { "subject": "Computer Science", "attended": 36, "total": 37, "percentage": 97.3 }
+    ]
+  },
+  "homework": [
+    {
+      "id": "HW-001",
+      "subject": "Mathematics",
+      "title": "Quadratic Equations Exercise 4.2",
+      "desc": "Solve problems 1 to 12 from textbook page 84. Show all working steps.",
+      "dueDate": "2024-07-29",
+      "status": "Pending",
+      "teacher": "Dr. Sarah Jenkins",
+      "priority": "High"
+    },
+    {
+      "id": "HW-002",
+      "subject": "Physics",
+      "title": "Ray Diagrams & Lens Equation",
+      "desc": "Draw ray diagrams for concave & convex lenses with different object positions.",
+      "dueDate": "2024-07-30",
+      "status": "Pending",
+      "teacher": "Prof. Robert Lang",
+      "priority": "Medium"
+    },
+    {
+      "id": "HW-003",
+      "subject": "Computer Science",
+      "title": "Python Dictionary Program",
+      "desc": "Write a Python script to manage student marks dictionary and calculate averages.",
+      "dueDate": "2024-07-31",
+      "status": "Pending",
+      "teacher": "Ms. Anita Roy",
+      "priority": "Normal"
+    },
+    {
+      "id": "HW-004",
+      "subject": "English",
+      "title": "Essay on Environmental Conservation",
+      "desc": "Write a 500-word argumentative essay on plastic waste management.",
+      "dueDate": "2024-07-25",
+      "status": "Submitted",
+      "grade": "A+",
+      "teacher": "Mr. David Miller",
+      "remarks": "Excellent arguments and vocabulary!"
+    }
+  ],
+  "exams": {
+    "upcoming": [
+      {
+        "id": "EXAM-101",
+        "name": "Mid-Term Mathematics Exam",
+        "subject": "Mathematics",
+        "date": "2024-07-31",
+        "time": "09:00 AM - 11:30 AM",
+        "room": "Hall 3B",
+        "maxMarks": 100,
+        "syllabus": "Chapters 1 to 6 (Algebra, Geometry & Trigonometry)"
+      },
+      {
+        "id": "EXAM-102",
+        "name": "Physics Practical & Theory",
+        "subject": "Physics",
+        "date": "2024-08-02",
+        "time": "10:00 AM - 12:00 PM",
+        "room": "Physics Lab 2",
+        "maxMarks": 80,
+        "syllabus": "Light Optics, Electricity & Magnetism"
+      }
+    ],
+    "results": [
+      {
+        "examName": "First Term Examination 2024",
+        "totalScore": "472 / 500",
+        "percentage": 94.4,
+        "rank": "Rank #3",
+        "subjectMarks": [
+          { "subject": "Mathematics", "marks": 96, "total": 100, "grade": "A+" },
+          { "subject": "Physics", "marks": 92, "total": 100, "grade": "A+" },
+          { "subject": "Chemistry", "marks": 90, "total": 100, "grade": "A" },
+          { "subject": "English", "marks": 95, "total": 100, "grade": "A+" },
+          { "subject": "Computer Science", "marks": 99, "total": 100, "grade": "O" }
+        ]
+      }
+    ]
+  },
+  "timetable": {
+    "today": "Monday",
+    "periods": [
+      { "period": 1, "time": "08:30 AM - 09:15 AM", "subject": "Mathematics", "teacher": "Dr. Sarah Jenkins", "room": "Room 102", "active": true },
+      { "period": 2, "time": "09:15 AM - 10:00 AM", "subject": "Physics", "teacher": "Prof. Robert Lang", "room": "Physics Lab 1", "active": false },
+      { "period": 3, "time": "10:00 AM - 10:45 AM", "subject": "English", "teacher": "Mr. David Miller", "room": "Room 102", "active": false },
+      { "period": "Break", "time": "10:45 AM - 11:15 AM", "subject": "Recess / Snack Break", "teacher": "-", "room": "Cafeteria", "active": false },
+      { "period": 4, "time": "11:15 AM - 12:00 PM", "subject": "Chemistry", "teacher": "Mrs. Clara Oswald", "room": "Chemistry Lab", "active": false },
+      { "period": 5, "time": "12:00 PM - 12:45 PM", "subject": "Computer Science", "teacher": "Ms. Anita Roy", "room": "CS Lab 3", "active": false }
+    ]
+  },
+  "fees": {
+    "totalAnnualFee": "₹75,000",
+    "paidAmount": "₹50,000",
+    "pendingAmount": "₹25,000",
+    "nextDueDate": "2024-08-15",
+    "installments": [
+      { "name": "Term 1 Tuition Fee", "amount": "₹25,000", "dueDate": "2024-04-10", "status": "Paid", "receiptNo": "RCP-2024-098" },
+      { "name": "Term 2 Tuition Fee", "amount": "₹25,000", "dueDate": "2024-07-10", "status": "Paid", "receiptNo": "RCP-2024-412" },
+      { "name": "Term 3 Tuition & Lab Fee", "amount": "₹25,000", "dueDate": "2024-08-15", "status": "Pending", "receiptNo": "-" }
+    ]
+  },
+  "messages": [
+    {
+      "id": "MSG-01",
+      "sender": "Dr. Sarah Jenkins (Class Teacher)",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100",
+      "lastMessage": "Please review the updated trigonometry notes before tomorrow's test.",
+      "time": "10:30 AM",
+      "unread": true
+    },
+    {
+      "id": "MSG-02",
+      "sender": "Ms. Anita Roy (CS Teacher)",
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100",
+      "lastMessage": "Your Python project submission was graded. Great job!",
+      "time": "Yesterday",
+      "unread": false
+    },
+    {
+      "id": "MSG-03",
+      "sender": "School Sports Committee",
+      "avatar": "https://images.unsplash.com/photo-1517649763962-0c623266010b?w=100",
+      "lastMessage": "Annual Sports Trials start this Friday at 3:30 PM.",
+      "time": "23 Jul",
+      "unread": false
+    }
+  ],
+  "events": [
+    {
+      "id": "EVT-101",
+      "title": "Inter-School Science Olympiad 2024",
+      "date": "2024-08-05",
+      "category": "Event",
+      "location": "Main Auditorium",
+      "description": "Annual science competition featuring robotics & eco-projects."
+    },
+    {
+      "id": "EVT-102",
+      "title": "Independence Day Cultural Fest",
+      "date": "2024-08-15",
+      "category": "Holiday",
+      "location": "School Campus Ground",
+      "description": "Flag hoisting followed by cultural performances by students."
+    }
+  ],
+  "library": {
+    "borrowedBooks": [
+      {
+        "title": "Concepts of Physics (Vol 1)",
+        "author": "H.C. Verma",
+        "borrowDate": "2024-07-10",
+        "dueDate": "2024-07-28",
+        "daysRemaining": 1,
+        "bookCode": "BK-PHYS-984"
+      }
+    ],
+    "savedEbooks": [
+      { "title": "NCERT Mathematics Class 10 PDF", "subject": "Maths", "size": "14.2 MB" },
+      { "title": "Organic Chemistry Fundamentals", "subject": "Chemistry", "size": "8.5 MB" }
+    ]
+  },
+  "leaveRequests": [
+    {
+      "id": "LV-092",
+      "reason": "Fever & Medical Checkup",
+      "startDate": "2024-07-12",
+      "endDate": "2024-07-13",
+      "status": "Approved",
+      "appliedOn": "2024-07-11"
+    }
+  ],
+  "transport": {
+    "routeName": "Route 14B - North Campus Express",
+    "busNumber": "KA-01-EQ-9876",
+    "driverName": "Mr. Ramesh Kumar",
+    "driverPhone": "+91 98765 43210",
+    "pickupPoint": "Maple Street Gate 2",
+    "pickupTime": "07:35 AM",
+    "dropTime": "03:45 PM",
+    "status": "Bus On Route - 2.5 km away"
+  },
+  "hostel": {
+    "roomNo": "Room 302",
+    "block": "Block B (Senior Boys)",
+    "roommate": "Julian Croft (Class 10-B)",
+    "wardenName": "Mr. Kenneth Powell",
+    "messMenuToday": {
+      "breakfast": "Puri Bhaji, Fruits, Milk & Tea",
+      "lunch": "Paneer Butter Masala, Dal Tadka, Rice, Roti, Salad",
+      "snacks": "Samosa, Mint Chutney, Tea / Coffee",
+      "dinner": "Veg Biryani, Raita, Gulab Jamun"
+    }
+  },
+  "services": [
+    { "title": "ID Card Replacement", "desc": "Request new physical ID card", "status": "Active" },
+    { "title": "Bonafide Certificate", "desc": "Official student bonafide letter", "status": "Ready for Download" },
+    { "title": "Canteen Wallet Balance", "desc": "Current balance: ₹450", "status": "Top-up" },
+    { "title": "IT & Wi-Fi Helpdesk", "desc": "Campus Wi-Fi login support", "status": "Active" }
+  ],
+  "studyMaterial": [
+    { "subject": "Mathematics", "title": "Trigonometry Master Formula Sheet", "type": "PDF", "size": "2.4 MB" },
+    { "subject": "Physics", "title": "Light & Optics Animated Lecture", "type": "Video", "duration": "24 mins" },
+    { "subject": "Chemistry", "title": "Chemical Reactions Lab Experiment Video", "type": "Video", "duration": "18 mins" },
+    { "subject": "Computer Science", "title": "Python Top 50 Coding Questions", "type": "PDF", "size": "4.1 MB" }
+  ]
+}

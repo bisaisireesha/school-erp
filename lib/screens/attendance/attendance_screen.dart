@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../../theme/app_theme.dart';
 
 class AttendanceScreen extends StatefulWidget {
   final VoidCallback onBack;
@@ -22,20 +23,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: widget.onBack,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-                    ),
-                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                AppBackButton(onPressed: widget.onBack),
+                const SizedBox(width: AppSpacing.md),
+                const Expanded(
+                  child: Text(
+                    'Attendance',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 16),
-                const Text('Attendance', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
               ],
             ),
           ),

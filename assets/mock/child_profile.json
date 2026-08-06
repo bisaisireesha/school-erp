@@ -1,0 +1,78 @@
+{
+  "header": {
+    "name": "Akshara Sharma",
+    "avatar": "",
+    "initials": "AS",
+    "studentId": "STU2024-8942",
+    "classSection": "Grade 5-C",
+    "rollNo": "18",
+    "academicYear": "2024-2025",
+    "status": "Active"
+  },
+  "personalInformation": {
+    "dob": "14 May 2014",
+    "gender": "Female",
+    "bloodGroup": "O+",
+    "nationality": "Indian",
+    "motherTongue": "Hindi",
+    "address": "42-B, Sunrise Avenue, Jubilee Hills, Hyderabad - 500033"
+  },
+  "parentGuardianDetails": {
+    "fatherName": "Rajesh Sharma",
+    "fatherOccupation": "Senior Software Architect",
+    "fatherPhone": "+91 98765 43210",
+    "fatherEmail": "rajesh.sharma@example.com",
+    "motherName": "Sunita Sharma",
+    "motherOccupation": "Assistant Professor",
+    "motherPhone": "+91 98765 12345",
+    "motherEmail": "sunita.sharma@example.com"
+  },
+  "emergencyContacts": [
+    {
+      "name": "Rajesh Sharma (Father)",
+      "relation": "Primary",
+      "phone": "+91 98765 43210"
+    },
+    {
+      "name": "Dr. Ramesh Verma (Uncle)",
+      "relation": "Secondary",
+      "phone": "+91 91234 56789"
+    }
+  ],
+  "medicalInformation": {
+    "allergies": "Peanuts, Dust Allergies",
+    "chronicConditions": "None",
+    "bloodGroup": "O+",
+    "doctorName": "Dr. A. K. Rao",
+    "doctorPhone": "+91 99887 76655"
+  },
+  "authorizedPickup": [
+    {
+      "name": "Rajesh Sharma",
+      "relation": "Father",
+      "phone": "+91 98765 43210"
+    },
+    {
+      "name": "Sunita Sharma",
+      "relation": "Mother",
+      "phone": "+91 98765 12345"
+    }
+  ],
+  "documents": [
+    {
+      "title": "Birth Certificate.pdf",
+      "size": "1.2 MB",
+      "status": "Verified"
+    },
+    {
+      "title": "Aadhaar Card.pdf",
+      "size": "850 KB",
+      "status": "Verified"
+    },
+    {
+      "title": "Medical Fitness Certificate.pdf",
+      "size": "2.1 MB",
+      "status": "Verified"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "emergency": {
+    "officeName": "Transport Control Office",
+    "phone": "+91 80 4567 8900",
+    "workingHours": "6:00 AM - 7:30 PM"
+  },
+  "routeOverview": {
+    "routeName": "Route 12 · North Loop",
+    "busNumber": "KA 01 F 8921",
+    "status": "On Time",
+    "eta": "12 mins",
+    "driverName": "Rajesh Kumar",
+    "driverPhone": "+91 98450 12345",
+    "attendantName": "Sunil V."
+  },
+  "routeMap": {
+    "currentLocation": "MG Road Crossing",
+    "speed": "28 km/h",
+    "stops": [
+      { "id": "1", "name": "Sunrise Academy Campus", "type": "Start", "status": "Visited", "time": "07:15 AM" },
+      { "id": "2", "name": "Indiranagar 100ft Rd", "type": "Stop", "status": "Visited", "time": "07:30 AM" },
+      { "id": "3", "name": "MG Road Crossing", "type": "Stop", "status": "Current", "time": "07:42 AM" },
+      { "id": "4", "name": "Jubilee Hills Circle (Home)", "type": "Pickup/Drop", "status": "Upcoming", "time": "07:55 AM" },
+      { "id": "5", "name": "Banjara Hills Gate 3", "type": "Stop", "status": "Upcoming", "time": "08:10 AM" }
+    ]
+  },
+  "schedule": [
+    { "stop": "Sunrise Academy Campus", "time": "07:15 AM", "status": "Completed", "isNext": false },
+    { "stop": "Indiranagar 100ft Rd", "time": "07:30 AM", "status": "Completed", "isNext": false },
+    { "stop": "MG Road Crossing", "time": "07:42 AM", "status": "Current", "isNext": false },
+    { "stop": "Jubilee Hills Circle (Home)", "time": "07:55 AM", "status": "Upcoming", "isNext": true },
+    { "stop": "Banjara Hills Gate 3", "time": "08:10 AM", "status": "Upcoming", "isNext": false }
+  ]
+}

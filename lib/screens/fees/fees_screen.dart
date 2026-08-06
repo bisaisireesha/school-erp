@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:math';
+import '../../theme/app_theme.dart';
 
 class FeesScreen extends StatefulWidget {
   const FeesScreen({super.key});
@@ -19,31 +20,31 @@ class _FeesScreenState extends State<FeesScreen> {
         if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
         final data = json.decode(snapshot.data!);
         return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 24),
-                            _buildOutstandingBalanceCard(data['outstandingBalance']),
-                            const SizedBox(height: 20),
-                            _buildSummaryCards(data['summary']),
-                            const SizedBox(height: 20),
-                            _buildPaymentProgress(data['progress']),
-                            const SizedBox(height: 20),
-                            _buildUpcomingPayments(data['upcomingPayments']),
-                            const SizedBox(height: 20),
-                            _buildPaymentHistory(data['paymentHistory']),
-                            const SizedBox(height: 20),
-                            _buildFeeBreakdown(data['feeBreakdown'], data['progress']['paid'], data['outstandingBalance']['amount']),
-                            const SizedBox(height: 20),
-                            _buildRecentReceipts(data['recentReceipts']),
-                            const SizedBox(height: 20),
-                            if (data['scholarships'] != null)
-                              ...data['scholarships'].map<Widget>((s) => Padding(
-                                padding: const EdgeInsets.only(bottom: 20.0),
-                                child: _buildScholarshipCard(s),
-                              )),
-                            _buildFineDetails(data['fineDetails']),
+              const SizedBox(height: AppSpacing.sectionSpacing),
+              _buildOutstandingBalanceCard(data['outstandingBalance']),
+              const SizedBox(height: AppSpacing.sectionSpacing),
+              _buildSummaryCards(data['summary']),
+              const SizedBox(height: AppSpacing.sectionSpacing),
+              _buildPaymentProgress(data['progress']),
+              const SizedBox(height: AppSpacing.sectionSpacing),
+              _buildUpcomingPayments(data['upcomingPayments']),
+              const SizedBox(height: AppSpacing.sectionSpacing),
+              _buildPaymentHistory(data['paymentHistory']),
+              const SizedBox(height: AppSpacing.sectionSpacing),
+              _buildFeeBreakdown(data['feeBreakdown'], data['progress']['paid'], data['outstandingBalance']['amount']),
+              const SizedBox(height: AppSpacing.sectionSpacing),
+              _buildRecentReceipts(data['recentReceipts']),
+              const SizedBox(height: AppSpacing.sectionSpacing),
+              if (data['scholarships'] != null)
+                ...data['scholarships'].map<Widget>((s) => Padding(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.sectionSpacing),
+                  child: _buildScholarshipCard(s),
+                )),
+              _buildFineDetails(data['fineDetails']),
               const SizedBox(height: 120), // Bottom padding for navbar
             ],
           ),

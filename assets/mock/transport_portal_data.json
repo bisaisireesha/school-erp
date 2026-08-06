@@ -1,0 +1,283 @@
+{
+  "quickStats": {
+    "totalVehicles": 20,
+    "vehiclesOnRoute": 18,
+    "driversOnDuty": 18,
+    "studentsAssigned": 640,
+    "fleetUtilization": "90%",
+    "activeStaff": 24,
+    "onTimeRate": 98.4,
+    "pendingFeesCount": 14,
+    "complianceAlerts": 2
+  },
+  "vehicles": [
+    {
+      "busNo": "BUS-01",
+      "type": "Bus",
+      "model": "Tata Starbus 40-Seater",
+      "driver": "Rajesh Kumar",
+      "capacity": 40,
+      "occupied": 38,
+      "route": "Route 1 - Green Glen",
+      "status": "On Route",
+      "fuel": "82%",
+      "gpsStatus": "Live - Moving",
+      "speed": "34 km/h",
+      "compliance": "Valid"
+    },
+    {
+      "busNo": "VAN-04",
+      "type": "Van",
+      "model": "Force Traveler 14-Seater",
+      "driver": "Anil Verma",
+      "capacity": 14,
+      "occupied": 12,
+      "route": "Route 4 - Royal Palms",
+      "status": "On Route",
+      "fuel": "90%",
+      "gpsStatus": "Live - Moving",
+      "speed": "22 km/h",
+      "compliance": "Valid"
+    },
+    {
+      "busNo": "BUS-02",
+      "type": "Bus",
+      "model": "Eicher Skyline Pro",
+      "driver": "Suresh Patel",
+      "capacity": 35,
+      "occupied": 32,
+      "route": "Route 2 - Sunrise Hills",
+      "status": "On Route",
+      "fuel": "65%",
+      "gpsStatus": "Live - Stopped at Stop 4",
+      "speed": "0 km/h",
+      "compliance": "Valid"
+    },
+    {
+      "busNo": "BUS-03",
+      "type": "Bus",
+      "model": "Ashok Leyland Sunshine",
+      "driver": "Vikram Singh",
+      "capacity": 45,
+      "occupied": 0,
+      "route": "Route 3 - Metro Square",
+      "status": "Idle",
+      "fuel": "45%",
+      "gpsStatus": "In Depot",
+      "speed": "0 km/h",
+      "compliance": "Renewal Due (5 Days)"
+    }
+  ],
+  "drivers": [
+    {
+      "name": "Rajesh Kumar",
+      "licenseNo": "DL-14201100982",
+      "phone": "+91 98765 43210",
+      "assignedBus": "BUS-01",
+      "route": "Route 1 - Green Glen",
+      "experience": "12 Years",
+      "rating": 4.9,
+      "status": "Active"
+    },
+    {
+      "name": "Suresh Patel",
+      "licenseNo": "DL-09201500341",
+      "phone": "+91 98765 43211",
+      "assignedBus": "BUS-02",
+      "route": "Route 2 - Sunrise Hills",
+      "experience": "8 Years",
+      "rating": 4.8,
+      "status": "Active"
+    },
+    {
+      "name": "Vikram Singh",
+      "licenseNo": "DL-03201200762",
+      "phone": "+91 98765 43212",
+      "assignedBus": "BUS-03",
+      "route": "Route 3 - Metro Square",
+      "experience": "10 Years",
+      "rating": 4.7,
+      "status": "Active"
+    },
+    {
+      "name": "Anil Verma",
+      "licenseNo": "DL-08201800119",
+      "phone": "+91 98765 43213",
+      "assignedBus": "VAN-04",
+      "route": "Route 4 - Royal Palms",
+      "experience": "6 Years",
+      "rating": 4.9,
+      "status": "Active"
+    }
+  ],
+  "compliance": [
+    {
+      "busNo": "BUS-01",
+      "item": "Fitness Certificate",
+      "expiry": "14 Nov 2026",
+      "status": "Valid",
+      "authority": "RTO West"
+    },
+    {
+      "busNo": "BUS-03",
+      "item": "Pollution Check (PUC)",
+      "expiry": "02 Aug 2026",
+      "status": "Warning",
+      "authority": "Eco Check Center"
+    },
+    {
+      "busNo": "BUS-02",
+      "item": "Vehicle Insurance",
+      "expiry": "28 Dec 2026",
+      "status": "Valid",
+      "authority": "National Insurance"
+    },
+    {
+      "busNo": "VAN-04",
+      "item": "Speed Governor Calibration",
+      "expiry": "15 Sep 2026",
+      "status": "Valid",
+      "authority": "Govt Inspectorate"
+    }
+  ],
+  "routes": [
+    {
+      "id": "R-01",
+      "name": "Route 1 - Green Glen",
+      "stopsCount": 8,
+      "distance": "14.2 km",
+      "bus": "BUS-01",
+      "morningTime": "07:15 AM - 08:05 AM",
+      "eveningTime": "03:30 PM - 04:20 PM",
+      "status": "Active"
+    },
+    {
+      "id": "R-02",
+      "name": "Route 2 - Sunrise Hills",
+      "stopsCount": 6,
+      "distance": "11.8 km",
+      "bus": "BUS-02",
+      "morningTime": "07:25 AM - 08:10 AM",
+      "eveningTime": "03:30 PM - 04:15 PM",
+      "status": "Active"
+    },
+    {
+      "id": "R-03",
+      "name": "Route 3 - Metro Square",
+      "stopsCount": 10,
+      "distance": "18.5 km",
+      "bus": "BUS-03",
+      "morningTime": "07:00 AM - 08:05 AM",
+      "eveningTime": "03:30 PM - 04:35 PM",
+      "status": "Active"
+    }
+  ],
+  "studentAssignments": [
+    {
+      "name": "Aarav Sharma",
+      "grade": "10-A",
+      "route": "Route 1",
+      "stop": "Green Glen Gate 2",
+      "busNo": "BUS-01",
+      "pickTime": "07:25 AM",
+      "feeStatus": "Paid"
+    },
+    {
+      "name": "Ananya Verma",
+      "grade": "8-B",
+      "route": "Route 2",
+      "stop": "Sunrise Club House",
+      "busNo": "BUS-02",
+      "pickTime": "07:35 AM",
+      "feeStatus": "Paid"
+    },
+    {
+      "name": "Rohan Gupta",
+      "grade": "9-C",
+      "route": "Route 3",
+      "stop": "Metro Pillar 104",
+      "busNo": "BUS-03",
+      "pickTime": "07:15 AM",
+      "feeStatus": "Pending"
+    },
+    {
+      "name": "Diya Patel",
+      "grade": "11-A",
+      "route": "Route 1",
+      "stop": "Oakridge Apartments",
+      "busNo": "BUS-01",
+      "pickTime": "07:30 AM",
+      "feeStatus": "Paid"
+    }
+  ],
+  "fees": {
+    "totalCollected": "₹ 14,80,000",
+    "totalPending": "₹ 1,40,000",
+    "term": "Term 2 (2026-27)",
+    "records": [
+      {
+        "student": "Aarav Sharma",
+        "rollNo": "24",
+        "route": "Route 1",
+        "amount": "₹ 12,500",
+        "status": "Paid",
+        "date": "10 Jul 2026"
+      },
+      {
+        "student": "Rohan Gupta",
+        "rollNo": "18",
+        "route": "Route 3",
+        "amount": "₹ 14,000",
+        "status": "Pending",
+        "date": "Due 30 Jul 2026"
+      },
+      {
+        "student": "Ananya Verma",
+        "rollNo": "05",
+        "route": "Route 2",
+        "amount": "₹ 11,000",
+        "status": "Paid",
+        "date": "15 Jul 2026"
+      }
+    ]
+  },
+  "messages": [
+    {
+      "sender": "Transport Office",
+      "title": "Route 3 Delay Advisory",
+      "body": "Route 3 delayed by 10 mins due to roadwork near Metro Square.",
+      "time": "Today, 07:10 AM",
+      "type": "Broadcast"
+    },
+    {
+      "sender": "Rajesh Kumar (Driver BUS-01)",
+      "title": "Fuel Refill Update",
+      "body": "BUS-01 tank refilled to 100% at HP Station.",
+      "time": "Yesterday, 05:40 PM",
+      "type": "Driver Alert"
+    }
+  ],
+  "events": [
+    {
+      "title": "Quarterly Fleet Safety Inspection",
+      "date": "05 Aug 2026",
+      "time": "09:00 AM",
+      "location": "School Transport Yard",
+      "type": "Audit"
+    },
+    {
+      "title": "BUS-03 Scheduled Oil & Brake Service",
+      "date": "08 Aug 2026",
+      "time": "02:00 PM",
+      "location": "Tata Authorized Workshop",
+      "type": "Maintenance"
+    },
+    {
+      "title": "Driver Refresher Safety Training",
+      "date": "12 Aug 2026",
+      "time": "10:30 AM",
+      "location": "Main Auditorium",
+      "type": "Training"
+    }
+  ]
+}

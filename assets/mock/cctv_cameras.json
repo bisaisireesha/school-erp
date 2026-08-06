@@ -1,0 +1,40 @@
+{
+  "infoBanner": {
+    "hours": "8:30 AM - 3:30 PM",
+    "notice": "Live streaming is active strictly during school hours for student safety & privacy."
+  },
+  "cameras": [
+    {
+      "id": "cam_1",
+      "name": "Classroom 5-C Camera 1",
+      "location": "Academic Block A · 2nd Floor",
+      "status": "LIVE",
+      "resolution": "1080p HD",
+      "fps": "30 FPS"
+    },
+    {
+      "id": "cam_2",
+      "name": "Classroom 5-C Camera 2",
+      "location": "Academic Block A · 2nd Floor",
+      "status": "LIVE",
+      "resolution": "1080p HD",
+      "fps": "30 FPS"
+    },
+    {
+      "id": "cam_3",
+      "name": "Main Playground & Sports Arena",
+      "location": "Outdoor Area · South Wing",
+      "status": "LIVE",
+      "resolution": "720p HD",
+      "fps": "25 FPS"
+    },
+    {
+      "id": "cam_4",
+      "name": "School Dining Hall / Cafeteria",
+      "location": "Central Block · Ground Floor",
+      "status": "OFFLINE",
+      "resolution": "1080p HD",
+      "fps": "0 FPS"
+    }
+  ]
+}
