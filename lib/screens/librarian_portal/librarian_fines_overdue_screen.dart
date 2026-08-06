@@ -22,6 +22,8 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
   String _searchQuery = '';
   String _activeFilter = 'All'; // All, Pending, Paid
 
+  Map<String, dynamic>? _selectedDetailItem;
+
   late List<Map<String, dynamic>> _overdueItems;
   late List<Map<String, dynamic>> _recentlyCollected;
 
@@ -41,11 +43,20 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
         "memberId": "STU-8842",
         "className": "Grade 10-A",
         "bookTitle": "Fundamentals of Physics",
+        "author": "H. C. Verma",
+        "isbn": "978-0-123456-78-9",
+        "category": "Science / Physics",
         "dueDate": "02 Aug 2026",
         "daysOverdue": 4,
+        "fineRate": 10,
         "fineAmount": 40,
         "status": "Pending",
         "phone": "+91 98765 43210",
+        "history": [
+          {"event": "Book Issued", "date": "19 Jul 2026, 10:30 AM"},
+          {"event": "Due Date Passed", "date": "02 Aug 2026, 11:59 PM"},
+          {"event": "Overdue Notice Sent", "date": "03 Aug 2026, 09:00 AM"},
+        ]
       },
       {
         "id": "OD-102",
@@ -53,11 +64,20 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
         "memberId": "STU-9102",
         "className": "Grade 12-B",
         "bookTitle": "Organic Chemistry Vol 2",
+        "author": "O. P. Tandon",
+        "isbn": "978-0-987654-32-1",
+        "category": "Chemistry",
         "dueDate": "01 Aug 2026",
         "daysOverdue": 5,
+        "fineRate": 10,
         "fineAmount": 50,
         "status": "Pending",
         "phone": "+91 98765 43211",
+        "history": [
+          {"event": "Book Issued", "date": "18 Jul 2026, 02:15 PM"},
+          {"event": "Due Date Passed", "date": "01 Aug 2026, 11:59 PM"},
+          {"event": "Overdue Reminder Sent", "date": "02 Aug 2026, 10:00 AM"},
+        ]
       },
       {
         "id": "OD-103",
@@ -65,11 +85,21 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
         "memberId": "STU-7751",
         "className": "Grade 9-C",
         "bookTitle": "World History Encyclopedia",
+        "author": "Philip Parker",
+        "isbn": "978-1-405341-23-4",
+        "category": "Social Studies",
         "dueDate": "28 Jul 2026",
         "daysOverdue": 9,
+        "fineRate": 10,
         "fineAmount": 90,
         "status": "Pending",
         "phone": "+91 98765 43212",
+        "history": [
+          {"event": "Book Issued", "date": "14 Jul 2026, 11:00 AM"},
+          {"event": "Due Date Passed", "date": "28 Jul 2026, 11:59 PM"},
+          {"event": "First Overdue Notice", "date": "29 Jul 2026, 09:30 AM"},
+          {"event": "Second Overdue Notice", "date": "02 Aug 2026, 10:30 AM"},
+        ]
       },
       {
         "id": "OD-104",
@@ -77,11 +107,19 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
         "memberId": "STU-6620",
         "className": "Grade 11-A",
         "bookTitle": "Calculus & Analytical Geometry",
+        "author": "George Thomas",
+        "isbn": "978-0-201531-74-9",
+        "category": "Mathematics",
         "dueDate": "06 Aug 2026",
         "daysOverdue": 0,
+        "fineRate": 10,
         "fineAmount": 0,
         "status": "Paid",
         "phone": "+91 98765 43213",
+        "history": [
+          {"event": "Book Issued", "date": "23 Jul 2026, 03:00 PM"},
+          {"event": "Book Returned & Fine Paid", "date": "06 Aug 2026, 09:15 AM"},
+        ]
       },
       {
         "id": "OD-105",
@@ -89,11 +127,19 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
         "memberId": "STU-8819",
         "className": "Grade 7-B",
         "bookTitle": "Tales of Shakespeare",
+        "author": "Charles Lamb",
+        "isbn": "978-0-140620-85-6",
+        "category": "Literature",
         "dueDate": "30 Jul 2026",
         "daysOverdue": 7,
+        "fineRate": 10,
         "fineAmount": 70,
         "status": "Pending",
         "phone": "+91 98765 43214",
+        "history": [
+          {"event": "Book Issued", "date": "16 Jul 2026, 01:20 PM"},
+          {"event": "Due Date Passed", "date": "30 Jul 2026, 11:59 PM"},
+        ]
       },
     ];
 
@@ -106,11 +152,19 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
           "memberId": raw['memberId'] ?? 'STU-${1000 + i}',
           "className": raw['class'] ?? 'Grade 10',
           "bookTitle": raw['bookTitle'] ?? 'Library Resource',
+          "author": "Standard Author",
+          "isbn": "978-0-000000-00-0",
+          "category": "General Catalog",
           "dueDate": raw['dueDate'] ?? '03 Aug 2026',
           "daysOverdue": raw['daysOverdue'] ?? 3,
+          "fineRate": 10,
           "fineAmount": (raw['daysOverdue'] ?? 3) * 10,
           "status": "Pending",
           "phone": "+91 98765 00000",
+          "history": [
+            {"event": "Book Issued", "date": "20 Jul 2026"},
+            {"event": "Due Date Passed", "date": raw['dueDate'] ?? '03 Aug 2026'},
+          ]
         });
       }
     }
@@ -178,12 +232,16 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
 
   @override
   Widget build(BuildContext context) {
+    if (_selectedDetailItem != null) {
+      return _buildFineDetailsScreen();
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            // App Bar Header
+            // Screen 1: App Bar Header
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(
@@ -205,7 +263,7 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
               ),
             ),
 
-            // Scrollable Content Body
+            // Scrollable Content
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -213,29 +271,29 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // 1. Single Top KPI Card (Pending Fines)
+                    // Single KPI Card (Total Pending Fines)
                     _buildPendingFinesKpiCard(),
                     const SizedBox(height: 14),
 
-                    // 2. Standard Search Bar Directly Below KPI Card
+                    // Standard Search Bar
                     LibrarianSearchBar(
                       controller: _searchController,
-                      hintText: 'Search student name or book name...',
+                      hintText: 'Search student name or book title...',
                       onChanged: (val) => setState(() => _searchQuery = val),
                       onClear: () => setState(() => _searchQuery = ''),
                     ),
                     const SizedBox(height: 12),
 
-                    // 3. Simple Filter Chips: All, Pending, Paid
+                    // Filter Chips: All, Pending, Paid
                     _buildFilterChips(),
                     const SizedBox(height: 16),
 
-                    // Overdue Task List Header
+                    // Vertical List Section Header
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Overdue Fines List',
+                          'Overdue Records',
                           style: TextStyle(fontSize: 15.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
                         ),
                         Text(
@@ -246,11 +304,11 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
                     ),
                     const SizedBox(height: 10),
 
-                    // 4. Clean Task List Rows
-                    _buildTaskListRows(),
+                    // Clean Vertical List (No Buttons Inside List Rows)
+                    _buildCleanVerticalList(),
                     const SizedBox(height: 24),
 
-                    // 5. Simple Recently Collected Section
+                    // Simple Recently Collected Fines Card
                     _buildRecentlyCollectedSection(),
                   ],
                 ),
@@ -262,7 +320,7 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
     );
   }
 
-  // ─── 1. SINGLE KPI CARD (PENDING FINES) ────────────────────────────────────
+  // ─── 1. KPI CARD ───────────────────────────────────────────────────────────
   Widget _buildPendingFinesKpiCard() {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -305,7 +363,7 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
     );
   }
 
-  // ─── 2. SIMPLE FILTER CHIPS (ALL, PENDING, PAID) ──────────────────────────
+  // ─── 2. FILTER CHIPS ──────────────────────────────────────────────────────
   Widget _buildFilterChips() {
     final filters = ['All', 'Pending', 'Paid'];
 
@@ -336,8 +394,8 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
     );
   }
 
-  // ─── 3. CLEAN TASK-LIST ROWS ───────────────────────────────────────────────
-  Widget _buildTaskListRows() {
+  // ─── 3. CLEAN VERTICAL LIST (SCREEN 1 - NO BUTTONS INSIDE LIST ROWS) ──────
+  Widget _buildCleanVerticalList() {
     final list = _filteredItems;
 
     if (list.isEmpty) {
@@ -356,7 +414,7 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
             Icon(LucideIcons.checkCircle2, color: Color(0xFF10B981), size: 30),
             SizedBox(height: 6),
             Text(
-              'No Overdue Items Found',
+              'No Overdue Records',
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
             ),
           ],
@@ -373,31 +431,48 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
         final bool isPaid = item['status'] == 'Paid';
 
         return GestureDetector(
-          onTap: () => _showFineDetailsSheet(item),
+          onTap: () => setState(() => _selectedDetailItem = item),
+          behavior: HitTestBehavior.opaque,
           child: Container(
             margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFFF0EDF8)),
               boxShadow: AppShadows.soft,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                // Top Row: Student Name, Fine Amount & Overdue Badge
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
                         item['studentName'],
                         style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    ),
+                      const SizedBox(height: 2),
+                      Text(
+                        item['bookTitle'],
+                        style: const TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Due: ${item['dueDate']}',
+                        style: const TextStyle(fontSize: 11.0, color: Color(0xFF7A7A9D)),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
                     Text(
                       '₹${item['fineAmount']}',
                       style: TextStyle(
@@ -406,86 +481,27 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
                         color: isPaid ? const Color(0xFF10B981) : const Color(0xFF1E1E2D),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: isPaid ? const Color(0xFFECFDF5) : const Color(0xFFFEF2F2),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        isPaid ? 'Paid' : '${item['daysOverdue']}d Overdue',
-                        style: TextStyle(
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.bold,
-                          color: isPaid ? const Color(0xFF10B981) : const Color(0xFFEF4444),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-
-                // Subtitle Row: Book Name & Due Date
-                Text(
-                  '${item['bookTitle']}  •  Due ${item['dueDate']}',
-                  style: const TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D)),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 10),
-
-                // Bottom Action Bar: Collect Fine (Single Primary Button) & Card Menu
-                Row(
-                  children: [
-                    const Spacer(),
-                    if (!isPaid)
-                      ElevatedButton(
-                        onPressed: () => _showCollectFineModal(item),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF6C4CF1),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                        ),
-                        child: const Text('Collect Fine'),
-                      ),
-                    const SizedBox(width: 4),
-
-                    // Context Menu for Secondary Actions (Reminder, Details)
-                    PopupMenuButton<String>(
-                      icon: const Icon(Icons.more_vert_rounded, color: Color(0xFF7A7A9D), size: 18),
-                      onSelected: (action) {
-                        if (action == 'reminder') {
-                          _sendReminder(item);
-                        } else if (action == 'details') {
-                          _showFineDetailsSheet(item);
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        if (!isPaid)
-                          const PopupMenuItem(
-                            value: 'reminder',
-                            child: Row(
-                              children: [
-                                Icon(LucideIcons.bell, size: 16, color: Color(0xFF6C4CF1)),
-                                SizedBox(width: 8),
-                                Text('Send Reminder'),
-                              ],
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: isPaid ? const Color(0xFFECFDF5) : const Color(0xFFFEF2F2),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            isPaid ? 'Paid' : '${item['daysOverdue']}d Overdue',
+                            style: TextStyle(
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.bold,
+                              color: isPaid ? const Color(0xFF10B981) : const Color(0xFFEF4444),
                             ),
                           ),
-                        const PopupMenuItem(
-                          value: 'details',
-                          child: Row(
-                            children: [
-                              Icon(LucideIcons.fileText, size: 16, color: Color(0xFF7A7A9D)),
-                              SizedBox(width: 8),
-                              Text('Fine Details'),
-                            ],
-                          ),
                         ),
+                        const SizedBox(width: 4),
+                        const Icon(Icons.chevron_right_rounded, size: 20, color: Color(0xFF7A7A9D)),
                       ],
                     ),
                   ],
@@ -498,101 +514,7 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
     );
   }
 
-  // ─── 4. FINE DETAILS BOTTOM SHEET ──────────────────────────────────────────
-  void _showFineDetailsSheet(Map<String, dynamic> item) {
-    final bool isPaid = item['status'] == 'Paid';
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Fine Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: const Icon(Icons.close_rounded, color: Color(0xFF7A7A9D)),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              _buildDetailRow('Student Name', item['studentName']),
-              _buildDetailRow('Member ID', item['memberId']),
-              _buildDetailRow('Class', item['className']),
-              _buildDetailRow('Contact Phone', item['phone']),
-              _buildDetailRow('Book Title', item['bookTitle']),
-              _buildDetailRow('Due Date', item['dueDate']),
-              _buildDetailRow('Overdue Duration', '${item['daysOverdue']} Days'),
-              _buildDetailRow('Fine Calculation', '₹10/day × ${item['daysOverdue']} days = ₹${item['fineAmount']}'),
-              _buildDetailRow('Status', item['status']),
-              const SizedBox(height: 20),
-              if (!isPaid)
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _sendReminder(item);
-                        },
-                        icon: const Icon(LucideIcons.bell, size: 16),
-                        label: const Text('Reminder'),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFF6C4CF1),
-                          side: const BorderSide(color: Color(0xFFEBE8FF)),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _showCollectFineModal(item);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF6C4CF1),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
-                        child: const Text('Collect Fine', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                      ),
-                    ),
-                  ],
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildDetailRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: const TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D))),
-          Text(value, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-        ],
-      ),
-    );
-  }
-
-  // ─── 5. RECENTLY COLLECTED FINES LIST ──────────────────────────────────────
+  // ─── 4. RECENTLY COLLECTED FINES CARD ──────────────────────────────────────
   Widget _buildRecentlyCollectedSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -664,7 +586,300 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
     );
   }
 
-  // ─── 6. COLLECT FINE BOTTOM SHEET MODAL ────────────────────────────────────
+  // ─── SCREEN 2 – FINE DETAILS SCREEN ────────────────────────────────────────
+  Widget _buildFineDetailsScreen() {
+    final item = _selectedDetailItem!;
+    final bool isPaid = item['status'] == 'Paid';
+    final List history = item['history'] as List? ?? [];
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // App Bar Header with Back Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
+                children: [
+                  AppBackButton(onPressed: () => setState(() => _selectedDetailItem = null)),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Fine Details',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                      letterSpacing: -0.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Scrollable Content Feed
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Section 1: Student Profile Summary Card
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFF0EDF8)),
+                        boxShadow: AppShadows.soft,
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 24,
+                            backgroundColor: isPaid ? const Color(0xFFECFDF5) : const Color(0xFFFEF2F2),
+                            child: Text(
+                              item['studentName'].toString().substring(0, 1),
+                              style: TextStyle(
+                                color: isPaid ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item['studentName'],
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  'ID: ${item['memberId']}  •  ${item['className']}',
+                                  style: const TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D)),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  'Phone: ${item['phone']}',
+                                  style: const TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Section 2: Book Information Card
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFF0EDF8)),
+                        boxShadow: AppShadows.soft,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Book Information',
+                            style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                          ),
+                          const SizedBox(height: 12),
+                          _buildDetailRow('Book Title', item['bookTitle']),
+                          _buildDetailRow('Author', item['author']),
+                          _buildDetailRow('ISBN', item['isbn']),
+                          _buildDetailRow('Category', item['category']),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Section 3: Fine Calculation Breakdown Card
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFF0EDF8)),
+                        boxShadow: AppShadows.soft,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Overdue & Fine Calculation',
+                            style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                          ),
+                          const SizedBox(height: 12),
+                          _buildDetailRow('Due Date', item['dueDate']),
+                          _buildDetailRow('Days Overdue', '${item['daysOverdue']} Days'),
+                          _buildDetailRow('Fine Rate', '₹${item['fineRate']} / day'),
+                          const SizedBox(height: 8),
+
+                          // Calculation Box
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: isPaid ? const Color(0xFFECFDF5) : const Color(0xFFFEF2F2),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: isPaid ? const Color(0xFFA7F3D0) : const Color(0xFFFCA5A5)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Total Fine (${item['daysOverdue']}d × ₹${item['fineRate']}):',
+                                  style: TextStyle(
+                                    fontSize: 12.5,
+                                    fontWeight: FontWeight.bold,
+                                    color: isPaid ? const Color(0xFF047857) : const Color(0xFFB91C1C),
+                                  ),
+                                ),
+                                Text(
+                                  '₹${item['fineAmount']}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: isPaid ? const Color(0xFF047857) : const Color(0xFFB91C1C),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Section 4: Payment & Activity Log Timeline
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFF0EDF8)),
+                        boxShadow: AppShadows.soft,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Activity & Payment History',
+                            style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                          ),
+                          const SizedBox(height: 12),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: history.length,
+                            itemBuilder: (context, index) {
+                              final h = history[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 8,
+                                      height: 8,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF6C4CF1),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Text(
+                                        h['event'],
+                                        style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
+                                      ),
+                                    ),
+                                    Text(
+                                      h['date'],
+                                      style: const TextStyle(fontSize: 11.0, color: Color(0xFF7A7A9D)),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Section 5: Secondary Action (Send Reminder)
+                    if (!isPaid)
+                      SizedBox(
+                        width: double.infinity,
+                        height: 44,
+                        child: OutlinedButton.icon(
+                          onPressed: () => _sendReminder(item),
+                          icon: const Icon(LucideIcons.bell, size: 16),
+                          label: const Text('Send Overdue Reminder'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: const Color(0xFF6C4CF1),
+                            side: const BorderSide(color: Color(0xFFEBE8FF)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            textStyle: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Fixed Bottom Primary CTA Button: Collect Fine
+            if (!isPaid)
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  border: Border(top: BorderSide(color: Color(0xFFF0EDF8))),
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () => _showCollectFineModal(item),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6C4CF1),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: const Text('Collect Fine', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D))),
+          Text(value, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+        ],
+      ),
+    );
+  }
+
+  // ─── REUSABLE PAYMENT COLLECTION BOTTOM SHEET MODAL ─────────────────────────
   void _showCollectFineModal(Map<String, dynamic> item) {
     String selectedPaymentMethod = 'UPI';
 
