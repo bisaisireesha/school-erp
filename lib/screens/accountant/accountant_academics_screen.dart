@@ -115,8 +115,10 @@ class _AccountantAcademicsScreenState extends State<AccountantAcademicsScreen> {
 
       if (_searchQuery.isEmpty) return true;
       final q = _searchQuery.toLowerCase();
-      return (c['class'] as String).toLowerCase().contains(q) ||
-             (c['feeHead'] as String).toLowerCase().contains(q);
+      final cClass = (c['class'] as String?) ?? '';
+      final feeHead = (c['feeHead'] as String?) ?? '';
+      return cClass.toLowerCase().contains(q) ||
+             feeHead.toLowerCase().contains(q);
     }).toList();
 
     return Scaffold(

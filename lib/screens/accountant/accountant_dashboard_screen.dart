@@ -815,24 +815,27 @@ class _AccountantDashboardScreenState extends State<AccountantDashboardScreen> {
                 SnackBar(content: Text('${(action['label'] as String).replaceAll('\n', ' ')} - Coming soon!')),
               );
             },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF3F0FF),
-                    shape: BoxShape.circle,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF3F0FF),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(action['icon'] as IconData, color: const Color(0xFF6C4CF1), size: 22),
                   ),
-                  child: Icon(action['icon'] as IconData, color: const Color(0xFF6C4CF1), size: 22),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  action['label'] as String,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF4A4A68), height: 1.2),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    action['label'] as String,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF4A4A68), height: 1.1),
+                  ),
+                ],
+              ),
             ),
           );
         }).toList(),

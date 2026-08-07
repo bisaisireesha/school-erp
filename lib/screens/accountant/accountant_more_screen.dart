@@ -4,7 +4,13 @@ import '../main_layout.dart';
 import '../profile/profile_screen.dart';
 import 'accountant_invoices_screen.dart';
 import 'accountant_academics_screen.dart';
+import 'accountant_hostel_fee_screen.dart';
 import 'accountant_transport_screen.dart';
+import 'accountant_payment_history_screen.dart';
+import 'accountant_fee_reminders_screen.dart';
+import 'accountant_overdue_screen.dart';
+import 'accountant_expenses_screen.dart';
+import 'accountant_pay_slips_screen.dart';
 
 class AccountantMoreScreen extends StatefulWidget {
   const AccountantMoreScreen({super.key});
@@ -41,7 +47,7 @@ class _AccountantMoreScreenState extends State<AccountantMoreScreen> {
     // Fee Collection
     {'title': 'Academics', 'icon': LucideIcons.building, 'key': 'Academics'},
     {'title': 'Transport', 'icon': LucideIcons.bus, 'key': 'Transport'},
-    {'title': 'Hostel', 'icon': LucideIcons.building2, 'key': 'Hostel'},
+    {'title': 'Hostel Fees', 'icon': LucideIcons.bedDouble, 'key': 'Hostel Fees'},
     // Records
     {'title': 'Payment History', 'icon': LucideIcons.creditCard, 'key': 'Payment History'},
     {'title': 'Fee Reminders', 'icon': LucideIcons.bell, 'key': 'Fee Reminders'},
@@ -132,6 +138,36 @@ class _AccountantMoreScreenState extends State<AccountantMoreScreen> {
                             MainLayout.pushSubScreen(
                               context,
                               AccountantTransportScreen(onBack: () => MainLayout.popSubScreen(context)),
+                            );
+                          } else if (item['key'] == 'Hostel Fees') {
+                            MainLayout.pushSubScreen(
+                              context,
+                              AccountantHostelFeeScreen(onBack: () => MainLayout.popSubScreen(context)),
+                            );
+                          } else if (item['key'] == 'Payment History') {
+                            MainLayout.pushSubScreen(
+                              context,
+                              AccountantPaymentHistoryScreen(onBack: () => MainLayout.popSubScreen(context)),
+                            );
+                          } else if (item['key'] == 'Fee Reminders') {
+                            MainLayout.pushSubScreen(
+                              context,
+                              AccountantFeeRemindersScreen(onBack: () => MainLayout.popSubScreen(context)),
+                            );
+                          } else if (item['key'] == 'Overdue Accounts') {
+                            MainLayout.pushSubScreen(
+                              context,
+                              AccountantOverdueScreen(onBack: () => MainLayout.popSubScreen(context)),
+                            );
+                          } else if (item['key'] == 'Bills & Expenses') {
+                            MainLayout.pushSubScreen(
+                              context,
+                              AccountantExpensesScreen(onBack: () => MainLayout.popSubScreen(context)),
+                            );
+                          } else if (item['key'] == 'Payslips') {
+                            MainLayout.pushSubScreen(
+                              context,
+                              AccountantPaySlipsScreen(onBack: () => MainLayout.popSubScreen(context)),
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

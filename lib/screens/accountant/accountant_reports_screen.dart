@@ -91,8 +91,10 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
     final filteredReports = _reports.where((r) {
       if (_searchQuery.isEmpty) return true;
       final q = _searchQuery.toLowerCase();
-      return (r['title'] as String).toLowerCase().contains(q) ||
-          (r['description'] as String).toLowerCase().contains(q);
+      final title = (r['title'] as String?) ?? '';
+      final description = (r['description'] as String?) ?? '';
+      return title.toLowerCase().contains(q) ||
+          description.toLowerCase().contains(q);
     }).toList();
 
     return Scaffold(

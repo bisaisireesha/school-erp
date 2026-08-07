@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'providers/auth_provider.dart';
 import 'screens/splash/splash_screen.dart';
 
@@ -40,6 +41,41 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) {
+        if (child == null) return const SizedBox.shrink();
+        
+        // Force text scale to 1.0 globally to prevent text from hiding or wrapping unpredictably
+        final mediaQueryData = MediaQuery.of(context);
+        final scaledChild = MediaQuery(
+          data: mediaQueryData.copyWith(
+            textScaler: const TextScaler.linear(1.0),
+          ),
+          child: child,
+        );
+
+        return ResponsiveBreakpoints.builder(
+          child: Builder(
+            builder: (context) {
+              return ResponsiveScaledBox(
+                width: ResponsiveValue<double>(
+                  context,
+                  defaultValue: 450,
+                  conditionalValues: [
+                    Condition.equals(name: MOBILE, value: 450),
+                    Condition.between(start: 450, end: 800, value: 600),
+                  ],
+                ).value ?? 450,
+                child: BouncingScrollWrapper.builder(context, scaledChild),
+              );
+            },
+          ),
+          breakpoints: [
+            const Breakpoint(start: 0, end: 450, name: MOBILE),
+            const Breakpoint(start: 451, end: 800, name: TABLET),
+            const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+          ],
+        );
+      },
       navigatorKey: globalNavigatorKey,
       title: 'Smart School Management',
       debugShowCheckedModeBanner: false,

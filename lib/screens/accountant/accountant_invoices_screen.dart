@@ -98,9 +98,12 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
     final filteredInvoices = _invoices.where((inv) {
       // Apply search
       final q = _searchQuery.toLowerCase();
-      final matchesSearch = (inv['id'] as String).toLowerCase().contains(q) ||
-          (inv['student'] as String).toLowerCase().contains(q) ||
-          (inv['rollNo'] as String).toLowerCase().contains(q);
+      final id = (inv['id'] as String?) ?? '';
+      final student = (inv['student'] as String?) ?? '';
+      final rollNo = (inv['rollNo'] as String?) ?? '';
+      final matchesSearch = id.toLowerCase().contains(q) ||
+          student.toLowerCase().contains(q) ||
+          rollNo.toLowerCase().contains(q);
       
       if (!matchesSearch) return false;
 
