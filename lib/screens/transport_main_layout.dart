@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'auth/login_screen.dart';
@@ -37,6 +38,268 @@ class _TransportMainLayoutState extends State<TransportMainLayout> {
   Widget? _subScreen;
   Map<String, dynamic> _transportData = {};
   bool _isLoading = true;
+
+  bool _isNotificationPopoverOpen = false;
+  OverlayEntry? _notificationOverlayEntry;
+
+  final List<Map<String, dynamic>> _notifications = [
+    {
+      'id': '1',
+      'title': 'Fitness Certificate Due',
+      'message': 'Bus KA-01-EA-4021 inspection due in 5 days.',
+      'time': '15m ago',
+      'isUnread': true,
+      'targetScreen': 'compliance',
+      'icon': LucideIcons.triangleAlert,
+      'iconColor': const Color(0xFFFF4B4B),
+    },
+    {
+      'id': '2',
+      'title': 'Route Optimization Update',
+      'message': 'Route #4 (North Campus) updated with 2 new stops.',
+      'time': '1h ago',
+      'isUnread': true,
+      'targetScreen': 'routes',
+      'icon': LucideIcons.bus,
+      'iconColor': const Color(0xFF6C4CF1),
+    },
+    {
+      'id': '3',
+      'title': 'Driver License Renewal',
+      'message': 'Rajesh Kumar submitted renewed commercial DL.',
+      'time': '3h ago',
+      'isUnread': false,
+      'targetScreen': 'drivers',
+      'icon': LucideIcons.circleCheck,
+      'iconColor': const Color(0xFF10B981),
+    },
+  ];
+
+  int get _unreadNotifCount => _notifications.where((n) => n['isUnread'] == true).length;
+
+  void _hideNotificationPopover() {
+    _notificationOverlayEntry?.remove();
+    _notificationOverlayEntry = null;
+    if (mounted) {
+      setState(() {
+        _isNotificationPopoverOpen = false;
+      });
+    }
+  }
+
+  void _toggleNotificationPopover() {
+    if (_isNotificationPopoverOpen) {
+      _hideNotificationPopover();
+    } else {
+      _showNotificationPopover();
+    }
+  }
+
+  void _showNotificationPopover() {
+    _notificationOverlayEntry = OverlayEntry(
+      builder: (context) {
+        return Stack(
+          children: [
+            // Modal Barrier to dismiss popover when tapping outside
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _hideNotificationPopover,
+                behavior: HitTestBehavior.opaque,
+                child: Container(color: Colors.transparent),
+              ),
+            ),
+            // Floating Popover Card anchored right below top header bell icon
+            Positioned(
+              top: 60,
+              right: 16,
+              child: Material(
+                color: Colors.transparent,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // Top Pointer Arrow Notch
+                    Positioned(
+                      top: -5,
+                      right: 48,
+                      child: Transform.rotate(
+                        angle: 0.785398, // 45 degrees
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0x1A1E1E2D),
+                                blurRadius: 4,
+                                offset: Offset(-2, -2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Popover Card
+                    Container(
+                      width: 320,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFF0EDF8)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF1E1E2D).withValues(alpha: 0.18),
+                            blurRadius: 24,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Popover Header Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Row(
+                                children: [
+                                  Icon(LucideIcons.bell, size: 15, color: Color(0xFF6C4CF1)),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    'Notifications',
+                                    style: TextStyle(
+                                      fontSize: 14.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF1E1E2D),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    for (var n in _notifications) {
+                                      n['isUnread'] = false;
+                                    }
+                                  });
+                                  _hideNotificationPopover();
+                                },
+                                child: const Text(
+                                  'Mark all read',
+                                  style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Divider(height: 1, color: Color(0xFFF0EDF8)),
+                          const SizedBox(height: 6),
+
+                          // Notification Items List
+                          ..._notifications.map((notif) {
+                            final String title = notif['title'];
+                            final String message = notif['message'];
+                            final String time = notif['time'];
+                            final bool isUnread = notif['isUnread'];
+                            final IconData icon = notif['icon'];
+                            final Color iconColor = notif['iconColor'];
+                            final String targetScreen = notif['targetScreen'];
+
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  notif['isUnread'] = false;
+                                });
+                                _hideNotificationPopover();
+                                _navigateToScreen(targetScreen);
+                              },
+                              borderRadius: BorderRadius.circular(10),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(7),
+                                      decoration: BoxDecoration(
+                                        color: iconColor.withValues(alpha: 0.12),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(icon, size: 16, color: iconColor),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  title,
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: isUnread ? FontWeight.bold : FontWeight.w600,
+                                                    color: const Color(0xFF1E1E2D),
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              Text(
+                                                time,
+                                                style: const TextStyle(fontSize: 10.5, color: Color(0xFF94A3B8)),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            message,
+                                            style: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B), height: 1.3),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    if (isUnread) ...[
+                                      const SizedBox(width: 6),
+                                      Container(
+                                        width: 7,
+                                        height: 7,
+                                        margin: const EdgeInsets.only(top: 4),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFFFF4B4B),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    Overlay.of(context).insert(_notificationOverlayEntry!);
+    setState(() {
+      _isNotificationPopoverOpen = true;
+    });
+  }
 
   @override
   void initState() {
@@ -202,9 +465,9 @@ class _TransportMainLayoutState extends State<TransportMainLayout> {
                             const SizedBox(width: AppSpacing.actionIconGap),
                             _buildIconButton(
                               icon: Icons.notifications_none_rounded,
-                              badgeCount: 2,
+                              badgeCount: _unreadNotifCount,
                               badgeColor: const Color(0xFFFF4B4B),
-                              onTap: () => _navigateToScreen('compliance'),
+                              onTap: _toggleNotificationPopover,
                             ),
                             const SizedBox(width: AppSpacing.actionIconGap),
                             _buildProfileAvatar(initials: 'TP'),

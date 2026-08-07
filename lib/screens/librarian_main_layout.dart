@@ -341,215 +341,267 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
     });
   }
 
-  final List<Map<String, dynamic>> _notificationsData = [
+  bool _isNotificationPopoverOpen = false;
+  OverlayEntry? _notificationOverlayEntry;
+
+  final List<Map<String, dynamic>> _notifications = [
     {
-      "id": "n1",
-      "title": "Overdue Books Alert",
-      "body": "4 books are past due date today. Fine collection required.",
-      "time": "10m ago",
-      "isRead": false,
-      "screenKey": "fines_overdue",
-      "type": "Warning",
+      'id': '1',
+      'title': 'Overdue Book Alert',
+      'message': '4 books are past due date today.',
+      'time': '10m ago',
+      'isUnread': true,
+      'targetScreen': 'fines_overdue',
+      'icon': LucideIcons.triangleAlert,
+      'iconColor': const Color(0xFFFF4B4B),
     },
     {
-      "id": "n2",
-      "title": "New Book Reservation",
-      "body": "Prof. Hema Sundaram reserved 5 Physics reference copies.",
-      "time": "45m ago",
-      "isRead": false,
-      "screenKey": "books",
-      "type": "Info",
+      'id': '2',
+      'title': 'New Book Reservation',
+      'message': 'Prof. Hema reserved 5 Physics copies.',
+      'time': '45m ago',
+      'isUnread': true,
+      'targetScreen': 'books',
+      'icon': LucideIcons.bookOpen,
+      'iconColor': const Color(0xFF6C4CF1),
     },
     {
-      "id": "n3",
-      "title": "Rack A-01 Audit Completed",
-      "body": "Physical inventory audit completed by Ramesh.",
-      "time": "2h ago",
-      "isRead": true,
-      "screenKey": "shelves",
-      "type": "Success",
+      'id': '3',
+      'title': 'Rack Audit Passed',
+      'message': 'Inventory audit of Rack A-01 completed.',
+      'time': '2h ago',
+      'isUnread': false,
+      'targetScreen': 'shelves',
+      'icon': LucideIcons.circleCheck,
+      'iconColor': const Color(0xFF10B981),
     },
   ];
 
   int get _unreadNotificationCount =>
-      _notificationsData.where((n) => n['isRead'] == false).length;
+      _notifications.where((n) => n['isUnread'] == true).length;
 
-  void _showNotificationsPopover() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+  void _hideNotificationPopover() {
+    _notificationOverlayEntry?.remove();
+    _notificationOverlayEntry = null;
+    if (mounted) {
+      setState(() {
+        _isNotificationPopoverOpen = false;
+      });
+    }
+  }
+
+  void _toggleNotificationPopover() {
+    if (_isNotificationPopoverOpen) {
+      _hideNotificationPopover();
+    } else {
+      _showNotificationPopover();
+    }
+  }
+
+  void _showNotificationPopover() {
+    _notificationOverlayEntry = OverlayEntry(
       builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setPopoverState) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.55,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        return Stack(
+          children: [
+            // Modal Barrier to dismiss popover when tapping outside
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _hideNotificationPopover,
+                behavior: HitTestBehavior.opaque,
+                child: Container(color: Colors.transparent),
               ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Container(
-                    width: 36,
-                    height: 4,
-                    decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2)),
-                  ),
-                  const SizedBox(height: 14),
-
-                  // Header Bar
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              'Alert Notifications',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                            ),
-                            const SizedBox(width: 8),
-                            if (_unreadNotificationCount > 0)
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFFEF2F2),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  '$_unreadNotificationCount New',
-                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFFEF4444)),
-                                ),
+            ),
+            // Floating Popover Card anchored right below top header bell icon
+            Positioned(
+              top: 60,
+              right: 16,
+              child: Material(
+                color: Colors.transparent,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // Top Pointer Arrow Notch
+                    Positioned(
+                      top: -5,
+                      right: 48,
+                      child: Transform.rotate(
+                        angle: 0.785398, // 45 degrees
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0x1A1E1E2D),
+                                blurRadius: 4,
+                                offset: Offset(-2, -2),
                               ),
-                          ],
+                            ],
+                          ),
                         ),
-                        if (_unreadNotificationCount > 0)
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                for (var n in _notificationsData) {
-                                  n['isRead'] = true;
-                                }
-                              });
-                              setPopoverState(() {});
-                            },
-                            child: const Text(
-                              'Mark all as read',
-                              style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
-                            ),
-                          ),
-                      ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 14),
-                  const Divider(height: 1, color: Color(0xFFF0EDF8)),
 
-                  // Notifications List
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: _notificationsData.length,
-                      itemBuilder: (context, index) {
-                        final notif = _notificationsData[index];
-                        final bool isRead = notif['isRead'] == true;
-                        final String type = notif['type'] ?? 'Info';
-
-                        final Color iconBg = type == 'Warning'
-                            ? const Color(0xFFFFF3E0)
-                            : type == 'Success'
-                                ? const Color(0xFFE8F5E9)
-                                : const Color(0xFFF3F0FF);
-                        final Color iconColor = type == 'Warning'
-                            ? const Color(0xFFFF9800)
-                            : type == 'Success'
-                                ? const Color(0xFF10B981)
-                                : const Color(0xFF6C4CF1);
-
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                            color: isRead ? Colors.white : const Color(0xFFF9F8FF),
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: isRead ? const Color(0xFFF0EDF8) : const Color(0xFFDCD4FF)),
-                            boxShadow: AppShadows.soft,
+                    // Popover Card
+                    Container(
+                      width: 320,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFF0EDF8)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF1E1E2D).withValues(alpha: 0.18),
+                            blurRadius: 24,
+                            offset: const Offset(0, 10),
                           ),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                            onTap: () {
-                              setState(() {
-                                notif['isRead'] = true;
-                              });
-                              Navigator.pop(context);
-                              _navigateToScreen(notif['screenKey'] as String);
-                            },
-                            leading: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
-                                  child: Icon(
-                                    type == 'Warning'
-                                        ? LucideIcons.triangleAlert
-                                        : type == 'Success'
-                                            ? LucideIcons.circleCheck
-                                            : LucideIcons.bell,
-                                    color: iconColor,
-                                    size: 20,
-                                  ),
-                                ),
-                                if (!isRead)
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: Container(
-                                      width: 10,
-                                      height: 10,
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xFF6C4CF1),
-                                        shape: BoxShape.circle,
-                                      ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Popover Header Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Row(
+                                children: [
+                                  Icon(LucideIcons.bell, size: 15, color: Color(0xFF6C4CF1)),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    'Notifications',
+                                    style: TextStyle(
+                                      fontSize: 14.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF1E1E2D),
                                     ),
                                   ),
-                              ],
-                            ),
-                            title: Text(
-                              notif['title'],
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: isRead ? FontWeight.w600 : FontWeight.bold,
-                                color: const Color(0xFF1E1E2D),
+                                ],
                               ),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 2),
-                                Text(
-                                  notif['body'],
-                                  style: const TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D)),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    for (var n in _notifications) {
+                                      n['isUnread'] = false;
+                                    }
+                                  });
+                                  _hideNotificationPopover();
+                                },
+                                child: const Text(
+                                  'Mark all read',
+                                  style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  notif['time'],
-                                  style: const TextStyle(fontSize: 10.5, color: Color(0xFFB0B0CC), fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                          const SizedBox(height: 10),
+                          const Divider(height: 1, color: Color(0xFFF0EDF8)),
+                          const SizedBox(height: 6),
+
+                          // Notification Items List
+                          ..._notifications.map((notif) {
+                            final String title = notif['title'];
+                            final String message = notif['message'];
+                            final String time = notif['time'];
+                            final bool isUnread = notif['isUnread'];
+                            final IconData icon = notif['icon'];
+                            final Color iconColor = notif['iconColor'];
+                            final String targetScreen = notif['targetScreen'];
+
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  notif['isUnread'] = false;
+                                });
+                                _hideNotificationPopover();
+                                _navigateToScreen(targetScreen);
+                              },
+                              borderRadius: BorderRadius.circular(10),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(7),
+                                      decoration: BoxDecoration(
+                                        color: iconColor.withValues(alpha: 0.12),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(icon, size: 16, color: iconColor),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  title,
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: isUnread ? FontWeight.bold : FontWeight.w600,
+                                                    color: const Color(0xFF1E1E2D),
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              Text(
+                                                time,
+                                                style: const TextStyle(fontSize: 10.5, color: Color(0xFF94A3B8)),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            message,
+                                            style: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B), height: 1.3),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    if (isUnread) ...[
+                                      const SizedBox(width: 6),
+                                      Container(
+                                        width: 7,
+                                        height: 7,
+                                        margin: const EdgeInsets.only(top: 4),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFFFF4B4B),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            );
-          },
+            ),
+          ],
         );
       },
     );
+
+    Overlay.of(context).insert(_notificationOverlayEntry!);
+    setState(() {
+      _isNotificationPopoverOpen = true;
+    });
   }
 
   // ─── QUICK ACTION HANDLER ──────────────────────────────────────────────────
@@ -746,7 +798,7 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
                               icon: Icons.notifications_none_rounded,
                               badgeCount: _unreadNotificationCount,
                               badgeColor: const Color(0xFFFF4B4B),
-                              onTap: _showNotificationsPopover,
+                              onTap: _toggleNotificationPopover,
                             ),
                             const SizedBox(width: AppSpacing.actionIconGap),
                             _buildProfileAvatar(initials: 'SJ'),
