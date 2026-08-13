@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "name": "Sri Annapurna Traders",
+    "category": "Grains",
+    "contactPerson": "Mr. Suresh K.",
+    "phone": "+91 98765 43210",
+    "email": "orders@sriannapurna.in",
+    "dues": "12,500",
+    "status": "Active",
+    "statusColor": "0xFF16A34A",
+    "statusBg": "0xFFDCFCE7"
+  },
+  {
+    "id": "2",
+    "name": "Reliance Fresh",
+    "category": "Vegetables",
+    "contactPerson": "Mr. Rajesh M.",
+    "phone": "+91 87654 32109",
+    "email": "supply@reliance.in",
+    "dues": "0",
+    "status": "Active",
+    "statusColor": "0xFF16A34A",
+    "statusBg": "0xFFDCFCE7"
+  },
+  {
+    "id": "3",
+    "name": "Bharat Gas",
+    "category": "Fuel",
+    "contactPerson": "Ms. Kavita",
+    "phone": "+91 76543 21098",
+    "email": "support@bharatgas.com",
+    "dues": "38,900",
+    "status": "On Hold",
+    "statusColor": "0xFFD97706",
+    "statusBg": "0xFFFEF3C7"
+  },
+  {
+    "id": "4",
+    "name": "Metro Cash & Carry",
+    "category": "Groceries",
+    "contactPerson": "Mr. Anoop Verma",
+    "phone": "+91 98112 34567",
+    "email": "care@metrocandc.in",
+    "dues": "0",
+    "status": "Active",
+    "statusColor": "0xFF16A34A",
+    "statusBg": "0xFFDCFCE7"
+  },
+  {
+    "id": "5",
+    "name": "Fortune Wholesalers",
+    "category": "Groceries",
+    "contactPerson": "Mr. Deepak Sharma",
+    "phone": "+91 99234 56789",
+    "email": "sales@fortunewholesale.com",
+    "dues": "4,500",
+    "status": "Active",
+    "statusColor": "0xFF16A34A",
+    "statusBg": "0xFFDCFCE7"
+  },
+  {
+    "id": "6",
+    "name": "DairyPure Farm Supply",
+    "category": "Dairy",
+    "contactPerson": "Mr. Vikas Patil",
+    "phone": "+91 97345 67890",
+    "email": "supply@dairypure.com",
+    "dues": "8,400",
+    "status": "Active",
+    "statusColor": "0xFF16A34A",
+    "statusBg": "0xFFDCFCE7"
+  }
+]

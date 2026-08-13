@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../main_layout.dart';
@@ -10,6 +12,7 @@ import '../messages/messages_screen.dart';
 import '../transport/transport_screen.dart';
 import '../leave/leave_request_screen.dart';
 import '../activity/activity_screen.dart';
+import 'all_highlights_screen.dart';
 
 class ParentDashboardScreen extends StatefulWidget {
   const ParentDashboardScreen({super.key});
@@ -20,22 +23,49 @@ class ParentDashboardScreen extends StatefulWidget {
 
 class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
   // Dashboard data lists — used for in-screen search filtering
-  final List<Map<String, dynamic>> _activities = [
-    {'icon': Icons.event_available_rounded, 'iconColor': Color(0xFF6C4CF1), 'iconBg': Color(0xFFF3F0FF), 'title': 'Assignment Added', 'subtitle': 'Maths - Worksheet 12', 'time': '10:30 AM'},
-    {'icon': Icons.fact_check_outlined, 'iconColor': Color(0xFF4CAF50), 'iconBg': Color(0xFFE8F5E9), 'title': 'Attendance Marked', 'subtitle': 'Today\'s attendance has been updated', 'time': '09:15 AM'},
-    {'icon': Icons.campaign_rounded, 'iconColor': Color(0xFFFF9800), 'iconBg': Color(0xFFFFF3E0), 'title': 'Notice Published', 'subtitle': 'Holiday on Friday', 'time': 'Yesterday'},
-  ];
+  List<Map<String, dynamic>> _activities = [];
+  List<Map<String, dynamic>> _homeworkList = [];
+  List<Map<String, dynamic>> _events = [];
+  bool _isLoading = true;
 
-  final List<Map<String, dynamic>> _homeworkList = [
-    {'subject': 'Mathematics', 'title': 'Algebra Worksheet 12', 'dueDate': 'Tomorrow', 'iconColor': Color(0xFF6C4CF1), 'iconBg': Color(0xFFF3F0FF)},
-    {'subject': 'Science', 'title': 'Read Ch 4: Photosynthesis', 'dueDate': 'Due in 2 days', 'iconColor': Color(0xFF11B136), 'iconBg': Color(0xFFE8F5E9)},
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadDashboardData();
+  }
 
-  final List<Map<String, dynamic>> _events = [
-    {'dateDay': '21', 'dateMonth': 'MAY', 'color': Color(0xFF6C4CF1), 'bgColor': Color(0xFFF3F0FF), 'title': 'PTM (Parent Teacher Meeting)', 'subtitle': 'Tuesday, 21 May 2024', 'rightText': '11:00 AM'},
-    {'dateDay': '25', 'dateMonth': 'MAY', 'color': Color(0xFF11B136), 'bgColor': Color(0xFFE8F5E9), 'title': 'Science Exhibition', 'subtitle': 'Saturday, 25 May 2024', 'rightText': '09:00 AM'},
-    {'dateDay': '01', 'dateMonth': 'JUN', 'color': Color(0xFFFF9800), 'bgColor': Color(0xFFFFF3E0), 'title': 'Summer Break Begins', 'subtitle': 'Saturday, 01 June 2024', 'rightText': 'All Day'},
-  ];
+  Future<void> _loadDashboardData() async {
+    try {
+      await MyChildScreen.loadChildrenData();
+      final String response = await rootBundle.loadString('assets/mock/parent_dashboard.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _activities = List<Map<String, dynamic>>.from(data['activities']);
+          _homeworkList = List<Map<String, dynamic>>.from(data['homeworkList']);
+          _events = List<Map<String, dynamic>>.from(data['events']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
+
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'event_available_rounded': return Icons.event_available_rounded;
+      case 'fact_check_outlined': return Icons.fact_check_outlined;
+      case 'campaign_rounded': return Icons.campaign_rounded;
+      default: return Icons.circle;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +91,10 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
           builder: (context, constraints) {
             final isDesktop = constraints.maxWidth > 900;
             
+            if (_isLoading) {
+              return const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1)));
+            }
+
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,7 +341,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Highlights', onSeeAll: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context)))),
+        _buildSectionHeader('Highlights', onSeeAll: () => MainLayout.pushSubScreen(context, AllHighlightsScreen(onBack: () => MainLayout.popSubScreen(context)))),
         const SizedBox(height: 16),
         const FlippableHighlightCard(),
       ],
@@ -331,12 +365,13 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
               for (int i = 0; i < items.length; i++) ...[  
                 if (i > 0) const Divider(height: 1, color: Color(0xFFF3EEFF)),
                 _buildActivityRow(
-                  icon: items[i]['icon'],
-                  iconColor: items[i]['iconColor'],
-                  iconBg: items[i]['iconBg'],
+                  icon: _getIcon(items[i]['icon']),
+                  iconColor: _getColor(items[i]['iconColor']),
+                  iconBg: _getColor(items[i]['iconBg']),
                   title: items[i]['title'],
                   subtitle: items[i]['subtitle'],
                   time: items[i]['time'],
+                  onTap: () => MainLayout.pushSubScreen(context, ActivityScreen(onBack: () => MainLayout.popSubScreen(context))),
                 ),
               ],
             ],
@@ -429,8 +464,8 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
             subject: items[i]['subject'],
             title: items[i]['title'],
             dueDate: items[i]['dueDate'],
-            iconColor: items[i]['iconColor'],
-            iconBg: items[i]['iconBg'],
+            iconColor: _getColor(items[i]['iconColor']),
+            iconBg: _getColor(items[i]['iconBg']),
           ),
         ],
       ],
@@ -576,10 +611,13 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
     );
   }
 
-  Widget _buildActivityRow({required IconData icon, required Color iconColor, required Color iconBg, required String title, required String subtitle, required String time}) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
+  Widget _buildActivityRow({required IconData icon, required Color iconColor, required Color iconBg, required String title, required String subtitle, required String time, VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
@@ -606,6 +644,7 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
             ],
           ),
         ],
+      ),
       ),
     );
   }
@@ -846,8 +885,8 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> {
             _buildEventRow(
               dateDay: events[i]['dateDay'],
               dateMonth: events[i]['dateMonth'],
-              color: events[i]['color'],
-              bgColor: events[i]['bgColor'],
+              color: _getColor(events[i]['color']),
+              bgColor: _getColor(events[i]['bgColor']),
               title: events[i]['title'],
               subtitle: events[i]['subtitle'],
               rightText: events[i]['rightText'],

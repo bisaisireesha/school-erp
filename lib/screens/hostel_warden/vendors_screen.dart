@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -16,12 +18,37 @@ class _VendorsScreenState extends State<VendorsScreen> {
   String _selectedFilter = 'All';
   final List<String> _filterOptions = ['All', 'Active', 'On Hold', 'Grains', 'Vegetables', 'Groceries', 'Fuel', 'Dairy'];
 
+  List<Map<String, dynamic>> _vendors = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
     _searchController.text = _searchQuery;
+    _loadVendors();
+  }
+
+  Future<void> _loadVendors() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/vendors.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _vendors = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
   }
 
   void _onGlobalSearchChanged() {
@@ -40,83 +67,15 @@ class _VendorsScreenState extends State<VendorsScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _vendors = [
-    {
-      'id': '1',
-      'name': 'Sri Annapurna Traders',
-      'category': 'Grains',
-      'contactPerson': 'Mr. Suresh K.',
-      'phone': '+91 98765 43210',
-      'email': 'orders@sriannapurna.in',
-      'dues': '12,500',
-      'status': 'Active',
-      'statusColor': const Color(0xFF16A34A),
-      'statusBg': const Color(0xFFDCFCE7),
-    },
-    {
-      'id': '2',
-      'name': 'Reliance Fresh',
-      'category': 'Vegetables',
-      'contactPerson': 'Mr. Rajesh M.',
-      'phone': '+91 87654 32109',
-      'email': 'supply@reliance.in',
-      'dues': '0',
-      'status': 'Active',
-      'statusColor': const Color(0xFF16A34A),
-      'statusBg': const Color(0xFFDCFCE7),
-    },
-    {
-      'id': '3',
-      'name': 'Bharat Gas',
-      'category': 'Fuel',
-      'contactPerson': 'Ms. Kavita',
-      'phone': '+91 76543 21098',
-      'email': 'support@bharatgas.com',
-      'dues': '38,900',
-      'status': 'On Hold',
-      'statusColor': const Color(0xFFD97706),
-      'statusBg': const Color(0xFFFEF3C7),
-    },
-    {
-      'id': '4',
-      'name': 'Metro Cash & Carry',
-      'category': 'Groceries',
-      'contactPerson': 'Mr. Anoop Verma',
-      'phone': '+91 98112 34567',
-      'email': 'care@metrocandc.in',
-      'dues': '0',
-      'status': 'Active',
-      'statusColor': const Color(0xFF16A34A),
-      'statusBg': const Color(0xFFDCFCE7),
-    },
-    {
-      'id': '5',
-      'name': 'Fortune Wholesalers',
-      'category': 'Groceries',
-      'contactPerson': 'Mr. Deepak Sharma',
-      'phone': '+91 99234 56789',
-      'email': 'sales@fortunewholesale.com',
-      'dues': '4,500',
-      'status': 'Active',
-      'statusColor': const Color(0xFF16A34A),
-      'statusBg': const Color(0xFFDCFCE7),
-    },
-    {
-      'id': '6',
-      'name': 'DairyPure Farm Supply',
-      'category': 'Dairy',
-      'contactPerson': 'Mr. Vikas Patil',
-      'phone': '+91 97345 67890',
-      'email': 'supply@dairypure.com',
-      'dues': '8,400',
-      'status': 'Active',
-      'statusColor': const Color(0xFF16A34A),
-      'statusBg': const Color(0xFFDCFCE7),
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFF8F9FA),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     final filteredVendors = _vendors.where((vendor) {
       final query = _searchQuery.trim().toLowerCase();
       final matchesQuery = query.isEmpty ||
@@ -136,7 +95,7 @@ class _VendorsScreenState extends State<VendorsScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -804,8 +763,9 @@ class _VendorsScreenState extends State<VendorsScreen> {
                                   _vendors.insert(0, newVendor);
                                 }
                               });
+                              final scaffoldMessenger = ScaffoldMessenger.of(context);
                               Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(isEditing ? 'Vendor updated successfully!' : 'Vendor added successfully!')));
+                              scaffoldMessenger.showSnackBar(SnackBar(content: Text(isEditing ? 'Vendor updated successfully!' : 'Vendor added successfully!')));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF6C4CF1),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -15,11 +17,32 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
   String _filterStatus = 'All';
   String _searchQuery = '';
 
+  List<Map<String, dynamic>> _healthRecords = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadHealthRecords();
+  }
+
+  Future<void> _loadHealthRecords() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_health.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _healthRecords = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -36,67 +59,15 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _healthRecords = [
-    {
-      'id': '1',
-      'studentName': 'Aarav Sharma',
-      'rollNo': 'CS-2024-102',
-      'gender': 'Male',
-      'age': '15',
-      'issue': 'Fever & Cold',
-      'severity': 'Moderate',
-      'reportedDate': '03 Aug 2026',
-      'reportedTime': '08:30 AM',
-      'status': 'On Medication',
-      'medication': 'Paracetamol 500mg, Cetirizine',
-      'initials': 'AS',
-    },
-    {
-      'id': '2',
-      'studentName': 'Ananya Roy',
-      'rollNo': 'EC-2024-201',
-      'gender': 'Female',
-      'age': '14',
-      'issue': 'Food Allergy Reaction',
-      'severity': 'High',
-      'reportedDate': '02 Aug 2026',
-      'reportedTime': '01:15 PM',
-      'status': 'Referred to Hospital',
-      'medication': 'Antihistamine, Epinephrine',
-      'initials': 'AR',
-    },
-    {
-      'id': '3',
-      'studentName': 'Rohan Verma',
-      'rollNo': 'CS-2024-104',
-      'gender': 'Male',
-      'age': '16',
-      'issue': 'Headache & Dizziness',
-      'severity': 'Low',
-      'reportedDate': '03 Aug 2026',
-      'reportedTime': '10:00 AM',
-      'status': 'Recovered',
-      'medication': 'Disprin',
-      'initials': 'RV',
-    },
-    {
-      'id': '4',
-      'studentName': 'Arjun Gupta',
-      'rollNo': 'IT-2024-205',
-      'gender': 'Male',
-      'age': '15',
-      'issue': 'Sprained Ankle',
-      'severity': 'Moderate',
-      'reportedDate': '01 Aug 2026',
-      'reportedTime': '04:30 PM',
-      'status': 'Under Observation',
-      'medication': 'Ice Pack, Crepe Bandage, Ibuprofen',
-      'initials': 'AG',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFFFFFFF),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     int totalCasesToday = _healthRecords.length;
     int severe = _healthRecords.where((r) => r['severity'] == 'High').length;
     int onMedication = _healthRecords.where((r) => r['status'] == 'On Medication').length;
@@ -115,7 +86,7 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -544,8 +515,9 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
   Widget _buildExportOption(String title, String format, IconData icon, Color iconColor, Color bgColor) {
     return GestureDetector(
       onTap: () {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
+        scaffoldMessenger.showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

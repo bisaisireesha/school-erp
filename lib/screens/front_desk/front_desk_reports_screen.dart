@@ -756,7 +756,7 @@ class _FrontDeskReportsScreenState extends State<FrontDeskReportsScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -1159,8 +1159,9 @@ class _DownloadProgressSheetState extends State<_DownloadProgressSheet> with Sin
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
                       Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      scaffoldMessenger.showSnackBar(
                         SnackBar(
                           backgroundColor: const Color(0xFF1E1E2D),
                           content: Row(

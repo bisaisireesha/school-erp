@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -18,11 +20,38 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
   String _searchQuery = '';
   String _markSearchQuery = '';
 
+  List<Map<String, dynamic>> _blocksAttendance = [];
+  List<Map<String, dynamic>> _studentsAttendance = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadAttendance();
+  }
+
+  Future<void> _loadAttendance() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_attendance.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _blocksAttendance = List<Map<String, dynamic>>.from(data['blocksAttendance']);
+          _studentsAttendance = List<Map<String, dynamic>>.from(data['studentsAttendance']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
   }
 
   void _onGlobalSearchChanged() {
@@ -42,154 +71,15 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
   // Active view: null means Main Block Overview screen; non-null block means Detailed Roll Call view for that block.
   Map<String, dynamic>? _activeRollCallBlock;
 
-  final List<Map<String, dynamic>> _blocksAttendance = [
-    {
-      'id': '1',
-      'name': 'Aryabhata Block (A)',
-      'code': 'A',
-      'type': 'Boys',
-      'warden': 'Mr. Rajesh Sharma',
-      'totalStudents': 6,
-      'presentCount': 6,
-      'absentCount': 0,
-      'outingCount': 0,
-      'status': 'Submitted',
-      'submittedAt': '09:15 PM',
-      'color': const Color(0xFF6C4CF1),
-      'bgColor': const Color(0xFFF3F0FF),
-    },
-    {
-      'id': '2',
-      'name': 'Bhaskara Block (B)',
-      'code': 'B',
-      'type': 'Girls',
-      'warden': 'Mrs. Sunita Verma',
-      'totalStudents': 5,
-      'presentCount': 4,
-      'absentCount': 1,
-      'outingCount': 0,
-      'status': 'Submitted',
-      'submittedAt': '09:05 PM',
-      'color': const Color(0xFFEC4899),
-      'bgColor': const Color(0xFFFDF2F8),
-    },
-    {
-      'id': '3',
-      'name': 'Eklavya Block (E)',
-      'code': 'E',
-      'type': 'Boys',
-      'warden': 'Mr. Vikram Singh',
-      'totalStudents': 4,
-      'presentCount': 0,
-      'absentCount': 0,
-      'outingCount': 1,
-      'status': 'Pending',
-      'submittedAt': '-- : --',
-      'color': const Color(0xFF3B82F6),
-      'bgColor': const Color(0xFFEFF6FF),
-    },
-    {
-      'id': '4',
-      'name': 'Kalam Block (K)',
-      'code': 'K',
-      'type': 'Girls',
-      'warden': 'Mrs. Anjali Roy',
-      'totalStudents': 5,
-      'presentCount': 0,
-      'absentCount': 0,
-      'outingCount': 0,
-      'status': 'Pending',
-      'submittedAt': '-- : --',
-      'color': const Color(0xFF10B981),
-      'bgColor': const Color(0xFFF0FDF4),
-    },
-  ];
-
-  final List<Map<String, dynamic>> _studentsAttendance = [
-    {
-      'id': '1',
-      'name': 'Aarav Sharma',
-      'rollNo': 'HST-101',
-      'roomNo': 'A-101',
-      'block': 'Aryabhata Block (A)',
-      'status': 'Present',
-    },
-    {
-      'id': '2',
-      'name': 'Diya Verma',
-      'rollNo': 'HST-102',
-      'roomNo': 'A-102',
-      'block': 'Aryabhata Block (A)',
-      'status': 'Present',
-    },
-    {
-      'id': '3',
-      'name': 'Vihaan Iyer',
-      'rollNo': 'HST-103',
-      'roomNo': 'A-103',
-      'block': 'Aryabhata Block (A)',
-      'status': 'Present',
-    },
-    {
-      'id': '4',
-      'name': 'Saanvi Nair',
-      'rollNo': 'HST-104',
-      'roomNo': 'A-104',
-      'block': 'Aryabhata Block (A)',
-      'status': 'Present',
-    },
-    {
-      'id': '5',
-      'name': 'Rohan Verma',
-      'rollNo': 'HST-105',
-      'roomNo': 'A-105',
-      'block': 'Aryabhata Block (A)',
-      'status': 'Present',
-    },
-    {
-      'id': '6',
-      'name': 'Kabir Das',
-      'rollNo': 'HST-106',
-      'roomNo': 'A-106',
-      'block': 'Aryabhata Block (A)',
-      'status': 'Present',
-    },
-    {
-      'id': '7',
-      'name': 'Ananya Roy',
-      'rollNo': 'HST-201',
-      'roomNo': 'B-201',
-      'block': 'Bhaskara Block (B)',
-      'status': 'Present',
-    },
-    {
-      'id': '8',
-      'name': 'Priya Singh',
-      'rollNo': 'HST-205',
-      'roomNo': 'B-205',
-      'block': 'Bhaskara Block (B)',
-      'status': 'Absent',
-    },
-    {
-      'id': '9',
-      'name': 'Aditya Patel',
-      'rollNo': 'HST-302',
-      'roomNo': 'E-302',
-      'block': 'Eklavya Block (E)',
-      'status': 'Leave',
-    },
-    {
-      'id': '10',
-      'name': 'Divya Joshi',
-      'rollNo': 'HST-401',
-      'roomNo': 'K-401',
-      'block': 'Kalam Block (K)',
-      'status': 'Present',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFFFFFFF),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     if (_activeRollCallBlock != null) {
       return _buildDetailedRollCallView(_activeRollCallBlock!);
     }
@@ -213,7 +103,7 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -362,7 +252,7 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                                 margin: EdgeInsets.only(right: session.contains('Night') ? 8 : 0),
                                 padding: const EdgeInsets.symmetric(vertical: 8),
                                 decoration: BoxDecoration(
-                                  color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFF1F5F9),
+                                  color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFFFFFFF),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Center(
@@ -500,13 +390,13 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: block['bgColor'] as Color,
+                  color: _getColor(block['bgColor']),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Center(
                   child: Text(
                     '${block['code']}',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: block['color'] as Color),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: _getColor(block['color'])),
                   ),
                 ),
               ),
@@ -537,7 +427,7 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
             ],
           ),
           const SizedBox(height: 14),
-          const Divider(color: Color(0xFFF1F5F9), height: 1),
+          const Divider(color: Color(0xFFFFFFFF), height: 1),
           const SizedBox(height: 14),
 
           Row(
@@ -883,7 +773,7 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
             ],
           ),
         ),
-        if (showDivider) const Divider(color: Color(0xFFF1F5F9), height: 1),
+        if (showDivider) const Divider(color: Color(0xFFFFFFFF), height: 1),
       ],
     );
   }

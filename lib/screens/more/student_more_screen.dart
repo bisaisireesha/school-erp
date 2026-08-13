@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../subjects/subjects_screen.dart';
@@ -13,19 +15,53 @@ import '../transport/transport_screen.dart';
 import '../profile/profile_screen.dart';
 import '../main_layout.dart';
 
-class StudentMoreScreen extends StatelessWidget {
+class StudentMoreScreen extends StatefulWidget {
   const StudentMoreScreen({super.key});
 
-  static const List<Map<String, dynamic>> _quickActions = [
-    {'title': 'Subjects', 'icon': LucideIcons.bookOpen, 'key': 'Subjects'},
-    {'title': 'Attendance', 'icon': LucideIcons.calendarCheck, 'key': 'Attendance'},
-    {'title': 'Exams & Results', 'icon': LucideIcons.graduationCap, 'key': 'Exams & Results'},
-    {'title': 'Timetable', 'icon': LucideIcons.calendarDays, 'key': 'Timetable'},
-    {'title': 'Library', 'icon': LucideIcons.book, 'key': 'Library'},
-    {'title': 'Transport', 'icon': LucideIcons.bus, 'key': 'Transport'},
-    {'title': 'Study Material', 'icon': LucideIcons.folder, 'key': 'Study Material'},
-    {'title': 'Calendar', 'icon': LucideIcons.calendar, 'key': 'Calendar'},
-  ];
+  @override
+  State<StudentMoreScreen> createState() => _StudentMoreScreenState();
+}
+
+class _StudentMoreScreenState extends State<StudentMoreScreen> {
+  List<Map<String, dynamic>> _quickActions = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadQuickActions();
+  }
+
+  Future<void> _loadQuickActions() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_more_actions.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _quickActions = List<Map<String, dynamic>>.from(data['quickActions']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'bookOpen': return LucideIcons.bookOpen;
+      case 'calendarCheck': return LucideIcons.calendarCheck;
+      case 'graduationCap': return LucideIcons.graduationCap;
+      case 'calendarDays': return LucideIcons.calendarDays;
+      case 'book': return LucideIcons.book;
+      case 'bus': return LucideIcons.bus;
+      case 'folder': return LucideIcons.folder;
+      case 'calendar': return LucideIcons.calendar;
+      default: return LucideIcons.layoutGrid;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,18 +172,24 @@ class StudentMoreScreen extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
         ),
         const SizedBox(height: 16),
-        GridView.builder(
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: _quickActions.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
-            childAspectRatio: 0.90,
-          ),
-          itemBuilder: (context, index) {
+        if (_isLoading)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 40),
+            child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+          )
+        else
+          GridView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _quickActions.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 14,
+              mainAxisSpacing: 14,
+              childAspectRatio: 0.90,
+            ),
+            itemBuilder: (context, index) {
             final item = _quickActions[index];
             return GestureDetector(
               onTap: () => _handleTap(context, item['key'] as String),
@@ -174,7 +216,7 @@ class StudentMoreScreen extends StatelessWidget {
                         color: Color(0xFFF3F0FF),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(item['icon'] as IconData, color: const Color(0xFF6C4CF1), size: 22),
+                      child: Icon(_getIcon(item['icon']), color: const Color(0xFF6C4CF1), size: 28),
                     ),
                     const SizedBox(height: 10),
                     Flexible(
@@ -219,7 +261,7 @@ class StudentMoreScreen extends StatelessWidget {
         MainLayout.pushSubScreen(context, LeaveRequestScreen(onBack: () => MainLayout.popSubScreen(context)));
         break;
       case 'Library':
-        MainLayout.pushSubScreen(context, LibraryScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(context, LibraryScreen(onBack: () => MainLayout.popSubScreen(context), isStudentPortal: true));
         break;
       case 'Transport':
         MainLayout.pushSubScreen(context, TransportScreen(onBack: () => MainLayout.popSubScreen(context)));

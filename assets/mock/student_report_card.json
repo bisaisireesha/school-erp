@@ -1,0 +1,9 @@
+{
+  "subjectMarks": [
+    {"subject": "Mathematics", "marks": 95, "total": 100, "grade": "A+", "color": "0xFF6C4CF1"},
+    {"subject": "Science", "marks": 92, "total": 100, "grade": "A+", "color": "0xFF16A34A"},
+    {"subject": "English", "marks": 88, "total": 100, "grade": "A", "color": "0xFFF59E0B"},
+    {"subject": "History", "marks": 94, "total": 100, "grade": "A+", "color": "0xFFE11D48"},
+    {"subject": "Geography", "marks": 90, "total": 100, "grade": "A", "color": "0xFF0284C7"}
+  ]
+}

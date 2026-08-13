@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -20,12 +22,50 @@ class MessDashboardScreen extends StatefulWidget {
 
 class _MessDashboardScreenState extends State<MessDashboardScreen> {
   String _searchQuery = '';
+  List<Map<String, dynamic>> _weeklyMenu = [];
+  List<Map<String, dynamic>> _inventory = [];
+  List<Map<String, dynamic>> _vendors = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadDashboardData();
+  }
+
+  Future<void> _loadDashboardData() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/mess_dashboard.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _weeklyMenu = List<Map<String, dynamic>>.from(data['weeklyMenu']);
+          _inventory = List<Map<String, dynamic>>.from(data['inventory']);
+          _vendors = List<Map<String, dynamic>>.from(data['vendors']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
+  
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'leaf': return LucideIcons.leaf;
+      case 'wheat': return LucideIcons.wheat;
+      case 'droplets': return LucideIcons.droplets;
+      case 'flame': return LucideIcons.flame;
+      default: return LucideIcons.box;
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -44,8 +84,15 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFF8F9FA),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -286,15 +333,16 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            children: [
-              _buildExpandableDayCard('Monday', 'Idli · Sambar', 'Chole · Rice', 'Veg Pulao', false),
-              _buildExpandableDayCard('Tuesday', 'Poha · Eggs', 'Rajma · Rice', 'Paneer · Roti', false),
-              _buildExpandableDayCard('Wednesday', 'Paratha · Curd', 'Dal · Sabzi', 'Pasta · Soup', true),
-              _buildExpandableDayCard('Thursday', 'Upma · Banana', 'Kadhi · Rice', 'Egg Curry · Roti', false),
-              _buildExpandableDayCard('Friday', 'Sandwich · Milk', 'Biryani · Raita', 'Chowmein · Manchurian', false),
-              _buildExpandableDayCard('Saturday', 'Dosa · Chutney', 'Special Thali', 'Pav Bhaji', false),
-              _buildExpandableDayCard('Sunday', 'Puri · Aloo', 'Chicken / Mushroom', 'Fried Rice · Dessert', false),
-            ],
+            children: _weeklyMenu.map((dayData) {
+              final isToday = dayData['day'] == 'Wednesday'; // Just mocking today
+              return _buildExpandableDayCard(
+                dayData['day'],
+                dayData['breakfast'],
+                dayData['lunch'],
+                dayData['dinner'],
+                isToday,
+              );
+            }).toList(),
           ),
         ),
       ],
@@ -402,14 +450,24 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
           child: Container(
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFF1F5F9)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
             child: Column(
-              children: [
-                _buildInventoryItem(LucideIcons.leaf, const Color(0xFFDCFCE7), const Color(0xFF16A34A), 'Rice (Basmati)', '120 kg on hand', 'min 80 kg', 'Healthy', const Color(0xFF16A34A), const Color(0xFFDCFCE7), 0.9, const Color(0xFF16A34A)),
-                _buildInventoryItem(LucideIcons.wheat, const Color(0xFFFEF3C7), const Color(0xFFF59E0B), 'Wheat Flour', '45 kg on hand', 'min 60 kg', 'Low', const Color(0xFFD97706), const Color(0xFFFEF3C7), 0.5, const Color(0xFFF59E0B)),
-                _buildInventoryItem(LucideIcons.droplets, const Color(0xFFDCFCE7), const Color(0xFF16A34A), 'Cooking Oil', '28 L on hand', 'min 20 L', 'Healthy', const Color(0xFF16A34A), const Color(0xFFDCFCE7), 0.8, const Color(0xFF16A34A)),
-                _buildInventoryItem(LucideIcons.leaf, const Color(0xFFFEE2E2), const Color(0xFFE11D48), 'Toor Dal', '12 kg on hand', 'min 25 kg', 'Critical', const Color(0xFFE11D48), const Color(0xFFFEE2E2), 0.3, const Color(0xFFE11D48)),
-                _buildInventoryItem(LucideIcons.leaf, const Color(0xFFDCFCE7), const Color(0xFF16A34A), 'Onions', '38 kg on hand', 'min 30 kg', 'Healthy', const Color(0xFF16A34A), const Color(0xFFDCFCE7), 0.8, const Color(0xFF16A34A)),
-                _buildInventoryItem(LucideIcons.flame, const Color(0xFFFEF3C7), const Color(0xFFF59E0B), 'LPG Cylinders', '2 pcs on hand', 'min 3 pcs', 'Low', const Color(0xFFD97706), const Color(0xFFFEF3C7), 0.4, const Color(0xFFF59E0B), isLast: true),
-              ],
+              children: _inventory.asMap().entries.map((entry) {
+                int idx = entry.key;
+                var item = entry.value;
+                return _buildInventoryItem(
+                  _getIcon(item['iconStr']),
+                  _getColor(item['iconBg']),
+                  _getColor(item['iconColor']),
+                  item['title'],
+                  item['onHand'],
+                  item['min'],
+                  item['status'],
+                  _getColor(item['statusColor']),
+                  _getColor(item['statusBg']),
+                  item['progress'].toDouble(),
+                  _getColor(item['progressColor']),
+                  isLast: idx == _inventory.length - 1,
+                );
+              }).toList(),
             ),
           ),
         ),
@@ -490,12 +548,18 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            children: [
-              _buildVendorItem('AG', 'Annapurna Grains', 'Rice · Flour · Pulses', '₹ 48,200', '4.6', 'On-time', const Color(0xFF16A34A), const Color(0xFFDCFCE7)),
-              _buildVendorItem('FF', 'Fresh Farms Co.', 'Vegetables · Fruits', '₹ 12,750', '4.4', 'Due Today', const Color(0xFF3B82F6), const Color(0xFFDBEAFE)),
-              _buildVendorItem('D', 'DairyPure', 'Milk · Curd · Paneer', '₹ 8,400', '4.8', 'On-time', const Color(0xFF16A34A), const Color(0xFFDCFCE7)),
-              _buildVendorItem('GG', 'GoldFlame Gas', 'LPG · Fuel', '₹ 6,900', '4.1', 'Overdue', const Color(0xFFE11D48), const Color(0xFFFEE2E2)),
-            ],
+            children: _vendors.map((vendor) {
+              return _buildVendorItem(
+                vendor['iconText'],
+                vendor['name'],
+                vendor['tags'],
+                vendor['amount'],
+                vendor['rating'],
+                vendor['status'],
+                _getColor(vendor['statusColor']),
+                _getColor(vendor['statusBg']),
+              );
+            }).toList(),
           ),
         ),
       ],

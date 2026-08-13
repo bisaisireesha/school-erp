@@ -665,8 +665,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 });
                               }
                             });
+                            final scaffoldMessenger = ScaffoldMessenger.of(context);
                             Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
+                            scaffoldMessenger.showSnackBar(
                               SnackBar(content: Text(isEdit ? 'Visitor updated successfully!' : 'Visitor logged successfully!')),
                             );
                           },

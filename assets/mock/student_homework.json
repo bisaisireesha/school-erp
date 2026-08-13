@@ -1,0 +1,67 @@
+{
+  "assignments": [
+    {
+      "subject": "English",
+      "desc": "Read Chapter 5 and\npractice reading aloud.",
+      "icon": "bookOpen",
+      "isToday": true,
+      "status": "Pending"
+    },
+    {
+      "subject": "Mathematics",
+      "desc": "Complete Worksheet 8",
+      "icon": "calculator",
+      "isToday": true,
+      "status": "Submitted"
+    },
+    {
+      "subject": "Science",
+      "desc": "Solar System Project",
+      "icon": "flaskConical",
+      "isToday": true,
+      "status": "Pending"
+    },
+    {
+      "subject": "Drawing",
+      "desc": "Draw Water Cycle",
+      "icon": "palette",
+      "isToday": false,
+      "status": "Submitted"
+    },
+    {
+      "subject": "Social Studies",
+      "desc": "Learn Chapter 3 - Our Environment",
+      "icon": "globe",
+      "isToday": false,
+      "status": "Pending"
+    },
+    {
+      "subject": "Computer",
+      "desc": "Complete Chapter 2 Exercise",
+      "icon": "monitor",
+      "isToday": false,
+      "status": "Submitted"
+    },
+    {
+      "subject": "Hindi",
+      "desc": "Learn and write 10 new words",
+      "icon": "bookType",
+      "isToday": false,
+      "status": "Pending"
+    },
+    {
+      "subject": "Physical Education",
+      "desc": "Morning Exercise Record",
+      "icon": "personStanding",
+      "isToday": false,
+      "status": "Submitted"
+    },
+    {
+      "subject": "General Knowledge",
+      "desc": "Read Current Affairs Page 20",
+      "icon": "lightbulb",
+      "isToday": false,
+      "status": "Pending"
+    }
+  ]
+}

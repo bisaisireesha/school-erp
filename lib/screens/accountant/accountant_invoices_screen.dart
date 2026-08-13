@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -13,12 +15,34 @@ class AccountantInvoicesScreen extends StatefulWidget {
 class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
   String _searchQuery = '';
   int _selectedFilter = 0; // 0: All, 1: Paid, 2: Unpaid, 3: Overdue
+  List<Map<String, dynamic>> _invoices = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadInvoices();
+  }
+
+  Future<void> _loadInvoices() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/accountant_invoices.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _invoices = List<Map<String, dynamic>>.from(data['invoices']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -35,63 +59,7 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _invoices = [
-    {
-      'id': 'INV-1041',
-      'student': 'Aarav Gupta',
-      'rollNo': '10A-014',
-      'grade': 'Grade 10-A',
-      'feeHead': 'Tuition + Lab',
-      'amount': '₹24,500',
-      'balance': '₹0',
-      'date': '10 Jun 2026',
-      'status': 'Paid',
-    },
-    {
-      'id': 'INV-1042',
-      'student': 'Rahul Verma',
-      'rollNo': '09B-021',
-      'grade': 'Grade 9-B',
-      'feeHead': 'Transport',
-      'amount': '₹12,500',
-      'balance': '₹12,500',
-      'date': '12 Jun 2026',
-      'status': 'Unpaid',
-    },
-    {
-      'id': 'INV-1038',
-      'student': 'Neha Gupta',
-      'rollNo': '12S-005',
-      'grade': 'Grade 12-Sci',
-      'feeHead': 'Tuition + Hostel',
-      'amount': '₹55,000',
-      'balance': '₹20,000',
-      'date': '05 Jun 2026',
-      'status': 'Overdue',
-    },
-    {
-      'id': 'INV-1044',
-      'student': 'Vikram Singh',
-      'rollNo': '08C-032',
-      'grade': 'Grade 8-C',
-      'feeHead': 'Tuition',
-      'amount': '₹28,000',
-      'balance': '₹28,000',
-      'date': '15 Jun 2026',
-      'status': 'Unpaid',
-    },
-    {
-      'id': 'INV-1035',
-      'student': 'Priya Desai',
-      'rollNo': '11C-018',
-      'grade': 'Grade 11-Com',
-      'feeHead': 'Tuition + Lab',
-      'amount': '₹42,000',
-      'balance': '₹0',
-      'date': '01 Jun 2026',
-      'status': 'Paid',
-    },
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +96,12 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
                     _buildHeader(),
                     _buildKPIs(),
                     _buildFilters(),
-                    if (filteredInvoices.isEmpty)
+                    if (_isLoading)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 60),
+                        child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                      )
+                    else if (filteredInvoices.isEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
                         child: _buildEmptyState(),
@@ -533,8 +506,9 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Download complete!')));
+                    scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Download complete!')));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6C4CF1),

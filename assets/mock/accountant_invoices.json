@@ -1,0 +1,59 @@
+{
+  "invoices": [
+    {
+      "id": "INV-1041",
+      "student": "Aarav Gupta",
+      "rollNo": "10A-014",
+      "grade": "Grade 10-A",
+      "feeHead": "Tuition + Lab",
+      "amount": "₹24,500",
+      "balance": "₹0",
+      "date": "10 Jun 2026",
+      "status": "Paid"
+    },
+    {
+      "id": "INV-1042",
+      "student": "Rahul Verma",
+      "rollNo": "09B-021",
+      "grade": "Grade 9-B",
+      "feeHead": "Transport",
+      "amount": "₹12,500",
+      "balance": "₹12,500",
+      "date": "12 Jun 2026",
+      "status": "Unpaid"
+    },
+    {
+      "id": "INV-1038",
+      "student": "Neha Gupta",
+      "rollNo": "12S-005",
+      "grade": "Grade 12-Sci",
+      "feeHead": "Tuition + Hostel",
+      "amount": "₹55,000",
+      "balance": "₹20,000",
+      "date": "05 Jun 2026",
+      "status": "Overdue"
+    },
+    {
+      "id": "INV-1044",
+      "student": "Vikram Singh",
+      "rollNo": "08C-032",
+      "grade": "Grade 8-C",
+      "feeHead": "Tuition",
+      "amount": "₹28,000",
+      "balance": "₹28,000",
+      "date": "15 Jun 2026",
+      "status": "Unpaid"
+    },
+    {
+      "id": "INV-1035",
+      "student": "Priya Desai",
+      "rollNo": "11C-018",
+      "grade": "Grade 11-Com",
+      "feeHead": "Tuition + Lab",
+      "amount": "₹42,000",
+      "balance": "₹0",
+      "date": "01 Jun 2026",
+      "status": "Paid"
+    }
+  ]
+}

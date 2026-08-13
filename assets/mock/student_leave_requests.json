@@ -1,0 +1,32 @@
+{
+  "leaveRequests": [
+    {
+      "reason": "Family Trip to Hometown",
+      "fromDate": "2026-08-10",
+      "toDate": "2026-08-14",
+      "status": "Approved",
+      "appliedOn": "2026-07-25"
+    },
+    {
+      "reason": "Medical Leave / Fever",
+      "fromDate": "2026-07-20",
+      "toDate": "2026-07-21",
+      "status": "Approved",
+      "appliedOn": "2026-07-20"
+    },
+    {
+      "reason": "Attending Cousin's Wedding",
+      "fromDate": "2026-09-05",
+      "toDate": "2026-09-06",
+      "status": "Pending",
+      "appliedOn": "2026-07-27"
+    },
+    {
+      "reason": "Personal Work",
+      "fromDate": "2026-06-15",
+      "toDate": "2026-06-15",
+      "status": "Rejected",
+      "appliedOn": "2026-06-12"
+    }
+  ]
+}

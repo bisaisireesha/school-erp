@@ -584,8 +584,9 @@ class _AccountantTransportScreenState extends State<AccountantTransportScreen> {
                             const SizedBox(width: 16),
                             ElevatedButton(
                               onPressed: () {
+                                final scaffoldMessenger = ScaffoldMessenger.of(context);
                                 Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Roster exported!'), backgroundColor: Color(0xFF16A34A)));
+                                scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Roster exported!'), backgroundColor: Color(0xFF16A34A)));
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF1E1E2D),

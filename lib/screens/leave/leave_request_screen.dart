@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -11,42 +13,39 @@ class LeaveRequestScreen extends StatefulWidget {
 }
 
 class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
-  final List<Map<String, dynamic>> _mockLeaveRequests = [
-    {
-      'reason': 'Family Trip to Hometown',
-      'fromDate': '2026-08-10',
-      'toDate': '2026-08-14',
-      'status': 'Approved',
-      'appliedOn': '2026-07-25',
-    },
-    {
-      'reason': 'Medical Leave / Fever',
-      'fromDate': '2026-07-20',
-      'toDate': '2026-07-21',
-      'status': 'Approved',
-      'appliedOn': '2026-07-20',
-    },
-    {
-      'reason': 'Attending Cousin\'s Wedding',
-      'fromDate': '2026-09-05',
-      'toDate': '2026-09-06',
-      'status': 'Pending',
-      'appliedOn': '2026-07-27',
-    },
-    {
-      'reason': 'Personal Work',
-      'fromDate': '2026-06-15',
-      'toDate': '2026-06-15',
-      'status': 'Rejected',
-      'appliedOn': '2026-06-12',
-    },
-  ];
+  List<Map<String, dynamic>> _mockLeaveRequests = [];
+  bool _isLoading = true;
 
-  void _showNewLeaveDialog() {
-    showDialog(
+  @override
+  void initState() {
+    super.initState();
+    _loadLeaveRequests();
+  }
+
+  Future<void> _loadLeaveRequests() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_leave_requests.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _mockLeaveRequests = List<Map<String, dynamic>>.from(data['leaveRequests']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _showNewLeaveBottomSheet() {
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return NewLeaveDialog(
+        return NewLeaveBottomSheet(
           onSubmit: (leaveData) {
             setState(() {
               _mockLeaveRequests.insert(0, leaveData);
@@ -60,7 +59,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -99,7 +98,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                   children: [
                     // Apply for Leave Banner
                     GestureDetector(
-                      onTap: _showNewLeaveDialog,
+                      onTap: _showNewLeaveBottomSheet,
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(24),
@@ -167,6 +166,12 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                     // Leave Requests List
                     Builder(
                       builder: (context) {
+                        if (_isLoading) {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 40),
+                            child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                          );
+                        }
                         if (_mockLeaveRequests.isEmpty) {
                           return Center(
                             child: Padding(
@@ -341,15 +346,17 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   }
 }
 
-class NewLeaveDialog extends StatefulWidget {
+class NewLeaveBottomSheet extends StatefulWidget {
   final Function(Map<String, dynamic>) onSubmit;
-  const NewLeaveDialog({super.key, required this.onSubmit});
+
+  const NewLeaveBottomSheet({super.key, required this.onSubmit});
   
   @override
-  State<NewLeaveDialog> createState() => _NewLeaveDialogState();
+  State<NewLeaveBottomSheet> createState() => _NewLeaveBottomSheetState();
 }
 
-class _NewLeaveDialogState extends State<NewLeaveDialog> {
+class _NewLeaveBottomSheetState extends State<NewLeaveBottomSheet> {
+  final _otherTypeController = TextEditingController();
   final _reasonController = TextEditingController();
   String _leaveType = 'Sick Leave';
   DateTime? _fromDate;
@@ -395,9 +402,12 @@ class _NewLeaveDialogState extends State<NewLeaveDialog> {
   
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      backgroundColor: Colors.white,
+    return Container(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(
@@ -445,6 +455,31 @@ class _NewLeaveDialogState extends State<NewLeaveDialog> {
               ),
               const SizedBox(height: 20),
               
+              if (_leaveType == 'Other') ...[
+                const Text('Other Leave Type', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: _otherTypeController,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    hintText: 'Enter other leave type...',
+                    hintStyle: const TextStyle(color: Color(0xFF9E9E9E), fontSize: 15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
               Row(
                 children: [
                   Expanded(
@@ -544,12 +579,14 @@ class _NewLeaveDialogState extends State<NewLeaveDialog> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_fromDate == null || _toDate == null || _reasonController.text.trim().isEmpty) {
-                      return;
-                    }
+                    if (_fromDate == null || _toDate == null) return;
+                    if (_reasonController.text.trim().isEmpty) return;
+                    if (_leaveType == 'Other' && _otherTypeController.text.trim().isEmpty) return;
                     
                     final now = DateTime.now();
                     final appliedOn = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+                    
+                    final finalLeaveType = _leaveType == 'Other' ? _otherTypeController.text.trim() : _leaveType;
                     
                     widget.onSubmit({
                       'reason': _reasonController.text.trim(),
@@ -557,7 +594,7 @@ class _NewLeaveDialogState extends State<NewLeaveDialog> {
                       'toDate': _formatDate(_toDate),
                       'status': 'Pending',
                       'appliedOn': appliedOn,
-                      'type': _leaveType,
+                      'type': finalLeaveType,
                     });
                     
                     Navigator.pop(context);

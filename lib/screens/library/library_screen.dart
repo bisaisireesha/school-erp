@@ -1,11 +1,14 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
 
 class LibraryScreen extends StatefulWidget {
   final VoidCallback onBack;
+  final bool isStudentPortal;
 
-  const LibraryScreen({super.key, required this.onBack});
+  const LibraryScreen({super.key, required this.onBack, this.isStudentPortal = false});
 
   @override
   State<LibraryScreen> createState() => _LibraryScreenState();
@@ -16,68 +19,38 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
   String _searchQuery = '';
   String _selectedCategory = 'All';
 
-  final List<Map<String, dynamic>> _myBooks = [
-    {
-      'title': 'The Universe in a Nutshell',
-      'author': 'Stephen Hawking',
-      'issueDate': '15 May 2026',
-      'dueDate': '30 May 2026',
-      'coverColor': const Color(0xFF6C4CF1),
-      'status': 'Issued',
-    },
-    {
-      'title': 'Sapiens',
-      'author': 'Yuval Noah Harari',
-      'issueDate': '01 Apr 2026',
-      'dueDate': '15 Apr 2026',
-      'coverColor': const Color(0xFFF97316),
-      'status': 'Returned',
-    },
-  ];
-
-  final List<Map<String, dynamic>> _catalogBooks = [
-    {
-      'title': 'A Brief History of Time',
-      'author': 'Stephen Hawking',
-      'category': 'Science',
-      'available': true,
-      'coverColor': const Color(0xFF0EA5E9),
-    },
-    {
-      'title': 'Cosmos',
-      'author': 'Carl Sagan',
-      'category': 'Science',
-      'available': true,
-      'coverColor': const Color(0xFF6C4CF1),
-    },
-    {
-      'title': 'To Kill a Mockingbird',
-      'author': 'Harper Lee',
-      'category': 'Fiction',
-      'available': false,
-      'coverColor': const Color(0xFFF59E0B),
-    },
-    {
-      'title': '1984',
-      'author': 'George Orwell',
-      'category': 'Fiction',
-      'available': true,
-      'coverColor': const Color(0xFFEF4444),
-    },
-    {
-      'title': 'The Great Gatsby',
-      'author': 'F. Scott Fitzgerald',
-      'category': 'Fiction',
-      'available': true,
-      'coverColor': const Color(0xFF10B981),
-    },
-  ];
+  List<Map<String, dynamic>> _myBooks = [];
+  List<Map<String, dynamic>> _catalogBooks = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     MainLayout.globalSearchQuery.addListener(_onSearchChanged);
+    _loadLibraryData();
+  }
+
+  Future<void> _loadLibraryData() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_library.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _myBooks = List<Map<String, dynamic>>.from(data['myBooks']);
+          _catalogBooks = List<Map<String, dynamic>>.from(data['catalogBooks']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
   }
 
   void _onSearchChanged() {
@@ -96,7 +69,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         bottom: false,
         child: NestedScrollView(
@@ -118,13 +91,15 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
               ),
             ];
           },
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildMyBooksTab(),
-              _buildCatalogTab(),
-            ],
-          ),
+          body: _isLoading
+              ? const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1)))
+              : TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _buildMyBooksTab(),
+                    _buildCatalogTab(),
+                  ],
+                ),
         ),
       ),
     );
@@ -271,22 +246,26 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
         color: Colors.white,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
             onTap: widget.onBack,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-              ),
-              child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
-            ),
+            child: widget.isStudentPortal
+                ? const Padding(
+                    padding: EdgeInsets.only(right: 8.0, top: 4, bottom: 4),
+                    child: Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 24),
+                  )
+                : Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  ),
           ),
+          const SizedBox(width: 16),
           const Text('Library', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-          const SizedBox(width: 40), // Balance the title
         ],
       ),
     );
@@ -348,6 +327,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
       itemBuilder: (context, index) {
         final book = filteredMyBooks[index];
         final isIssued = book['status'] == 'Issued';
+        final coverColor = _getColor(book['coverColor']);
         
         return Container(
           margin: const EdgeInsets.only(bottom: 16),
@@ -367,11 +347,11 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                 width: 60,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: (book['coverColor'] as Color).withValues(alpha: 0.1),
+                  color: coverColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
-                  child: Icon(LucideIcons.bookOpen, color: book['coverColor'], size: 28),
+                  child: Icon(LucideIcons.book, color: coverColor, size: 28),
                 ),
               ),
               const SizedBox(width: 16),
@@ -521,6 +501,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
               final book = filteredBooks[index];
               final isAvailable = book['available'] == true;
               
+              Color coverColor = _getColor(book['coverColor']);
+      
               return Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(12),
@@ -535,11 +517,11 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                       width: 48,
                       height: 64,
                       decoration: BoxDecoration(
-                        color: (book['coverColor'] as Color).withValues(alpha: 0.1),
+                        color: coverColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Center(
-                        child: Icon(LucideIcons.book, color: book['coverColor'], size: 20),
+                        child: Icon(LucideIcons.book, color: coverColor, size: 20),
                       ),
                     ),
                     const SizedBox(width: 16),

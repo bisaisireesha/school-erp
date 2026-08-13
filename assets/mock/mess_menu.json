@@ -1,0 +1,9 @@
+{
+  "Monday": {"Breakfast": "Idli · Sambar", "Lunch": "Chole · Rice", "Snacks": "Samosa · Tea", "Dinner": "Veg Pulao"},
+  "Tuesday": {"Breakfast": "Poha · Eggs", "Lunch": "Rajma · Rice", "Snacks": "Biscuits · Coffee", "Dinner": "Paneer · Roti"},
+  "Wednesday": {"Breakfast": "Paratha · Curd", "Lunch": "Dal · Sabzi", "Snacks": "Puff · Juice", "Dinner": "Pasta · Soup"},
+  "Thursday": {"Breakfast": "Upma · Banana", "Lunch": "Kadhi · Rice", "Snacks": "Bhel Puri", "Dinner": "Egg Curry · Roti"},
+  "Friday": {"Breakfast": "Sandwich · Milk", "Lunch": "Biryani · Raita", "Snacks": "Pakoda · Tea", "Dinner": "Chowmein · Manchurian"},
+  "Saturday": {"Breakfast": "Dosa · Chutney", "Lunch": "Special Thali", "Snacks": "Cake · Shake", "Dinner": "Pav Bhaji"},
+  "Sunday": {"Breakfast": "Puri · Aloo", "Lunch": "Chicken / Mushroom", "Snacks": "French Fries", "Dinner": "Fried Rice · Dessert"}
+}

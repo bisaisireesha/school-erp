@@ -1,0 +1,146 @@
+{
+  "blocksAttendance": [
+    {
+      "id": "1",
+      "name": "Aryabhata Block (A)",
+      "code": "A",
+      "type": "Boys",
+      "warden": "Mr. Rajesh Sharma",
+      "totalStudents": 6,
+      "presentCount": 6,
+      "absentCount": 0,
+      "outingCount": 0,
+      "status": "Submitted",
+      "submittedAt": "09:15 PM",
+      "color": "0xFF6C4CF1",
+      "bgColor": "0xFFF3F0FF"
+    },
+    {
+      "id": "2",
+      "name": "Bhaskara Block (B)",
+      "code": "B",
+      "type": "Girls",
+      "warden": "Mrs. Sunita Verma",
+      "totalStudents": 5,
+      "presentCount": 4,
+      "absentCount": 1,
+      "outingCount": 0,
+      "status": "Submitted",
+      "submittedAt": "09:05 PM",
+      "color": "0xFFEC4899",
+      "bgColor": "0xFFFDF2F8"
+    },
+    {
+      "id": "3",
+      "name": "Eklavya Block (E)",
+      "code": "E",
+      "type": "Boys",
+      "warden": "Mr. Vikram Singh",
+      "totalStudents": 4,
+      "presentCount": 0,
+      "absentCount": 0,
+      "outingCount": 1,
+      "status": "Pending",
+      "submittedAt": "-- : --",
+      "color": "0xFF3B82F6",
+      "bgColor": "0xFFEFF6FF"
+    },
+    {
+      "id": "4",
+      "name": "Kalam Block (K)",
+      "code": "K",
+      "type": "Girls",
+      "warden": "Mrs. Anjali Roy",
+      "totalStudents": 5,
+      "presentCount": 0,
+      "absentCount": 0,
+      "outingCount": 0,
+      "status": "Pending",
+      "submittedAt": "-- : --",
+      "color": "0xFF10B981",
+      "bgColor": "0xFFF0FDF4"
+    }
+  ],
+  "studentsAttendance": [
+    {
+      "id": "1",
+      "name": "Aarav Sharma",
+      "rollNo": "HST-101",
+      "roomNo": "A-101",
+      "block": "Aryabhata Block (A)",
+      "status": "Present"
+    },
+    {
+      "id": "2",
+      "name": "Diya Verma",
+      "rollNo": "HST-102",
+      "roomNo": "A-102",
+      "block": "Aryabhata Block (A)",
+      "status": "Present"
+    },
+    {
+      "id": "3",
+      "name": "Vihaan Iyer",
+      "rollNo": "HST-103",
+      "roomNo": "A-103",
+      "block": "Aryabhata Block (A)",
+      "status": "Present"
+    },
+    {
+      "id": "4",
+      "name": "Saanvi Nair",
+      "rollNo": "HST-104",
+      "roomNo": "A-104",
+      "block": "Aryabhata Block (A)",
+      "status": "Present"
+    },
+    {
+      "id": "5",
+      "name": "Rohan Verma",
+      "rollNo": "HST-105",
+      "roomNo": "A-105",
+      "block": "Aryabhata Block (A)",
+      "status": "Present"
+    },
+    {
+      "id": "6",
+      "name": "Kabir Das",
+      "rollNo": "HST-106",
+      "roomNo": "A-106",
+      "block": "Aryabhata Block (A)",
+      "status": "Present"
+    },
+    {
+      "id": "7",
+      "name": "Ananya Roy",
+      "rollNo": "HST-201",
+      "roomNo": "B-201",
+      "block": "Bhaskara Block (B)",
+      "status": "Present"
+    },
+    {
+      "id": "8",
+      "name": "Priya Singh",
+      "rollNo": "HST-205",
+      "roomNo": "B-205",
+      "block": "Bhaskara Block (B)",
+      "status": "Absent"
+    },
+    {
+      "id": "9",
+      "name": "Aditya Patel",
+      "rollNo": "HST-302",
+      "roomNo": "E-302",
+      "block": "Eklavya Block (E)",
+      "status": "Leave"
+    },
+    {
+      "id": "10",
+      "name": "Divya Joshi",
+      "rollNo": "HST-401",
+      "roomNo": "K-401",
+      "block": "Kalam Block (K)",
+      "status": "Present"
+    }
+  ]
+}

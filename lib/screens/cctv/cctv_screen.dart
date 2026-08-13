@@ -42,23 +42,12 @@ class _CCTVScreenState extends State<CCTVScreen> {
     }
   ];
 
-  void _showLiveFeed(BuildContext context, Map<String, dynamic> camData) {
-    if (camData['status'] == 'Offline') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${camData['name']} is currently offline.'),
-          backgroundColor: const Color(0xFFE11D48),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-      return;
-    }
-
+  void _showLiveFeed(BuildContext context, int index) {
     showDialog(
       context: context,
       useSafeArea: false,
       builder: (context) {
-        return _LiveFeedDialog(camData: camData);
+        return _LiveFeedDialog(allCams: _mockCCTVData, initialIndex: index);
       },
     );
   }
@@ -66,7 +55,7 @@ class _CCTVScreenState extends State<CCTVScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -119,7 +108,7 @@ class _CCTVScreenState extends State<CCTVScreen> {
                     final isOnline = cam['status'] == 'Online';
 
                     return GestureDetector(
-                    onTap: () => _showLiveFeed(context, cam),
+                    onTap: () => _showLiveFeed(context, index),
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 24),
                       decoration: BoxDecoration(
@@ -171,7 +160,7 @@ class _CCTVScreenState extends State<CCTVScreen> {
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                                     decoration: BoxDecoration(
-                                      color: isOnline ? const Color(0xFFE11D48) : const Color(0xFF4B5563),
+                                      color: isOnline ? const Color(0xFF10B981) : const Color(0xFF4B5563),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Row(
@@ -261,9 +250,10 @@ class _CCTVScreenState extends State<CCTVScreen> {
 
 // Widget for the Full Screen Live Feed Dialog
 class _LiveFeedDialog extends StatefulWidget {
-  final Map<String, dynamic> camData;
+  final List<Map<String, dynamic>> allCams;
+  final int initialIndex;
 
-  const _LiveFeedDialog({required this.camData});
+  const _LiveFeedDialog({required this.allCams, required this.initialIndex});
 
   @override
   State<_LiveFeedDialog> createState() => _LiveFeedDialogState();
@@ -272,10 +262,12 @@ class _LiveFeedDialog extends StatefulWidget {
 class _LiveFeedDialogState extends State<_LiveFeedDialog> with SingleTickerProviderStateMixin {
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
+  late int _currentIndex;
 
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.initialIndex;
     _pulseController = AnimationController(vsync: this, duration: const Duration(seconds: 1))..repeat(reverse: true);
     _pulseAnimation = Tween<double>(begin: 0.3, end: 1.0).animate(_pulseController);
   }
@@ -286,6 +278,18 @@ class _LiveFeedDialogState extends State<_LiveFeedDialog> with SingleTickerProvi
     super.dispose();
   }
 
+  void _nextCamera() {
+    setState(() {
+      _currentIndex = (_currentIndex + 1) % widget.allCams.length;
+    });
+  }
+
+  void _previousCamera() {
+    setState(() {
+      _currentIndex = (_currentIndex - 1 < 0) ? widget.allCams.length - 1 : _currentIndex - 1;
+    });
+  }
+
   String _getCurrentTime() {
     final now = DateTime.now();
     return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
@@ -293,16 +297,41 @@ class _LiveFeedDialogState extends State<_LiveFeedDialog> with SingleTickerProvi
 
   @override
   Widget build(BuildContext context) {
+    final camData = widget.allCams[_currentIndex];
+    final isOnline = camData['status'] == 'Online';
+
     return Dialog.fullscreen(
       backgroundColor: Colors.black,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Simulated Video Feed
-          Image.network(
-            widget.camData['imageUrl'],
-            fit: BoxFit.contain,
-          ),
+      child: GestureDetector(
+        onHorizontalDragEnd: (details) {
+          if (details.primaryVelocity == null) return;
+          if (details.primaryVelocity! < 0) {
+            _nextCamera(); // Swipe left
+          } else if (details.primaryVelocity! > 0) {
+            _previousCamera(); // Swipe right
+          }
+        },
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Simulated Video Feed
+          if (isOnline)
+            Image.network(
+              camData['imageUrl'],
+              fit: BoxFit.contain,
+              key: ValueKey(camData['imageUrl']),
+            )
+          else
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(LucideIcons.wifiOff, color: Colors.white.withValues(alpha: 0.5), size: 48),
+                  const SizedBox(height: 16),
+                  Text('CAMERA OFFLINE', style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 2)),
+                ],
+              ),
+            ),
           
           // Camera HUD Overlays
           Positioned(
@@ -310,16 +339,26 @@ class _LiveFeedDialogState extends State<_LiveFeedDialog> with SingleTickerProvi
             left: 20,
             child: Row(
               children: [
-                FadeTransition(
-                  opacity: _pulseAnimation,
-                  child: Container(
+                if (isOnline) ...[
+                  FadeTransition(
+                    opacity: _pulseAnimation,
+                    child: Container(
+                      width: 12,
+                      height: 12,
+                      decoration: const BoxDecoration(color: Color(0xFF10B981), shape: BoxShape.circle),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Text('LIVE', style: TextStyle(color: Color(0xFF10B981), fontWeight: FontWeight.bold, fontSize: 16)),
+                ] else ...[
+                  Container(
                     width: 12,
                     height: 12,
-                    decoration: const BoxDecoration(color: Color(0xFFE11D48), shape: BoxShape.circle),
+                    decoration: const BoxDecoration(color: Color(0xFF4B5563), shape: BoxShape.circle),
                   ),
-                ),
-                const SizedBox(width: 8),
-                const Text('REC', style: TextStyle(color: Color(0xFFE11D48), fontWeight: FontWeight.bold, fontSize: 16)),
+                  const SizedBox(width: 8),
+                  const Text('OFFLINE', style: TextStyle(color: Color(0xFF9CA3AF), fontWeight: FontWeight.bold, fontSize: 16)),
+                ]
               ],
             ),
           ),
@@ -344,9 +383,9 @@ class _LiveFeedDialogState extends State<_LiveFeedDialog> with SingleTickerProvi
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.camData['name'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, shadows: [Shadow(color: Colors.black, blurRadius: 4)])),
+                Text(camData['name'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, shadows: [Shadow(color: Colors.black, blurRadius: 4)])),
                 const SizedBox(height: 4),
-                Text('CAM ID: ${widget.camData['id'].toString().toUpperCase()}', style: const TextStyle(color: Colors.white70, fontSize: 14, fontFamily: 'monospace')),
+                Text('CAM ID: ${camData['id'].toString().toUpperCase()}', style: const TextStyle(color: Colors.white70, fontSize: 14, fontFamily: 'monospace')),
               ],
             ),
           ),
@@ -368,7 +407,8 @@ class _LiveFeedDialogState extends State<_LiveFeedDialog> with SingleTickerProvi
               ),
             ),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

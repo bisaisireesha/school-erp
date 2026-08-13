@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -13,87 +15,33 @@ class AccountantPaymentHistoryScreen extends StatefulWidget {
 class _AccountantPaymentHistoryScreenState extends State<AccountantPaymentHistoryScreen> {
   String _searchQuery = '';
   int _selectedFilter = 0; // 0: All, 1: Successful, 2: Pending, 3: Failed
+  List<Map<String, dynamic>> _mockTransactions = [];
+  bool _isLoading = true;
 
-  final List<Map<String, dynamic>> _mockTransactions = [
-    {
-      'id': 'TXN-98237498',
-      'student': 'Saanvi Khan',
-      'class': 'Class 5A',
-      'amount': '₹3,750',
-      'date': 'Oct 24, 2026',
-      'time': '10:45 AM',
-      'method': 'UPI',
-      'status': 'Successful',
-      'feeHead': 'Tuition Fee',
-      'receiptNo': 'REC-100234',
-      'collectedBy': 'Admin User',
-    },
-    {
-      'id': 'TXN-98237499',
-      'student': 'Vihaan Shah',
-      'class': 'Class 7C',
-      'amount': '₹2,700',
-      'date': 'Oct 24, 2026',
-      'time': '11:20 AM',
-      'method': 'Credit Card',
-      'status': 'Successful',
-      'feeHead': 'Hostel Fee',
-      'receiptNo': 'REC-100235',
-      'collectedBy': 'John Doe',
-    },
-    {
-      'id': 'TXN-98237500',
-      'student': 'Rohan Das',
-      'class': 'Class 7C',
-      'amount': '₹1,500',
-      'date': 'Oct 23, 2026',
-      'time': '02:15 PM',
-      'method': 'Net Banking',
-      'status': 'Pending',
-      'feeHead': 'Transport Fee',
-      'receiptNo': 'REC-100236',
-      'collectedBy': 'System (Online)',
-    },
-    {
-      'id': 'TXN-98237501',
-      'student': 'Aarav Patel',
-      'class': 'Class 5A',
-      'amount': '₹8,500',
-      'date': 'Oct 23, 2026',
-      'time': '09:10 AM',
-      'method': 'Debit Card',
-      'status': 'Failed',
-      'feeHead': 'Annual Fee',
-      'receiptNo': 'REC-100237',
-      'collectedBy': 'System (Online)',
-    },
-    {
-      'id': 'TXN-98237502',
-      'student': 'Zoya Varma',
-      'class': 'Class 8D',
-      'amount': '₹3,600',
-      'date': 'Oct 22, 2026',
-      'time': '04:30 PM',
-      'method': 'UPI',
-      'status': 'Successful',
-      'feeHead': 'Tuition Fee',
-      'receiptNo': 'REC-100238',
-      'collectedBy': 'Jane Smith',
-    },
-    {
-      'id': 'TXN-98237503',
-      'student': 'Kabir Sharma',
-      'class': 'Class 5A',
-      'amount': '₹2,812',
-      'date': 'Oct 22, 2026',
-      'time': '12:05 PM',
-      'method': 'Cash',
-      'status': 'Successful',
-      'feeHead': 'Hostel Fee',
-      'receiptNo': 'REC-100239',
-      'collectedBy': 'Admin User',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadTransactions();
+  }
+
+  Future<void> _loadTransactions() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/accountant_payment_history.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _mockTransactions = List<Map<String, dynamic>>.from(data['transactions']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +73,12 @@ class _AccountantPaymentHistoryScreenState extends State<AccountantPaymentHistor
                     _buildHeader(),
                     _buildFilters(),
                     _buildSearchBar(),
-                    if (filteredTransactions.isEmpty)
+                    if (_isLoading)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 60),
+                        child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                      )
+                    else if (filteredTransactions.isEmpty)
                       _buildEmptyState()
                     else
                       Padding(

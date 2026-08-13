@@ -11,6 +11,8 @@ import 'accountant_fee_reminders_screen.dart';
 import 'accountant_overdue_screen.dart';
 import 'accountant_expenses_screen.dart';
 import 'accountant_pay_slips_screen.dart';
+import 'accountant_salary_structure_screen.dart';
+import 'accountant_financial_summary_screen.dart';
 
 class AccountantMoreScreen extends StatefulWidget {
   const AccountantMoreScreen({super.key});
@@ -168,6 +170,16 @@ class _AccountantMoreScreenState extends State<AccountantMoreScreen> {
                             MainLayout.pushSubScreen(
                               context,
                               AccountantPaySlipsScreen(onBack: () => MainLayout.popSubScreen(context)),
+                            );
+                          } else if (item['key'] == 'Salary Structures') {
+                            MainLayout.pushSubScreen(
+                              context,
+                              AccountantSalaryStructureScreen(onBack: () => MainLayout.popSubScreen(context)),
+                            );
+                          } else if (item['key'] == 'Financial Summary') {
+                            MainLayout.pushSubScreen(
+                              context,
+                              AccountantFinancialSummaryScreen(onBack: () => MainLayout.popSubScreen(context)),
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

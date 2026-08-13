@@ -1,0 +1,14 @@
+[
+  {
+    "studentName": "Rahul Sharma",
+    "room": "Block A - 102",
+    "reason": "Family Function",
+    "duration": "Aug 5 - Aug 7"
+  },
+  {
+    "studentName": "Amit Kumar",
+    "room": "Block B - 204",
+    "reason": "Medical Checkup",
+    "duration": "Today, 4 Hours"
+  }
+]

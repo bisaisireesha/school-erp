@@ -1,0 +1,9 @@
+{
+  "subjects": [
+    {"icon": "calculate_outlined", "color": "0xFF3B82F6", "subject": "Mathematics", "percentage": 92, "grade": "A+"},
+    {"icon": "science_outlined", "color": "0xFF22C55E", "subject": "Science", "percentage": 88, "grade": "A"},
+    {"icon": "menu_book_rounded", "color": "0xFFF97316", "subject": "English", "percentage": 81, "grade": "B+"},
+    {"icon": "public_outlined", "color": "0xFF8B5CF6", "subject": "Social Studies", "percentage": 90, "grade": "A+"},
+    {"icon": "computer_outlined", "color": "0xFFEC4899", "subject": "Computer", "percentage": 95, "grade": "A+"}
+  ]
+}

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -44,171 +46,50 @@ class _ReportsScreenState extends State<ReportsScreen> {
     'Maintenance'
   ];
 
-  final Map<String, Map<String, dynamic>> _mockData = {
-    'Today': {
-      'kpis': [
-        {'title': 'Hostel', 'count': '1,280', 'icon': LucideIcons.bedDouble, 'color': const Color(0xFF38BDF8), 'bg': const Color(0xFFE0F2FE)},
-        {'title': 'Mess', 'count': '4', 'icon': LucideIcons.utensils, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFEF3C7)},
-        {'title': 'Inventory', 'count': '12', 'icon': LucideIcons.package, 'color': const Color(0xFF10B981), 'bg': const Color(0xFFD1FAE5)},
-        {'title': 'Vendors', 'count': '2', 'icon': LucideIcons.briefcase, 'color': const Color(0xFF8B5CF6), 'bg': const Color(0xFFEDE9FE)},
-      ],
-      'reports': [
-        {
-          'title': 'Daily Hostel Attendance',
-          'desc': 'Check-in/out roll call across all blocks for today.',
-          'category': 'Hostel',
-          'records': '1,280',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Today\'s Mess Headcount',
-          'desc': 'Meal-wise headcount for breakfast and lunch.',
-          'category': 'Mess',
-          'records': '4',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Daily Inventory Usage',
-          'desc': 'Stock consumed today.',
-          'category': 'Inventory',
-          'records': '12',
-          'icon': LucideIcons.package,
-        },
-        {
-          'title': 'Vendor Deliveries Today',
-          'desc': 'Supplies received from vendors today.',
-          'category': 'Vendors',
-          'records': '2',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Maintenance Tickets (Today)',
-          'desc': 'Tickets raised and resolved today.',
-          'category': 'Maintenance',
-          'records': '5',
-          'icon': LucideIcons.wrench,
-        },
-      ]
-    },
-    'This Month': {
-      'kpis': [
-        {'title': 'Hostel', 'count': '2,570', 'icon': LucideIcons.bedDouble, 'color': const Color(0xFF38BDF8), 'bg': const Color(0xFFE0F2FE)},
-        {'title': 'Mess', 'count': '56', 'icon': LucideIcons.utensils, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFEF3C7)},
-        {'title': 'Inventory', 'count': '98', 'icon': LucideIcons.package, 'color': const Color(0xFF10B981), 'bg': const Color(0xFFD1FAE5)},
-        {'title': 'Vendors', 'count': '14', 'icon': LucideIcons.briefcase, 'color': const Color(0xFF8B5CF6), 'bg': const Color(0xFFEDE9FE)},
-      ],
-      'reports': [
-        {
-          'title': 'Block Occupancy Summary',
-          'desc': 'Capacity, occupied beds, and occupancy rate per block.',
-          'category': 'Hostel',
-          'records': '6',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Room Allocation Register',
-          'desc': 'Full list of students with their assigned room and bed.',
-          'category': 'Hostel',
-          'records': '1,284',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Hostel Attendance Sheet',
-          'desc': 'Day-wise check-in/out roll call across all blocks.',
-          'category': 'Hostel',
-          'records': '1,280',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Mess Attendance Report',
-          'desc': 'Meal-wise headcount for breakfast, lunch, snacks, dinner.',
-          'category': 'Mess',
-          'records': '28',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Weekly Mess Menu',
-          'desc': 'Approved 7-day menu with meal timings.',
-          'category': 'Mess',
-          'records': '28',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Inventory Consumption',
-          'desc': 'Stock movement by item and category for the month.',
-          'category': 'Inventory',
-          'records': '86',
-          'icon': LucideIcons.package,
-        },
-        {
-          'title': 'Low Stock Alert List',
-          'desc': 'Items currently below their minimum threshold.',
-          'category': 'Inventory',
-          'records': '12',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Vendor Payments & Dues',
-          'desc': 'Outstanding balances and recent payments by supplier.',
-          'category': 'Vendors',
-          'records': '14',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Maintenance Tickets Log',
-          'desc': 'Open and resolved tickets across blocks.',
-          'category': 'Maintenance',
-          'records': '18',
-          'icon': LucideIcons.wrench,
-        },
-      ]
-    },
-    'This Year': {
-      'kpis': [
-        {'title': 'Hostel', 'count': '15,420', 'icon': LucideIcons.bedDouble, 'color': const Color(0xFF38BDF8), 'bg': const Color(0xFFE0F2FE)},
-        {'title': 'Mess', 'count': '672', 'icon': LucideIcons.utensils, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFEF3C7)},
-        {'title': 'Inventory', 'count': '1,156', 'icon': LucideIcons.package, 'color': const Color(0xFF10B981), 'bg': const Color(0xFFD1FAE5)},
-        {'title': 'Vendors', 'count': '168', 'icon': LucideIcons.briefcase, 'color': const Color(0xFF8B5CF6), 'bg': const Color(0xFFEDE9FE)},
-      ],
-      'reports': [
-        {
-          'title': 'Annual Occupancy Report',
-          'desc': 'Yearly summary of hostel bed occupancy rates.',
-          'category': 'Hostel',
-          'records': '12',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Yearly Mess Expenses',
-          'desc': 'Total expenses for the mess broken down by month.',
-          'category': 'Mess',
-          'records': '12',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Annual Inventory Audit',
-          'desc': 'Complete audit of inventory consumed over the year.',
-          'category': 'Inventory',
-          'records': '1,156',
-          'icon': LucideIcons.package,
-        },
-        {
-          'title': 'Vendor Contracts & Renewals',
-          'desc': 'Annual vendor performance and contract renewals.',
-          'category': 'Vendors',
-          'records': '24',
-          'icon': LucideIcons.fileText,
-        },
-        {
-          'title': 'Annual Maintenance Summary',
-          'desc': 'Summary of all maintenance tickets this year.',
-          'category': 'Maintenance',
-          'records': '245',
-          'icon': LucideIcons.wrench,
-        },
-      ]
+  Map<String, dynamic> _mockData = {};
+  bool _isLoading = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadReports();
+  }
+
+  Future<void> _loadReports() async {
+    if (!_isLoading && _mockData.isNotEmpty) return;
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_warden_reports.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _mockData = data as Map<String, dynamic>;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
-  };
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
+
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'bedDouble': return LucideIcons.bedDouble;
+      case 'utensils': return LucideIcons.utensils;
+      case 'package': return LucideIcons.package;
+      case 'briefcase': return LucideIcons.briefcase;
+      case 'fileText': return LucideIcons.fileText;
+      case 'wrench': return LucideIcons.wrench;
+      case 'building': return LucideIcons.building;
+      case 'store': return LucideIcons.store;
+      default: return LucideIcons.fileText;
+    }
+  }
 
   Map<String, dynamic> _getCategoryStyle(String category) {
     switch (category) {
@@ -254,9 +135,16 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFFFFFFF),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     final currentData = _mockData[_timeFilter] ?? _mockData['This Month']!;
-    final currentReports = currentData['reports'] as List<Map<String, dynamic>>;
-    final currentKpis = currentData['kpis'] as List<Map<String, dynamic>>;
+    final currentReports = List<Map<String, dynamic>>.from(currentData['reports']);
+    final currentKpis = List<Map<String, dynamic>>.from(currentData['kpis']);
 
     final filteredReports = currentReports.where((report) {
       final matchesFilter = _selectedFilter == 'All Reports' || report['category'] == _selectedFilter;
@@ -417,10 +305,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: kpi['bg'] as Color,
+              color: _getColor(kpi['bg']),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(kpi['icon'] as IconData, color: kpi['color'] as Color, size: 24),
+            child: Icon(_getIcon(kpi['iconStr']), color: _getColor(kpi['color']), size: 24),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -530,7 +418,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                   color: style['bg'] as Color,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(style['icon'] as IconData, color: style['color'] as Color, size: 24),
+                child: Icon(report['iconStr'] != null ? _getIcon(report['iconStr']) : (style['icon'] as IconData), color: style['color'] as Color, size: 24),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -769,8 +657,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildExportOption(String title, String format, IconData icon, Color iconColor, Color bgColor) {
     return GestureDetector(
       onTap: () {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
+        scaffoldMessenger.showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -16,12 +18,47 @@ class _InventoryScreenState extends State<InventoryScreen> {
   String _selectedFilter = 'All';
   final List<String> _filterOptions = ['All', 'In Stock', 'Low Stock', 'Out of Stock', 'Grains', 'Groceries', 'Vegetables', 'Fuel'];
 
+  List<Map<String, dynamic>> _inventoryItems = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
     _searchController.text = _searchQuery;
+    _loadInventory();
+  }
+
+  Future<void> _loadInventory() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/inventory.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _inventoryItems = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
+  
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'leaf': return LucideIcons.leaf;
+      case 'wheat': return LucideIcons.wheat;
+      case 'droplets': return LucideIcons.droplets;
+      case 'flame': return LucideIcons.flame;
+      default: return LucideIcons.box;
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -40,101 +77,15 @@ class _InventoryScreenState extends State<InventoryScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _inventoryItems = [
-    {
-      'id': '1',
-      'icon': LucideIcons.leaf,
-      'iconBg': const Color(0xFFDCFCE7),
-      'iconColor': const Color(0xFF16A34A),
-      'title': 'Rice (Basmati)',
-      'category': 'Grains',
-      'unit': 'kg',
-      'stock': '120',
-      'minLevel': '80',
-      'vendor': 'Metro Cash & Carry',
-      'status': 'In Stock',
-      'statusColor': const Color(0xFF16A34A),
-      'statusBg': const Color(0xFFDCFCE7),
-    },
-    {
-      'id': '2',
-      'icon': LucideIcons.wheat,
-      'iconBg': const Color(0xFFFEF3C7),
-      'iconColor': const Color(0xFFF59E0B),
-      'title': 'Wheat Flour',
-      'category': 'Grains',
-      'unit': 'kg',
-      'stock': '45',
-      'minLevel': '60',
-      'vendor': 'Reliance Fresh',
-      'status': 'Low Stock',
-      'statusColor': const Color(0xFFD97706),
-      'statusBg': const Color(0xFFFEF3C7),
-    },
-    {
-      'id': '3',
-      'icon': LucideIcons.droplets,
-      'iconBg': const Color(0xFFDCFCE7),
-      'iconColor': const Color(0xFF16A34A),
-      'title': 'Cooking Oil',
-      'category': 'Groceries',
-      'unit': 'L',
-      'stock': '28',
-      'minLevel': '20',
-      'vendor': 'Fortune Wholesalers',
-      'status': 'In Stock',
-      'statusColor': const Color(0xFF16A34A),
-      'statusBg': const Color(0xFFDCFCE7),
-    },
-    {
-      'id': '4',
-      'icon': LucideIcons.leaf,
-      'iconBg': const Color(0xFFFEE2E2),
-      'iconColor': const Color(0xFFE11D48),
-      'title': 'Toor Dal',
-      'category': 'Grains',
-      'unit': 'kg',
-      'stock': '12',
-      'minLevel': '25',
-      'vendor': 'Metro Cash & Carry',
-      'status': 'Out of Stock',
-      'statusColor': const Color(0xFFE11D48),
-      'statusBg': const Color(0xFFFEE2E2),
-    },
-    {
-      'id': '5',
-      'icon': LucideIcons.leaf,
-      'iconBg': const Color(0xFFDCFCE7),
-      'iconColor': const Color(0xFF16A34A),
-      'title': 'Onions',
-      'category': 'Vegetables',
-      'unit': 'kg',
-      'stock': '38',
-      'minLevel': '30',
-      'vendor': 'Local Market',
-      'status': 'In Stock',
-      'statusColor': const Color(0xFF16A34A),
-      'statusBg': const Color(0xFFDCFCE7),
-    },
-    {
-      'id': '6',
-      'icon': LucideIcons.flame,
-      'iconBg': const Color(0xFFFEF3C7),
-      'iconColor': const Color(0xFFF59E0B),
-      'title': 'LPG Cylinders',
-      'category': 'Fuel',
-      'unit': 'pcs',
-      'stock': '2',
-      'minLevel': '3',
-      'vendor': 'Bharat Gas',
-      'status': 'Low Stock',
-      'statusColor': const Color(0xFFD97706),
-      'statusBg': const Color(0xFFFEF3C7),
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFF8F9FA),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+
     final filteredItems = _inventoryItems.where((item) {
       final query = _searchQuery.trim().toLowerCase();
       final matchesQuery = query.isEmpty ||
@@ -152,7 +103,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -410,7 +361,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
             ],
           ),
           const SizedBox(height: 12),
-          // Filter Chips Horizontal Scroll
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
@@ -584,8 +534,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(color: item['iconBg'] as Color, borderRadius: BorderRadius.circular(12)),
-                child: Icon(item['icon'] as IconData, color: item['iconColor'] as Color, size: 20),
+                decoration: BoxDecoration(color: _getColor(item['iconBg']), borderRadius: BorderRadius.circular(12)),
+                child: Icon(_getIcon(item['iconStr']), color: _getColor(item['iconColor']), size: 20),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -599,8 +549,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: item['statusBg'] as Color, borderRadius: BorderRadius.circular(12)),
-                child: Text(item['status'] as String, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: item['statusColor'] as Color)),
+                decoration: BoxDecoration(color: _getColor(item['statusBg']), borderRadius: BorderRadius.circular(12)),
+                child: Text(item['status'] as String, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _getColor(item['statusColor']))),
               ),
               const SizedBox(width: 4),
               PopupMenuButton<String>(
@@ -680,8 +630,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
     
     final nameController = TextEditingController(text: isEditing ? item['title'] : '');
     final unitController = TextEditingController(text: isEditing ? item['unit'] : '');
-    final stockController = TextEditingController(text: isEditing ? item['stock'] : '');
-    final minLevelController = TextEditingController(text: isEditing ? item['minLevel'] : '');
+    final stockController = TextEditingController(text: isEditing ? item['stock'].toString() : '');
+    final minLevelController = TextEditingController(text: isEditing ? item['minLevel'].toString() : '');
     final vendorController = TextEditingController(text: isEditing ? item['vendor'] : '');
 
     showModalBottomSheet(
@@ -740,7 +690,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                       value: selectedCategory,
                                       isExpanded: true,
                                       icon: const Icon(LucideIcons.chevronDown, color: Color(0xFF64748B), size: 18),
-                                      items: ['Vegetables', 'Grains', 'Groceries', 'Dairy'].map((String option) {
+                                      items: ['Vegetables', 'Grains', 'Groceries', 'Dairy', 'Fuel'].map((String option) {
                                         return DropdownMenuItem<String>(
                                           value: option,
                                           child: Text(option, style: const TextStyle(color: Color(0xFF1E1E2D), fontSize: 14)),
@@ -812,9 +762,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                             onPressed: () {
                               final newItem = {
                                 'id': isEditing ? item['id'] : DateTime.now().millisecondsSinceEpoch.toString(),
-                                'icon': LucideIcons.package,
-                                'iconBg': const Color(0xFFE0E7FF),
-                                'iconColor': const Color(0xFF4F46E5),
+                                'icon': 'box',
+                                'iconBg': '0xFFE0E7FF',
+                                'iconColor': '0xFF4F46E5',
                                 'title': nameController.text.isNotEmpty ? nameController.text : 'New Item',
                                 'category': selectedCategory,
                                 'unit': unitController.text.isNotEmpty ? unitController.text : 'kg',
@@ -822,8 +772,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                 'minLevel': minLevelController.text.isNotEmpty ? minLevelController.text : '10',
                                 'vendor': vendorController.text.isNotEmpty ? vendorController.text : 'New Vendor',
                                 'status': 'In Stock',
-                                'statusColor': const Color(0xFF16A34A),
-                                'statusBg': const Color(0xFFDCFCE7),
+                                'statusColor': '0xFF16A34A',
+                                'statusBg': '0xFFDCFCE7',
                               };
                               setState(() {
                                 if (isEditing) {
@@ -833,8 +783,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                   _inventoryItems.insert(0, newItem);
                                 }
                               });
+                              final scaffoldMessenger = ScaffoldMessenger.of(context);
                               Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(isEditing ? 'Item updated successfully!' : 'Item added successfully!')));
+                              scaffoldMessenger.showSnackBar(SnackBar(content: Text(isEditing ? 'Item updated successfully!' : 'Item added successfully!')));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF6C4CF1),
@@ -887,8 +838,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(color: item['iconBg'] as Color, borderRadius: BorderRadius.circular(12)),
-                    child: Icon(item['icon'] as IconData, color: item['iconColor'] as Color, size: 28),
+                    decoration: BoxDecoration(color: _getColor(item['iconBg']), borderRadius: BorderRadius.circular(12)),
+                    child: Icon(_getIcon(item['iconStr']), color: _getColor(item['iconColor']), size: 28),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -896,14 +847,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(item['title'] as String, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                        Text(item['category'] as String, style: const TextStyle(fontSize: 14, color: Color(0xFF6C6C80), fontWeight: FontWeight.w500)),
+                        const SizedBox(height: 4),
+                        Text(item['category'] as String, style: const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
                       ],
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(color: item['statusBg'] as Color, borderRadius: BorderRadius.circular(12)),
-                    child: Text(item['status'] as String, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: item['statusColor'] as Color)),
+                    child: Text(item['status'] as String, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _getColor(item['statusColor']))),
                   ),
                 ],
               ),
@@ -969,8 +920,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${item['title']} restocked successfully!')));
+                    scaffoldMessenger.showSnackBar(SnackBar(content: Text('${item['title']} restocked successfully!')));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6C4CF1),

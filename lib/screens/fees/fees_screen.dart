@@ -107,13 +107,14 @@ class _FeesScreenState extends State<FeesScreen> {
       
       // Show success snackbar with Open button
       if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: [
                 const Icon(Icons.check_circle_outline, color: Colors.white),
                 const SizedBox(width: 12),
-                Expanded(child: Text('Saved as PDF successfully!', style: const TextStyle(fontWeight: FontWeight.bold))),
+                const Expanded(child: Text('Saved as PDF successfully!', style: TextStyle(fontWeight: FontWeight.bold))),
               ],
             ),
             action: SnackBarAction(
@@ -127,17 +128,19 @@ class _FeesScreenState extends State<FeesScreen> {
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             margin: const EdgeInsets.all(20),
-            duration: const Duration(seconds: 4),
+            duration: const Duration(seconds: 2), // Reduced duration
           ),
         );
       }
     } catch (e) {
       if (mounted) {
         Navigator.pop(context); // close dialog
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to download: $e'),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 2), // Reduced duration
           )
         );
       }
@@ -173,7 +176,9 @@ class _FeesScreenState extends State<FeesScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 24),
+                const SizedBox(height: 12),
+                _buildScreenHeader('Fee Details'),
+                const SizedBox(height: 12),
                 if (upcoming.isNotEmpty) ...[          
                   const Text('Upcoming Payments', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
                   const SizedBox(height: 12),
@@ -206,7 +211,9 @@ class _FeesScreenState extends State<FeesScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 12),
+                          _buildScreenHeader('Fee Details'),
+                          const SizedBox(height: 12),
                           _buildOutstandingBalanceCard(data['outstandingBalance']),
                           const SizedBox(height: 20),
                           _buildSummaryCards(data['summary']),
@@ -250,7 +257,9 @@ class _FeesScreenState extends State<FeesScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
+                    _buildScreenHeader('Fee Details'),
+                    const SizedBox(height: 12),
                     _buildOutstandingBalanceCard(data['outstandingBalance']),
                     const SizedBox(height: 20),
                     _buildSummaryCards(data['summary']),
@@ -279,6 +288,29 @@ class _FeesScreenState extends State<FeesScreen> {
           },
         );
       },
+    );
+  }
+
+  Widget _buildScreenHeader(String title) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            MainLayout.switchTab(0);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+            ),
+            child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+      ],
     );
   }
 

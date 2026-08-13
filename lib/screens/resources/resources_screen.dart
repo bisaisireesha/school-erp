@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'subject_resources_screen.dart';
@@ -13,16 +15,31 @@ class ResourcesScreen extends StatefulWidget {
 }
 
 class _ResourcesScreenState extends State<ResourcesScreen> {
-  final List<Map<String, dynamic>> _mockFolders = [
-    {'subject': 'Mathematics', 'folders': 5, 'resources': 248},
-    {'subject': 'English', 'folders': 5, 'resources': 210},
-    {'subject': 'Science', 'folders': 5, 'resources': 218},
-    {'subject': 'Social Studies', 'folders': 5, 'resources': 195},
-    {'subject': 'Computer', 'folders': 4, 'resources': 146},
-    {'subject': 'Telugu', 'folders': 4, 'resources': 138},
-    {'subject': 'Hindi', 'folders': 4, 'resources': 126},
-    {'subject': 'General Knowledge', 'folders': 3, 'resources': 98},
-  ];
+  List<Map<String, dynamic>> _mockFolders = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFolders();
+  }
+
+  Future<void> _loadFolders() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_resources.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _mockFolders = List<Map<String, dynamic>>.from(data['folders']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +54,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
         }).toList();
 
         return Scaffold(
-          backgroundColor: const Color(0xFFF8F9FA),
+          backgroundColor: Colors.transparent,
           body: SafeArea(
             bottom: false,
             child: SingleChildScrollView(
@@ -90,7 +107,12 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                         const SizedBox(height: 24),
 
                         // Folders Grid
-                        if (filteredFolders.isEmpty)
+                        if (_isLoading)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 40),
+                            child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                          )
+                        else if (filteredFolders.isEmpty)
                           Center(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 40.0),

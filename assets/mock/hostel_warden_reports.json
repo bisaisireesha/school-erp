@@ -1,0 +1,165 @@
+{
+  "Today": {
+    "kpis": [
+      {"title": "Hostel", "count": "1,280", "iconStr": "bedDouble", "color": "0xFF38BDF8", "bg": "0xFFE0F2FE"},
+      {"title": "Mess", "count": "4", "iconStr": "utensils", "color": "0xFFF59E0B", "bg": "0xFFFEF3C7"},
+      {"title": "Inventory", "count": "12", "iconStr": "package", "color": "0xFF10B981", "bg": "0xFFD1FAE5"},
+      {"title": "Vendors", "count": "2", "iconStr": "briefcase", "color": "0xFF8B5CF6", "bg": "0xFFEDE9FE"}
+    ],
+    "reports": [
+      {
+        "title": "Daily Hostel Attendance",
+        "desc": "Check-in/out roll call across all blocks for today.",
+        "category": "Hostel",
+        "records": "1,280",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Today's Mess Headcount",
+        "desc": "Meal-wise headcount for breakfast and lunch.",
+        "category": "Mess",
+        "records": "4",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Daily Inventory Usage",
+        "desc": "Stock consumed today.",
+        "category": "Inventory",
+        "records": "12",
+        "iconStr": "package"
+      },
+      {
+        "title": "Vendor Deliveries Today",
+        "desc": "Supplies received from vendors today.",
+        "category": "Vendors",
+        "records": "2",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Maintenance Tickets (Today)",
+        "desc": "Tickets raised and resolved today.",
+        "category": "Maintenance",
+        "records": "5",
+        "iconStr": "wrench"
+      }
+    ]
+  },
+  "This Month": {
+    "kpis": [
+      {"title": "Hostel", "count": "2,570", "iconStr": "bedDouble", "color": "0xFF38BDF8", "bg": "0xFFE0F2FE"},
+      {"title": "Mess", "count": "56", "iconStr": "utensils", "color": "0xFFF59E0B", "bg": "0xFFFEF3C7"},
+      {"title": "Inventory", "count": "98", "iconStr": "package", "color": "0xFF10B981", "bg": "0xFFD1FAE5"},
+      {"title": "Vendors", "count": "14", "iconStr": "briefcase", "color": "0xFF8B5CF6", "bg": "0xFFEDE9FE"}
+    ],
+    "reports": [
+      {
+        "title": "Block Occupancy Summary",
+        "desc": "Capacity, occupied beds, and occupancy rate per block.",
+        "category": "Hostel",
+        "records": "6",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Room Allocation Register",
+        "desc": "Full list of students with their assigned room and bed.",
+        "category": "Hostel",
+        "records": "1,284",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Hostel Attendance Sheet",
+        "desc": "Day-wise check-in/out roll call across all blocks.",
+        "category": "Hostel",
+        "records": "1,280",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Mess Attendance Report",
+        "desc": "Meal-wise headcount for breakfast, lunch, snacks, dinner.",
+        "category": "Mess",
+        "records": "28",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Weekly Mess Menu",
+        "desc": "Approved 7-day menu with meal timings.",
+        "category": "Mess",
+        "records": "28",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Inventory Consumption",
+        "desc": "Stock movement by item and category for the month.",
+        "category": "Inventory",
+        "records": "86",
+        "iconStr": "package"
+      },
+      {
+        "title": "Low Stock Alert List",
+        "desc": "Items currently below their minimum threshold.",
+        "category": "Inventory",
+        "records": "12",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Vendor Payments & Dues",
+        "desc": "Outstanding balances and recent payments by supplier.",
+        "category": "Vendors",
+        "records": "14",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Maintenance Tickets Log",
+        "desc": "Open and resolved tickets across blocks.",
+        "category": "Maintenance",
+        "records": "18",
+        "iconStr": "wrench"
+      }
+    ]
+  },
+  "This Year": {
+    "kpis": [
+      {"title": "Hostel", "count": "15,420", "iconStr": "bedDouble", "color": "0xFF38BDF8", "bg": "0xFFE0F2FE"},
+      {"title": "Mess", "count": "672", "iconStr": "utensils", "color": "0xFFF59E0B", "bg": "0xFFFEF3C7"},
+      {"title": "Inventory", "count": "1,156", "iconStr": "package", "color": "0xFF10B981", "bg": "0xFFD1FAE5"},
+      {"title": "Vendors", "count": "168", "iconStr": "briefcase", "color": "0xFF8B5CF6", "bg": "0xFFEDE9FE"}
+    ],
+    "reports": [
+      {
+        "title": "Annual Occupancy Report",
+        "desc": "Yearly summary of hostel bed occupancy rates.",
+        "category": "Hostel",
+        "records": "12",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Yearly Mess Expenses",
+        "desc": "Total expenses for the mess broken down by month.",
+        "category": "Mess",
+        "records": "12",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Annual Inventory Audit",
+        "desc": "Complete audit of inventory consumed over the year.",
+        "category": "Inventory",
+        "records": "1,156",
+        "iconStr": "package"
+      },
+      {
+        "title": "Vendor Contracts & Renewals",
+        "desc": "Annual vendor performance and contract renewals.",
+        "category": "Vendors",
+        "records": "24",
+        "iconStr": "fileText"
+      },
+      {
+        "title": "Annual Maintenance Summary",
+        "desc": "Summary of all maintenance tickets this year.",
+        "category": "Maintenance",
+        "records": "245",
+        "iconStr": "wrench"
+      }
+    ]
+  }
+}

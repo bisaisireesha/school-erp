@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -12,50 +14,31 @@ class SubjectsScreen extends StatefulWidget {
 
 class _SubjectsScreenState extends State<SubjectsScreen> {
   String _searchQuery = '';
+  List<Map<String, dynamic>> _subjects = [];
+  bool _isLoading = true;
 
-  final List<Map<String, dynamic>> _subjects = [
-    {
-      'name': 'English',
-      'code': 'ENG101',
-      'teacher': 'Ms. Priya Sharma',
-      'teacherInitials': 'P',
-      'schedule': 'Mon, Wed, Fri 09:15 AM • Room 102',
-      'progress': '88%',
-      'progressValue': 0.88,
-      'grade': 'A-',
-    },
-    {
-      'name': 'Mathematics',
-      'code': 'MAT101',
-      'teacher': 'Mr. Arjun Verma',
-      'teacherInitials': 'A',
-      'schedule': 'Tue, Thu 10:30 AM • Room 105',
-      'progress': '78%',
-      'progressValue': 0.78,
-      'grade': 'B+',
-    },
-    {
-      'name': 'Science',
-      'code': 'SCI101',
-      'teacher': 'Ms. Neha Iyer',
-      'teacherInitials': 'N',
-      'schedule': 'Mon, Thu 08:30 AM • Lab 1',
-      'progress': '81%',
-      'progressValue': 0.81,
-      'grade': 'A-',
-    },
-    {
-      'name': 'Social Studies',
-      'code': 'SOC101',
-      'teacher': 'Mr. Rohan Mehta',
-      'teacherInitials': 'R',
-      'schedule': 'Wed, Fri 11:45 AM • Room 110',
-      'progress': '74%',
-      'progressValue': 0.74,
-      'grade': 'B',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadSubjects();
+  }
 
+  Future<void> _loadSubjects() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_subjects.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _subjects = List<Map<String, dynamic>>.from(data['subjects']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final filteredSubjects = _subjects.where((subject) {
@@ -68,7 +51,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -120,31 +103,39 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildKPIs(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
                     _buildSearchBar(),
                     const SizedBox(height: 16),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        int crossAxisCount = 2;
-                        if (constraints.maxWidth > 900) {
-                          crossAxisCount = 4;
-                        } else if (constraints.maxWidth > 500) {
-                          crossAxisCount = 3;
+                    if (_isLoading)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 60),
+                        child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                      )
+                    else if (filteredSubjects.isEmpty)
+                      const Center(child: Padding(padding: EdgeInsets.only(top: 40), child: Text("No subjects found.")))
+                    else
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          int crossAxisCount = 2;
+                          if (constraints.maxWidth > 900) {
+                            crossAxisCount = 4;
+                          } else if (constraints.maxWidth > 500) {
+                            crossAxisCount = 3;
+                          }
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: filteredSubjects.length,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              crossAxisSpacing: 14,
+                              mainAxisSpacing: 14,
+                              childAspectRatio: 0.88,
+                            ),
+                            itemBuilder: (context, index) => _buildSubjectCard(filteredSubjects[index]),
+                          );
                         }
-                        return GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: filteredSubjects.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: crossAxisCount,
-                            crossAxisSpacing: 14,
-                            mainAxisSpacing: 14,
-                            childAspectRatio: 0.88,
-                          ),
-                          itemBuilder: (context, index) => _buildSubjectCard(filteredSubjects[index]),
-                        );
-                      }
-                    ),
+                      ),
                     const SizedBox(height: 120),
                   ],
                 ),

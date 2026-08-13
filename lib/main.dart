@@ -80,6 +80,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Smart School Management',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         textTheme: TextTheme(
           // Screen Title: Inter Bold (24 px)
           headlineSmall: GoogleFonts.inter(fontSize: 24, fontWeight: FontWeight.bold),

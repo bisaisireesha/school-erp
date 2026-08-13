@@ -1,0 +1,16 @@
+{
+  "quickActions": [
+    {"title": "My Child", "icon": "users", "key": "My Child"},
+    {"title": "Homework", "icon": "squarePen", "key": "Homework"},
+    {"title": "Attendance", "icon": "calendarCheck", "key": "Attendance"},
+    {"title": "Exams & Results", "icon": "graduationCap", "key": "Exams & Results"},
+    {"title": "Timetable", "icon": "calendarDays", "key": "Timetable"},
+    {"title": "Calendar", "icon": "calendar", "key": "Calendar"},
+    {"title": "Leave Request", "icon": "fileCheck", "key": "Leave Request"},
+    {"title": "Transport", "icon": "bus", "key": "Transport"},
+    {"title": "CCTV Cameras", "icon": "video", "key": "CCTV Cameras"},
+    {"title": "Resources", "icon": "folder", "key": "Resources"},
+    {"title": "Library", "icon": "book", "key": "Library"},
+    {"title": "Activity", "icon": "activity", "key": "Activity"}
+  ]
+}

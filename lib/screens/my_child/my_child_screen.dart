@@ -1,64 +1,24 @@
+import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:parent_app/screens/main_layout.dart';
 
-const String _mockChildrenDataJson = '''
-[
-  {
-    "studentId": "STU20230014",
-    "firstName": "Akshara",
-    "lastName": "Sharma",
-    "grade": "Grade 5",
-    "section": "C",
-    "rollNumber": "14",
-    "dateOfBirth": "15-May-2012",
-    "bloodGroup": "O+",
-    "gender": "Female",
-    "address": "402, Sunshine Apartments, MG Road, Bangalore - 560001",
-    "classTeacher": "Mrs. Kavita Menon",
-    "parents": {
-      "fatherName": "Ravi Sharma",
-      "motherName": "Priya Sharma",
-      "primaryContact": "+91 98765 43210"
-    },
-    "healthInfo": {
-      "allergies": "Peanuts",
-      "medicalConditions": "None",
-      "emergencyContact": "+91 98765 43211"
-    }
-  },
-  {
-    "studentId": "STU20230089",
-    "firstName": "Aryan",
-    "lastName": "Sharma",
-    "grade": "Grade 7",
-    "section": "B",
-    "rollNumber": "22",
-    "dateOfBirth": "22-Aug-2012",
-    "bloodGroup": "B+",
-    "gender": "Female",
-    "address": "402, Sunshine Apartments, MG Road, Bangalore - 560001",
-    "classTeacher": "John Smith",
-    "parents": {
-      "fatherName": "Ravi Sharma",
-      "motherName": "Priya Sharma",
-      "primaryContact": "+91 98765 43210"
-    },
-    "healthInfo": {
-      "allergies": "None",
-      "medicalConditions": "Asthma",
-      "emergencyContact": "+91 98765 43211"
-    }
-  }
-]
-''';
-
 class MyChildScreen extends StatefulWidget {
   final VoidCallback onBack;
 
-  static final List<dynamic> childrenData = jsonDecode(_mockChildrenDataJson);
+  static List<dynamic> childrenData = [];
   static final ValueNotifier<int> selectedChildIndex = ValueNotifier(0);
+  
+  static Future<void> loadChildrenData() async {
+    if (childrenData.isNotEmpty) return;
+    try {
+      final String response = await rootBundle.loadString('assets/mock/parent_my_child.json');
+      childrenData = json.decode(response);
+    } catch (e) {
+      childrenData = [];
+    }
+  }
 
   const MyChildScreen({super.key, required this.onBack});
 
@@ -67,9 +27,21 @@ class MyChildScreen extends StatefulWidget {
 }
 
 class _MyChildScreenState extends State<MyChildScreen> {
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
+    if (MyChildScreen.childrenData.isEmpty) {
+      _isLoading = true;
+      MyChildScreen.loadChildrenData().then((_) {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      });
+    }
   }
 
   void _showSwitchChildModal() {
@@ -253,11 +225,17 @@ class _MyChildScreenState extends State<MyChildScreen> {
     return ValueListenableBuilder<int>(
       valueListenable: MyChildScreen.selectedChildIndex,
       builder: (context, selectedChildIndex, child) {
+        if (_isLoading || MyChildScreen.childrenData.isEmpty) {
+          return const Scaffold(
+            backgroundColor: Color(0xFFFFFFFF),
+            body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+          );
+        }
         final currentChild = MyChildScreen.childrenData[selectedChildIndex];
         String fullName = '${currentChild["firstName"]} ${currentChild["lastName"]}';
         
         return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -16,11 +18,36 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
   String _searchQuery = '';
   String _filterBlock = 'All Blocks';
 
+  String _filterRoom = 'All Rooms';
+  String _filterClass = 'All Classes';
+  String _filterStatus = 'All Status';
+
+  List<Map<String, dynamic>> _students = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadStudents();
+  }
+
+  Future<void> _loadStudents() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_students.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _students = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -36,129 +63,15 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
     MainLayout.globalSearchQuery.removeListener(_onGlobalSearchChanged);
     super.dispose();
   }
-  String _filterRoom = 'All Rooms';
-  String _filterClass = 'All Classes';
-  String _filterStatus = 'All Status';
-
-  final List<Map<String, dynamic>> _students = [
-    {
-      'id': '1',
-      'student': 'Aarav Mehta',
-      'initials': 'AM',
-      'rollNo': 'HST-101',
-      'admNo': 'ADM2024-101',
-      'grade': 'Grade 9-A',
-      'block': 'Aryabhata (A)',
-      'blockCode': 'A',
-      'blockName': 'Aryabhata',
-      'roomNo': 'A-204',
-      'bedNo': 'Bed A',
-      'type': 'Boys',
-      'age': '15',
-      'status': 'Checked In',
-      'joinedDate': '12 Jun 2025',
-      'guardianName': 'Ramesh Mehta',
-      'contact': '+91 98765 43210'
-    },
-    {
-      'id': '2',
-      'student': 'Reyansh Khan',
-      'initials': 'RK',
-      'rollNo': 'HST-102',
-      'admNo': 'ADM2024-102',
-      'grade': 'Grade 10-B',
-      'block': 'Eklavya (E)',
-      'blockCode': 'E',
-      'blockName': 'Eklavya',
-      'roomNo': 'E-101',
-      'bedNo': 'Bed A',
-      'type': 'Boys',
-      'age': '16',
-      'status': 'Checked In',
-      'joinedDate': '15 Jun 2025',
-      'guardianName': 'Suhail Khan',
-      'contact': '+91 98765 43211'
-    },
-    {
-      'id': '3',
-      'student': 'Ananya Patel',
-      'initials': 'AP',
-      'rollNo': 'HST-103',
-      'admNo': 'ADM2024-103',
-      'grade': 'Grade 8-C',
-      'block': 'Eklavya (E)',
-      'blockCode': 'E',
-      'blockName': 'Eklavya',
-      'roomNo': 'E-102',
-      'bedNo': 'Bed A',
-      'type': 'Girls',
-      'age': '14',
-      'status': 'Pending',
-      'joinedDate': '20 Jun 2025',
-      'guardianName': 'Vikram Patel',
-      'contact': '+91 98765 43213'
-    },
-    {
-      'id': '4',
-      'student': 'Rahul Sharma',
-      'initials': 'RS',
-      'rollNo': 'HST-104',
-      'admNo': 'ADM2024-104',
-      'grade': 'Grade 11-A',
-      'block': 'Aryabhata (A)',
-      'blockCode': 'A',
-      'blockName': 'Aryabhata',
-      'roomNo': 'A-205',
-      'bedNo': 'Bed B',
-      'type': 'Boys',
-      'age': '17',
-      'status': 'Checked In',
-      'joinedDate': '10 Jun 2025',
-      'guardianName': 'Suresh Sharma',
-      'contact': '+91 98765 43212'
-    },
-    {
-      'id': '5',
-      'student': 'Kabir Mehra',
-      'initials': 'KM',
-      'rollNo': 'HST-105',
-      'admNo': 'ADM2024-105',
-      'grade': 'Grade 12-B',
-      'block': 'Bhaskara (B)',
-      'blockCode': 'B',
-      'blockName': 'Bhaskara',
-      'roomNo': 'B-301',
-      'bedNo': 'Bed A',
-      'type': 'Boys',
-      'age': '18',
-      'status': 'Checked Out',
-      'joinedDate': '05 Jun 2025',
-      'guardianName': 'Sunil Mehra',
-      'contact': '+91 98765 43214'
-    },
-    {
-      'id': '6',
-      'student': 'Priya Singh',
-      'initials': 'PS',
-      'rollNo': 'HST-106',
-      'admNo': 'ADM2024-106',
-      'grade': 'Grade 9-B',
-      'block': 'Bhaskara (B)',
-      'blockCode': 'B',
-      'blockName': 'Bhaskara',
-      'roomNo': 'B-302',
-      'bedNo': 'Bed B',
-      'type': 'Girls',
-      'age': '15',
-      'status': 'Checked In',
-      'joinedDate': '18 Jun 2025',
-      'guardianName': 'Rajesh Singh',
-      'contact': '+91 98765 43215'
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFF8F9FA),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
     int totalStudents = 250 + _students.length;
     int boysCount = 214 + _students.where((s) => s['type'] == 'Boys').length;
     int girlsCount = 34 + _students.where((s) => s['type'] == 'Girls').length;
@@ -213,7 +126,7 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -1131,6 +1044,7 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
                           final nameParts = newName.split(' ');
                           final newInitials = nameParts.length > 1 ? '${nameParts[0][0]}${nameParts[1][0]}'.toUpperCase() : newName.substring(0, newName.length >= 2 ? 2 : 1).toUpperCase();
 
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           Navigator.pop(context);
                           setState(() {
                             if (newName.isNotEmpty) student['student'] = newName;
@@ -1143,7 +1057,7 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
                             if (newContact.isNotEmpty) student['contact'] = newContact;
                           });
 
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          scaffoldMessenger.showSnackBar(
                             SnackBar(content: Text('${student['student']} updated successfully!')),
                           );
                         },
@@ -1211,11 +1125,12 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        final scaffoldMessenger = ScaffoldMessenger.of(context);
                         Navigator.pop(context);
                         setState(() {
                           _students.removeWhere((s) => s['id'] == student['id']);
                         });
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${student['student']} deleted successfully.')));
+                        scaffoldMessenger.showSnackBar(SnackBar(content: Text('${student['student']} deleted successfully.')));
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFE11D48), padding: const EdgeInsets.symmetric(vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                       child: const Text('Delete Student', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14)),
@@ -1567,6 +1482,7 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
                           final nameParts = name.split(' ');
                           final initials = nameParts.length > 1 ? '${nameParts[0][0]}${nameParts[1][0]}'.toUpperCase() : name.substring(0, name.length >= 2 ? 2 : 1).toUpperCase();
 
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           Navigator.pop(context);
                           setState(() {
                             _students.insert(0, {
@@ -1590,7 +1506,7 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
                             });
                           });
 
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          scaffoldMessenger.showSnackBar(
                             SnackBar(content: Text('$name added to Hostel Students successfully!')),
                           );
                         },

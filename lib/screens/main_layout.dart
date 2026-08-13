@@ -146,9 +146,20 @@ class _MainLayoutState extends State<MainLayout> {
       statusBarIconBrightness: Brightness.dark,
     ));
 
-    return Scaffold(
-      extendBody: true,
-      backgroundColor: Colors.white,
+    return PopScope(
+      canPop: _subScreens.isEmpty && _currentIndex == 0,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          if (_subScreens.isNotEmpty) {
+            popSubScreen();
+          } else if (_currentIndex != 0) {
+            switchTab(0);
+          }
+        }
+      },
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.white,
       body: Stack(
         children: [
           // Top Gradient Background (App Bar Area)
@@ -319,7 +330,7 @@ class _MainLayoutState extends State<MainLayout> {
                       ),
                       ..._subScreens.map((screen) => Positioned.fill(
                         child: Container(
-                          color: const Color(0xFFF8F9FA),
+                          color: Colors.white,
                           child: screen,
                         ),
                       )),
@@ -334,6 +345,7 @@ class _MainLayoutState extends State<MainLayout> {
             child: _buildBottomNavigationBar(),
           ),
         ],
+      ),
       ),
     );
   }

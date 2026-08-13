@@ -112,7 +112,8 @@ class ProfileScreen extends StatelessWidget {
     String subtitle = 'Parent · 2 Children Enrolled';
     String initials = 'SP';
     String email = 'suresh.patel@email.com';
-    String phone = '+91 98765 43210';
+    String contact2 = '+91 98765 43210';
+    IconData contact2Icon = LucideIcons.phone;
     String badge = 'Parent';
     Color badgeColor = const Color(0xFF6C4CF1);
     Color badgeBg = const Color(0xFFF3F0FF);
@@ -123,7 +124,8 @@ class ProfileScreen extends StatelessWidget {
       subtitle = 'Class 10-A | Roll No: 1042';
       initials = 'AK';
       email = 'akshara.s@school.edu';
-      phone = '+91 98765 11223';
+      contact2 = 'ADM-2024-1042';
+      contact2Icon = LucideIcons.badgeCheck;
       badge = 'Student';
       badgeColor = const Color(0xFF3B82F6);
       badgeBg = const Color(0xFFEFF6FF);
@@ -132,7 +134,8 @@ class ProfileScreen extends StatelessWidget {
       subtitle = 'Hostel Warden · Block A & B';
       initials = 'RV';
       email = 'warden.verma@school.edu';
-      phone = '+91 98765 55443';
+      contact2 = '+91 98765 55443';
+      contact2Icon = LucideIcons.phone;
       badge = 'Staff · Warden';
       badgeColor = const Color(0xFFF59E0B);
       badgeBg = const Color(0xFFFEF3C7);
@@ -142,7 +145,8 @@ class ProfileScreen extends StatelessWidget {
       subtitle = 'Front Desk Executive · Main Reception';
       initials = 'AT';
       email = 'frontdesk@school.edu';
-      phone = '+91 98765 99887';
+      contact2 = '+91 98765 99887';
+      contact2Icon = LucideIcons.phone;
       badge = 'Staff · Front Desk';
       badgeColor = const Color(0xFF10B981);
       badgeBg = const Color(0xFFD1FAE5);
@@ -232,7 +236,7 @@ class ProfileScreen extends StatelessWidget {
               runSpacing: 8,
               children: [
                 _buildContactPill(LucideIcons.mail, email),
-                _buildContactPill(LucideIcons.phone, phone),
+                _buildContactPill(contact2Icon, contact2),
                 if (extraPill != null) _buildContactPill(LucideIcons.phoneCall, extraPill),
               ],
             ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../main_layout.dart';
@@ -654,7 +656,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                 MainLayout.pushSubScreen(context, TransportScreen(onBack: () => MainLayout.popSubScreen(context)));
               }),
               _buildActionItem(Icons.local_library_outlined, 'Library', onTap: () {
-                MainLayout.pushSubScreen(context, LibraryScreen(onBack: () => MainLayout.popSubScreen(context)));
+                MainLayout.pushSubScreen(context, LibraryScreen(onBack: () => MainLayout.popSubScreen(context), isStudentPortal: true));
               }),
             ],
           ),
@@ -1013,48 +1015,45 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
   );
   Animation<double>? _anim;
 
-  final List<Map<String, dynamic>> _cardsData = [
-    {
-      'icon': Icons.menu_book_rounded,
-      'iconBg': const Color(0xFFEADDF8),
-      'iconColor': const Color(0xFF1E1E2D),
-      'title': '2 Assignments',
-      'subtitle': 'Due Today',
-      'tagColor': const Color(0xFF6C4CF1),
-      'tagBgColor': const Color(0xFFF3EEFF),
-      'tagText': 'Pending',
-    },
-    {
-      'icon': Icons.directions_bus_rounded,
-      'iconBg': const Color(0xFFEADDF8),
-      'iconColor': const Color(0xFF1E1E2D),
-      'title': 'Transport Update',
-      'subtitle': 'Bus Green 12 is near',
-      'tagColor': const Color(0xFF6C4CF1),
-      'tagBgColor': const Color(0xFFF3EEFF),
-      'tagText': 'Live',
-    },
-    {
-      'icon': Icons.account_balance_wallet_rounded,
-      'iconBg': const Color(0xFFEADDF8),
-      'iconColor': const Color(0xFF1E1E2D),
-      'title': 'Fee Reminder',
-      'subtitle': 'Term 2 Tuition Fee',
-      'tagColor': const Color(0xFF6C4CF1),
-      'tagBgColor': const Color(0xFFF3EEFF),
-      'tagText': 'Unpaid',
-    },
-    {
-      'icon': Icons.event_available_rounded,
-      'iconBg': const Color(0xFFEADDF8),
-      'iconColor': const Color(0xFF1E1E2D),
-      'title': 'Annual Sports Day',
-      'subtitle': 'In 3 days',
-      'tagColor': const Color(0xFF6C4CF1),
-      'tagBgColor': const Color(0xFFF3EEFF),
-      'tagText': 'Upcoming',
-    },
-  ];
+  List<Map<String, dynamic>> _cardsData = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCardsData();
+  }
+
+  Future<void> _loadCardsData() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_dashboard.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _cardsData = List<Map<String, dynamic>>.from(data['cards']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'menu_book_rounded': return Icons.menu_book_rounded;
+      case 'directions_bus_rounded': return Icons.directions_bus_rounded;
+      case 'account_balance_wallet_rounded': return Icons.account_balance_wallet_rounded;
+      case 'event_available_rounded': return Icons.event_available_rounded;
+      default: return Icons.info;
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
 
   @override
   void dispose() {
@@ -1224,12 +1223,12 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
           width: 64,
           height: 64,
           decoration: BoxDecoration(
-            color: cardData['iconBg'] as Color,
+            color: _getColor(cardData['iconBg']),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Icon(
-            cardData['icon'] as IconData,
-            color: cardData['iconColor'] as Color,
+            _getIcon(cardData['icon']),
+            color: _getColor(cardData['iconColor']),
             size: 36,
           ),
         ),
@@ -1255,18 +1254,18 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: cardData['tagBgColor'] as Color,
+                  color: _getColor(cardData['tagBgColor']),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.circle, color: cardData['tagColor'] as Color, size: 8),
+                    Icon(Icons.circle, color: _getColor(cardData['tagColor']), size: 8),
                     const SizedBox(width: 4),
                     Text(
                       cardData['tagText'] as String,
                       style: TextStyle(
-                        color: cardData['tagColor'] as Color,
+                        color: _getColor(cardData['tagColor']),
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1284,6 +1283,14 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return SizedBox(
+        height: _cardHeight + _peek,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    if (_cardsData.isEmpty) return const SizedBox.shrink();
+
     final int cur = _currentIndex;
     final int next = _mod(cur + 1);
     final int nextNext = _mod(cur + 2);

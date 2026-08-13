@@ -674,8 +674,9 @@ class _AccountantExpensesScreenState extends State<AccountantExpensesScreen> {
                               'description': _descController.text.isNotEmpty ? _descController.text : 'No description',
                             });
                           });
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Vendor Bill created successfully!')));
+                          scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Vendor Bill created successfully!')));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6C4CF1),

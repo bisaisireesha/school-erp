@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
-
 class FeePaymentsScreen extends StatefulWidget {
   final VoidCallback onBack;
 
@@ -15,13 +14,15 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
   int _selectedSegment = 0;
 
   void _simulateDownload(String itemName) {
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Downloading $itemName...'),
-        backgroundColor: const Color(0xFF6C4CF1),
+        content: Text('Downloaded $itemName successfully!'),
+        backgroundColor: const Color(0xFF16A34A), // Green background
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         margin: const EdgeInsets.all(20),
+        duration: const Duration(milliseconds: 1500),
       ),
     );
   }

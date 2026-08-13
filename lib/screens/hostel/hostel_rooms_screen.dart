@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -16,11 +18,32 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
   String _selectedBlock = 'Aryabhata (A)';
   int _selectedFilter = 0; // 0: All, 1: Allocated, 2: Pending, 3: Check Out
 
+  List<Map<String, dynamic>> _rooms = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadRooms();
+  }
+
+  Future<void> _loadRooms() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_rooms.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _rooms = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -37,132 +60,14 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _rooms = [
-    {
-      'roomNo': 'A-204',
-      'block': 'Aryabhata (A)',
-      'blockCode': 'A',
-      'blockName': 'Aryabhata',
-      'floor': '2nd Floor',
-      'type': 'Boys',
-      'capacity': 2,
-      'beds': [
-        {
-          'bedNo': 'Bed A',
-          'student': 'Aarav Mehta',
-          'initials': 'AM',
-          'rollNo': '101',
-          'admNo': 'ADM2024-101',
-          'grade': 'Grade 9-A',
-          'status': 'Allocated',
-          'joinedDate': '12 Jun 2025',
-          'contact': '+91 98765 43210'
-        },
-        {
-          'bedNo': 'Bed B',
-          'student': 'Rahul Sharma',
-          'initials': 'RS',
-          'rollNo': '104',
-          'admNo': 'ADM2024-104',
-          'grade': 'Grade 11-A',
-          'status': 'Allocated',
-          'joinedDate': '10 Jun 2025',
-          'contact': '+91 98765 43212'
-        },
-      ],
-    },
-    {
-      'roomNo': 'E-101',
-      'block': 'Eklavya (E)',
-      'blockCode': 'E',
-      'blockName': 'Eklavya',
-      'floor': '1st Floor',
-      'type': 'Boys',
-      'capacity': 2,
-      'beds': [
-        {
-          'bedNo': 'Bed A',
-          'student': 'Reyansh Khan',
-          'initials': 'RK',
-          'rollNo': '102',
-          'admNo': 'ADM2024-102',
-          'grade': 'Grade 10-B',
-          'status': 'Allocated',
-          'joinedDate': '15 Jun 2025',
-          'contact': '+91 98765 43211'
-        },
-      ],
-    },
-    {
-      'roomNo': 'E-102',
-      'block': 'Eklavya (E)',
-      'blockCode': 'E',
-      'blockName': 'Eklavya',
-      'floor': '1st Floor',
-      'type': 'Girls',
-      'capacity': 2,
-      'beds': [
-        {
-          'bedNo': 'Bed A',
-          'student': 'Ananya Patel',
-          'initials': 'AP',
-          'rollNo': '103',
-          'admNo': 'ADM2024-103',
-          'grade': 'Grade 8-C',
-          'status': 'Pending',
-          'joinedDate': '20 Jun 2025',
-          'contact': '+91 98765 43213'
-        },
-      ],
-    },
-    {
-      'roomNo': 'B-301',
-      'block': 'Bhaskara (B)',
-      'blockCode': 'B',
-      'blockName': 'Bhaskara',
-      'floor': '3rd Floor',
-      'type': 'Boys',
-      'capacity': 2,
-      'beds': [
-        {
-          'bedNo': 'Bed A',
-          'student': 'Kabir Mehra',
-          'initials': 'KM',
-          'rollNo': '105',
-          'admNo': 'ADM2024-105',
-          'grade': 'Grade 12-B',
-          'status': 'Checked Out',
-          'joinedDate': '05 Jun 2025',
-          'contact': '+91 98765 43214'
-        },
-      ],
-    },
-    {
-      'roomNo': 'B-302',
-      'block': 'Bhaskara (B)',
-      'blockCode': 'B',
-      'blockName': 'Bhaskara',
-      'floor': '3rd Floor',
-      'type': 'Girls',
-      'capacity': 2,
-      'beds': [
-        {
-          'bedNo': 'Bed B',
-          'student': 'Priya Singh',
-          'initials': 'PS',
-          'rollNo': '106',
-          'admNo': 'ADM2024-106',
-          'grade': 'Grade 9-B',
-          'status': 'Allocated',
-          'joinedDate': '18 Jun 2025',
-          'contact': '+91 98765 43215'
-        },
-      ],
-    },
-  ];
-
-  @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFFFFFFF),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     List<Map<String, dynamic>> blockRooms = _rooms;
 
     int totalRecords = blockRooms.length;
@@ -215,7 +120,7 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -821,9 +726,10 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        final scaffoldMessenger = ScaffoldMessenger.of(context);
                         Navigator.pop(context);
                         setState(() => bed['status'] = 'Allocated');
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${bed['student']} transferred successfully!')));
+                        scaffoldMessenger.showSnackBar(SnackBar(content: Text('${bed['student']} transferred successfully!')));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),
@@ -904,9 +810,10 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
                       Navigator.pop(context);
                       setState(() => bed['status'] = 'Checked Out');
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${bed['student']} has been checked out successfully.')));
+                      scaffoldMessenger.showSnackBar(SnackBar(content: Text('${bed['student']} has been checked out successfully.')));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE11D48),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -17,11 +19,32 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
   String _selectedStatus = 'All Status';
   String _searchQuery = '';
 
+  List<Map<String, dynamic>> _requests = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadRequests();
+  }
+
+  Future<void> _loadRequests() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_maintenance.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _requests = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -40,86 +63,15 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
   
   bool get _isFiltered => _selectedBlock != 'All Blocks' || _selectedCategory != 'All Categories' || _selectedStatus != 'All Status';
 
-  final List<Map<String, dynamic>> _requests = [
-    {
-      'id': '1',
-      'title': 'Broken Fan in Room 102',
-      'category': 'Electrical',
-      'description': 'Ceiling fan not working since yesterday. Makes grinding noise when switched on.',
-      'roomNo': '102',
-      'block': 'Aryabhata Block (A)',
-      'reportedBy': 'Aarav Sharma',
-      'rollNo': 'CS-2024-102',
-      'reportedDate': '03 Aug 2026',
-      'priority': 'High',
-      'status': 'In Progress',
-      'assignedTo': 'Mr. Ramesh (Electrician)',
-      'initials': 'BF',
-    },
-    {
-      'id': '2',
-      'title': 'Water Leakage in Bathroom',
-      'category': 'Plumbing',
-      'description': 'Continuous water leakage from the bathroom tap. Water wastage issue.',
-      'roomNo': '201',
-      'block': 'Bhaskara Block (B)',
-      'reportedBy': 'Ananya Roy',
-      'rollNo': 'EC-2024-201',
-      'reportedDate': '02 Aug 2026',
-      'priority': 'High',
-      'status': 'Pending',
-      'assignedTo': 'Unassigned',
-      'initials': 'WL',
-    },
-    {
-      'id': '3',
-      'title': 'Broken Window Latch',
-      'category': 'Carpentry',
-      'description': 'Window latch is broken, cannot close window properly. Security concern.',
-      'roomNo': '304',
-      'block': 'Chanakya Block (C)',
-      'reportedBy': 'Mohit Yadav',
-      'rollNo': 'CE-2024-310',
-      'reportedDate': '01 Aug 2026',
-      'priority': 'Medium',
-      'status': 'Resolved',
-      'assignedTo': 'Mr. Suresh (Carpenter)',
-      'initials': 'BW',
-    },
-    {
-      'id': '4',
-      'title': 'AC Not Cooling',
-      'category': 'Electrical',
-      'description': 'Air conditioner is running but not cooling. Room temperature remains high.',
-      'roomNo': '205',
-      'block': 'Chanakya Block (C)',
-      'reportedBy': 'Arjun Gupta',
-      'rollNo': 'IT-2024-205',
-      'reportedDate': '03 Aug 2026',
-      'priority': 'Medium',
-      'status': 'In Progress',
-      'assignedTo': 'Mr. Ramesh (Electrician)',
-      'initials': 'AC',
-    },
-    {
-      'id': '5',
-      'title': 'Clogged Drain in Common Area',
-      'category': 'Plumbing',
-      'description': 'Drain in the 2nd floor common area is clogged. Water accumulation on floor.',
-      'roomNo': 'Common Area',
-      'block': 'Bhaskara Block (B)',
-      'reportedBy': 'Warden Staff',
-      'rollNo': 'N/A',
-      'reportedDate': '02 Aug 2026',
-      'priority': 'High',
-      'status': 'Pending',
-      'assignedTo': 'Unassigned',
-      'initials': 'CD',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFFFFFFF),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     int total = _requests.length;
     int pending = _requests.where((r) => r['status'] == 'Pending').length;
     int inProgress = _requests.where((r) => r['status'] == 'In Progress').length;
@@ -141,7 +93,7 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -175,23 +127,7 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
                         child: const Icon(LucideIcons.download, size: 18, color: Color(0xFF6C4CF1)),
                       ),
                     ),
-                    // Filter Button
-                    GestureDetector(
-                      onTap: _showFilterSheet,
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        margin: const EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                          color: _isFiltered ? const Color(0xFFF3F0FF) : Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: _isFiltered ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0)),
-                        ),
-                        child: Stack(clipBehavior: Clip.none, children: [
-                          Icon(LucideIcons.slidersHorizontal, size: 18, color: _isFiltered ? const Color(0xFF6C4CF1) : const Color(0xFF64748B)),
-                          if (_isFiltered) Positioned(top: -4, right: -4, child: Container(width: 8, height: 8, decoration: const BoxDecoration(color: Color(0xFF6C4CF1), shape: BoxShape.circle))),
-                        ]),
-                      ),
-                    ),
+
                     ElevatedButton.icon(
                       onPressed: _showAddRequestModal,
                       icon: const Icon(LucideIcons.plus, size: 16, color: Colors.white),
@@ -221,9 +157,51 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
                 ]),
               ),
               const SizedBox(height: 20),
-
-              const SizedBox(height: 16),
-
+              // Search Bar & Filter Options Row
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onChanged: (val) => setState(() => _searchQuery = val),
+                        decoration: InputDecoration(
+                          hintText: 'Search requests...',
+                          hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13),
+                          prefixIcon: const Icon(LucideIcons.search, color: Color(0xFF6C4CF1), size: 18),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+                          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+                          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: _showFilterSheet,
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: _isFiltered ? const Color(0xFF6C4CF1) : Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: _isFiltered ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0)),
+                        ),
+                        child: Stack(clipBehavior: Clip.none, children: [
+                          Icon(
+                            LucideIcons.slidersHorizontal,
+                            color: _isFiltered ? Colors.white : const Color(0xFF6C4CF1),
+                            size: 20,
+                          ),
+                          if (_isFiltered) Positioned(top: -4, right: -4, child: Container(width: 8, height: 8, decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle, border: Border.all(color: const Color(0xFF6C4CF1), width: 1.5)))),
+                        ]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
               // Maintenance Cards
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -538,8 +516,9 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
   Widget _buildExportOption(String title, String format, IconData icon, Color iconColor, Color bgColor) {
     return GestureDetector(
       onTap: () {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
+        scaffoldMessenger.showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {"subject": "Mathematics", "folders": 5, "resources": 248},
+    {"subject": "English", "folders": 5, "resources": 210},
+    {"subject": "Science", "folders": 5, "resources": 218},
+    {"subject": "Social Studies", "folders": 5, "resources": 195},
+    {"subject": "Computer", "folders": 4, "resources": 146},
+    {"subject": "Telugu", "folders": 4, "resources": 138},
+    {"subject": "Hindi", "folders": 4, "resources": 126},
+    {"subject": "General Knowledge", "folders": 3, "resources": 98}
+  ]
+}

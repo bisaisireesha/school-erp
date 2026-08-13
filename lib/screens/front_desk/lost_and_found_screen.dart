@@ -465,8 +465,9 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                 item['claimedBy'] = claimantController.text.trim();
                 item['claimDate'] = '${monthNames[now.month - 1]} ${now.day}, ${now.year}';
               });
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item marked as claimed & returned!')));
+              scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Item marked as claimed & returned!')));
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF10B981),
@@ -709,7 +710,7 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(

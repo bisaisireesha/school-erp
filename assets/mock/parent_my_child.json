@@ -1,0 +1,48 @@
+[
+  {
+    "studentId": "STU20230014",
+    "firstName": "Akshara",
+    "lastName": "Sharma",
+    "grade": "Grade 5",
+    "section": "C",
+    "rollNumber": "14",
+    "dateOfBirth": "15-May-2012",
+    "bloodGroup": "O+",
+    "gender": "Female",
+    "address": "402, Sunshine Apartments, MG Road, Bangalore - 560001",
+    "classTeacher": "Mrs. Kavita Menon",
+    "parents": {
+      "fatherName": "Ravi Sharma",
+      "motherName": "Priya Sharma",
+      "primaryContact": "+91 98765 43210"
+    },
+    "healthInfo": {
+      "allergies": "Peanuts",
+      "medicalConditions": "None",
+      "emergencyContact": "+91 98765 43211"
+    }
+  },
+  {
+    "studentId": "STU20230089",
+    "firstName": "Aryan",
+    "lastName": "Sharma",
+    "grade": "Grade 7",
+    "section": "B",
+    "rollNumber": "22",
+    "dateOfBirth": "22-Aug-2012",
+    "bloodGroup": "B+",
+    "gender": "Female",
+    "address": "402, Sunshine Apartments, MG Road, Bangalore - 560001",
+    "classTeacher": "John Smith",
+    "parents": {
+      "fatherName": "Ravi Sharma",
+      "motherName": "Priya Sharma",
+      "primaryContact": "+91 98765 43210"
+    },
+    "healthInfo": {
+      "allergies": "None",
+      "medicalConditions": "Asthma",
+      "emergencyContact": "+91 98765 43211"
+    }
+  }
+]

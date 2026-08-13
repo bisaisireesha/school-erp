@@ -937,8 +937,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                               });
                             }
                           });
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          scaffoldMessenger.showSnackBar(
                             SnackBar(content: Text(isEdit ? 'Enquiry updated successfully!' : 'New enquiry added successfully!')),
                           );
                         },
@@ -1153,8 +1154,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                           Expanded(
                             child: OutlinedButton.icon(
                               onPressed: () {
+                                final scaffoldMessenger = ScaffoldMessenger.of(context);
                                 Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
+                                scaffoldMessenger.showSnackBar(
                                   SnackBar(content: Text('Calling ${enquiry['phone']}...')),
                                 );
                               },
