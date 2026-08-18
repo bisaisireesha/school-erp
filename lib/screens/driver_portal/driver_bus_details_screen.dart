@@ -333,10 +333,15 @@ class _DriverBusDetailsScreenState extends State<DriverBusDetailsScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Seating Occupancy',
-                          style: TextStyle(fontSize: 13.0, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+                        const Expanded(
+                          child: Text(
+                            'Seating Occupancy',
+                            style: TextStyle(fontSize: 13.0, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
+                        const SizedBox(width: 8),
                         Text(
                           '$occupied / $capacity Seats',
                           style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
@@ -642,10 +647,15 @@ class _DriverBusDetailsScreenState extends State<DriverBusDetailsScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Contact Phone',
-                      style: TextStyle(fontSize: 13.0, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+                    const Expanded(
+                      child: Text(
+                        'Contact Phone',
+                        style: TextStyle(fontSize: 13.0, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     Row(
                       children: [
                         const Icon(LucideIcons.phone, size: 14, color: Color(0xFF6C4CF1)),

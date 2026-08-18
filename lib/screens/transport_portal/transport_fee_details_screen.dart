@@ -128,10 +128,13 @@ class TransportFeeDetailsScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Total Transport Fee',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                      const Expanded(
+                        child: Text(
+                          'Total Transport Fee',
+                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                        ),
                       ),
+                      const SizedBox(width: 8),
                       Text(
                         amount,
                         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
@@ -209,7 +212,8 @@ class TransportFeeDetailsScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF7A7A9D))),
+        Expanded(child: Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF7A7A9D)), maxLines: 1, overflow: TextOverflow.ellipsis)),
+        const SizedBox(width: 8),
         Text(value, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
       ],
     );
@@ -219,7 +223,8 @@ class TransportFeeDetailsScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF7A7A9D))),
+        Expanded(child: Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF7A7A9D)), maxLines: 1, overflow: TextOverflow.ellipsis)),
+        const SizedBox(width: 8),
         Text(value, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
       ],
     );

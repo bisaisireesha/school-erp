@@ -354,7 +354,7 @@ class _TransportNewMessageScreenState extends State<TransportNewMessageScreen> {
                                           ),
                                           child: Text(
                                             c['role'] as String,
-                                            style: TextStyle(color: roleColor, fontSize: 9.5, fontWeight: FontWeight.bold),
+                                            style: AppTypography.badgeText.copyWith(color: roleColor),
                                           ),
                                         ),
                                       ],

@@ -18,6 +18,7 @@ class _TransportChatScreenState extends State<TransportChatScreen> {
   late List<Map<String, dynamic>> _messages;
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  bool _isMuted = false;
 
   @override
   void initState() {
@@ -82,48 +83,52 @@ class _TransportChatScreenState extends State<TransportChatScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 36,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE0E0E0),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Share Attachment',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildAttachmentTile(LucideIcons.image, 'Gallery', const Color(0xFF6C4CF1), () {
-                    Navigator.pop(context);
-                    _addAttachmentMessage('Photo_BusRoute_Log.jpg', 'Image Attachment');
-                  }),
-                  _buildAttachmentTile(LucideIcons.camera, 'Camera', const Color(0xFF10B981), () {
-                    Navigator.pop(context);
-                    _addAttachmentMessage('Live_Bus_Photo.jpg', 'Camera Photo');
-                  }),
-                  _buildAttachmentTile(LucideIcons.fileText, 'Document', const Color(0xFF3B82F6), () {
-                    Navigator.pop(context);
-                    _addAttachmentMessage('Transport_Rules_2026.pdf', 'Document PDF');
-                  }),
-                  _buildAttachmentTile(LucideIcons.mapPin, 'Location', const Color(0xFFF59E0B), () {
-                    Navigator.pop(context);
-                    _addAttachmentMessage('GPS Stop Location', 'Live Location');
-                  }),
+                  Container(
+                    width: 36,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE0E0E0),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Share Attachment',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _buildAttachmentTile(LucideIcons.image, 'Gallery', const Color(0xFF6C4CF1), () {
+                        Navigator.pop(context);
+                        _addAttachmentMessage('Photo_BusRoute_Log.jpg', 'Image Attachment');
+                      }),
+                      _buildAttachmentTile(LucideIcons.camera, 'Camera', const Color(0xFF10B981), () {
+                        Navigator.pop(context);
+                        _addAttachmentMessage('Live_Bus_Photo.jpg', 'Camera Photo');
+                      }),
+                      _buildAttachmentTile(LucideIcons.fileText, 'Document', const Color(0xFF3B82F6), () {
+                        Navigator.pop(context);
+                        _addAttachmentMessage('Transport_Rules_2026.pdf', 'Document PDF');
+                      }),
+                      _buildAttachmentTile(LucideIcons.mapPin, 'Location', const Color(0xFFF59E0B), () {
+                        Navigator.pop(context);
+                        _addAttachmentMessage('GPS Stop Location', 'Live Location');
+                      }),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
                 ],
               ),
-              const SizedBox(height: 16),
-            ],
+            ),
           ),
         );
       },
@@ -143,6 +148,169 @@ class _TransportChatScreenState extends State<TransportChatScreen> {
         'fileName': title,
       });
     });
+  }
+
+  void _showChatOptionsMenu(String name, String role, bool isGroup) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 36,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE0E0E0),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
+                  Text(
+                    isGroup ? 'Group Conversation' : role,
+                    style: const TextStyle(fontSize: 12, color: Color(0xFF7A7A9D)),
+                  ),
+                  const SizedBox(height: 16),
+                  ListTile(
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF3EEFF),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        _isMuted ? LucideIcons.bell : LucideIcons.bellOff,
+                        color: const Color(0xFF6C4CF1),
+                        size: 20,
+                      ),
+                    ),
+                    title: Text(
+                      _isMuted ? 'Unmute Notifications' : 'Mute Notifications',
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
+                    ),
+                    subtitle: Text(
+                      _isMuted ? 'Receive sound & alerts' : 'Silence alerts from this chat',
+                      style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                      setState(() {
+                        _isMuted = !_isMuted;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(_isMuted ? 'Notifications muted for $name' : 'Notifications unmuted for $name'),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEBF5FF),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(LucideIcons.search, color: Color(0xFF3B82F6), size: 20),
+                    ),
+                    title: const Text(
+                      'Search Conversation',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
+                    ),
+                    subtitle: const Text(
+                      'Find keywords and topics in chat',
+                      style: TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Chat search activated'),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFEF2F2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(LucideIcons.trash2, color: Color(0xFFEF4444), size: 20),
+                    ),
+                    title: const Text(
+                      'Clear Chat History',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFFEF4444)),
+                    ),
+                    subtitle: const Text(
+                      'Delete messages in this thread',
+                      style: TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                      showDialog(
+                        context: context,
+                        builder: (dContext) => AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          title: const Text('Clear Chat History?'),
+                          content: const Text('All messages in this conversation will be cleared.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(dContext),
+                              child: const Text('Cancel', style: TextStyle(color: Color(0xFF7A7A9D))),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFEF4444),
+                                foregroundColor: Colors.white,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(dContext);
+                                setState(() {
+                                  _messages.clear();
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Chat history cleared'),
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              },
+                              child: const Text('Clear', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -219,7 +387,7 @@ class _TransportChatScreenState extends State<TransportChatScreen> {
         actions: [
           IconButton(
             icon: const Icon(LucideIcons.moreVertical, color: Color(0xFF1E1E2D), size: 20),
-            onPressed: () {},
+            onPressed: () => _showChatOptionsMenu(name, role, isGroup),
           ),
         ],
       ),

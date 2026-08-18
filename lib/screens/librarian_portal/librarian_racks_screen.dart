@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import '../librarian_main_layout.dart';
 import 'librarian_create_bottom_sheet.dart';
+import 'librarian_rack_details_screen.dart';
 import 'librarian_search_bar.dart';
 
 class LibrarianRacksScreen extends StatefulWidget {
@@ -227,89 +229,102 @@ class _LibrarianRacksScreenState extends State<LibrarianRacksScreen> {
                         final Color color = r['color'] as Color;
                         final Color bg = r['bg'] as Color;
 
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: const Color(0xFFF0EDF8)),
-                            boxShadow: AppShadows.soft,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFFFFBEB),
-                                      borderRadius: BorderRadius.circular(10),
+                        return InkWell(
+                          onTap: () {
+                            LibrarianMainLayout.pushSubScreen(
+                              context,
+                              LibrarianRackDetailsScreen(
+                                item: r,
+                                onBack: () => LibrarianMainLayout.popSubScreen(context),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: const Color(0xFFF0EDF8)),
+                              boxShadow: AppShadows.soft,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFFFBEB),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Icon(LucideIcons.boxes, color: Color(0xFFF59E0B), size: 20),
                                     ),
-                                    child: const Icon(LucideIcons.boxes, color: Color(0xFFF59E0B), size: 20),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          r['rackNo'] as String,
-                                          style: const TextStyle(
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF1E1E2D),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            r['rackNo'] as String,
+                                            style: AppTypography.cardTitle,
                                           ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          '${r['aisle']} • ${r['floor']}',
-                                          style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
-                                        ),
-                                      ],
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            '${r['aisle']} • ${r['floor']}',
+                                            style: AppTypography.caption,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
-                                    decoration: BoxDecoration(
-                                      color: bg,
-                                      borderRadius: BorderRadius.circular(6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                                      decoration: BoxDecoration(
+                                        color: bg,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        r['status'] as String,
+                                        style: AppTypography.badgeText.copyWith(color: color),
+                                      ),
                                     ),
-                                    child: Text(
-                                      r['status'] as String,
-                                      style: TextStyle(color: color, fontSize: 10.5, fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-
-                              // Capacity Progress Bar
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Occupancy: $current / $maxCap Books',
-                                    style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                                  ),
-                                  Text(
-                                    '${(ratio * 100).toStringAsFixed(1)}%',
-                                    style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: color),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 6),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(4),
-                                child: LinearProgressIndicator(
-                                  value: ratio.clamp(0.0, 1.0),
-                                  minHeight: 6,
-                                  backgroundColor: const Color(0xFFF3F0FF),
-                                  valueColor: AlwaysStoppedAnimation<Color>(color),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 12),
+
+                                // Capacity Progress Bar
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Occupancy: $current / $maxCap Books',
+                                        style: AppTypography.caption.copyWith(fontWeight: FontWeight.bold, color: const Color(0xFF1E1E2D)),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      '${(ratio * 100).toStringAsFixed(1)}%',
+                                      style: AppTypography.caption.copyWith(fontWeight: FontWeight.bold, color: color),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 6),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: LinearProgressIndicator(
+                                    value: ratio.clamp(0.0, 1.0),
+                                    minHeight: 6,
+                                    backgroundColor: const Color(0xFFF3F0FF),
+                                    valueColor: AlwaysStoppedAnimation<Color>(color),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },

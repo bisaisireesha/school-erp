@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import '../librarian_main_layout.dart';
+import 'librarian_book_details_screen.dart';
 import 'librarian_search_bar.dart';
 
 class LibrarianBooksScreen extends StatefulWidget {
@@ -171,87 +173,93 @@ class _LibrarianBooksScreenState extends State<LibrarianBooksScreen> {
                             ? const Color(0xFFECFDF5)
                             : (available > 0 ? const Color(0xFFFFFBEB) : const Color(0xFFFEF2F2));
 
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: const Color(0xFFF0EDF8), width: 1.0),
-                            boxShadow: AppShadows.soft,
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 44,
-                                height: 58,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF3F0FF),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const Center(
-                                  child: Icon(LucideIcons.book, color: Color(0xFF6C4CF1), size: 22),
-                                ),
+                        return InkWell(
+                          onTap: () {
+                            LibrarianMainLayout.pushSubScreen(
+                              context,
+                              LibrarianBookDetailsScreen(
+                                item: b,
+                                onBack: () => LibrarianMainLayout.popSubScreen(context),
                               ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      b['title'] ?? '',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 14.5,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF1E1E2D),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: const Color(0xFFF0EDF8), width: 1.0),
+                              boxShadow: AppShadows.soft,
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 58,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF3F0FF),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Center(
+                                    child: Icon(LucideIcons.book, color: Color(0xFF6C4CF1), size: 22),
+                                  ),
+                                ),
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        b['title'] ?? '',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTypography.cardTitle,
                                       ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      'by ${b['author']}',
-                                      style: const TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D)),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Rack: ${b['rackNumber'] ?? 'N/A'}',
-                                          style: const TextStyle(fontSize: 11.0, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'by ${b['author']}',
+                                        style: AppTypography.caption,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Rack: ${b['rackNumber'] ?? 'N/A'}',
+                                            style: AppTypography.caption.copyWith(fontWeight: FontWeight.w500),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'ISBN: ${b['isbn'] ?? ''}',
+                                            style: AppTypography.caption,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                                      decoration: BoxDecoration(
+                                        color: statusBg,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        '$available / $total Left',
+                                        style: AppTypography.badgeText.copyWith(
+                                          color: statusColor,
                                         ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          'ISBN: ${b['isbn'] ?? ''}',
-                                          style: const TextStyle(fontSize: 11.0, color: Color(0xFF7A7A9D)),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
-                                    decoration: BoxDecoration(
-                                      color: statusBg,
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      '$available / $total Left',
-                                      style: TextStyle(
-                                        color: statusColor,
-                                        fontSize: 10.5,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },

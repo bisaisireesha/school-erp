@@ -1,0 +1,4 @@
+#include "Generated.xcconfig"
+APP_DISPLAY_NAME = Sunrise Teacher
+PRODUCT_BUNDLE_IDENTIFIER = com.sunrise.school.teacher
+FLUTTER_TARGET = lib/main_teacher.dart

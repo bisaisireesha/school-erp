@@ -323,10 +323,15 @@ class _TransportVehiclesScreenState extends State<TransportVehiclesScreen> {
             label,
             style: const TextStyle(fontSize: 12.5, color: Color(0xFF6E6E8D), fontWeight: FontWeight.w500),
           ),
-          const Spacer(),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 13.0, color: Color(0xFF1E1E2D), fontWeight: FontWeight.bold),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(fontSize: 13.0, color: Color(0xFF1E1E2D), fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

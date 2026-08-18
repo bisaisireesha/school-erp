@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import '../librarian_main_layout.dart';
+import 'librarian_member_details_screen.dart';
 
 class LibrarianMembersScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -187,92 +189,96 @@ class _LibrarianMembersScreenState extends State<LibrarianMembersScreen> {
                         final String pendingFine = m['pendingFine'] ?? '₹0.00';
                         final bool hasFine = pendingFine != '₹0.00' && pendingFine != '\$0.00';
 
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: const Color(0xFFF0EDF8), width: 1.0),
-                            boxShadow: AppShadows.soft,
-                          ),
-                          child: Row(
-                            children: [
-                               CircleAvatar(
-                                 radius: 22,
-                                 backgroundColor: const Color(0xFFF3F0FF),
-                                 child: Text(
-                                   (m['name'] ?? '').toString().trim().isNotEmpty
-                                       ? (m['name'] as String).trim()[0].toUpperCase()
-                                       : 'M',
-                                   style: const TextStyle(
-                                     color: Color(0xFF6C4CF1),
-                                     fontWeight: FontWeight.bold,
-                                     fontSize: 16,
-                                   ),
+                        return InkWell(
+                          onTap: () {
+                            LibrarianMainLayout.pushSubScreen(
+                              context,
+                              LibrarianMemberDetailsScreen(
+                                item: m,
+                                onBack: () => LibrarianMainLayout.popSubScreen(context),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: const Color(0xFFF0EDF8), width: 1.0),
+                              boxShadow: AppShadows.soft,
+                            ),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 22,
+                                  backgroundColor: const Color(0xFFF3F0FF),
+                                  child: Text(
+                                    (m['name'] ?? '').toString().trim().isNotEmpty
+                                        ? (m['name'] as String).trim()[0].toUpperCase()
+                                        : 'M',
+                                    style: const TextStyle(
+                                      color: Color(0xFF6C4CF1),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                               const SizedBox(width: 14),
+                               Expanded(
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     Text(
+                                       m['name'] ?? '',
+                                       style: AppTypography.cardTitle,
+                                     ),
+                                     const SizedBox(height: 2),
+                                     Text(
+                                       'ID: ${m['memberId']}  •  ${m['department']}',
+                                       style: AppTypography.caption,
+                                     ),
+                                     const SizedBox(height: 4),
+                                     Row(
+                                       children: [
+                                         Container(
+                                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                           decoration: BoxDecoration(
+                                             color: const Color(0xFFF3F0FF),
+                                             borderRadius: BorderRadius.circular(6),
+                                           ),
+                                           child: Text(
+                                             'Active Issues: $activeIssued',
+                                             style: AppTypography.badgeText.copyWith(
+                                               color: const Color(0xFF6C4CF1),
+                                             ),
+                                           ),
+                                         ),
+                                         if (hasFine) ...[
+                                           const SizedBox(width: 6),
+                                           Container(
+                                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                             decoration: BoxDecoration(
+                                               color: const Color(0xFFFEF2F2),
+                                               borderRadius: BorderRadius.circular(6),
+                                             ),
+                                             child: Text(
+                                               'Fine: $pendingFine',
+                                               style: AppTypography.badgeText.copyWith(
+                                                 color: const Color(0xFFEF4444),
+                                               ),
+                                             ),
+                                           ),
+                                         ],
+                                       ],
+                                     ),
+                                   ],
                                  ),
                                ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      m['name'] ?? '',
-                                      style: const TextStyle(
-                                        fontSize: 14.5,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF1E1E2D),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      'ID: ${m['memberId']}  •  ${m['department']}',
-                                      style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFFF3F0FF),
-                                            borderRadius: BorderRadius.circular(6),
-                                          ),
-                                          child: Text(
-                                            'Active Issues: $activeIssued',
-                                            style: const TextStyle(
-                                              color: Color(0xFF6C4CF1),
-                                              fontSize: 10.5,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        if (hasFine) ...[
-                                          const SizedBox(width: 6),
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xFFFEF2F2),
-                                              borderRadius: BorderRadius.circular(6),
-                                            ),
-                                            child: Text(
-                                              'Fine: $pendingFine',
-                                              style: const TextStyle(
-                                                color: Color(0xFFEF4444),
-                                                fontSize: 10.5,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Icon(Icons.chevron_right_rounded, color: Colors.grey.shade400, size: 20),
-                            ],
+                               Icon(Icons.chevron_right_rounded, color: Colors.grey.shade400, size: 20),
+                              ],
+                            ),
                           ),
                         );
                       },

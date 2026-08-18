@@ -585,9 +585,9 @@ class _DriverGpsTrackerScreenState extends State<DriverGpsTrackerScreen>
                         color: const Color(0xFF6C4CF1),
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Simulate Enter (25m)',
-                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
+                        style: AppTypography.badgeText.copyWith(color: Colors.white),
                       ),
                     ),
                   ),
@@ -670,69 +670,78 @@ class _DriverGpsTrackerScreenState extends State<DriverGpsTrackerScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: _isGpsTrackingOn
-                      ? const Color(0xFF6C4CF1).withValues(alpha: 0.12)
-                      : const Color(0xFFF5F5F7),
-                  shape: BoxShape.circle,
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: _isGpsTrackingOn
+                        ? const Color(0xFF6C4CF1).withValues(alpha: 0.12)
+                        : const Color(0xFFF5F5F7),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    _isGpsTrackingOn ? LucideIcons.radio : LucideIcons.radioReceiver,
+                    color: _isGpsTrackingOn ? const Color(0xFF6C4CF1) : const Color(0xFF7A7A9D),
+                    size: 18,
+                  ),
                 ),
-                child: Icon(
-                  _isGpsTrackingOn ? LucideIcons.radio : LucideIcons.radioReceiver,
-                  color: _isGpsTrackingOn ? const Color(0xFF6C4CF1) : const Color(0xFF7A7A9D),
-                  size: 18,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'GPS Live Tracking',
-                        style: TextStyle(
-                          fontSize: 13.5,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1E1E2D),
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
-                        decoration: BoxDecoration(
-                          color: _isGpsTrackingOn
-                              ? const Color(0xFFECFDF5)
-                              : const Color(0xFFF5F5F7),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          _isGpsTrackingOn ? 'LIVE' : 'OFF',
-                          style: TextStyle(
-                            fontSize: 9.5,
-                            fontWeight: FontWeight.bold,
-                            color: _isGpsTrackingOn ? const Color(0xFF10B981) : const Color(0xFF7A7A9D),
+                      Row(
+                        children: [
+                          const Flexible(
+                            child: Text(
+                              'GPS Live Tracking',
+                              style: TextStyle(
+                                fontSize: 13.5,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E1E2D),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
+                          const SizedBox(width: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                            decoration: BoxDecoration(
+                              color: _isGpsTrackingOn
+                                  ? const Color(0xFFECFDF5)
+                                  : const Color(0xFFF5F5F7),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              _isGpsTrackingOn ? 'LIVE' : 'OFF',
+                              style: AppTypography.badgeText.copyWith(
+                                color: _isGpsTrackingOn ? const Color(0xFF10B981) : const Color(0xFF7A7A9D),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        _isGpsTrackingOn
+                            ? 'Broadcasting live to parents & admin'
+                            : 'Tracking paused',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF7A7A9D),
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                  Text(
-                    _isGpsTrackingOn
-                        ? 'Broadcasting live to parents & admin'
-                        : 'Tracking paused',
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: Color(0xFF7A7A9D),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           Switch.adaptive(
             value: _isGpsTrackingOn,
             activeThumbColor: const Color(0xFF6C4CF1),

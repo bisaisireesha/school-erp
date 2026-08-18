@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import '../librarian_main_layout.dart';
+import 'librarian_fine_details_screen.dart';
 import 'librarian_search_bar.dart';
 
 class LibrarianDashboardScreen extends StatefulWidget {
@@ -82,12 +84,7 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
       children: [
         const Text(
           'Library Dashboard',
-          style: TextStyle(
-            fontSize: 22.0,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1E1E2D),
-            letterSpacing: -0.4,
-          ),
+          style: AppTypography.displayHeader,
         ),
         const SizedBox(height: 14),
         LibrarianSearchBar(
@@ -213,41 +210,30 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
                       kpi['value'] as String,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 19.0,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1E1E2D),
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      kpi['title'] as String,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF6E6E8D),
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.0),
-                  decoration: BoxDecoration(
-                    color: chipBg,
-                    borderRadius: BorderRadius.circular(7),
+                    style: AppTypography.cardTitle.copyWith(fontSize: 18.0),
                   ),
-                  child: Text(
-                    kpi['chipText'] as String,
-                    style: TextStyle(
-                      color: chipColor,
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  const SizedBox(height: 2),
+                  Text(
+                    kpi['title'] as String,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.caption,
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.0),
+                decoration: BoxDecoration(
+                  color: chipBg,
+                  borderRadius: BorderRadius.circular(7),
+                ),
+                child: Text(
+                  kpi['chipText'] as String,
+                  style: AppTypography.badgeText.copyWith(
+                    color: chipColor,
                   ),
                 ),
+              ),
               ],
             ),
           ),
@@ -347,22 +333,14 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
                             act['title'] as String,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 12.5,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1E1E2D),
-                            ),
+                            style: AppTypography.cardTitle.copyWith(fontSize: 14.0),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             act['subtitle'] as String,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 10.0,
-                              color: Color(0xFF7A7A9D),
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: AppTypography.caption,
                           ),
                         ],
                       ),
@@ -393,49 +371,46 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                const Text(
-                  'Overdue Books',
-                  style: TextStyle(
-                    fontSize: 15.5,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E1E2D),
-                    letterSpacing: -0.2,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFEF2F2),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    '${overdueList.length}',
-                    style: const TextStyle(
-                      color: Color(0xFFEF4444),
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
+            Expanded(
+              child: Row(
+                children: [
+                  const Flexible(
+                    child: Text(
+                      'Overdue Books',
+                      style: AppTypography.sectionTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFEF2F2),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      '${overdueList.length}',
+                      style: AppTypography.badgeText.copyWith(
+                        color: const Color(0xFFEF4444),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             GestureDetector(
               onTap: () => widget.onNavigate('overdue'),
-              child: const Row(
+              child: Row(
                 children: [
                   Text(
                     'View All',
-                    style: TextStyle(
-                      color: Color(0xFF6C4CF1),
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.bold,
+                    style: AppTypography.buttonText.copyWith(
+                      color: const Color(0xFF6C4CF1),
                     ),
                   ),
-                  SizedBox(width: 2),
-                  Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF6C4CF1), size: 10),
+                  const SizedBox(width: 2),
+                  const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF6C4CF1), size: 10),
                 ],
               ),
             ),
@@ -472,100 +447,113 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
         else
           Column(
             children: filtered.map((item) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: const Color(0xFFF0EDF8)),
-                  boxShadow: AppShadows.soft,
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 18,
-                      backgroundColor: const Color(0xFFFEF2F2),
-                      child: Text(
-                        item['avatar'] ?? 'MB',
-                        style: const TextStyle(
-                          color: Color(0xFFEF4444),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+              return InkWell(
+                onTap: () {
+                  LibrarianMainLayout.pushSubScreen(
+                    context,
+                    LibrarianFineDetailsScreen(
+                      item: item,
+                      onBack: () => LibrarianMainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.circular(14),
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFF0EDF8)),
+                    boxShadow: AppShadows.soft,
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundColor: const Color(0xFFFEF2F2),
+                        child: Text(
+                          item['avatar'] ?? 'MB',
+                          style: const TextStyle(
+                            color: Color(0xFFEF4444),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item['bookTitle'] ?? '',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 13.5,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1E1E2D),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['bookTitle'] ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.cardTitle,
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            '${item['memberName']} (${item['memberType']})',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 11.5,
-                              color: Color(0xFF7A7A9D),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${item['memberName']} (${item['memberType']})',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.bodySmall,
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              const Icon(LucideIcons.calendar, size: 12, color: Color(0xFFEF4444)),
-                              const SizedBox(width: 4),
-                              Text(
-                                'Due: ${item['dueDate']}',
-                                style: const TextStyle(
-                                  fontSize: 11.0,
-                                  color: Color(0xFFEF4444),
-                                  fontWeight: FontWeight.w600,
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                const Icon(LucideIcons.calendar, size: 12, color: Color(0xFFEF4444)),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Due: ${item['dueDate']}',
+                                  style: AppTypography.caption.copyWith(
+                                    color: const Color(0xFFEF4444),
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              Text(
-                                'Fine: ${item['fineAmount']}',
-                                style: const TextStyle(
-                                  fontSize: 11.0,
-                                  color: Color(0xFFD97706),
-                                  fontWeight: FontWeight.bold,
+                                const SizedBox(width: 10),
+                                Text(
+                                  'Fine: ${item['fineAmount']}',
+                                  style: AppTypography.caption.copyWith(
+                                    color: const Color(0xFFD97706),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => widget.onNavigate('overdue'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF3F0FF),
-                        foregroundColor: const Color(0xFF6C4CF1),
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        minimumSize: const Size(60, 32),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      child: const Text(
-                        'Return',
-                        style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold),
+                      ElevatedButton(
+                        onPressed: () {
+                          LibrarianMainLayout.pushSubScreen(
+                            context,
+                            LibrarianFineDetailsScreen(
+                              item: item,
+                              onBack: () => LibrarianMainLayout.popSubScreen(context),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFF3F0FF),
+                          foregroundColor: const Color(0xFF6C4CF1),
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          minimumSize: const Size(60, 32),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'View',
+                          style: AppTypography.badgeText.copyWith(
+                            color: const Color(0xFF6C4CF1),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             }).toList(),
@@ -590,34 +578,40 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                const Text(
-                  'Today\'s Due Returns',
-                  style: TextStyle(
-                    fontSize: 15.5,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E1E2D),
-                    letterSpacing: -0.2,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEFF6FF),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    '${dueReturnsList.length}',
-                    style: const TextStyle(
-                      color: Color(0xFF3B82F6),
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
+            Expanded(
+              child: Row(
+                children: [
+                  const Flexible(
+                    child: Text(
+                      'Today\'s Due Returns',
+                      style: TextStyle(
+                        fontSize: 15.5,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                        letterSpacing: -0.2,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEFF6FF),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      '${dueReturnsList.length}',
+                      style: const TextStyle(
+                        color: Color(0xFF3B82F6),
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             GestureDetector(
               onTap: () => widget.onNavigate('due_today'),
@@ -775,15 +769,20 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Recent Activity',
-              style: TextStyle(
-                fontSize: 15.5,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1E1E2D),
-                letterSpacing: -0.2,
+            const Expanded(
+              child: Text(
+                'Recent Activity',
+                style: TextStyle(
+                  fontSize: 15.5,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                  letterSpacing: -0.2,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
+            const SizedBox(width: 8),
             Row(
               children: ['All', 'Issued', 'Returned'].map((filter) {
                 final isSelected = _activityFilter == filter;
@@ -878,19 +877,12 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
                             act['bookTitle'] ?? '',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1E1E2D),
-                            ),
+                            style: AppTypography.cardTitle.copyWith(fontSize: 14.0),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             '${act['memberName']} • ${act['timestamp']}',
-                            style: const TextStyle(
-                              fontSize: 11.0,
-                              color: Color(0xFF7A7A9D),
-                            ),
+                            style: AppTypography.caption,
                           ),
                         ],
                       ),
@@ -903,10 +895,8 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
                       ),
                       child: Text(
                         act['statusBadge'] ?? act['type'],
-                        style: TextStyle(
+                        style: AppTypography.badgeText.copyWith(
                           color: iconColor,
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -987,11 +977,7 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
                           children: [
                             Text(
                               type,
-                              style: const TextStyle(
-                                fontSize: 13.5,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF1E1E2D),
-                              ),
+                              style: AppTypography.cardTitle,
                             ),
                             const SizedBox(width: 8),
                             Container(
@@ -1002,10 +988,8 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
                               ),
                               child: Text(
                                 '$count item(s)',
-                                style: TextStyle(
+                                style: AppTypography.badgeText.copyWith(
                                   color: cardColor,
-                                  fontSize: 10.5,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -1014,21 +998,14 @@ class _LibrarianDashboardScreenState extends State<LibrarianDashboardScreen> {
                         const SizedBox(height: 2),
                         Text(
                           label,
-                          style: TextStyle(
-                            fontSize: 11.5,
-                            color: Colors.grey.shade700,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: AppTypography.bodySmall,
                         ),
                         const SizedBox(height: 2),
                         Text(
                           description,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 10.5,
-                            color: Color(0xFF7A7A9D),
-                          ),
+                          style: AppTypography.caption,
                         ),
                       ],
                     ),

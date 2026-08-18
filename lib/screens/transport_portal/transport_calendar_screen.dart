@@ -326,8 +326,16 @@ class _TransportCalendarScreenState extends State<TransportCalendarScreen> {
           Icon(icon, size: 15, color: const Color(0xFF6C4CF1)),
           const SizedBox(width: 10),
           Text(label, style: const TextStyle(fontSize: 12.5, color: Color(0xFF6E6E8D), fontWeight: FontWeight.w500)),
-          const Spacer(),
-          Text(value, style: const TextStyle(fontSize: 13.0, color: Color(0xFF1E1E2D), fontWeight: FontWeight.bold)),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(fontSize: 13.0, color: Color(0xFF1E1E2D), fontWeight: FontWeight.bold),
+            ),
+          ),
         ],
       ),
     );
@@ -366,16 +374,21 @@ class _TransportCalendarScreenState extends State<TransportCalendarScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Monthly Events (${_shortMonths[_focusedMonth.month - 1]} ${_focusedMonth.year})',
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E1E2D),
-                    letterSpacing: -0.3,
+                Expanded(
+                  child: Text(
+                    'Monthly Events (${_shortMonths[_focusedMonth.month - 1]} ${_focusedMonth.year})',
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                      letterSpacing: -0.3,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (monthlyEvts.isNotEmpty)
+                if (monthlyEvts.isNotEmpty) ...[
+                  const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
                     decoration: BoxDecoration(
@@ -391,6 +404,7 @@ class _TransportCalendarScreenState extends State<TransportCalendarScreen> {
                       ),
                     ),
                   ),
+                ],
               ],
             ),
             const SizedBox(height: 12),

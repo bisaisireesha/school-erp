@@ -55,47 +55,98 @@ class AppRadius {
 }
 
 class AppTypography {
-  static const TextStyle pageTitle = TextStyle(
-    fontSize: 32.0,
+  // Standard Global Typography Scale Tokens
+  static const TextStyle displayHeader = TextStyle(
+    fontSize: 24.0,
     fontWeight: FontWeight.bold,
     color: Color(0xFF1E1E2D),
     letterSpacing: -0.5,
+    height: 1.25,
+  );
+
+  static const TextStyle pageTitle = TextStyle(
+    fontSize: 20.0,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFF1E1E2D),
+    letterSpacing: -0.3,
+    height: 1.25,
   );
 
   static const TextStyle sectionTitle = TextStyle(
-    fontSize: 24.0,
-    fontWeight: FontWeight.w600,
-    color: Color(0xFF1E1E2D),
-  );
-
-  static const TextStyle cardTitle = TextStyle(
     fontSize: 18.0,
     fontWeight: FontWeight.w600,
     color: Color(0xFF1E1E2D),
+    height: 1.3,
+  );
+
+  static const TextStyle cardTitle = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF1E1E2D),
+    height: 1.3,
+  );
+
+  static const TextStyle subtitle = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF1E1E2D),
+    height: 1.35,
+  );
+
+  static const TextStyle bodyLarge = TextStyle(
+    fontSize: 15.0,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFF1E1E2D),
+    height: 1.4,
+  );
+
+  static const TextStyle bodyMedium = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFF1E1E2D),
+    height: 1.4,
   );
 
   static const TextStyle bodyText = TextStyle(
-    fontSize: 16.0,
-    fontWeight: FontWeight.normal,
+    fontSize: 14.0,
+    fontWeight: FontWeight.w400,
     color: Color(0xFF1E1E2D),
+    height: 1.4,
+  );
+
+  static const TextStyle bodySmall = TextStyle(
+    fontSize: 13.0,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFF7A7A9D),
+    height: 1.4,
   );
 
   static const TextStyle secondaryText = TextStyle(
-    fontSize: 14.0,
-    fontWeight: FontWeight.normal,
+    fontSize: 13.0,
+    fontWeight: FontWeight.w400,
     color: Color(0xFF7A7A9D),
+    height: 1.4,
   );
 
   static const TextStyle caption = TextStyle(
     fontSize: 12.0,
     fontWeight: FontWeight.w500,
     color: Color(0xFF7A7A9D),
+    height: 1.3,
+  );
+
+  static const TextStyle badgeText = TextStyle(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF1E1E2D),
+    height: 1.2,
   );
 
   static const TextStyle buttonText = TextStyle(
-    fontSize: 16.0,
+    fontSize: 14.0,
     fontWeight: FontWeight.w600,
     color: Colors.white,
+    height: 1.2,
   );
 
   // Header Specific Typography
@@ -111,6 +162,7 @@ class AppTypography {
     fontSize: 12.0,
     fontWeight: FontWeight.w500,
     color: Color(0xFF4A4A68),
+    height: 1.3,
   );
 }
 

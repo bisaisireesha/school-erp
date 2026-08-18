@@ -105,128 +105,143 @@ class _DriverPayslipScreenState extends State<DriverPayslipScreen> {
 
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          ),
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Drag Handle
-                Center(
-                  child: Container(
-                    width: 38,
-                    height: 4,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFCBD5E1),
-                      borderRadius: BorderRadius.circular(2),
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Drag Handle
+                  Center(
+                    child: Container(
+                      width: 38,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFCBD5E1),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
                     ),
                   ),
-                ),
 
-                // Month Title & Paid Badge
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '$month Payslip',
+                  // Month Title & Paid Badge
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$month Payslip',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E1E2D),
+                                letterSpacing: -0.3,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              'Paid on $paymentDate',
+                              style: const TextStyle(fontSize: 12, color: Color(0xFF7A7A9D)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFECFDF5),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          status,
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 11.5,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF1E1E2D),
-                            letterSpacing: -0.3,
+                            color: Color(0xFF10B981),
                           ),
                         ),
-                        Text(
-                          'Paid on $paymentDate',
-                          style: const TextStyle(fontSize: 12, color: Color(0xFF7A7A9D)),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFECFDF5),
-                        borderRadius: BorderRadius.circular(6),
                       ),
-                      child: Text(
-                        status,
-                        style: const TextStyle(
-                          fontSize: 11.5,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF10B981),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(height: 1, color: Color(0xFFF0EDF8)),
+                  const SizedBox(height: 16),
+
+                  // Detailed Breakdown Section
+                  const Text(
+                    'Earnings & Deductions Breakdown',
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF475569)),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildBreakdownRow('Basic Salary', '₹${basic.toStringAsFixed(2)}', const Color(0xFF1E1E2D)),
+                  const SizedBox(height: 8),
+                  _buildBreakdownRow('Transport & Driving Allowance', '₹${allowance.toStringAsFixed(2)}', const Color(0xFF1E1E2D)),
+                  const SizedBox(height: 8),
+                  _buildBreakdownRow('Overtime Shift Pay', '₹${overtime.toStringAsFixed(2)}', const Color(0xFF10B981)),
+                  const SizedBox(height: 8),
+                  _buildBreakdownRow('PF & Tax Deductions', '- ₹${deductions.toStringAsFixed(2)}', const Color(0xFFEF4444)),
+                  const SizedBox(height: 14),
+                  const Divider(height: 1, color: Color(0xFFF0EDF8)),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Net Salary Payable',
+                          style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Divider(height: 1, color: Color(0xFFF0EDF8)),
-                const SizedBox(height: 16),
+                      const SizedBox(width: 8),
+                      Text(
+                        netSalary,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
+                      ),
+                    ],
+                  ),
 
-                // Detailed Breakdown Section
-                const Text(
-                  'Earnings & Deductions Breakdown',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF475569)),
-                ),
-                const SizedBox(height: 12),
-                _buildBreakdownRow('Basic Salary', '₹${basic.toStringAsFixed(2)}', const Color(0xFF1E1E2D)),
-                const SizedBox(height: 8),
-                _buildBreakdownRow('Transport & Driving Allowance', '₹${allowance.toStringAsFixed(2)}', const Color(0xFF1E1E2D)),
-                const SizedBox(height: 8),
-                _buildBreakdownRow('Overtime Shift Pay', '₹${overtime.toStringAsFixed(2)}', const Color(0xFF10B981)),
-                const SizedBox(height: 8),
-                _buildBreakdownRow('PF & Tax Deductions', '- ₹${deductions.toStringAsFixed(2)}', const Color(0xFFEF4444)),
-                const SizedBox(height: 14),
-                const Divider(height: 1, color: Color(0xFFF0EDF8)),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Net Salary Payable',
-                      style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                    ),
-                    Text(
-                      netSalary,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
-                    ),
-                  ],
-                ),
+                  const SizedBox(height: 20),
 
-                const SizedBox(height: 20),
-
-                // Download Button inside Modal
-                SizedBox(
-                  width: double.infinity,
-                  height: AppSpacing.buttonHeight,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _downloadPdf(month);
-                    },
-                    icon: const Icon(LucideIcons.download, size: 16, color: Colors.white),
-                    label: Text('Download $month Payslip PDF'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C4CF1),
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      textStyle: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),
+                  // Download Button inside Modal
+                  SizedBox(
+                    width: double.infinity,
+                    height: AppSpacing.buttonHeight,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _downloadPdf(month);
+                      },
+                      icon: const Icon(LucideIcons.download, size: 16, color: Colors.white),
+                      label: Text('Download $month Payslip PDF'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6C4CF1),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        textStyle: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -238,10 +253,15 @@ class _DriverPayslipScreenState extends State<DriverPayslipScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: const TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+        Expanded(
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
+        const SizedBox(width: 8),
         Text(
           value,
           style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: valueColor),

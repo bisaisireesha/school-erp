@@ -282,7 +282,7 @@ class TransportComplianceDetailsScreen extends StatelessWidget {
                       ),
                       child: Text(
                         docStatus,
-                        style: TextStyle(color: dColor, fontSize: 9.5, fontWeight: FontWeight.bold),
+                        style: AppTypography.badgeText.copyWith(color: dColor),
                       ),
                     ),
                   ],

@@ -51,6 +51,13 @@ class LibrarianMoreScreen extends StatelessWidget {
         'color': const Color(0xFF10B981),
         'subtitle': 'Staff Directory & Access',
       },
+      {
+        'key': 'calendar',
+        'title': 'Library Calendar',
+        'icon': LucideIcons.calendar,
+        'color': const Color(0xFF8B5CF6),
+        'subtitle': 'Events & Fairs',
+      },
     ];
 
     return SingleChildScrollView(

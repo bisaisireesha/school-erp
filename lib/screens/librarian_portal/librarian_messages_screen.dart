@@ -231,15 +231,18 @@ class _LibrarianMessagesScreenState extends State<LibrarianMessagesScreen> {
         return Container(
           margin: const EdgeInsets.only(bottom: AppSpacing.cardSpacing),
           decoration: BoxDecoration(
-            color: Colors.white,
             borderRadius: BorderRadius.circular(AppRadius.card),
             boxShadow: AppShadows.card,
           ),
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-            onTap: () {
-              setState(() {
-                _selectedChat = chat;
+          child: Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(AppRadius.card),
+            clipBehavior: Clip.antiAlias,
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              onTap: () {
+                setState(() {
+                  _selectedChat = chat;
                 chat['unread'] = 0;
               });
             },
@@ -294,9 +297,10 @@ class _LibrarianMessagesScreenState extends State<LibrarianMessagesScreen> {
               ],
             ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    },
+  );
   }
 
   Widget _buildNotificationsList() {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../auth/login_screen.dart';
@@ -16,6 +17,8 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
   late Animation<double> _slideAnimation;
+  Timer? _navigationTimer;
+  bool _hasNavigated = false;
 
   @override
   void initState() {
@@ -51,10 +54,26 @@ class _SplashScreenState extends State<SplashScreen>
 
     _scaleController.forward();
     _fadeController.forward();
+
+    _navigationTimer = Timer(const Duration(milliseconds: 2400), () {
+      _navigateToLogin();
+    });
+  }
+
+  void _navigateToLogin() {
+    if (!_hasNavigated && mounted) {
+      _hasNavigated = true;
+      _navigationTimer?.cancel();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    }
   }
 
   @override
   void dispose() {
+    _navigationTimer?.cancel();
     _fadeController.dispose();
     _scaleController.dispose();
     super.dispose();
@@ -65,12 +84,7 @@ class _SplashScreenState extends State<SplashScreen>
     final size = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      },
+      onTap: _navigateToLogin,
       child: Scaffold(
         backgroundColor: const Color(0xFFEDE9FA),
         body: Container(

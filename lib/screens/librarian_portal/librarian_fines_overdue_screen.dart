@@ -296,9 +296,13 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Overdue Records',
-                          style: TextStyle(fontSize: 15.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                        const Expanded(
+                          child: Text(
+                            'Overdue Records',
+                            style: TextStyle(fontSize: 15.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         Text(
                           '${_filteredItems.length} items',
@@ -337,20 +341,23 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Total Pending Fines',
-                style: TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '₹$_totalPendingAmount',
-                style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D), letterSpacing: -0.5),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Total Pending Fines',
+                  style: TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D), fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '₹$_totalPendingAmount',
+                  style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D), letterSpacing: -0.5),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
@@ -468,7 +475,7 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
                       const SizedBox(height: 2),
                       Text(
                         'Due: ${item['dueDate']}',
-                        style: const TextStyle(fontSize: 11.0, color: Color(0xFF7A7A9D)),
+                        style: AppTypography.caption,
                       ),
                     ],
                   ),
@@ -479,9 +486,7 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
                   children: [
                     Text(
                       '₹${item['fineAmount']}',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
+                      style: AppTypography.cardTitle.copyWith(
                         color: isPaid ? const Color(0xFF10B981) : const Color(0xFF1E1E2D),
                       ),
                     ),
@@ -497,9 +502,7 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
                           ),
                           child: Text(
                             isPaid ? 'Paid' : '${item['daysOverdue']}d Overdue',
-                            style: TextStyle(
-                              fontSize: 10.5,
-                              fontWeight: FontWeight.bold,
+                            style: AppTypography.badgeText.copyWith(
                               color: isPaid ? const Color(0xFF10B981) : const Color(0xFFEF4444),
                             ),
                           ),
@@ -526,10 +529,15 @@ class _LibrarianFinesOverdueScreenState extends State<LibrarianFinesOverdueScree
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Recently Collected',
-              style: TextStyle(fontSize: 15.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            const Expanded(
+              child: Text(
+                'Recently Collected',
+                style: TextStyle(fontSize: 15.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
+            const SizedBox(width: 8),
             GestureDetector(
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(

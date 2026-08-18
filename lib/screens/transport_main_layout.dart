@@ -78,12 +78,14 @@ class _TransportMainLayoutState extends State<TransportMainLayout> {
   int get _unreadNotifCount => _notifications.where((n) => n['isUnread'] == true).length;
 
   void _hideNotificationPopover() {
-    _notificationOverlayEntry?.remove();
-    _notificationOverlayEntry = null;
-    if (mounted) {
-      setState(() {
-        _isNotificationPopoverOpen = false;
-      });
+    if (_notificationOverlayEntry != null) {
+      _notificationOverlayEntry?.remove();
+      _notificationOverlayEntry = null;
+      if (mounted) {
+        setState(() {
+          _isNotificationPopoverOpen = false;
+        });
+      }
     }
   }
 
@@ -110,7 +112,7 @@ class _TransportMainLayoutState extends State<TransportMainLayout> {
             ),
             // Floating Popover Card anchored right below top header bell icon
             Positioned(
-              top: 60,
+              top: MediaQuery.of(context).padding.top + AppSpacing.headerHeight + 4,
               right: 16,
               child: Material(
                 color: Colors.transparent,
@@ -307,6 +309,13 @@ class _TransportMainLayoutState extends State<TransportMainLayout> {
     _loadTransportData();
   }
 
+  @override
+  void dispose() {
+    _notificationOverlayEntry?.remove();
+    _notificationOverlayEntry = null;
+    super.dispose();
+  }
+
   Future<void> _loadTransportData() async {
     try {
       final jsonString = await rootBundle.loadString('assets/mock/transport_portal_data.json');
@@ -364,6 +373,7 @@ class _TransportMainLayoutState extends State<TransportMainLayout> {
       case 'messages':
         return TransportMessagesScreen(data: _transportData, onBack: popSubScreen);
       case 'events':
+      case 'calendar':
         return TransportCalendarScreen(data: _transportData, onBack: popSubScreen);
       default:
         return TransportDashboardScreen(data: _transportData, onNavigate: _navigateToScreen);

@@ -239,8 +239,9 @@ class _TransportStudentAssignmentsScreenState
             label,
             style: const TextStyle(fontSize: 13.0, color: Color(0xFF6E6E8D), fontWeight: FontWeight.w500),
           ),
-          const Spacer(),
-          if (isStatus)
+          const SizedBox(width: 10),
+          if (isStatus) ...[
+            const Spacer(),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
               decoration: BoxDecoration(
@@ -255,11 +256,16 @@ class _TransportStudentAssignmentsScreenState
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            )
-          else
-            Text(
-              value,
-              style: const TextStyle(fontSize: 13.5, color: Color(0xFF1E1E2D), fontWeight: FontWeight.bold),
+            ),
+          ] else
+            Expanded(
+              child: Text(
+                value,
+                textAlign: TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: const TextStyle(fontSize: 13.5, color: Color(0xFF1E1E2D), fontWeight: FontWeight.bold),
+              ),
             ),
         ],
       ),
@@ -607,28 +613,30 @@ class _AssignStudentBottomSheetState extends State<_AssignStudentBottomSheet> {
                   child: const Icon(LucideIcons.userCheck, color: Color(0xFF6C4CF1), size: 20),
                 ),
                 const SizedBox(width: 10),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Assign Student to Route',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF1E1E2D),
-                        letterSpacing: -0.3,
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Assign Student to Route',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1E1E2D),
+                          letterSpacing: -0.3,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      'Assign student to bus route and pickup stop',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color(0xFF6E6E8D),
-                        fontWeight: FontWeight.w400,
+                      SizedBox(height: 2),
+                      Text(
+                        'Assign student to bus route and pickup stop',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Color(0xFF6E6E8D),
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -872,14 +880,17 @@ class _SearchableDropdownModalState extends State<_SearchableDropdownModal> {
         .where((item) => item.toLowerCase().contains(_query.toLowerCase().trim()))
         .toList();
 
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.75,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-      child: Column(
+      padding: EdgeInsets.fromLTRB(16, 12, 16, bottomInset + 16),
+      child: SafeArea(
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Drag handle
@@ -957,6 +968,7 @@ class _SearchableDropdownModalState extends State<_SearchableDropdownModal> {
                   ),
           ),
         ],
+      ),
       ),
     );
   }

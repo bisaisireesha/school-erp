@@ -224,9 +224,7 @@ class _TransportRouteDetailsPage extends StatelessWidget {
               child: Center(
                 child: Text(
                   '$index',
-                  style: TextStyle(
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.bold,
+                  style: AppTypography.badgeText.copyWith(
                     color: isFirst || isLast ? Colors.white : const Color(0xFF6C4CF1),
                   ),
                 ),
@@ -755,28 +753,30 @@ class _CreateRouteBottomSheetState extends State<_CreateRouteBottomSheet> {
                   child: const Icon(LucideIcons.mapPin, color: Color(0xFF6C4CF1), size: 20),
                 ),
                 const SizedBox(width: 10),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Create New Route',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF1E1E2D),
-                        letterSpacing: -0.3,
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Create New Route',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1E1E2D),
+                          letterSpacing: -0.3,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      'Set up bus routes, timings and stop order',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color(0xFF6E6E8D),
-                        fontWeight: FontWeight.w400,
+                      SizedBox(height: 2),
+                      Text(
+                        'Set up bus routes, timings and stop order',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Color(0xFF6E6E8D),
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -1142,102 +1142,104 @@ class _SearchableAddStopModalState extends State<_SearchableAddStopModal> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: EdgeInsets.fromLTRB(16, 12, 16, bottomInset + 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              width: 38,
-              height: 4,
-              margin: const EdgeInsets.only(bottom: 14),
-              decoration: BoxDecoration(
-                color: const Color(0xFFE0DDF0),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-
-          const Text(
-            'Add Route Stop',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-          ),
-          const SizedBox(height: 2),
-          const Text(
-            'Type a custom stop name or choose a matching suggestion',
-            style: TextStyle(fontSize: 12.0, color: Color(0xFF6E6E8D)),
-          ),
-          const SizedBox(height: 14),
-
-          // Searchable Input Field
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFF0EDF8)),
-              boxShadow: AppShadows.soft,
-            ),
-            child: TextField(
-              controller: _stopNameController,
-              onChanged: (val) => setState(() => _query = val),
-              style: const TextStyle(fontSize: 15.0, color: Color(0xFF1E1E2D), fontWeight: FontWeight.w500),
-              decoration: InputDecoration(
-                hintText: 'Type stop name (e.g. Green Glen Gate 2)...',
-                hintStyle: const TextStyle(color: Color(0xFF9E9AB8), fontSize: 13.5),
-                prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF6C4CF1), size: 19),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.check_circle_rounded, color: Color(0xFF6C4CF1)),
-                  onPressed: () => _submitStop(_stopNameController.text),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 38,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 14),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE0DDF0),
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
               ),
             ),
-          ),
-          const SizedBox(height: 14),
 
-          const Text(
-            'Matching Stop Suggestions',
-            style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold, color: Color(0xFF7A7A9D)),
-          ),
-          const SizedBox(height: 8),
+            const Text(
+              'Add Route Stop',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            ),
+            const SizedBox(height: 2),
+            const Text(
+              'Type a custom stop name or choose a matching suggestion',
+              style: TextStyle(fontSize: 12.0, color: Color(0xFF6E6E8D)),
+            ),
+            const SizedBox(height: 14),
 
-          // Suggestion List
-          Expanded(
-            child: matchingSuggestions.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(LucideIcons.mapPin, color: Color(0xFFCDCBE0), size: 28),
-                        const SizedBox(height: 8),
-                        Text(
-                          'No matching suggestions. Press checkmark to add "$_query"',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 12.5, color: Color(0xFF6E6E8D)),
-                        ),
-                      ],
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: matchingSuggestions.length,
-                    itemBuilder: (context, index) {
-                      final stop = matchingSuggestions[index];
-                      return ListTile(
-                        onTap: () => _submitStop(stop),
-                        dense: true,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        leading: const Icon(LucideIcons.mapPin, size: 16, color: Color(0xFF6C4CF1)),
-                        title: Text(
-                          stop,
-                          style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
-                        ),
-                        trailing: const Icon(Icons.add_rounded, size: 18, color: Color(0xFF6C4CF1)),
-                      );
-                    },
+            // Searchable Input Field
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFF0EDF8)),
+                boxShadow: AppShadows.soft,
+              ),
+              child: TextField(
+                controller: _stopNameController,
+                onChanged: (val) => setState(() => _query = val),
+                style: const TextStyle(fontSize: 15.0, color: Color(0xFF1E1E2D), fontWeight: FontWeight.w500),
+                decoration: InputDecoration(
+                  hintText: 'Type stop name (e.g. Green Glen Gate 2)...',
+                  hintStyle: const TextStyle(color: Color(0xFF9E9AB8), fontSize: 13.5),
+                  prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF6C4CF1), size: 19),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.check_circle_rounded, color: Color(0xFF6C4CF1)),
+                    onPressed: () => _submitStop(_stopNameController.text),
                   ),
-          ),
-        ],
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+
+            const Text(
+              'Matching Stop Suggestions',
+              style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold, color: Color(0xFF7A7A9D)),
+            ),
+            const SizedBox(height: 8),
+
+            // Suggestion List
+            Expanded(
+              child: matchingSuggestions.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(LucideIcons.mapPin, color: Color(0xFFCDCBE0), size: 28),
+                          const SizedBox(height: 8),
+                          Text(
+                            'No matching suggestions. Press checkmark to add "$_query"',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 12.5, color: Color(0xFF6E6E8D)),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: matchingSuggestions.length,
+                      itemBuilder: (context, index) {
+                        final stop = matchingSuggestions[index];
+                        return ListTile(
+                          onTap: () => _submitStop(stop),
+                          dense: true,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          leading: const Icon(LucideIcons.mapPin, size: 16, color: Color(0xFF6C4CF1)),
+                          title: Text(
+                            stop,
+                            style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
+                          ),
+                          trailing: const Icon(Icons.add_rounded, size: 18, color: Color(0xFF6C4CF1)),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

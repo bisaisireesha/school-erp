@@ -85,8 +85,8 @@ class _MoreScreenState extends State<MoreScreen> {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
               crossAxisSpacing: 8,
-              mainAxisSpacing: 24,
-              mainAxisExtent: 100, // Fixed height to prevent bottom overflow
+              mainAxisSpacing: 20,
+              mainAxisExtent: 112, // Fixed height to prevent bottom overflow
             ),
             itemBuilder: (context, index) {
               final item = _quickActions[index];

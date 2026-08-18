@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import '../librarian_main_layout.dart';
+import 'librarian_category_details_screen.dart';
 import 'librarian_create_bottom_sheet.dart';
 import 'librarian_search_bar.dart';
 
@@ -217,88 +219,93 @@ class _LibrarianCategoriesScreenState extends State<LibrarianCategoriesScreen> {
                         final Color color = cat['color'] as Color;
                         final Color bg = cat['bg'] as Color;
 
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: const Color(0xFFF0EDF8)),
-                            boxShadow: AppShadows.soft,
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: bg,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Icon(cat['icon'] as IconData, color: color, size: 22),
+                        return InkWell(
+                          onTap: () {
+                            LibrarianMainLayout.pushSubScreen(
+                              context,
+                              LibrarianCategoryDetailsScreen(
+                                item: cat,
+                                onBack: () => LibrarianMainLayout.popSubScreen(context),
                               ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          cat['name'] as String,
-                                          style: const TextStyle(
-                                            fontSize: 14.5,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF1E1E2D),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: const Color(0xFFF0EDF8)),
+                              boxShadow: AppShadows.soft,
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: bg,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Icon(cat['icon'] as IconData, color: color, size: 22),
+                                ),
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            cat['name'] as String,
+                                            style: AppTypography.cardTitle,
                                           ),
-                                        ),
-                                        const SizedBox(width: 6),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                          decoration: BoxDecoration(
-                                            color: bg,
-                                            borderRadius: BorderRadius.circular(6),
+                                          const SizedBox(width: 6),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: bg,
+                                              borderRadius: BorderRadius.circular(6),
+                                            ),
+                                            child: Text(
+                                              cat['code'] as String,
+                                              style: AppTypography.badgeText.copyWith(
+                                                color: color,
+                                              ),
+                                            ),
                                           ),
-                                          child: Text(
-                                            cat['code'] as String,
-                                            style: TextStyle(
+                                        ],
+                                      ),
+                                      const SizedBox(height: 3),
+                                      Text(
+                                        cat['description'] as String,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTypography.caption,
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${cat['count']} Books',
+                                            style: AppTypography.caption.copyWith(
                                               color: color,
-                                              fontSize: 10.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 3),
-                                    Text(
-                                      cat['description'] as String,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '${cat['count']} Books',
-                                          style: TextStyle(
-                                            fontSize: 11.0,
-                                            color: color,
-                                            fontWeight: FontWeight.bold,
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            '${cat['racks']} Racks Assigned',
+                                            style: AppTypography.caption,
                                           ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Text(
-                                          '${cat['racks']} Racks Assigned',
-                                          style: const TextStyle(fontSize: 11.0, color: Colors.grey),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Icon(Icons.chevron_right_rounded, color: Colors.grey.shade400, size: 20),
-                            ],
+                                Icon(Icons.chevron_right_rounded, color: Colors.grey.shade400, size: 20),
+                              ],
+                            ),
                           ),
                         );
                       },

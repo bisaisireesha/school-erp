@@ -1,0 +1,782 @@
+{
+  "teacherProfile": {
+    "id": "TCH-2048",
+    "name": "Sarah Williams",
+    "initials": "SW",
+    "role": "Senior Faculty - Mathematics & Physics",
+    "department": "Department of STEM Education",
+    "email": "sarah.williams@sunrise.edu",
+    "phone": "+1 (555) 345-6789",
+    "joiningDate": "10 Jul 2020",
+    "qualification": "M.Sc. Applied Mathematics, B.Ed. (Distinction)",
+    "experience": "8 Years",
+    "assignedSubjects": ["Mathematics", "Physics"],
+    "classesAssigned": "Class 10-A, Class 10-B, Class 9-C",
+    "totalStudents": 101
+  },
+  "quickStats": {
+    "classesToday": 3,
+    "classesCompleted": 2,
+    "pendingAttendance": 1,
+    "assignmentsToReview": 12,
+    "scheduleProgress": "2 / 3 Done",
+    "totalClasses": 3,
+    "totalStudents": 101,
+    "avgAttendanceRate": "95.6%",
+    "upcomingExams": 2,
+    "pendingMarks": 1
+  },
+  "todaysSchedule": [
+    {
+      "period": 1,
+      "time": "08:30 AM - 09:15 AM",
+      "subject": "Mathematics",
+      "className": "Class 10-A",
+      "room": "Room 204 (North Wing)",
+      "topic": "Quadratic Equations & Roots",
+      "status": "Completed",
+      "attendanceMarked": true
+    },
+    {
+      "period": 2,
+      "time": "09:20 AM - 10:05 AM",
+      "subject": "Physics",
+      "className": "Class 10-B",
+      "room": "Physics Lab 2",
+      "topic": "Electromagnetic Induction",
+      "status": "Completed",
+      "attendanceMarked": true
+    },
+    {
+      "period": 3,
+      "time": "11:10 AM - 11:55 AM",
+      "subject": "Mathematics",
+      "className": "Class 9-C",
+      "room": "Room 108 (East Wing)",
+      "topic": "Polynomials & Factoring",
+      "status": "Ongoing",
+      "attendanceMarked": false
+    }
+  ],
+  "classes": [
+    {
+      "id": "CLS-10A-MATH",
+      "subject": "Mathematics",
+      "className": "Class 10",
+      "section": "A",
+      "studentCount": 34,
+      "nextPeriod": "08:30 AM (Tomorrow)",
+      "room": "Room 204",
+      "attendanceStatus": "Marked (32/34 Present)",
+      "isAttendancePending": false,
+      "avgScore": "86%",
+      "syllabusProgress": 68
+    },
+    {
+      "id": "CLS-10B-PHY",
+      "subject": "Physics",
+      "className": "Class 10",
+      "section": "B",
+      "studentCount": 32,
+      "nextPeriod": "09:20 AM (Tomorrow)",
+      "room": "Physics Lab 2",
+      "attendanceStatus": "Marked (30/32 Present)",
+      "isAttendancePending": false,
+      "avgScore": "82%",
+      "syllabusProgress": 62
+    },
+    {
+      "id": "CLS-9C-MATH",
+      "subject": "Mathematics",
+      "className": "Class 9",
+      "section": "C",
+      "studentCount": 35,
+      "nextPeriod": "11:10 AM (Today)",
+      "room": "Room 108",
+      "attendanceStatus": "Pending Today",
+      "isAttendancePending": true,
+      "avgScore": "79%",
+      "syllabusProgress": 74
+    }
+  ],
+  "students": [
+    {
+      "id": "STU-1001",
+      "rollNo": "01",
+      "name": "Aarav Sharma",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Present",
+      "attendanceRate": "96%",
+      "lastGrade": "A+",
+      "parentName": "Rajesh Sharma",
+      "parentPhone": "+1 (555) 019-2831"
+    },
+    {
+      "id": "STU-1002",
+      "rollNo": "02",
+      "name": "Ananya Roy",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Present",
+      "attendanceRate": "98%",
+      "lastGrade": "A",
+      "parentName": "Vikram Roy",
+      "parentPhone": "+1 (555) 019-2832"
+    },
+    {
+      "id": "STU-1003",
+      "rollNo": "03",
+      "name": "Dev Patel",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Late",
+      "attendanceRate": "89%",
+      "lastGrade": "B+",
+      "parentName": "Kiran Patel",
+      "parentPhone": "+1 (555) 019-2833"
+    },
+    {
+      "id": "STU-1004",
+      "rollNo": "04",
+      "name": "Diya Sengupta",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Present",
+      "attendanceRate": "94%",
+      "lastGrade": "A",
+      "parentName": "Subir Sengupta",
+      "parentPhone": "+1 (555) 019-2834"
+    },
+    {
+      "id": "STU-1005",
+      "rollNo": "05",
+      "name": "Ethan Vance",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Absent",
+      "attendanceRate": "84%",
+      "lastGrade": "B",
+      "parentName": "Eli Vance",
+      "parentPhone": "+1 (555) 019-2835"
+    },
+    {
+      "id": "STU-1006",
+      "rollNo": "06",
+      "name": "Ishaan Verma",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Present",
+      "attendanceRate": "97%",
+      "lastGrade": "A+",
+      "parentName": "Manoj Verma",
+      "parentPhone": "+1 (555) 019-2836"
+    },
+    {
+      "id": "STU-1007",
+      "rollNo": "07",
+      "name": "Kavya Menon",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Present",
+      "attendanceRate": "92%",
+      "lastGrade": "A",
+      "parentName": "Ramesh Menon",
+      "parentPhone": "+1 (555) 019-2837"
+    },
+    {
+      "id": "STU-1008",
+      "rollNo": "08",
+      "name": "Liam Connor",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Present",
+      "attendanceRate": "95%",
+      "lastGrade": "A",
+      "parentName": "Sean Connor",
+      "parentPhone": "+1 (555) 019-2838"
+    },
+    {
+      "id": "STU-1009",
+      "rollNo": "09",
+      "name": "Meera Joshi",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Absent",
+      "attendanceRate": "88%",
+      "lastGrade": "B+",
+      "parentName": "Ashwin Joshi",
+      "parentPhone": "+1 (555) 019-2839"
+    },
+    {
+      "id": "STU-1010",
+      "rollNo": "10",
+      "name": "Noah Williams",
+      "classId": "CLS-10A-MATH",
+      "className": "Class 10-A",
+      "attendance": "Present",
+      "attendanceRate": "99%",
+      "lastGrade": "A+",
+      "parentName": "Daniel Williams",
+      "parentPhone": "+1 (555) 019-2840"
+    },
+    {
+      "id": "STU-2001",
+      "rollNo": "01",
+      "name": "Aditya Rao",
+      "classId": "CLS-10B-PHY",
+      "className": "Class 10-B",
+      "attendance": "Present",
+      "attendanceRate": "95%",
+      "lastGrade": "A",
+      "parentName": "Suresh Rao",
+      "parentPhone": "+1 (555) 019-3301"
+    },
+    {
+      "id": "STU-2002",
+      "rollNo": "02",
+      "name": "Bhavna Kapoor",
+      "classId": "CLS-10B-PHY",
+      "className": "Class 10-B",
+      "attendance": "Present",
+      "attendanceRate": "96%",
+      "lastGrade": "A+",
+      "parentName": "Anil Kapoor",
+      "parentPhone": "+1 (555) 019-3302"
+    },
+    {
+      "id": "STU-2003",
+      "rollNo": "03",
+      "name": "Chetan Saxena",
+      "classId": "CLS-10B-PHY",
+      "className": "Class 10-B",
+      "attendance": "Present",
+      "attendanceRate": "91%",
+      "lastGrade": "B+",
+      "parentName": "Sunil Saxena",
+      "parentPhone": "+1 (555) 019-3303"
+    },
+    {
+      "id": "STU-2004",
+      "rollNo": "04",
+      "name": "Fatima Zahra",
+      "classId": "CLS-10B-PHY",
+      "className": "Class 10-B",
+      "attendance": "Present",
+      "attendanceRate": "98%",
+      "lastGrade": "A+",
+      "parentName": "Tariq Zahra",
+      "parentPhone": "+1 (555) 019-3304"
+    },
+    {
+      "id": "STU-2005",
+      "rollNo": "05",
+      "name": "Gaurav Nair",
+      "classId": "CLS-10B-PHY",
+      "className": "Class 10-B",
+      "attendance": "Absent",
+      "attendanceRate": "82%",
+      "lastGrade": "B",
+      "parentName": "Pradeep Nair",
+      "parentPhone": "+1 (555) 019-3305"
+    },
+    {
+      "id": "STU-3001",
+      "rollNo": "01",
+      "name": "Harshita Sen",
+      "classId": "CLS-9C-MATH",
+      "className": "Class 9-C",
+      "attendance": "Present",
+      "attendanceRate": "93%",
+      "lastGrade": "A",
+      "parentName": "Alok Sen",
+      "parentPhone": "+1 (555) 019-4401"
+    },
+    {
+      "id": "STU-3002",
+      "rollNo": "02",
+      "name": "Jayant Misra",
+      "classId": "CLS-9C-MATH",
+      "className": "Class 9-C",
+      "attendance": "Present",
+      "attendanceRate": "91%",
+      "lastGrade": "B+",
+      "parentName": "Gopal Misra",
+      "parentPhone": "+1 (555) 019-4402"
+    },
+    {
+      "id": "STU-3003",
+      "rollNo": "03",
+      "name": "Kritika Anand",
+      "classId": "CLS-9C-MATH",
+      "className": "Class 9-C",
+      "attendance": "Present",
+      "attendanceRate": "97%",
+      "lastGrade": "A+",
+      "parentName": "Vivek Anand",
+      "parentPhone": "+1 (555) 019-4403"
+    }
+  ],
+  "homeworkList": [
+    {
+      "id": "HW-101",
+      "title": "Quadratic Formula Practice Problems",
+      "subject": "Mathematics",
+      "className": "Class 10-A",
+      "dueDate": "12 Aug 2026",
+      "status": "Active",
+      "submittedCount": 26,
+      "totalCount": 34,
+      "description": "Complete Chapter 4 exercise 4.3 questions 1 to 10. Show all intermediate discriminant calculations step-by-step.",
+      "attachments": "Quadratic_Worksheet_SetA.pdf"
+    },
+    {
+      "id": "HW-102",
+      "title": "Faraday's Law Lab Notes & Summary",
+      "subject": "Physics",
+      "className": "Class 10-B",
+      "dueDate": "14 Aug 2026",
+      "status": "Active",
+      "submittedCount": 18,
+      "totalCount": 32,
+      "description": "Write a 500-word laboratory report analyzing induced EMF experiments and magnetic flux variation graphs.",
+      "attachments": "Faraday_Lab_Experiment_Guide.pdf"
+    },
+    {
+      "id": "HW-103",
+      "title": "Polynomial Factorization Assignment",
+      "subject": "Mathematics",
+      "className": "Class 9-C",
+      "dueDate": "09 Aug 2026",
+      "status": "Evaluated",
+      "submittedCount": 35,
+      "totalCount": 35,
+      "description": "Factorize expressions using Remainder and Factor theorems. All 35 student submissions graded.",
+      "attachments": "Polynomial_Review_Sheet.pdf"
+    }
+  ],
+  "assignmentsList": [
+    {
+      "id": "ASG-201",
+      "title": "Trigonometric Identities Project Portfolio",
+      "subject": "Mathematics",
+      "className": "Class 10-A",
+      "dueDate": "18 Aug 2026",
+      "totalMarks": 50,
+      "submissionCount": "28 / 34 Submitted",
+      "status": "Grading in Progress",
+      "description": "Create a real-world trigonometry application portfolio demonstrating heights, distances, and angle measuring proofs."
+    },
+    {
+      "id": "ASG-202",
+      "title": "Optics Ray Diagram Technical Chart",
+      "subject": "Physics",
+      "className": "Class 10-B",
+      "dueDate": "20 Aug 2026",
+      "totalMarks": 30,
+      "submissionCount": "15 / 32 Submitted",
+      "status": "Open",
+      "description": "Construct accurate ray diagrams for concave/convex mirrors and lenses with magnification equations."
+    },
+    {
+      "id": "ASG-203",
+      "title": "Polynomials & Coordinate Geometry Modeling",
+      "subject": "Mathematics",
+      "className": "Class 9-C",
+      "dueDate": "22 Aug 2026",
+      "totalMarks": 40,
+      "submissionCount": "22 / 35 Submitted",
+      "status": "Open",
+      "description": "Plot algebraic parabolas and coordinate graphs with real life projectile motion curves."
+    }
+  ],
+  "examsList": [
+    {
+      "id": "EXM-301",
+      "title": "Mid-Term Mathematics Assessment",
+      "subject": "Mathematics",
+      "className": "Class 10-A",
+      "date": "16 Aug 2026",
+      "time": "09:00 AM - 11:30 AM",
+      "totalMarks": 80,
+      "status": "Upcoming",
+      "marksUploaded": false,
+      "gradedCount": 0,
+      "totalStudents": 34
+    },
+    {
+      "id": "EXM-302",
+      "title": "Periodic Test 2 - Physics",
+      "subject": "Physics",
+      "className": "Class 10-B",
+      "date": "06 Aug 2026",
+      "time": "09:30 AM - 10:45 AM",
+      "totalMarks": 40,
+      "status": "Marks Pending",
+      "marksUploaded": false,
+      "gradedCount": 14,
+      "totalStudents": 32
+    },
+    {
+      "id": "EXM-303",
+      "title": "Monthly Diagnostic Test - Algebra",
+      "subject": "Mathematics",
+      "className": "Class 9-C",
+      "date": "02 Aug 2026",
+      "time": "10:00 AM - 11:00 AM",
+      "totalMarks": 30,
+      "status": "Completed",
+      "marksUploaded": true,
+      "gradedCount": 35,
+      "totalStudents": 35
+    }
+  ],
+  "timetable": {
+    "Mon": [
+      { "period": 1, "time": "08:30 AM - 09:15 AM", "subject": "Mathematics", "class": "Class 10-A", "room": "Room 204" },
+      { "period": 2, "time": "09:20 AM - 10:05 AM", "subject": "Physics", "class": "Class 10-B", "room": "Physics Lab 2" },
+      { "period": 3, "time": "11:10 AM - 11:55 AM", "subject": "Mathematics", "class": "Class 9-C", "room": "Room 108" }
+    ],
+    "Tue": [
+      { "period": 1, "time": "08:30 AM - 09:15 AM", "subject": "Mathematics", "class": "Class 10-A", "room": "Room 204" },
+      { "period": 2, "time": "10:20 AM - 11:05 AM", "subject": "Physics Lab", "class": "Class 10-B", "room": "Physics Lab 2" },
+      { "period": 3, "time": "01:30 PM - 02:15 PM", "subject": "Mathematics", "class": "Class 9-C", "room": "Room 108" }
+    ],
+    "Wed": [
+      { "period": 1, "time": "09:20 AM - 10:05 AM", "subject": "Mathematics", "class": "Class 9-C", "room": "Room 108" },
+      { "period": 2, "time": "10:20 AM - 11:05 AM", "subject": "Mathematics", "class": "Class 10-A", "room": "Room 204" },
+      { "period": 3, "time": "01:30 PM - 02:15 PM", "subject": "Physics", "class": "Class 10-B", "room": "Physics Lab 2" }
+    ],
+    "Thu": [
+      { "period": 1, "time": "08:30 AM - 09:15 AM", "subject": "Mathematics", "class": "Class 10-A", "room": "Room 204" },
+      { "period": 2, "time": "10:20 AM - 11:05 AM", "subject": "Physics", "class": "Class 10-B", "room": "Physics Lab 2" },
+      { "period": 3, "time": "11:10 AM - 11:55 AM", "subject": "Mathematics", "class": "Class 9-C", "room": "Room 108" }
+    ],
+    "Fri": [
+      { "period": 1, "time": "08:30 AM - 09:15 AM", "subject": "Mathematics Quiz", "class": "Class 9-C", "room": "Room 108" },
+      { "period": 2, "time": "09:20 AM - 10:05 AM", "subject": "Physics", "class": "Class 10-B", "room": "Physics Lab 2" },
+      { "period": 3, "time": "11:10 AM - 11:55 AM", "subject": "Mathematics", "class": "Class 10-A", "room": "Room 204" }
+    ],
+    "Sat": [
+      { "period": 1, "time": "09:00 AM - 10:00 AM", "subject": "Mathematics Consultation", "class": "Class 10-A", "room": "Room 204" },
+      { "period": 2, "time": "10:15 AM - 11:30 AM", "subject": "Physics Olympiad Prep", "class": "Class 10-B", "room": "Physics Lab 2" }
+    ]
+  },
+  "messages": [
+    {
+      "id": "MSG-01",
+      "name": "Dr. V. K. Malhotra (Principal)",
+      "role": "School Principal",
+      "category": "Admin",
+      "unread": 1,
+      "time": "08:15 AM",
+      "lastMessage": "Please review the revised midterm examination schedule.",
+      "avatarColor": "0xFF6C4CF1",
+      "messages": [
+        { "sender": "Dr. V. K. Malhotra", "text": "Good morning Sarah, please verify the question papers for Class 10 Math by Friday.", "time": "Yesterday" },
+        { "sender": "Sarah Williams", "text": "Good morning sir! Yes, papers are drafted and under review.", "time": "Yesterday" },
+        { "sender": "Dr. V. K. Malhotra", "text": "Please review the revised midterm examination schedule.", "time": "08:15 AM" }
+      ]
+    },
+    {
+      "id": "MSG-02",
+      "name": "Mr. Rajesh Sharma (Aarav's Father)",
+      "role": "Parent - Class 10-A",
+      "category": "Parents",
+      "unread": 2,
+      "time": "09:40 AM",
+      "lastMessage": "Aarav will be attending math extra class tomorrow.",
+      "avatarColor": "0xFF3B82F6",
+      "messages": [
+        { "sender": "Mr. Rajesh Sharma", "text": "Hello Ma'am, regarding Aarav's progress in Trigonometry.", "time": "Yesterday" },
+        { "sender": "Sarah Williams", "text": "He has improved significantly! Recommended 30 mins practice daily.", "time": "Yesterday" },
+        { "sender": "Mr. Rajesh Sharma", "text": "Thank you so much! Aarav will be attending math extra class tomorrow.", "time": "09:40 AM" }
+      ]
+    },
+    {
+      "id": "MSG-03",
+      "name": "Mrs. Eli Vance (Ethan's Parent)",
+      "role": "Parent - Class 10-A",
+      "category": "Parents",
+      "unread": 0,
+      "time": "Yesterday",
+      "lastMessage": "Ethan was unwell today, submitted doctor leave note.",
+      "avatarColor": "0xFFF59E0B",
+      "messages": [
+        { "sender": "Mrs. Eli Vance", "text": "Ethan was unwell today, submitted doctor leave note.", "time": "Yesterday" },
+        { "sender": "Sarah Williams", "text": "Thank you for the update. Wishing him a speedy recovery!", "time": "Yesterday" }
+      ]
+    },
+    {
+      "id": "MSG-04",
+      "name": "STEM Faculty & Science Dept",
+      "role": "Department Group (8 Teachers)",
+      "category": "Groups",
+      "unread": 3,
+      "time": "10:30 AM",
+      "lastMessage": "Science Fair projects approval deadline is August 22nd.",
+      "avatarColor": "0xFF10B981",
+      "messages": [
+        { "sender": "Prof. Hema", "text": "Science journal allocations updated in library.", "time": "09:00 AM" },
+        { "sender": "Sarah Williams", "text": "Math models for exhibition finalized.", "time": "09:45 AM" },
+        { "sender": "Dr. V. K. Malhotra", "text": "Science Fair projects approval deadline is August 22nd.", "time": "10:30 AM" }
+      ]
+    },
+    {
+      "id": "MSG-05",
+      "name": "Class 10-A Class Teacher Group",
+      "role": "Student & Parent Representatives",
+      "category": "Groups",
+      "unread": 0,
+      "time": "04 Aug",
+      "lastMessage": "Independence Day cultural program list published.",
+      "avatarColor": "0xFF8B5CF6",
+      "messages": [
+        { "sender": "Sarah Williams", "text": "Independence Day cultural program list published.", "time": "04 Aug" }
+      ]
+    }
+  ],
+  "announcements": [
+    {
+      "id": "ANN-01",
+      "title": "Mid-Term Assessment Blueprint & Date Sheet Released",
+      "audience": "All Students & Parents",
+      "date": "10 Aug 2026",
+      "time": "08:00 AM",
+      "readCount": 342,
+      "priority": "High",
+      "content": "The comprehensive syllabus blueprint and exam schedule for Term 1 assessments have been uploaded."
+    },
+    {
+      "id": "ANN-02",
+      "title": "Annual Inter-School STEM Exhibition & Robotics Fair",
+      "audience": "Grades 9 & 10",
+      "date": "08 Aug 2026",
+      "time": "02:15 PM",
+      "readCount": 218,
+      "priority": "Medium",
+      "content": "Registration is open for the 2026 Innovators STEM Challenge. Submit prototype summaries to Ms. Sarah Williams by Aug 20."
+    },
+    {
+      "id": "ANN-03",
+      "title": "Parent-Teacher Conference (PTC) Slot Booking",
+      "audience": "Class 10 Parents",
+      "date": "05 Aug 2026",
+      "time": "11:00 AM",
+      "readCount": 189,
+      "priority": "High",
+      "content": "Book your 15-minute one-on-one session with subject teachers for this Saturday via the School Portal."
+    }
+  ],
+  "studyMaterials": [
+    {
+      "id": "MAT-01",
+      "title": "Class 10 Math Chapter 4: Complete Quadratic Notes & Formula Sheet",
+      "subject": "Mathematics",
+      "className": "Class 10",
+      "fileType": "PDF",
+      "fileSize": "3.4 MB",
+      "uploadDate": "04 Aug 2026",
+      "downloads": 84
+    },
+    {
+      "id": "MAT-02",
+      "title": "Physics Chapter 6: Electromagnetic Induction Video Slides & Lab Guide",
+      "subject": "Physics",
+      "className": "Class 10",
+      "fileType": "PPTX",
+      "fileSize": "8.1 MB",
+      "uploadDate": "02 Aug 2026",
+      "downloads": 62
+    },
+    {
+      "id": "MAT-03",
+      "title": "Class 9 Math: Polynomials & Factorization Solved Exemplar Problems",
+      "subject": "Mathematics",
+      "className": "Class 9",
+      "fileType": "PDF",
+      "fileSize": "2.8 MB",
+      "uploadDate": "25 Jul 2026",
+      "downloads": 92
+    }
+  ],
+  "transport": {
+    "routeName": "Route 04 - East Campus Express",
+    "busNo": "BUS-04",
+    "driverName": "Rajesh Kumar",
+    "driverPhone": "+1 (555) 789-0123",
+    "vehicleNumber": "KA-04-EA-5921",
+    "pickupTime": "07:15 AM",
+    "pickupStop": "Pinecrest Station & 4th Cross",
+    "dropTime": "04:30 PM",
+    "dropStop": "Sunrise Main Campus Gate 2",
+    "busStatus": "On Schedule • Reaching Stop in 8 mins",
+    "stops": [
+      { "name": "Depot Terminal", "time": "06:45 AM", "status": "Passed" },
+      { "name": "Greenwood Circle", "time": "07:00 AM", "status": "Passed" },
+      { "name": "Pinecrest Station", "time": "07:15 AM", "status": "Current Stop" },
+      { "name": "Oakridge Junction", "time": "07:35 AM", "status": "Upcoming" },
+      { "name": "Sunrise Academy", "time": "07:55 AM", "status": "Upcoming" }
+    ]
+  },
+  "payroll": {
+    "currentMonth": "July 2026",
+    "status": "Paid",
+    "paymentDate": "28 July 2026",
+    "basicSalary": 45000.0,
+    "allowances": {
+      "da": 8500.0,
+      "hra": 6000.0,
+      "medical": 2000.0,
+      "teachingSpecial": 3500.0
+    },
+    "deductions": {
+      "providentFund": 3600.0,
+      "professionalTax": 500.0,
+      "healthInsurance": 1200.0
+    },
+    "grossPay": "₹65,000",
+    "totalDeductions": "₹5,300",
+    "netSalary": "₹59,700",
+    "previousPayslips": [
+      {
+        "month": "June 2026",
+        "netSalary": "₹59,700",
+        "status": "Paid",
+        "paymentDate": "28 June 2026",
+        "basicSalary": 45000.0,
+        "allowance": 20000.0,
+        "deductions": 5300.0
+      },
+      {
+        "month": "May 2026",
+        "netSalary": "₹59,700",
+        "status": "Paid",
+        "paymentDate": "28 May 2026",
+        "basicSalary": 45000.0,
+        "allowance": 20000.0,
+        "deductions": 5300.0
+      },
+      {
+        "month": "April 2026",
+        "netSalary": "₹58,500",
+        "status": "Paid",
+        "paymentDate": "28 April 2026",
+        "basicSalary": 45000.0,
+        "allowance": 18800.0,
+        "deductions": 5300.0
+      },
+      {
+        "month": "March 2026",
+        "netSalary": "₹58,500",
+        "status": "Paid",
+        "paymentDate": "28 March 2026",
+        "basicSalary": 45000.0,
+        "allowance": 18800.0,
+        "deductions": 5300.0
+      }
+    ]
+  },
+  "calendarEvents": [
+    {
+      "title": "Mathematics Dept Curriculum Sync Meeting",
+      "date": "Today, 10 August 2026",
+      "time": "03:30 PM - 04:30 PM",
+      "category": "Meetings",
+      "location": "Faculty Conference Room",
+      "type": "Meeting"
+    },
+    {
+      "title": "Independence Day Celebrations & Assembly",
+      "date": "15 August 2026",
+      "time": "08:00 AM - 12:00 PM",
+      "category": "Holidays",
+      "location": "Main School Ground",
+      "type": "Holiday"
+    },
+    {
+      "title": "Mid-Term Mathematics Exam (Class 10-A)",
+      "date": "16 August 2026",
+      "time": "09:00 AM - 11:30 AM",
+      "category": "Exams",
+      "location": "Hall A (Seats 1-40)",
+      "type": "Exam"
+    },
+    {
+      "title": "STEM Innovators Project Submission Due",
+      "date": "20 August 2026",
+      "time": "05:00 PM",
+      "category": "Academic",
+      "location": "Online Portal",
+      "type": "Academic"
+    },
+    {
+      "title": "Parent-Teacher Consultation Day",
+      "date": "22 August 2026",
+      "time": "09:00 AM - 01:30 PM",
+      "category": "Meetings",
+      "location": "Classrooms 204 & 205",
+      "type": "Meeting"
+    },
+    {
+      "title": "Raksha Bandhan Holiday",
+      "date": "28 August 2026",
+      "time": "Full Day",
+      "category": "Holidays",
+      "location": "-",
+      "type": "Holiday"
+    }
+  ],
+  "needAttention": [
+    {
+      "id": "ATT-01",
+      "title": "Pending Attendance for Class 9-C Mathematics",
+      "desc": "Period 3 attendance is not marked yet. Complete before 01:00 PM.",
+      "severity": "High",
+      "targetScreen": "attendance"
+    },
+    {
+      "id": "ATT-02",
+      "title": "12 Physics Homework Submissions to Grade",
+      "desc": "Class 10-B Faraday's law summaries submitted for review.",
+      "severity": "Medium",
+      "targetScreen": "homework"
+    },
+    {
+      "id": "ATT-03",
+      "title": "Class 10-B Periodic Test Marks Pending",
+      "desc": "Periodic Test 2 marks due for upload within 48 hours.",
+      "severity": "High",
+      "targetScreen": "exams"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "NOT-01",
+      "title": "Attendance Alert",
+      "message": "Class 9-C period 3 attendance needs submission.",
+      "time": "10m ago",
+      "isUnread": true,
+      "targetScreen": "attendance",
+      "iconType": "alert"
+    },
+    {
+      "id": "NOT-02",
+      "title": "New Assignment Submission",
+      "message": "5 students turned in Math Trigonometry portfolios.",
+      "time": "30m ago",
+      "isUnread": true,
+      "targetScreen": "assignments",
+      "iconType": "assignment"
+    },
+    {
+      "id": "NOT-03",
+      "title": "Principal Notice",
+      "message": "Mid-term question paper deadline set for Friday.",
+      "time": "1h ago",
+      "isUnread": false,
+      "targetScreen": "messages",
+      "iconType": "message"
+    }
+  ]
+}

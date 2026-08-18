@@ -179,7 +179,7 @@ class StudentMoreScreen extends StatelessWidget {
               crossAxisCount: 3,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-              childAspectRatio: 0.95,
+              childAspectRatio: 0.88,
             ),
             itemBuilder: (context, index) {
               final mod = modules[index];
@@ -188,7 +188,7 @@ class StudentMoreScreen extends StatelessWidget {
                 onTap: () => onNavigate(mod['key'] as String),
                 behavior: HitTestBehavior.opaque,
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(14),

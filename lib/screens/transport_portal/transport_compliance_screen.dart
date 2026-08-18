@@ -554,10 +554,8 @@ class _TransportComplianceScreenState
       ),
       child: Text(
         role,
-        style: const TextStyle(
-          color: Color(0xFF6C4CF1),
-          fontSize: 9.5,
-          fontWeight: FontWeight.bold,
+        style: AppTypography.badgeText.copyWith(
+          color: const Color(0xFF6C4CF1),
         ),
       ),
     );

@@ -1,0 +1,897 @@
+{
+  "teacher": {
+    "id": "T-101",
+    "name": "Sarah Connor",
+    "role": "Daycare Teacher",
+    "classroom": "Little Stars",
+    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+    "email": "sarah.connor@sunrisedaycare.com",
+    "phone": "+1 (555) 234-5678",
+    "experience": "5 Years Experience"
+  },
+  "classroom": {
+    "name": "Little Stars",
+    "code": "LS-01",
+    "ageGroup": "2–3 Years",
+    "totalChildren": 8,
+    "presentCount": 6,
+    "absentCount": 1,
+    "lateCount": 1,
+    "status": "Active",
+    "roomNumber": "Room 102 (East Wing)",
+    "coTeacher": "Emily Davis",
+    "ratio": "1 : 4",
+    "schedule": [
+      {
+        "time": "08:30 AM - 09:00 AM",
+        "title": "Drop-off & Morning Greetings",
+        "icon": "hand"
+      },
+      {
+        "time": "09:00 AM - 09:30 AM",
+        "title": "Morning Circle & Rhymes",
+        "icon": "music"
+      },
+      {
+        "time": "09:30 AM - 10:15 AM",
+        "title": "Healthy Breakfast Snack",
+        "icon": "apple"
+      },
+      {
+        "time": "10:30 AM - 11:15 AM",
+        "title": "Finger Painting & Sensory Play",
+        "icon": "palette"
+      },
+      {
+        "time": "11:30 AM - 12:15 PM",
+        "title": "Classroom Lunch",
+        "icon": "utensils"
+      },
+      {
+        "time": "12:30 PM - 02:00 PM",
+        "title": "Nap & Quiet Rest Time",
+        "icon": "moon"
+      },
+      {
+        "time": "02:30 PM - 03:15 PM",
+        "title": "Outdoor Sand & Bubble Play",
+        "icon": "sun"
+      },
+      {
+        "time": "03:30 PM - 04:00 PM",
+        "title": "Afternoon Snack & Storytime",
+        "icon": "book"
+      },
+      {
+        "time": "04:30 PM - 05:30 PM",
+        "title": "Pick-up & Parent Handover",
+        "icon": "heart"
+      }
+    ]
+  },
+  "children": [
+    {
+      "id": "c1",
+      "name": "Liam Watson",
+      "age": "2.5 Years",
+      "dob": "12 Nov 2023",
+      "bloodGroup": "O+",
+      "gender": "Male",
+      "classroom": "Little Stars",
+      "status": "Present",
+      "checkInTime": "08:35 AM",
+      "avatarColor": "#3B6EF5",
+      "avatar": "https://images.unsplash.com/photo-1543332164-6e82f355badc?w=150&auto=format&fit=crop&q=80",
+      "parent": {
+        "motherName": "Jessica Watson",
+        "fatherName": "Mark Watson",
+        "phone": "+1 (555) 912-3456",
+        "emergencyPhone": "+1 (555) 912-3499",
+        "email": "jessica.w@gmail.com",
+        "address": "742 Evergreen Terrace, Springfield"
+      },
+      "health": {
+        "temperature": "98.4°F",
+        "tempStatus": "Normal",
+        "allergies": ["Peanuts (Strict)"],
+        "medication": "None",
+        "notes": "Mild teething, enjoys carrying soft blanket."
+      },
+      "care": {
+        "meals": {
+          "breakfast": "Finished",
+          "lunch": "Half",
+          "snack": "Pending"
+        },
+        "nap": {
+          "status": "Sleeping",
+          "startTime": "12:30 PM",
+          "endTime": "",
+          "duration": "45 mins",
+          "quality": "Peaceful"
+        },
+        "potty": {
+          "lastTime": "11:15 AM",
+          "type": "Diaper Change (Clean)",
+          "count": 2
+        },
+        "mood": {
+          "current": "Happy",
+          "emoji": "😊",
+          "notes": "Loved finger painting with blue color!"
+        }
+      },
+      "pickup": {
+        "status": "Waiting",
+        "authorizedPerson": "Jessica Watson (Mother)",
+        "authorizedPhone": "+1 (555) 912-3456",
+        "expectedTime": "04:30 PM",
+        "otp": "4821",
+        "verifiedAt": null
+      }
+    },
+    {
+      "id": "c2",
+      "name": "Noah Cente",
+      "age": "2.8 Years",
+      "dob": "24 Aug 2023",
+      "bloodGroup": "A+",
+      "gender": "Male",
+      "classroom": "Little Stars",
+      "status": "Present",
+      "checkInTime": "08:42 AM",
+      "avatarColor": "#22C55E",
+      "avatar": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=150&auto=format&fit=crop&q=80",
+      "parent": {
+        "motherName": "Elena Cente",
+        "fatherName": "David Cente",
+        "phone": "+1 (555) 843-1289",
+        "emergencyPhone": "+1 (555) 843-1200",
+        "email": "elena.cente@gmail.com",
+        "address": "128 Maple Avenue, Riverdale"
+      },
+      "health": {
+        "temperature": "98.6°F",
+        "tempStatus": "Normal",
+        "allergies": ["Lactose Sensitive"],
+        "medication": "Almond milk alternative provided",
+        "notes": "Very active, loves outdoor sandbox."
+      },
+      "care": {
+        "meals": {
+          "breakfast": "Finished",
+          "lunch": "Finished",
+          "snack": "Pending"
+        },
+        "nap": {
+          "status": "Sleeping",
+          "startTime": "12:35 PM",
+          "endTime": "",
+          "duration": "40 mins",
+          "quality": "Restful"
+        },
+        "potty": {
+          "lastTime": "11:45 AM",
+          "type": "Potty Training (Success)",
+          "count": 3
+        },
+        "mood": {
+          "current": "Playful",
+          "emoji": "🥳",
+          "notes": "Built a giant wooden block tower."
+        }
+      },
+      "pickup": {
+        "status": "Waiting",
+        "authorizedPerson": "David Cente (Father)",
+        "authorizedPhone": "+1 (555) 843-1289",
+        "expectedTime": "05:00 PM",
+        "otp": "7193",
+        "verifiedAt": null
+      }
+    },
+    {
+      "id": "c3",
+      "name": "Isabella Swan",
+      "age": "2.3 Years",
+      "dob": "18 Jan 2024",
+      "bloodGroup": "B+",
+      "gender": "Female",
+      "classroom": "Little Stars",
+      "status": "Absent",
+      "checkInTime": "-",
+      "avatarColor": "#EC6A9A",
+      "avatar": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=150&auto=format&fit=crop&q=80",
+      "parent": {
+        "motherName": "Renee Swan",
+        "fatherName": "Charlie Swan",
+        "phone": "+1 (555) 762-9011",
+        "emergencyPhone": "+1 (555) 762-9099",
+        "email": "renee.swan@outlook.com",
+        "address": "45 Pine Valley Rd, Forks"
+      },
+      "health": {
+        "temperature": "-",
+        "tempStatus": "Absent",
+        "allergies": ["None"],
+        "medication": "None",
+        "notes": "Parent reported mild cold; staying home today."
+      },
+      "care": {
+        "meals": {
+          "breakfast": "Not Present",
+          "lunch": "Not Present",
+          "snack": "Not Present"
+        },
+        "nap": {
+          "status": "Not In School",
+          "startTime": "-",
+          "endTime": "-",
+          "duration": "-",
+          "quality": "-"
+        },
+        "potty": {
+          "lastTime": "-",
+          "type": "-",
+          "count": 0
+        },
+        "mood": {
+          "current": "Resting at home",
+          "emoji": "🏠",
+          "notes": "Parent excused for the day."
+        }
+      },
+      "pickup": {
+        "status": "Not Applicable",
+        "authorizedPerson": "Charlie Swan",
+        "authorizedPhone": "+1 (555) 762-9011",
+        "expectedTime": "-",
+        "otp": "0000",
+        "verifiedAt": null
+      }
+    },
+    {
+      "id": "c4",
+      "name": "Emma Johnson",
+      "age": "2.6 Years",
+      "dob": "05 Oct 2023",
+      "bloodGroup": "O-",
+      "gender": "Female",
+      "classroom": "Little Stars",
+      "status": "Present",
+      "checkInTime": "08:28 AM",
+      "avatarColor": "#6C5CE7",
+      "avatar": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=150&auto=format&fit=crop&q=80",
+      "parent": {
+        "motherName": "Grace Johnson",
+        "fatherName": "Peter Johnson",
+        "phone": "+1 (555) 654-3210",
+        "emergencyPhone": "+1 (555) 654-3299",
+        "email": "grace.j@gmail.com",
+        "address": "310 Birch Boulevard, Sunnyvale"
+      },
+      "health": {
+        "temperature": "98.2°F",
+        "tempStatus": "Normal",
+        "allergies": ["Eggs (Mild)"],
+        "medication": "None",
+        "notes": "Loves music time and nursery rhymes."
+      },
+      "care": {
+        "meals": {
+          "breakfast": "Finished",
+          "lunch": "Finished",
+          "snack": "Pending"
+        },
+        "nap": {
+          "status": "Sleeping",
+          "startTime": "12:30 PM",
+          "endTime": "",
+          "duration": "45 mins",
+          "quality": "Peaceful"
+        },
+        "potty": {
+          "lastTime": "11:30 AM",
+          "type": "Diaper Change (Clean)",
+          "count": 2
+        },
+        "mood": {
+          "current": "Happy",
+          "emoji": "😊",
+          "notes": "Sang along cheerfully during circle time."
+        }
+      },
+      "pickup": {
+        "status": "Waiting",
+        "authorizedPerson": "Grace Johnson (Mother)",
+        "authorizedPhone": "+1 (555) 654-3210",
+        "expectedTime": "04:45 PM",
+        "otp": "5920",
+        "verifiedAt": null
+      }
+    },
+    {
+      "id": "c5",
+      "name": "Lucas Vance",
+      "age": "2.9 Years",
+      "dob": "14 Jul 2023",
+      "bloodGroup": "AB+",
+      "gender": "Male",
+      "classroom": "Little Stars",
+      "status": "Present",
+      "checkInTime": "08:50 AM",
+      "avatarColor": "#F59E0B",
+      "avatar": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&auto=format&fit=crop&q=80",
+      "parent": {
+        "motherName": "Maya Vance",
+        "fatherName": "Robert Vance",
+        "phone": "+1 (555) 432-8765",
+        "emergencyPhone": "+1 (555) 432-8700",
+        "email": "maya.vance@yahoo.com",
+        "address": "88 Oakwood Lane, Austin"
+      },
+      "health": {
+        "temperature": "98.7°F",
+        "tempStatus": "Normal",
+        "allergies": ["None"],
+        "medication": "None",
+        "notes": "Curious and energetic. Great with puzzles."
+      },
+      "care": {
+        "meals": {
+          "breakfast": "Finished",
+          "lunch": "Half",
+          "snack": "Pending"
+        },
+        "nap": {
+          "status": "Sleeping",
+          "startTime": "12:40 PM",
+          "endTime": "",
+          "duration": "35 mins",
+          "quality": "Peaceful"
+        },
+        "potty": {
+          "lastTime": "11:50 AM",
+          "type": "Potty Training (Tried)",
+          "count": 2
+        },
+        "mood": {
+          "current": "Calm",
+          "emoji": "😌",
+          "notes": "Enjoyed sorting color cubes quietly."
+        }
+      },
+      "pickup": {
+        "status": "Waiting",
+        "authorizedPerson": "Robert Vance (Father)",
+        "authorizedPhone": "+1 (555) 432-8765",
+        "expectedTime": "05:15 PM",
+        "otp": "8302",
+        "verifiedAt": null
+      }
+    },
+    {
+      "id": "c6",
+      "name": "Mia Patel",
+      "age": "2.4 Years",
+      "dob": "30 Nov 2023",
+      "bloodGroup": "O+",
+      "gender": "Female",
+      "classroom": "Little Stars",
+      "status": "Present",
+      "checkInTime": "08:32 AM",
+      "avatarColor": "#EC6A9A",
+      "avatar": "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=150&auto=format&fit=crop&q=80",
+      "parent": {
+        "motherName": "Ananya Patel",
+        "fatherName": "Rajesh Patel",
+        "phone": "+1 (555) 345-6789",
+        "emergencyPhone": "+1 (555) 345-6700",
+        "email": "ananya.patel@gmail.com",
+        "address": "204 Cedar Heights, San Jose"
+      },
+      "health": {
+        "temperature": "98.5°F",
+        "tempStatus": "Normal",
+        "allergies": ["Strawberries"],
+        "medication": "None",
+        "notes": "Loves teddy bears, very gentle with peers."
+      },
+      "care": {
+        "meals": {
+          "breakfast": "Finished",
+          "lunch": "Finished",
+          "snack": "Pending"
+        },
+        "nap": {
+          "status": "Sleeping",
+          "startTime": "12:25 PM",
+          "endTime": "",
+          "duration": "50 mins",
+          "quality": "Peaceful"
+        },
+        "potty": {
+          "lastTime": "11:20 AM",
+          "type": "Diaper Change (Wet)",
+          "count": 3
+        },
+        "mood": {
+          "current": "Happy",
+          "emoji": "😊",
+          "notes": "Shared her favorite picture book with Noah."
+        }
+      },
+      "pickup": {
+        "status": "Waiting",
+        "authorizedPerson": "Ananya Patel (Mother)",
+        "authorizedPhone": "+1 (555) 345-6789",
+        "expectedTime": "04:30 PM",
+        "otp": "2491",
+        "verifiedAt": null
+      }
+    },
+    {
+      "id": "c7",
+      "name": "Ethan Davis",
+      "age": "2.7 Years",
+      "dob": "19 Sep 2023",
+      "bloodGroup": "A-",
+      "gender": "Male",
+      "classroom": "Little Stars",
+      "status": "Late",
+      "checkInTime": "09:40 AM",
+      "avatarColor": "#3B6EF5",
+      "avatar": "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=150&auto=format&fit=crop&q=80",
+      "parent": {
+        "motherName": "Hannah Davis",
+        "fatherName": "Samuel Davis",
+        "phone": "+1 (555) 234-9876",
+        "emergencyPhone": "+1 (555) 234-9800",
+        "email": "hannah.davis@gmail.com",
+        "address": "902 Willow Springs, Seattle"
+      },
+      "health": {
+        "temperature": "98.8°F",
+        "tempStatus": "Normal",
+        "allergies": ["None"],
+        "medication": "None",
+        "notes": "Arrived late due to pediatric dental checkup."
+      },
+      "care": {
+        "meals": {
+          "breakfast": "Skipped (Ate at home)",
+          "lunch": "Finished",
+          "snack": "Pending"
+        },
+        "nap": {
+          "status": "Sleeping",
+          "startTime": "12:35 PM",
+          "endTime": "",
+          "duration": "40 mins",
+          "quality": "Peaceful"
+        },
+        "potty": {
+          "lastTime": "11:40 AM",
+          "type": "Potty Training (Success)",
+          "count": 1
+        },
+        "mood": {
+          "current": "Calm",
+          "emoji": "😌",
+          "notes": "Settled in nicely after dental visit."
+        }
+      },
+      "pickup": {
+        "status": "Waiting",
+        "authorizedPerson": "Samuel Davis (Father)",
+        "authorizedPhone": "+1 (555) 234-9876",
+        "expectedTime": "05:00 PM",
+        "otp": "6104",
+        "verifiedAt": null
+      }
+    },
+    {
+      "id": "c8",
+      "name": "Sophia Miller",
+      "age": "2.5 Years",
+      "dob": "02 Dec 2023",
+      "bloodGroup": "B-",
+      "gender": "Female",
+      "classroom": "Little Stars",
+      "status": "Present",
+      "checkInTime": "08:15 AM",
+      "avatarColor": "#22C55E",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "parent": {
+        "motherName": "Chloe Miller",
+        "fatherName": "Daniel Miller",
+        "phone": "+1 (555) 123-7890",
+        "emergencyPhone": "+1 (555) 123-7800",
+        "email": "chloe.miller@gmail.com",
+        "address": "512 Jasmine Way, Portland"
+      },
+      "health": {
+        "temperature": "98.3°F",
+        "tempStatus": "Normal",
+        "allergies": ["None"],
+        "medication": "None",
+        "notes": "Great appetite, loves fruit bowl."
+      },
+      "care": {
+        "meals": {
+          "breakfast": "Finished",
+          "lunch": "Finished",
+          "snack": "Pending"
+        },
+        "nap": {
+          "status": "Sleeping",
+          "startTime": "12:30 PM",
+          "endTime": "",
+          "duration": "45 mins",
+          "quality": "Peaceful"
+        },
+        "potty": {
+          "lastTime": "11:10 AM",
+          "type": "Diaper Change (Clean)",
+          "count": 2
+        },
+        "mood": {
+          "current": "Happy",
+          "emoji": "😊",
+          "notes": "Helped pack away plush toys neatly."
+        }
+      },
+      "pickup": {
+        "status": "Waiting",
+        "authorizedPerson": "Chloe Miller (Mother)",
+        "authorizedPhone": "+1 (555) 123-7890",
+        "expectedTime": "04:30 PM",
+        "otp": "9532",
+        "verifiedAt": null
+      }
+    }
+  ],
+  "activities": [
+    {
+      "id": "act-1",
+      "title": "Morning Circle & Rhymes",
+      "time": "09:00 AM - 09:30 AM",
+      "classroom": "Little Stars",
+      "childrenCount": 7,
+      "status": "Completed",
+      "category": "Music & Social",
+      "description": "Interactive songs including 'Twinkle Twinkle' and greeting animal puppet friends.",
+      "notes": "Children participated with great enthusiasm. Liam and Emma led the animal sounds!",
+      "photos": [
+        "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&auto=format&fit=crop&q=80"
+      ]
+    },
+    {
+      "id": "act-2",
+      "title": "Finger Painting & Colors",
+      "time": "10:30 AM - 11:15 AM",
+      "classroom": "Little Stars",
+      "childrenCount": 7,
+      "status": "Completed",
+      "category": "Creative Arts",
+      "description": "Sensory exploration of non-toxic primary colors (Blue, Yellow, Red) on large craft paper.",
+      "notes": "Sensory exploration was very engaging. Liam painted a bright blue sun, Noah explored yellow spirals.",
+      "photos": [
+        "https://images.unsplash.com/photo-1596464716127-f2a829822398?w=400&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=400&auto=format&fit=crop&q=80"
+      ]
+    },
+    {
+      "id": "act-3",
+      "title": "Outdoor Sand & Bubble Play",
+      "time": "02:30 PM - 03:15 PM",
+      "classroom": "Little Stars",
+      "childrenCount": 7,
+      "status": "Upcoming",
+      "category": "Motor Skills",
+      "description": "Gross motor skills, chasing giant bubbles, and sand castle building in shaded sandbox.",
+      "notes": "",
+      "photos": []
+    },
+    {
+      "id": "act-4",
+      "title": "Storytime: 'The Very Hungry Caterpillar'",
+      "time": "03:45 PM - 04:15 PM",
+      "classroom": "Little Stars",
+      "childrenCount": 7,
+      "status": "Upcoming",
+      "category": "Language & Literacy",
+      "description": "Reading tactile board books with fruit cutouts and caterpillar plushie.",
+      "notes": "",
+      "photos": []
+    }
+  ],
+  "incidents": [
+    {
+      "id": "inc-01",
+      "childId": "c1",
+      "childName": "Liam Watson",
+      "dateTime": "10:45 AM, Today",
+      "type": "Minor Scrape",
+      "severity": "Low",
+      "description": "Liam tripped gently over foam mat corner during painting transition. Minor scratch on left knee.",
+      "actionTaken": "Washed with mild saline antiseptic, applied friendly cartoon adhesive bandage. Child comforted and smiled right away.",
+      "parentNotified": true,
+      "photo": "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=300&auto=format&fit=crop&q=80"
+    }
+  ],
+  "gallery": [
+    {
+      "id": "gal-1",
+      "title": "Finger Painting Fun 🎨",
+      "category": "Activities",
+      "tab": "Today",
+      "classroom": "Little Stars",
+      "taggedChildren": ["Liam Watson", "Noah Cente", "Sophia Miller"],
+      "imageUrl": "https://images.unsplash.com/photo-1596464716127-f2a829822398?w=600&auto=format&fit=crop&q=80",
+      "time": "10:45 AM",
+      "privacy": "Share with Parents"
+    },
+    {
+      "id": "gal-2",
+      "title": "Morning Circle Puppet Story 🐻",
+      "category": "Activities",
+      "tab": "Today",
+      "classroom": "Little Stars",
+      "taggedChildren": ["Emma Johnson", "Mia Patel"],
+      "imageUrl": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&auto=format&fit=crop&q=80",
+      "time": "09:20 AM",
+      "privacy": "Share with Parents"
+    },
+    {
+      "id": "gal-3",
+      "title": "Nap Room Rest & Sweet Dreams 🌙",
+      "category": "Classroom",
+      "tab": "Classroom",
+      "classroom": "Little Stars",
+      "taggedChildren": ["Little Stars All"],
+      "imageUrl": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80",
+      "time": "12:45 PM",
+      "privacy": "Internal Only"
+    },
+    {
+      "id": "gal-4",
+      "title": "Outdoor Playground Sun Smiles ☀️",
+      "category": "Activities",
+      "tab": "Activities",
+      "classroom": "Little Stars",
+      "taggedChildren": ["Ethan Davis", "Lucas Vance"],
+      "imageUrl": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=600&auto=format&fit=crop&q=80",
+      "time": "Yesterday",
+      "privacy": "Share with Parents"
+    }
+  ],
+  "cctv": [
+    {
+      "id": "cam-1",
+      "name": "Little Stars — Main Play Area",
+      "room": "Room 102",
+      "status": "LIVE",
+      "resolution": "1080p HD",
+      "fps": "30 FPS",
+      "preview": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "cam-2",
+      "name": "Little Stars — Nap Room",
+      "room": "Room 102B",
+      "status": "LIVE",
+      "resolution": "1080p HD",
+      "fps": "24 FPS (Night Vision)",
+      "preview": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "cam-3",
+      "name": "Outdoor Playground",
+      "room": "East Courtyard",
+      "status": "LIVE",
+      "resolution": "4K Ultra",
+      "fps": "30 FPS",
+      "preview": "https://images.unsplash.com/photo-1596464716127-f2a829822398?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "cam-4",
+      "name": "Dining & Snack Hall",
+      "room": "Hall 1",
+      "status": "LIVE",
+      "resolution": "1080p HD",
+      "fps": "30 FPS",
+      "preview": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=600&auto=format&fit=crop&q=80"
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg-1",
+      "senderName": "Jessica Watson (Liam's Mom)",
+      "childName": "Liam Watson",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+      "type": "parent",
+      "lastMessage": "Thank you for the update! Did he drink enough water with his snack?",
+      "time": "11:20 AM",
+      "unreadCount": 1,
+      "thread": [
+        {
+          "sender": "teacher",
+          "text": "Good morning Jessica! Liam is having a wonderful morning. He had all his breakfast and loved finger painting! 🎨",
+          "time": "10:15 AM"
+        },
+        {
+          "sender": "parent",
+          "text": "That's wonderful to hear Sarah! Thank you for the photo.",
+          "time": "10:30 AM"
+        },
+        {
+          "sender": "parent",
+          "text": "Thank you for the update! Did he drink enough water with his snack?",
+          "time": "11:20 AM"
+        }
+      ]
+    },
+    {
+      "id": "msg-2",
+      "senderName": "Elena Cente (Noah's Mom)",
+      "childName": "Noah Cente",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "type": "parent",
+      "lastMessage": "Just a reminder that David will pick up Noah today around 5 PM.",
+      "time": "09:45 AM",
+      "unreadCount": 0,
+      "thread": [
+        {
+          "sender": "parent",
+          "text": "Just a reminder that David will pick up Noah today around 5 PM.",
+          "time": "09:45 AM"
+        },
+        {
+          "sender": "teacher",
+          "text": "Noted Elena! We will have him ready with his craft bag by 5 PM. 👍",
+          "time": "09:50 AM"
+        }
+      ]
+    },
+    {
+      "id": "msg-3",
+      "senderName": "Daycare Director (Dr. Linda)",
+      "childName": "Daycare Admin",
+      "avatar": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&auto=format&fit=crop&q=80",
+      "type": "admin",
+      "lastMessage": "Fire drill scheduled for tomorrow at 10:00 AM. Please review the evacuation plan.",
+      "time": "08:15 AM",
+      "unreadCount": 1,
+      "thread": [
+        {
+          "sender": "admin",
+          "text": "Good morning team. Fire drill scheduled for tomorrow at 10:00 AM. Please review the evacuation plan with your co-teachers.",
+          "time": "08:15 AM"
+        }
+      ]
+    }
+  ],
+  "calendarEvents": [
+    {
+      "id": "ev-1",
+      "title": "Finger Painting & Sensory Art Day",
+      "category": "Activity",
+      "color": "#3B6EF5",
+      "date": "17 Aug 2026",
+      "time": "10:30 AM - 11:30 AM",
+      "location": "Room 102 (Little Stars)"
+    },
+    {
+      "id": "ev-2",
+      "title": "Little Stars Monthly Parent-Teacher Meet",
+      "category": "Parent Meeting",
+      "color": "#6C5CE7",
+      "date": "20 Aug 2026",
+      "time": "04:30 PM - 06:00 PM",
+      "location": "Main Assembly & Zoom"
+    },
+    {
+      "id": "ev-3",
+      "title": "Teddy Bear Picnic & Fruit Party",
+      "category": "Event",
+      "color": "#F59E0B",
+      "date": "24 Aug 2026",
+      "time": "02:30 PM - 04:00 PM",
+      "location": "Outdoor Shaded Garden"
+    },
+    {
+      "id": "ev-4",
+      "title": "Summer Holiday - Daycare Closed",
+      "category": "Holiday",
+      "color": "#EC6A9A",
+      "date": "31 Aug 2026",
+      "time": "All Day",
+      "location": "School Wide"
+    }
+  ],
+  "leaves": [
+    {
+      "id": "lv-1",
+      "type": "Casual Leave",
+      "from": "05 Sep 2026",
+      "to": "06 Sep 2026",
+      "days": "2 Days",
+      "status": "Approved",
+      "reason": "Family function"
+    },
+    {
+      "id": "lv-2",
+      "type": "Sick Leave",
+      "from": "12 Jul 2026",
+      "to": "12 Jul 2026",
+      "days": "1 Day",
+      "status": "Approved",
+      "reason": "Dental procedure"
+    }
+  ],
+  "payslips": [
+    {
+      "id": "pay-1",
+      "month": "July 2026",
+      "date": "01 Aug 2026",
+      "basicPay": "$3,200.00",
+      "allowances": "$450.00",
+      "deductions": "$320.00",
+      "netSalary": "$3,330.00",
+      "status": "Paid"
+    },
+    {
+      "id": "pay-2",
+      "month": "June 2026",
+      "date": "01 Jul 2026",
+      "basicPay": "$3,200.00",
+      "allowances": "$450.00",
+      "deductions": "$320.00",
+      "netSalary": "$3,330.00",
+      "status": "Paid"
+    },
+    {
+      "id": "pay-3",
+      "month": "May 2026",
+      "date": "01 Jun 2026",
+      "basicPay": "$3,200.00",
+      "allowances": "$450.00",
+      "deductions": "$320.00",
+      "netSalary": "$3,330.00",
+      "status": "Paid"
+    }
+  ],
+  "transport": {
+    "route": "Route 4 — Sunshine Express",
+    "vehicleNumber": "BUS-DC-04",
+    "driver": "Rajesh Kumar",
+    "driverPhone": "+1 (555) 887-2345",
+    "attendant": "Maria Santos",
+    "status": "On Time",
+    "totalSeats": 12,
+    "occupiedSeats": 4,
+    "stops": [
+      {
+        "stopName": "Sunrise Daycare Gate 1",
+        "time": "08:15 AM",
+        "status": "Completed"
+      },
+      {
+        "stopName": "Maple Avenue & 4th St",
+        "time": "08:25 AM",
+        "status": "Completed"
+      },
+      {
+        "stopName": "Pine Valley Greens",
+        "time": "08:35 AM",
+        "status": "Completed"
+      },
+      {
+        "stopName": "Evergreen Terrace",
+        "time": "08:45 AM",
+        "status": "Completed"
+      }
+    ]
+  }
+}

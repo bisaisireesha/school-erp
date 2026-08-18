@@ -281,22 +281,17 @@ class _LibrarianFineDetailsScreenState extends State<LibrarianFineDetailsScreen>
 
             // Fixed Bottom Primary CTA Button: Collect Fine
             if (!isPaid)
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  border: Border(top: BorderSide(color: Color(0xFFF0EDF8))),
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 48,
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
                   child: ElevatedButton(
                     onPressed: _showCollectFineModal,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF6C4CF1),
                       foregroundColor: Colors.white,
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: const Text('Collect Fine', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                   ),
@@ -314,7 +309,8 @@ class _LibrarianFineDetailsScreenState extends State<LibrarianFineDetailsScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D))),
+          Expanded(child: Text(label, style: const TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D)), maxLines: 1, overflow: TextOverflow.ellipsis)),
+          const SizedBox(width: 8),
           Text(value, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
         ],
       ),
@@ -332,28 +328,37 @@ class _LibrarianFineDetailsScreenState extends State<LibrarianFineDetailsScreen>
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return Container(
-              padding: const EdgeInsets.all(20),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Collect Fine Payment', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: const Icon(Icons.close_rounded, color: Color(0xFF7A7A9D)),
-                      ),
-                    ],
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                   ),
-                  const SizedBox(height: 16),
-                  Text('Student: ${_item['studentName']}', style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'Collect Fine Payment',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: const Icon(Icons.close_rounded, color: Color(0xFF7A7A9D)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Student: ${_item['studentName']}', style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
                   Text('Book: ${_item['bookTitle']}', style: const TextStyle(fontSize: 12.0, color: Color(0xFF7A7A9D))),
                   const SizedBox(height: 14),
 
@@ -421,6 +426,8 @@ class _LibrarianFineDetailsScreenState extends State<LibrarianFineDetailsScreen>
                   ),
                 ],
               ),
+            ),
+            ),
             );
           },
         );

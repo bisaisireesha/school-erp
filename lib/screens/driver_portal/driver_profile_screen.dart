@@ -54,73 +54,76 @@ class DriverProfileScreen extends StatelessWidget {
   void _showPersonalInfoBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          ),
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    width: 38,
-                    height: 4,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFCBD5E1),
-                      borderRadius: BorderRadius.circular(2),
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 38,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFCBD5E1),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
                     ),
                   ),
-                ),
-                const Text(
-                  'Personal & Vehicle Information',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E1E2D),
-                    letterSpacing: -0.3,
+                  const Text(
+                    'Personal & Vehicle Information',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                      letterSpacing: -0.3,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 14),
-                const Divider(height: 1, color: Color(0xFFF0EDF8)),
-                const SizedBox(height: 14),
-                _buildModalDetailRow('Full Name', 'Rajesh Kumar'),
-                const SizedBox(height: 10),
-                _buildModalDetailRow('Employee ID', 'EMP-DRV-102'),
-                const SizedBox(height: 10),
-                _buildModalDetailRow('Phone Number', '+91 98765 43210'),
-                const SizedBox(height: 10),
-                _buildModalDetailRow('License Number', 'DL-14201100982 (Valid till Oct 2029)'),
-                const SizedBox(height: 10),
-                _buildModalDetailRow('License Class', 'Heavy Passenger Vehicle (HPV)'),
-                const SizedBox(height: 10),
-                _buildModalDetailRow('Assigned Vehicle', 'BUS-01 (KA-05-EX-4029)'),
-                const SizedBox(height: 10),
-                _buildModalDetailRow('Vehicle Model', 'Tata Starbus 40-Seater'),
+                  const SizedBox(height: 14),
+                  const Divider(height: 1, color: Color(0xFFF0EDF8)),
+                  const SizedBox(height: 14),
+                  _buildModalDetailRow('Full Name', 'Rajesh Kumar'),
+                  const SizedBox(height: 10),
+                  _buildModalDetailRow('Employee ID', 'EMP-DRV-102'),
+                  const SizedBox(height: 10),
+                  _buildModalDetailRow('Phone Number', '+91 98765 43210'),
+                  const SizedBox(height: 10),
+                  _buildModalDetailRow('License Number', 'DL-14201100982 (Valid till Oct 2029)'),
+                  const SizedBox(height: 10),
+                  _buildModalDetailRow('License Class', 'Heavy Passenger Vehicle (HPV)'),
+                  const SizedBox(height: 10),
+                  _buildModalDetailRow('Assigned Vehicle', 'BUS-01 (KA-05-EX-4029)'),
+                  const SizedBox(height: 10),
+                  _buildModalDetailRow('Vehicle Model', 'Tata Starbus 40-Seater'),
 
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: AppSpacing.buttonHeight,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF1F5F9),
-                      foregroundColor: const Color(0xFF1E1E2D),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: AppSpacing.buttonHeight,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFF1F5F9),
+                        foregroundColor: const Color(0xFF1E1E2D),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      child: const Text('Close'),
                     ),
-                    child: const Text('Close'),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -131,93 +134,96 @@ class DriverProfileScreen extends StatelessWidget {
   void _showHelpSupportBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          ),
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    width: 38,
-                    height: 4,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFCBD5E1),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
-                const Row(
-                  children: [
-                    Icon(LucideIcons.headset, color: Color(0xFF6C4CF1), size: 20),
-                    SizedBox(width: 8),
-                    Text(
-                      'Help & Support',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1E1E2D),
-                        letterSpacing: -0.3,
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 38,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFCBD5E1),
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 14),
-                const Divider(height: 1, color: Color(0xFFF0EDF8)),
-                const SizedBox(height: 14),
-
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF8F9FD),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFFF0EDF8)),
                   ),
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  const Row(
                     children: [
-                      Text('Emergency Transport Desk', style: TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D))),
-                      SizedBox(height: 2),
-                      Text('+91 98765 00000', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                      SizedBox(height: 8),
-                      Text('School Safety Dispatch', style: TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D))),
-                      SizedBox(height: 2),
-                      Text('+91 98765 99999', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      Icon(LucideIcons.headset, color: Color(0xFF6C4CF1), size: 20),
+                      SizedBox(width: 8),
+                      Text(
+                        'Help & Support',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                          letterSpacing: -0.3,
+                        ),
+                      ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 14),
+                  const Divider(height: 1, color: Color(0xFFF0EDF8)),
+                  const SizedBox(height: 14),
 
-                const SizedBox(height: 14),
-                const Text(
-                  'Need assistance with your route, bus maintenance, or GPS tracking? Contact your transport supervisor directly via the hotline above.',
-                  style: TextStyle(fontSize: 12.5, color: Color(0xFF475569), height: 1.4),
-                ),
-
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: AppSpacing.buttonHeight,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C4CF1),
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF8F9FD),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFFF0EDF8)),
                     ),
-                    child: const Text('Got it'),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Emergency Transport Desk', style: TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D))),
+                        SizedBox(height: 2),
+                        Text('+91 98765 00000', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        SizedBox(height: 8),
+                        Text('School Safety Dispatch', style: TextStyle(fontSize: 12.5, color: Color(0xFF7A7A9D))),
+                        SizedBox(height: 2),
+                        Text('+91 98765 99999', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+
+                  const SizedBox(height: 14),
+                  const Text(
+                    'Need assistance with your route, bus maintenance, or GPS tracking? Contact your transport supervisor directly via the hotline above.',
+                    style: TextStyle(fontSize: 12.5, color: Color(0xFF475569), height: 1.4),
+                  ),
+
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: AppSpacing.buttonHeight,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6C4CF1),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      child: const Text('Got it'),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import '../librarian_main_layout.dart';
+import 'librarian_lost_damaged_details_screen.dart';
 import 'librarian_search_bar.dart';
 
 class LibrarianLostDamagedScreen extends StatefulWidget {
@@ -277,88 +279,105 @@ class _LibrarianLostDamagedScreenState extends State<LibrarianLostDamagedScreen>
                         final Color badgeColor = isDamaged ? const Color(0xFFF59E0B) : const Color(0xFFF43F5E);
                         final Color badgeBg = isDamaged ? const Color(0xFFFFFBEB) : const Color(0xFFFFF1F2);
 
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: const Color(0xFFF0EDF8)),
-                            boxShadow: AppShadows.soft,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: badgeBg,
-                                      borderRadius: BorderRadius.circular(10),
+                        return InkWell(
+                          onTap: () {
+                            LibrarianMainLayout.pushSubScreen(
+                              context,
+                              LibrarianLostDamagedDetailsScreen(
+                                item: item,
+                                onBack: () => LibrarianMainLayout.popSubScreen(context),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: const Color(0xFFF0EDF8)),
+                              boxShadow: AppShadows.soft,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: badgeBg,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Icon(
+                                        isDamaged ? LucideIcons.alertTriangle : LucideIcons.bookX,
+                                        color: badgeColor,
+                                        size: 18,
+                                      ),
                                     ),
-                                    child: Icon(
-                                      isDamaged ? LucideIcons.alertTriangle : LucideIcons.bookX,
-                                      color: badgeColor,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          item['title'] as String,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF1E1E2D),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            item['title'] as String,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF1E1E2D),
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          'Reported by: ${item['reportedBy']}',
-                                          style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
-                                        ),
-                                      ],
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            'Reported by: ${item['reportedBy']}',
+                                            style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
-                                    decoration: BoxDecoration(
-                                      color: badgeBg,
-                                      borderRadius: BorderRadius.circular(6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                                      decoration: BoxDecoration(
+                                        color: badgeBg,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        item['type'] as String,
+                                        style: TextStyle(color: badgeColor, fontSize: 10.5, fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                    child: Text(
-                                      item['type'] as String,
-                                      style: TextStyle(color: badgeColor, fontSize: 10.5, fontWeight: FontWeight.bold),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  item['description'] as String,
+                                  style: TextStyle(fontSize: 11.5, color: Colors.grey.shade700),
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Penalty Billed: ${item['penalty']}',
+                                        style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                item['description'] as String,
-                                style: TextStyle(fontSize: 11.5, color: Colors.grey.shade700),
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Penalty Billed: ${item['penalty']}',
-                                    style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                                  ),
-                                  Text(
-                                    item['status'] as String,
-                                    style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: badgeColor),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      item['status'] as String,
+                                      style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: badgeColor),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },

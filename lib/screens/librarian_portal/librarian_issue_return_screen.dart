@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import '../librarian_main_layout.dart';
+import 'librarian_issue_details_screen.dart';
+import 'librarian_return_details_screen.dart';
 
 class LibrarianIssueReturnScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -359,49 +362,61 @@ class _LibrarianIssueReturnScreenState extends State<LibrarianIssueReturnScreen>
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: 20,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Collect Penalty & Fine Payment', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color(0xFF0F172A))),
-                      IconButton(
-                        icon: const Icon(Icons.close, color: Color(0xFF64748B)),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    top: 20,
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 24,
                   ),
-                  const SizedBox(height: 12),
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFFBEB),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFF59E0B)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'Collect Penalty & Fine Payment',
+                              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.close, color: Color(0xFF64748B)),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFFBEB),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: const Color(0xFFF59E0B)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Total Payable Fine', style: TextStyle(fontSize: 12.0, color: Color(0xFF64748B))),
-                            Text('Includes damage/lost book penalties', style: TextStyle(fontSize: 10.5, color: Color(0xFF64748B))),
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Total Payable Fine', style: TextStyle(fontSize: 12.0, color: Color(0xFF64748B))),
+                                  Text('Includes damage/lost book penalties', style: AppTypography.caption, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text('₹${totalAmount.toStringAsFixed(0)}', style: const TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold, color: Color(0xFFD97706))),
                           ],
                         ),
-                        Text('₹${totalAmount.toStringAsFixed(0)}', style: const TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold, color: Color(0xFFD97706))),
-                      ],
-                    ),
-                  ),
+                      ),
                   const SizedBox(height: 18),
                   const Text('Select Payment Method', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, color: Color(0xFF0F172A))),
                   const SizedBox(height: 8),
@@ -452,6 +467,8 @@ class _LibrarianIssueReturnScreenState extends State<LibrarianIssueReturnScreen>
                   ),
                 ],
               ),
+            ),
+            ),
             );
           },
         );
@@ -852,75 +869,80 @@ class _LibrarianIssueReturnScreenState extends State<LibrarianIssueReturnScreen>
 
               return Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 18,
-                          backgroundColor: const Color(0xFFF0F1FF),
-                          child: Text(
-                            initials,
-                            style: const TextStyle(
-                              color: Color(0xFF5B5CEB),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.5,
+                  InkWell(
+                    onTap: () {
+                      LibrarianMainLayout.pushSubScreen(
+                        context,
+                        LibrarianIssueDetailsScreen(
+                          item: item,
+                          onBack: () => LibrarianMainLayout.popSubScreen(context),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 18,
+                            backgroundColor: const Color(0xFFF0F1FF),
+                            child: Text(
+                              initials,
+                              style: const TextStyle(
+                                color: Color(0xFF5B5CEB),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.5,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    studentName,
-                                    style: const TextStyle(
-                                      fontSize: 13.5,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF0F172A),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      studentName,
+                                      style: AppTypography.cardTitle,
                                     ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFF0F1FF),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Text(
-                                      item['memberId'] ?? 'STU-9921',
-                                      style: const TextStyle(
-                                        color: Color(0xFF5B5CEB),
-                                        fontSize: 9.5,
-                                        fontWeight: FontWeight.bold,
+                                    const SizedBox(width: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF0F1FF),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        item['memberId'] ?? 'STU-9921',
+                                        style: AppTypography.badgeText.copyWith(
+                                          color: const Color(0xFF5B5CEB),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                item['bookName'] ?? '',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 12.0, color: Color(0xFF64748B)),
-                              ),
-                            ],
+                                  ],
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  item['bookName'] ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 12.0, color: Color(0xFF64748B)),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Due ${item['dueDate'] ?? '17 Aug'}',
-                          style: const TextStyle(
-                            fontSize: 11.5,
-                            color: Color(0xFF5B5CEB),
-                            fontWeight: FontWeight.w600,
+                          const SizedBox(width: 8),
+                          Text(
+                            'Due ${item['dueDate'] ?? '17 Aug'}',
+                            style: const TextStyle(
+                              fontSize: 11.5,
+                              color: Color(0xFF5B5CEB),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   if (!isLast)
@@ -1073,10 +1095,10 @@ class _LibrarianIssueReturnScreenState extends State<LibrarianIssueReturnScreen>
                         },
                         activeColor: const Color(0xFF5B5CEB),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        title: Text(book['title'] ?? '', style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: Color(0xFF0F172A))),
+                        title: Text(book['title'] ?? '', style: AppTypography.cardTitle),
                         subtitle: Row(
                           children: [
-                            Text('Due: ${book['dueDate']}', style: const TextStyle(fontSize: 11.0, color: Color(0xFF64748B))),
+                            Text('Due: ${book['dueDate']}', style: AppTypography.caption),
                             const SizedBox(width: 8),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
@@ -1086,7 +1108,9 @@ class _LibrarianIssueReturnScreenState extends State<LibrarianIssueReturnScreen>
                               ),
                               child: Text(
                                 isOverdue ? 'Overdue (${book['daysOverdue']}d)' : 'On Time',
-                                style: TextStyle(color: isOverdue ? const Color(0xFFEF4444) : const Color(0xFF22C55E), fontSize: 9.5, fontWeight: FontWeight.bold),
+                                style: AppTypography.badgeText.copyWith(
+                                  color: isOverdue ? const Color(0xFFEF4444) : const Color(0xFF22C55E),
+                                ),
                               ),
                             ),
                           ],
@@ -1100,7 +1124,7 @@ class _LibrarianIssueReturnScreenState extends State<LibrarianIssueReturnScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Book Condition:', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF0F172A))),
+                              Text('Book Condition:', style: AppTypography.subtitle),
                               const SizedBox(height: 6),
 
                               // Condition Chips (Good, Damaged, Lost)
@@ -1280,51 +1304,62 @@ class _LibrarianIssueReturnScreenState extends State<LibrarianIssueReturnScreen>
 
               return Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFECFDF5),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(LucideIcons.bookCheck, color: Color(0xFF22C55E), size: 18),
+                  InkWell(
+                    onTap: () {
+                      LibrarianMainLayout.pushSubScreen(
+                        context,
+                        LibrarianReturnDetailsScreen(
+                          item: item,
+                          onBack: () => LibrarianMainLayout.popSubScreen(context),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['studentName'] ?? '',
-                                style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                item['bookName'] ?? '',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 12.0, color: Color(0xFF64748B)),
-                              ),
-                              const SizedBox(height: 3),
-                              Text('Returned: ${item['returnDate']}', style: const TextStyle(fontSize: 10.5, color: Color(0xFF64748B))),
-                            ],
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFECFDF5),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(LucideIcons.bookCheck, color: Color(0xFF22C55E), size: 18),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
-                          decoration: BoxDecoration(
-                            color: badgeBg,
-                            borderRadius: BorderRadius.circular(6),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item['studentName'] ?? '',
+                                  style: AppTypography.cardTitle.copyWith(fontSize: 13.5),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  item['bookName'] ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.caption,
+                                ),
+                                const SizedBox(height: 3),
+                                Text('Returned: ${item['returnDate']}', style: AppTypography.caption),
+                              ],
+                            ),
                           ),
-                          child: Text(
-                            item['condition'] ?? 'Good',
-                            style: TextStyle(color: badgeColor, fontSize: 10.0, fontWeight: FontWeight.bold),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                            decoration: BoxDecoration(
+                              color: badgeBg,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              item['condition'] ?? 'Good',
+                              style: AppTypography.badgeText.copyWith(color: badgeColor),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   if (!isLast)

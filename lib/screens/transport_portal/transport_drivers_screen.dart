@@ -269,8 +269,6 @@ class _TransportDriversScreenState extends State<TransportDriversScreen> {
                                       role,
                                       style: TextStyle(
                                         color: roleColor,
-                                        fontSize: 9.5,
-                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -279,12 +277,12 @@ class _TransportDriversScreenState extends State<TransportDriversScreen> {
                               const SizedBox(height: 3),
                               Text(
                                 'Phone: $phone',
-                                style: const TextStyle(fontSize: 12.0, color: Color(0xFF6E6E8D), fontWeight: FontWeight.w500),
+                                style: AppTypography.bodySmall,
                               ),
                               const SizedBox(height: 2),
                               Text(
                                 'Assigned: $vehicle',
-                                style: const TextStyle(fontSize: 12.0, color: Color(0xFF4A4A68), fontWeight: FontWeight.w600),
+                                style: AppTypography.bodySmall.copyWith(fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
@@ -302,10 +300,8 @@ class _TransportDriversScreenState extends State<TransportDriversScreen> {
                               ),
                               child: Text(
                                 status,
-                                style: TextStyle(
+                                style: AppTypography.badgeText.copyWith(
                                   color: status == 'Active' || status == 'On Duty' ? const Color(0xFF10B981) : const Color(0xFFD97706),
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),

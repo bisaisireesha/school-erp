@@ -40,12 +40,6 @@ class TransportMoreScreen extends StatelessWidget {
         'color': const Color(0xFFF59E0B),
       },
       {
-        'key': 'messages',
-        'title': 'Messages',
-        'icon': LucideIcons.messageSquare,
-        'color': const Color(0xFF06B6D4),
-      },
-      {
         'key': 'events',
         'title': 'Calendar & Events',
         'icon': LucideIcons.calendar,

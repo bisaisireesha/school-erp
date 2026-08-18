@@ -34,10 +34,10 @@ class LibrarianSearchBar extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: onChanged,
-        style: const TextStyle(fontSize: 13.5, color: Color(0xFF1E1E2D)),
+        style: AppTypography.bodyMedium.copyWith(color: const Color(0xFF1E1E2D)),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13.0),
+          hintStyle: AppTypography.bodySmall.copyWith(color: Colors.grey.shade400),
           prefixIcon: const Icon(LucideIcons.search, size: 18, color: Color(0xFF7A7A9D)),
           suffixIcon: hasText
               ? GestureDetector(

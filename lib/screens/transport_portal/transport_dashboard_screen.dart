@@ -182,10 +182,8 @@ class TransportDashboardScreen extends StatelessWidget {
                   ),
                   child: Text(
                     kpi['chipText'] as String,
-                    style: TextStyle(
+                    style: AppTypography.badgeText.copyWith(
                       color: chipColor,
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -315,10 +313,8 @@ class TransportDashboardScreen extends StatelessWidget {
                                 ),
                                 child: Text(
                                   status,
-                                  style: TextStyle(
+                                  style: AppTypography.badgeText.copyWith(
                                     color: statusColor,
-                                    fontSize: 10.0,
-                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
@@ -410,10 +406,9 @@ class TransportDashboardScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 10.5,
+                        style: AppTypography.caption.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF1E1E2D),
+                          color: const Color(0xFF1E1E2D),
                         ),
                       ),
                     ],
@@ -539,10 +534,8 @@ class TransportDashboardScreen extends StatelessWidget {
                       ),
                       child: Text(
                         statusLabel,
-                        style: TextStyle(
+                        style: AppTypography.badgeText.copyWith(
                           color: statusColor,
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

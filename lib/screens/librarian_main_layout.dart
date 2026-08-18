@@ -16,6 +16,7 @@ import 'librarian_portal/librarian_profile_screen.dart';
 import 'librarian_portal/librarian_create_bottom_sheet.dart';
 import 'librarian_portal/librarian_messages_screen.dart';
 import 'librarian_portal/librarian_fines_overdue_screen.dart';
+import 'librarian_portal/librarian_calendar_screen.dart';
 
 class LibrarianMainLayout extends StatefulWidget {
   const LibrarianMainLayout({super.key});
@@ -45,6 +46,13 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
   void initState() {
     super.initState();
     _loadLibrarianData();
+  }
+
+  @override
+  void dispose() {
+    _notificationOverlayEntry?.remove();
+    _notificationOverlayEntry = null;
+    super.dispose();
   }
 
   Future<void> _loadLibrarianData() async {
@@ -129,8 +137,8 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
           data: _librarianData,
           onBack: popSubScreen,
         );
-      } else if (screenKey == 'fines_overdue') {
-        _subScreen = LibrarianFinesOverdueScreen(
+      } else if (screenKey == 'calendar' || screenKey == 'events') {
+        _subScreen = LibrarianCalendarScreen(
           data: _librarianData,
           onBack: popSubScreen,
         );
@@ -381,12 +389,14 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
       _notifications.where((n) => n['isUnread'] == true).length;
 
   void _hideNotificationPopover() {
-    _notificationOverlayEntry?.remove();
-    _notificationOverlayEntry = null;
-    if (mounted) {
-      setState(() {
-        _isNotificationPopoverOpen = false;
-      });
+    if (_notificationOverlayEntry != null) {
+      _notificationOverlayEntry?.remove();
+      _notificationOverlayEntry = null;
+      if (mounted) {
+        setState(() {
+          _isNotificationPopoverOpen = false;
+        });
+      }
     }
   }
 
@@ -413,7 +423,7 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
             ),
             // Floating Popover Card anchored right below top header bell icon
             Positioned(
-              top: 60,
+              top: MediaQuery.of(context).padding.top + AppSpacing.headerHeight + 4,
               right: 16,
               child: Material(
                 color: Colors.transparent,
@@ -473,11 +483,7 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
                                   SizedBox(width: 6),
                                   Text(
                                     'Notifications',
-                                    style: TextStyle(
-                                      fontSize: 14.5,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF1E1E2D),
-                                    ),
+                                    style: AppTypography.cardTitle,
                                   ),
                                 ],
                               ),
@@ -490,9 +496,12 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
                                   });
                                   _hideNotificationPopover();
                                 },
-                                child: const Text(
+                                child: Text(
                                   'Mark all read',
-                                  style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
+                                  style: AppTypography.caption.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF6C4CF1),
+                                  ),
                                 ),
                               ),
                             ],
@@ -555,14 +564,14 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
                                               ),
                                               Text(
                                                 time,
-                                                style: const TextStyle(fontSize: 10.5, color: Color(0xFF94A3B8)),
+                                                style: AppTypography.caption.copyWith(color: const Color(0xFF94A3B8)),
                                               ),
                                             ],
                                           ),
                                           const SizedBox(height: 2),
                                           Text(
                                             message,
-                                            style: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B), height: 1.3),
+                                            style: AppTypography.caption.copyWith(color: const Color(0xFF64748B), height: 1.3),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -911,9 +920,9 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
                 ),
                 child: Text(
                   badgeCount.toString(),
-                  style: const TextStyle(
+                  style: AppTypography.badgeText.copyWith(
                     color: Colors.white,
-                    fontSize: 9.5,
+                    fontSize: 11.0,
                     fontWeight: FontWeight.bold,
                     height: 1,
                   ),
@@ -1030,8 +1039,8 @@ class _LibrarianMainLayoutState extends State<LibrarianMainLayout> {
                 label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 10.5,
+                style: AppTypography.caption.copyWith(
+                  fontSize: 11.5,
                   fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
                   color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF7A7A9D),
                   height: 1.1,

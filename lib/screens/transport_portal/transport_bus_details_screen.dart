@@ -604,39 +604,48 @@ class _TransportBusDetailsScreenState extends State<TransportBusDetailsScreen> w
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF3EEFF),
-                            borderRadius: BorderRadius.circular(10),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3EEFF),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(LucideIcons.users, color: Color(0xFF6C4CF1), size: 18),
                           ),
-                          child: const Icon(LucideIcons.users, color: Color(0xFF6C4CF1), size: 18),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Seating Occupancy',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF1E1E2D),
-                              ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Seating Occupancy',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1E1E2D),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  '$occupied of $capacity seats occupied',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xFF7A7A9D),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
-                            Text(
-                              '$occupied of $capacity seats occupied',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Color(0xFF7A7A9D),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     Text(
                       '${occupancyPercentage.toStringAsFixed(1)}%',
                       style: const TextStyle(
@@ -761,13 +770,18 @@ class _TransportBusDetailsScreenState extends State<TransportBusDetailsScreen> w
             fontWeight: FontWeight.w500,
           ),
         ),
-        const Spacer(),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 13.5,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1E1E2D),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: const TextStyle(
+              fontSize: 13.5,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
         ),
       ],
@@ -1491,7 +1505,7 @@ class _TransportBusDetailsScreenState extends State<TransportBusDetailsScreen> w
                           const SizedBox(height: 3),
                           Text(
                             address,
-                            style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A7A9D)),
+                            style: AppTypography.caption,
                           ),
                           const SizedBox(height: 8),
                           Row(
