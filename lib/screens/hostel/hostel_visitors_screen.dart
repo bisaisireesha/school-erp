@@ -45,6 +45,10 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
     }
   }
 
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
+
   void _onGlobalSearchChanged() {
     if (mounted) {
       setState(() {
@@ -62,9 +66,9 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFF8F9FA),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     
@@ -86,9 +90,9 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -314,7 +318,7 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
                     ),
                     child: Row(
                       children: [
-                        Icon(f['icon'] as IconData, size: 18, color: f['color'] as Color),
+                        Icon(f['icon'] as IconData, size: 18, color: _getColor(f['color'] as String)),
                         const SizedBox(width: 12),
                         Expanded(child: Text(f['label'] as String, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D)))),
                         if (isActive) const Icon(LucideIcons.check, size: 18, color: Color(0xFF6C4CF1)),
@@ -390,8 +394,12 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
         statusTextColor = const Color(0xFF64748B);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showVisitorDetailsModal(visitor);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -530,7 +538,7 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildInfoItem(IconData icon, String label, String value, Color iconColor) {

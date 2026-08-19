@@ -122,16 +122,16 @@ class _AccountantAcademicsScreenState extends State<AccountantAcademicsScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
+            _buildHeader(),
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    _buildHeader(),
                     _buildKPIs(),
                     const SizedBox(height: 24),
                     _buildFilters(),
@@ -189,7 +189,15 @@ class _AccountantAcademicsScreenState extends State<AccountantAcademicsScreen> {
               children: [
                 GestureDetector(
                   onTap: widget.onBack,
-                  child: const Icon(LucideIcons.arrowLeft, size: 24, color: Color(0xFF1E1E2D)),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -397,15 +405,17 @@ class _AccountantAcademicsScreenState extends State<AccountantAcademicsScreen> {
       icon = LucideIcons.graduationCap;
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF1F5F9)),
-      ),
-      child: Column(
+    return GestureDetector(
+      onTap: () => _showClassDetailsBottomSheet(classInfo),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFF1F5F9)),
+        ),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -529,30 +539,32 @@ class _AccountantAcademicsScreenState extends State<AccountantAcademicsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      _buildTag('Tuition'),
+                      const SizedBox(width: 8),
+                      _buildTag('Activity'),
+                      const SizedBox(width: 8),
+                      if (classInfo['category'] == 'Secondary') _buildTag('Lab') else _buildTag('Books'),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
               Row(
                 children: [
-                  _buildTag('Tuition'),
-                  const SizedBox(width: 8),
-                  _buildTag('Activity'),
-                  const SizedBox(width: 8),
-                  if (classInfo['category'] == 'Secondary') _buildTag('Lab') else _buildTag('Books'),
+                  const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
                 ],
-              ),
-              GestureDetector(
-                onTap: () {
-                  _showClassDetailsBottomSheet(classInfo);
-                },
-                child: Row(
-                  children: [
-                    const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
-                    const SizedBox(width: 4),
-                    const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
-                  ],
-                ),
               ),
             ],
           ),
         ],
+      ),
       ),
     );
   }
@@ -866,7 +878,7 @@ class _AccountantAcademicsScreenState extends State<AccountantAcademicsScreen> {
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: CircleAvatar(
-                    backgroundColor: const Color(0xFFF8F9FA),
+                    backgroundColor: Colors.white,
                     child: Text(s['name'].substring(0, 2).toUpperCase(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
                   ),
                 ),

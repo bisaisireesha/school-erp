@@ -136,9 +136,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     
@@ -152,16 +152,16 @@ class _ReportsScreenState extends State<ReportsScreen> {
       return matchesFilter && matchesSearch;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         child: Column(
           children: [
-            _buildHeader(),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    _buildHeader(),
                     _buildCategoryKpiCards(currentKpis),
                     _buildFilterChips(),
                     _buildSearchBar(),
@@ -393,8 +393,12 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildReportCard(Map<String, dynamic> report) {
     final style = _getCategoryStyle(report['category'] as String);
     
-    return Container(
-      padding: const EdgeInsets.all(16),
+    return GestureDetector(
+      onTap: () {
+        _showViewDetailsModal(report);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -543,7 +547,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showViewDetailsModal(Map<String, dynamic> report) {

@@ -110,7 +110,7 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.3),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -186,15 +186,19 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
 
     final categoryIcon = _getCategoryIcon(category);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showItemDetails(item);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.4),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -408,7 +412,7 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showClaimDialog(Map<String, dynamic> item) {
@@ -709,9 +713,9 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -1210,7 +1214,7 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
-                              color: _selectedType == 'Found' ? const Color(0xFFF59E0B).withOpacity(0.12) : const Color(0xFFF8F9FA),
+                              color: _selectedType == 'Found' ? const Color(0xFFF59E0B).withValues(alpha: 0.12) : const Color(0xFFF8F9FA),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
                                 color: _selectedType == 'Found' ? const Color(0xFFF59E0B) : const Color(0xFFE2E8F0),
@@ -1235,7 +1239,7 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
-                              color: _selectedType == 'Lost' ? const Color(0xFF3B82F6).withOpacity(0.12) : const Color(0xFFF8F9FA),
+                              color: _selectedType == 'Lost' ? const Color(0xFF3B82F6).withValues(alpha: 0.12) : const Color(0xFFF8F9FA),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
                                 color: _selectedType == 'Lost' ? const Color(0xFF3B82F6) : const Color(0xFFE2E8F0),

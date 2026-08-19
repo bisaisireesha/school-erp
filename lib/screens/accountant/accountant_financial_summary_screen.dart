@@ -22,7 +22,15 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: Color(0xFF1E1E2D)),
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+            ),
+            child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+          ),
           onPressed: widget.onBack,
         ),
         title: const Text(
@@ -38,7 +46,25 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
             icon: const Icon(LucideIcons.download, color: Color(0xFF1E1E2D)),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Downloading financial report...')),
+                SnackBar(
+                  content: Row(
+                    children: [
+                      const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Text(
+                          'Financial report downloaded successfully!',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                  backgroundColor: const Color(0xFF16A34A),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  margin: const EdgeInsets.all(24),
+                  duration: const Duration(seconds: 3),
+                ),
               );
             },
           ),
@@ -114,6 +140,21 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
                     _buildBreakdownRow('Miscellaneous', '₹30,000', 0.08, const Color(0xFF64748B)),
                   ]),
                   const SizedBox(height: 24),
+                  const Text(
+                    'Payment Mode Breakdown',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildBreakdownSection([
+                    _buildBreakdownRow('Online (UPI/Bank)', '₹8,10,000', 0.65, const Color(0xFF3B82F6)),
+                    _buildBreakdownRow('Cash', '₹3,75,000', 0.30, const Color(0xFF10B981)),
+                    _buildBreakdownRow('Cheque', '₹60,000', 0.05, const Color(0xFFF59E0B)),
+                  ]),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
@@ -180,7 +221,7 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C4CF1).withOpacity(0.3),
+            color: const Color(0xFF6C4CF1).withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -221,7 +262,7 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
             child: const Icon(LucideIcons.wallet, color: Colors.white, size: 28),

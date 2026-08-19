@@ -53,7 +53,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   final TextEditingController _inTimeController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
-  List<Map<String, dynamic>> _visitors = [
+  final List<Map<String, dynamic>> _visitors = [
     {
       'id': 'V-1001',
       'name': 'Rajesh Kumar',
@@ -114,9 +114,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       return true;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -236,7 +236,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.5),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -248,7 +248,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(icon, color: color, size: 24),
@@ -319,7 +319,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             width: 1.5,
           ),
           boxShadow: isSelected
-              ? [BoxShadow(color: const Color(0xFF6C4CF1).withOpacity(0.2), blurRadius: 8, offset: const Offset(0, 4))]
+              ? [BoxShadow(color: const Color(0xFF6C4CF1).withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 4))]
               : [],
         ),
         child: Text(
@@ -337,16 +337,20 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   Widget _buildVisitorCard(Map<String, dynamic> visitor) {
     final isActive = visitor['status'] == 'Active';
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: () {
+        _showVisitorDetails(visitor);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.5),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -516,7 +520,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildDetailColumn(String label, String value) {

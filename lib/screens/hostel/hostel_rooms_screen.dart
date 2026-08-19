@@ -15,7 +15,7 @@ class HostelRoomsScreen extends StatefulWidget {
 
 class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
   String _searchQuery = '';
-  String _selectedBlock = 'Aryabhata (A)';
+  final String _selectedBlock = 'Aryabhata (A)';
   int _selectedFilter = 0; // 0: All, 1: Allocated, 2: Pending, 3: Check Out
 
   List<Map<String, dynamic>> _rooms = [];
@@ -60,11 +60,12 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     
@@ -119,9 +120,9 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
       }
     }
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -315,8 +316,12 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
     final grade = bed['grade'] ?? 'Grade 9-A';
     final initials = bed['initials'] ?? 'AM';
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+    return GestureDetector(
+      onTap: () {
+        _showStudentDetailsModal(room, bed);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -423,7 +428,7 @@ class _HostelRoomsScreenState extends State<HostelRoomsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showStudentDetailsModal(Map<String, dynamic> room, Map<String, dynamic> bed) {

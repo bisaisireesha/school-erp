@@ -90,7 +90,7 @@ class _TasksScreenState extends State<TasksScreen> {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.3),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -178,15 +178,19 @@ class _TasksScreenState extends State<TasksScreen> {
 
     final categoryIcon = _getCategoryIcon(category);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showTaskDetails(task);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.4),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -267,7 +271,7 @@ class _TasksScreenState extends State<TasksScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: priorityColor.withOpacity(0.12),
+                              color: priorityColor.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -401,7 +405,7 @@ class _TasksScreenState extends State<TasksScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showTaskDetails(Map<String, dynamic> task) {
@@ -506,7 +510,7 @@ class _TasksScreenState extends State<TasksScreen> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: priorityColor.withOpacity(0.12),
+                                  color: priorityColor.withValues(alpha: 0.12),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
@@ -643,9 +647,9 @@ class _TasksScreenState extends State<TasksScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -1048,7 +1052,7 @@ class _NewTaskBottomSheetState extends State<_NewTaskBottomSheet> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: isSelected ? color.withOpacity(0.12) : const Color(0xFFF8F9FA),
+            color: isSelected ? color.withValues(alpha: 0.12) : const Color(0xFFF8F9FA),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: isSelected ? color : const Color(0xFFE2E8F0), width: isSelected ? 1.5 : 1),
           ),

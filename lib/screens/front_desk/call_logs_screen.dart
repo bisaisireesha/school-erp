@@ -100,7 +100,7 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.3),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -179,15 +179,19 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
         statusTextColor = const Color(0xFF64748B);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showCallDetails(call);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.4),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -404,7 +408,7 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showCallDetails(Map<String, dynamic> call) {
@@ -657,9 +661,9 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
       return matchesQuery && matchesType;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -1485,7 +1489,7 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: isSelected ? color.withOpacity(0.12) : const Color(0xFFF8F9FA),
+            color: isSelected ? color.withValues(alpha: 0.12) : const Color(0xFFF8F9FA),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: isSelected ? color : const Color(0xFFE2E8F0), width: isSelected ? 1.5 : 1),
           ),

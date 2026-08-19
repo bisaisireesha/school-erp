@@ -304,7 +304,7 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                     border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFFE8E3F8).withOpacity(0.4),
+                        color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -374,7 +374,7 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           ),
           boxShadow: [
             BoxShadow(
-              color: isActive ? color.withOpacity(0.18) : const Color(0xFFE8E3F8).withOpacity(0.4),
+              color: isActive ? color.withValues(alpha: 0.18) : const Color(0xFFE8E3F8).withValues(alpha: 0.4),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -448,8 +448,8 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
             width: 1.5,
           ),
           boxShadow: isSelected
-              ? [BoxShadow(color: const Color(0xFF6C4CF1).withOpacity(0.25), blurRadius: 8, offset: const Offset(0, 4))]
-              : [BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.3), blurRadius: 6, offset: const Offset(0, 2))],
+              ? [BoxShadow(color: const Color(0xFF6C4CF1).withValues(alpha: 0.25), blurRadius: 8, offset: const Offset(0, 4))]
+              : [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 2))],
         ),
         child: Text(
           label,
@@ -490,7 +490,7 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),

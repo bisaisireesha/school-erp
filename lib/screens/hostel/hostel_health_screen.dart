@@ -45,6 +45,10 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
     }
   }
 
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
+
   void _onGlobalSearchChanged() {
     if (mounted) {
       setState(() {
@@ -62,9 +66,9 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     
@@ -85,9 +89,9 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -256,8 +260,12 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
       default: sevBg = const Color(0xFFF1F5F9); sevColor = const Color(0xFF64748B);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showDetailsModal(record);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFE2E8F0)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -314,7 +322,7 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
           ]),
         ),
       ]),
-    );
+    ));
   }
 
   Widget _buildInfoItem(IconData icon, String label, String value, Color iconColor) {
@@ -342,7 +350,7 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
         const SizedBox(height: 6), const Text('Select a status to filter', style: TextStyle(fontSize: 13, color: Color(0xFF64748B))), const SizedBox(height: 18),
         ...filters.map((f) {
           final isActive = _filterStatus == f['value'];
-          return GestureDetector(onTap: () { setState(() => _filterStatus = f['value'] as String); Navigator.pop(context); }, child: Container(margin: const EdgeInsets.only(bottom: 8), padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14), decoration: BoxDecoration(color: isActive ? const Color(0xFFF3F0FF) : Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0))), child: Row(children: [Icon(f['icon'] as IconData, size: 18, color: f['color'] as Color), const SizedBox(width: 12), Expanded(child: Text(f['label'] as String, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D)))), if (isActive) const Icon(LucideIcons.check, size: 18, color: Color(0xFF6C4CF1))])));
+          return GestureDetector(onTap: () { setState(() => _filterStatus = f['value'] as String); Navigator.pop(context); }, child: Container(margin: const EdgeInsets.only(bottom: 8), padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14), decoration: BoxDecoration(color: isActive ? const Color(0xFFF3F0FF) : Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0))), child: Row(children: [Icon(f['icon'] as IconData, size: 18, color: _getColor(f['color'] as String)), const SizedBox(width: 12), Expanded(child: Text(f['label'] as String, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D)))), if (isActive) const Icon(LucideIcons.check, size: 18, color: Color(0xFF6C4CF1))])));
         }),
       ]));
     });

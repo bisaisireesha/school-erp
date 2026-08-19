@@ -32,10 +32,10 @@ class ProfileScreen extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   stops: const [0.0, 0.5, 0.84, 1.0],
                   colors: [
-                    const Color(0xFF995EFF).withOpacity(0.40),
-                    const Color(0xFFCCAEFF).withOpacity(0.30),
-                    const Color(0xFFFFFFFF).withOpacity(0.20),
-                    const Color(0xFFFFFFFF).withOpacity(0.10),
+                    const Color(0xFF995EFF).withValues(alpha: 0.40),
+                    const Color(0xFFCCAEFF).withValues(alpha: 0.30),
+                    const Color(0xFFFFFFFF).withValues(alpha: 0.20),
+                    const Color(0xFFFFFFFF).withValues(alpha: 0.10),
                   ],
                 ),
               ),
@@ -151,6 +151,17 @@ class ProfileScreen extends StatelessWidget {
       badgeColor = const Color(0xFF10B981);
       badgeBg = const Color(0xFFD1FAE5);
       extraPill = 'Ext 205';
+    } else if (role == 'accountant') {
+      name = 'Arun Kumar';
+      subtitle = 'Finance Department · Accountant';
+      initials = 'AK';
+      email = 'accountant@school.edu';
+      contact2 = '+91 98765 12345';
+      contact2Icon = LucideIcons.phone;
+      badge = 'Staff · Accountant';
+      badgeColor = const Color(0xFF6C4CF1);
+      badgeBg = const Color(0xFFF3F0FF);
+      extraPill = 'EMP-FIN-001';
     }
 
     return Padding(
@@ -161,7 +172,7 @@ class ProfileScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 20, offset: const Offset(0, 10)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 20, offset: const Offset(0, 10)),
           ],
         ),
         child: Column(
@@ -194,7 +205,7 @@ class ProfileScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 4),
                         boxShadow: [
-                          BoxShadow(color: const Color(0xFF6C4CF1).withOpacity(0.15), blurRadius: 10, offset: const Offset(0, 5)),
+                          BoxShadow(color: const Color(0xFF6C4CF1).withValues(alpha: 0.15), blurRadius: 10, offset: const Offset(0, 5)),
                         ],
                       ),
                       child: Container(
@@ -254,6 +265,8 @@ class ProfileScreen extends StatelessWidget {
       return _buildWardenDetailsSection();
     } else if (role == 'student') {
       return _buildStudentAcademicSection();
+    } else if (role == 'accountant') {
+      return const SizedBox.shrink();
     } else {
       return _buildMyChildrenSection();
     }
@@ -278,7 +291,7 @@ class ProfileScreen extends StatelessWidget {
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFE8E3F8).withOpacity(0.4),
+                  color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -322,7 +335,7 @@ class ProfileScreen extends StatelessWidget {
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFE8E3F8).withOpacity(0.4),
+                  color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -366,7 +379,7 @@ class ProfileScreen extends StatelessWidget {
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFE8E3F8).withOpacity(0.4),
+                  color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),

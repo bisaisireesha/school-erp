@@ -13,6 +13,7 @@ class PersonalInformationScreen extends StatelessWidget {
     final isStudent = role == 'student';
     final isWarden = role == 'warden';
     final isFrontDesk = role == 'front_desk';
+    final isAccountant = role == 'accountant';
 
     String fullName = 'Suresh Patel';
     String initials = 'SP';
@@ -35,6 +36,11 @@ class PersonalInformationScreen extends StatelessWidget {
       initials = 'AT';
       email = 'frontdesk@school.edu';
       phone = '+91 98765 99887';
+    } else if (isAccountant) {
+      fullName = 'Arun Kumar';
+      initials = 'AK';
+      email = 'accountant@school.edu';
+      phone = '+91 98765 12345';
     }
 
     return Scaffold(
@@ -113,6 +119,13 @@ class PersonalInformationScreen extends StatelessWidget {
               _buildTextField('Desk Location', 'Main Reception Counter 1', LucideIcons.mapPin),
               const SizedBox(height: 16),
               _buildTextField('Shift Timings', 'Morning Shift (08:00 AM – 04:30 PM)', LucideIcons.clock),
+              const SizedBox(height: 16),
+            ] else if (isAccountant) ...[
+              _buildTextField('Role / Designation', 'Accountant', LucideIcons.briefcase),
+              const SizedBox(height: 16),
+              _buildTextField('Staff ID', 'EMP-FIN-001', LucideIcons.badgeCheck),
+              const SizedBox(height: 16),
+              _buildTextField('Department', 'Finance Department', LucideIcons.building2),
               const SizedBox(height: 16),
             ] else ...[
               _buildTextField('Role', 'Parent / Guardian', LucideIcons.users),

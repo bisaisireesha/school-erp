@@ -67,9 +67,9 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
 
@@ -95,9 +95,9 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
       return matchesQuery && matchesType;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -299,8 +299,12 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
     final double occupancyPct = totalBeds > 0 ? (occupiedBeds / totalBeds) : 0.0;
     final List<String> facilities = List<String>.from(block['facilities'] ?? []);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showViewDetailsModal(block);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -474,7 +478,7 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
           ],
         ],
       ),
-    );
+    ));
   }
 
   void _showFilterBottomSheet() {
@@ -865,9 +869,9 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
                     Container(
                       width: 50,
                       height: 50,
-                      decoration: BoxDecoration(color: block['bgColor'] as Color, borderRadius: BorderRadius.circular(16)),
+                      decoration: BoxDecoration(color: _getColor(block['bgColor'] as String), borderRadius: BorderRadius.circular(16)),
                       child: Center(
-                        child: Text('${block['code']}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: block['color'] as Color)),
+                        child: Text('${block['code']}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: _getColor(block['color'] as String))),
                       ),
                     ),
                     const SizedBox(width: 16),

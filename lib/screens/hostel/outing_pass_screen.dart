@@ -62,9 +62,9 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFF8F9FA),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     
@@ -90,9 +90,9 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
     int approvedCount = _outingPasses.where((p) => p['status'] == 'Approved').length;
     int rejectedCount = _outingPasses.where((p) => p['status'] == 'Rejected').length;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -289,8 +289,12 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
     Color statusColor = isApproved ? const Color(0xFF16A34A) : (isPending ? const Color(0xFFD97706) : const Color(0xFFE11D48));
     Color statusBg = isApproved ? const Color(0xFFDCFCE7) : (isPending ? const Color(0xFFFEF3C7) : const Color(0xFFFFE4E6));
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showGatePassModal(pass);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -407,7 +411,7 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                         color: const Color(0xFF16A34A),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
-                          BoxShadow(color: const Color(0xFF16A34A).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3)),
+                          BoxShadow(color: const Color(0xFF16A34A).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3)),
                         ],
                       ),
                       child: const Row(
@@ -431,7 +435,7 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFE11D48).withOpacity(0.5), width: 1),
+                        border: Border.all(color: const Color(0xFFE11D48).withValues(alpha: 0.5), width: 1),
                       ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -456,7 +460,7 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF6C4CF1).withOpacity(0.3), width: 1),
+                        border: Border.all(color: const Color(0xFF6C4CF1).withValues(alpha: 0.3), width: 1),
                         borderRadius: BorderRadius.circular(12),
                         color: const Color(0xFFF8F7FF),
                       ),
@@ -476,7 +480,7 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
           ],
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildInfoRow(IconData icon, String label, String value) {

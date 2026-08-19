@@ -118,7 +118,7 @@ class ContactSupportScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
-          BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
         ],
       ),
       child: Row(

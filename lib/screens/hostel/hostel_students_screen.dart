@@ -67,9 +67,9 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFF8F9FA),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     int totalStudents = 250 + _students.length;
@@ -125,9 +125,9 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
       return matchesQuery && matchesBlock && matchesRoom && matchesClass && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -540,8 +540,12 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
     final roomNo = student['roomNo'] ?? 'A-101';
     final bedNo = student['bedNo'] ?? 'Bed A';
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+    return GestureDetector(
+      onTap: () {
+        _showViewDetailsModal(student);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -648,7 +652,7 @@ class _HostelStudentsScreenState extends State<HostelStudentsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showViewDetailsModal(Map<String, dynamic> student) {

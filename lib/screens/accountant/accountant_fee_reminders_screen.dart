@@ -101,7 +101,7 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -167,7 +167,15 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
               children: [
                 GestureDetector(
                   onTap: widget.onBack,
-                  child: const Icon(LucideIcons.arrowLeft, size: 24, color: Color(0xFF1E1E2D)),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -184,7 +192,25 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
           ElevatedButton.icon(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Reminders sent to all overdue accounts!')),
+                SnackBar(
+                  content: Row(
+                    children: [
+                      const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Text(
+                          'Reminders sent to all overdue accounts!',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                  backgroundColor: const Color(0xFF16A34A),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  margin: const EdgeInsets.all(24),
+                  duration: const Duration(seconds: 3),
+                ),
               );
             },
             icon: const Icon(LucideIcons.send, size: 16, color: Colors.white),
@@ -453,7 +479,25 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
             child: ElevatedButton.icon(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Reminder sent to ${r['student']}!')),
+                  SnackBar(
+                    content: Row(
+                      children: [
+                        const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Reminder sent to ${r['student']}!',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    backgroundColor: const Color(0xFF16A34A),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    margin: const EdgeInsets.all(24),
+                    duration: const Duration(seconds: 3),
+                  ),
                 );
               },
               icon: const Icon(LucideIcons.send, size: 16, color: Colors.white),

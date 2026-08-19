@@ -8,7 +8,6 @@ import '../hostel/hostel_attendance_screen.dart';
 import '../hostel/hostel_visitors_screen.dart';
 import '../hostel/outing_pass_screen.dart';
 import '../attendance/attendance_screen.dart';
-import '../profile/personal_information_screen.dart';
 import '../profile/profile_screen.dart';
 import '../main_layout.dart';
 
@@ -143,7 +142,7 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -240,7 +239,7 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
                   border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFE8E3F8).withOpacity(0.45),
+                      color: const Color(0xFFE8E3F8).withValues(alpha: 0.45),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),

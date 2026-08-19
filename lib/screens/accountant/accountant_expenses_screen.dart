@@ -90,7 +90,7 @@ class _AccountantExpensesScreenState extends State<AccountantExpensesScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -156,7 +156,15 @@ class _AccountantExpensesScreenState extends State<AccountantExpensesScreen> {
               children: [
                 GestureDetector(
                   onTap: widget.onBack,
-                  child: const Icon(LucideIcons.arrowLeft, size: 24, color: Color(0xFF1E1E2D)),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -345,21 +353,23 @@ class _AccountantExpensesScreenState extends State<AccountantExpensesScreen> {
         statusBgColor = const Color(0xFFF1F5F9);
     }
 
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE2E8F0).withValues(alpha: 0.5),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
+    return GestureDetector(
+      onTap: () => _showViewDetailsSheet(context, e),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFE2E8F0)),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE2E8F0).withValues(alpha: 0.5),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -463,32 +473,31 @@ class _AccountantExpensesScreenState extends State<AccountantExpensesScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: e['status'] == 'Pending'
-                ? ElevatedButton.icon(
-                    onPressed: () => _showProcessPaymentSheet(context, e),
-                    icon: const Icon(LucideIcons.checkCircle, size: 16, color: Colors.white),
-                    label: const Text('Process Payment', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C4CF1),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      elevation: 0,
-                    ),
-                  )
-                : OutlinedButton.icon(
-                    onPressed: () => _showViewDetailsSheet(context, e),
-                    icon: const Icon(LucideIcons.eye, size: 16, color: Color(0xFF1E1E2D)),
-                    label: const Text('View Details', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFFE2E8F0)),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                  ),
-          ),
+          if (e['status'] == 'Pending')
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => _showProcessPaymentSheet(context, e),
+                icon: const Icon(LucideIcons.checkCircle, size: 16, color: Colors.white),
+                label: const Text('Process Payment', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6C4CF1),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  elevation: 0,
+                ),
+              ),
+            )
+          else
+            Row(
+              children: [
+                const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
+                const SizedBox(width: 4),
+                const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
+              ],
+            ),
         ],
+      ),
       ),
     );
   }

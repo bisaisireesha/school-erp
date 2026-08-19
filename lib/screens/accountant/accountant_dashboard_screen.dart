@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'dart:math' as math;
 import '../main_layout.dart';
+import 'accountant_quick_collection_screen.dart';
+import 'accountant_expenses_screen.dart';
+import 'accountant_invoices_screen.dart';
+import 'accountant_reports_screen.dart';
+import 'accountant_pay_slips_screen.dart';
+import 'accountant_bank_accounts_screen.dart';
+import 'accountant_deposits_screen.dart';
+import 'accountant_overdue_screen.dart';
+import 'accountant_receipts_screen.dart';
+import 'accountant_payment_history_screen.dart';
 
 class AccountantDashboardScreen extends StatefulWidget {
   const AccountantDashboardScreen({super.key});
@@ -49,21 +59,33 @@ class _AccountantDashboardScreenState extends State<AccountantDashboardScreen> {
             const SizedBox(height: 24),
             _buildKPICards(),
             const SizedBox(height: 24),
-            _buildSectionTitle('Recent Transactions'),
+            _buildSectionTitle('Recent Transactions', onTap: () => MainLayout.pushSubScreen(context, AccountantPaymentHistoryScreen(onBack: () => MainLayout.popSubScreen(context)))),
             const SizedBox(height: 14),
-            _buildRecentTransactions(),
+            GestureDetector(
+              onTap: () => MainLayout.pushSubScreen(context, AccountantPaymentHistoryScreen(onBack: () => MainLayout.popSubScreen(context))),
+              child: _buildRecentTransactions(),
+            ),
             const SizedBox(height: 24),
-            _buildSectionTitle('Collection Trend'),
+            _buildSectionTitle('Collection Trend', onTap: () => MainLayout.pushSubScreen(context, AccountantDepositsScreen(onBack: () => MainLayout.popSubScreen(context)))),
             const SizedBox(height: 14),
-            _buildCollectionTrendChart(),
+            GestureDetector(
+              onTap: () => MainLayout.pushSubScreen(context, AccountantDepositsScreen(onBack: () => MainLayout.popSubScreen(context))),
+              child: _buildCollectionTrendChart(),
+            ),
             const SizedBox(height: 24),
-            _buildSectionTitle('Payment Mode'),
+            _buildSectionTitle('Payment Mode', onTap: () => MainLayout.pushSubScreen(context, AccountantReceiptsScreen(onBack: () => MainLayout.popSubScreen(context)))),
             const SizedBox(height: 14),
-            _buildPaymentModeSection(),
+            GestureDetector(
+              onTap: () => MainLayout.pushSubScreen(context, AccountantReceiptsScreen(onBack: () => MainLayout.popSubScreen(context))),
+              child: _buildPaymentModeSection(),
+            ),
             const SizedBox(height: 24),
-            _buildSectionTitle('Overdue Accounts'),
+            _buildSectionTitle('Overdue Accounts', onTap: () => MainLayout.pushSubScreen(context, AccountantOverdueScreen(onBack: () => MainLayout.popSubScreen(context)))),
             const SizedBox(height: 14),
-            _buildOverdueAccounts(),
+            GestureDetector(
+              onTap: () => MainLayout.pushSubScreen(context, AccountantOverdueScreen(onBack: () => MainLayout.popSubScreen(context))),
+              child: _buildOverdueAccounts(),
+            ),
             const SizedBox(height: 24),
             _buildSectionTitle('Quick Actions'),
             const SizedBox(height: 14),
@@ -141,33 +163,35 @@ class _AccountantDashboardScreenState extends State<AccountantDashboardScreen> {
       children: [
         Row(
           children: [
-            Expanded(child: _buildKpiCard('Total Revenue', '₹24.5L', LucideIcons.indianRupee, const Color(0xFF16A34A), const Color(0xFFF0FDF4), '+12.3%')),
+            Expanded(child: _buildKpiCard('Total Revenue', '₹24.5L', LucideIcons.indianRupee, const Color(0xFF16A34A), const Color(0xFFF0FDF4), '+12.3%', onTap: () => MainLayout.pushSubScreen(context, AccountantDepositsScreen(onBack: () => MainLayout.popSubScreen(context))))),
             const SizedBox(width: 12),
-            Expanded(child: _buildKpiCard('Pending Fees', '₹8.2L', LucideIcons.clock, const Color(0xFFEF4444), const Color(0xFFFEF2F2), '142 students')),
+            Expanded(child: _buildKpiCard('Pending Fees', '₹8.2L', LucideIcons.clock, const Color(0xFFEF4444), const Color(0xFFFEF2F2), '142 students', onTap: () => MainLayout.pushSubScreen(context, AccountantOverdueScreen(onBack: () => MainLayout.popSubScreen(context))))),
           ],
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: _buildKpiCard('Today\'s Collection', '₹1.8L', LucideIcons.wallet, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), '23 receipts')),
+            Expanded(child: _buildKpiCard('Today\'s Collection', '₹1.8L', LucideIcons.wallet, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), '23 receipts', onTap: () => MainLayout.pushSubScreen(context, AccountantReceiptsScreen(onBack: () => MainLayout.popSubScreen(context))))),
             const SizedBox(width: 12),
-            Expanded(child: _buildKpiCard('Expenses', '₹6.4L', LucideIcons.trendingDown, const Color(0xFFF59E0B), const Color(0xFFFFFBEB), 'This month')),
+            Expanded(child: _buildKpiCard('Expenses', '₹6.4L', LucideIcons.trendingDown, const Color(0xFFF59E0B), const Color(0xFFFFFBEB), 'This month', onTap: () => MainLayout.pushSubScreen(context, AccountantExpensesScreen(onBack: () => MainLayout.popSubScreen(context))))),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildKpiCard(String label, String value, IconData icon, Color color, Color bgColor, String subtitle) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFF1F5F9)),
-        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
-      child: Column(
+  Widget _buildKpiCard(String label, String value, IconData icon, Color color, Color bgColor, String subtitle, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: const Color(0xFFF1F5F9)),
+          boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))],
+        ),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -194,12 +218,30 @@ class _AccountantDashboardScreenState extends State<AccountantDashboardScreen> {
           Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
         ],
       ),
+      ),
     );
   }
-
-  Widget _buildSectionTitle(String title) {
-    return Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)));
-  }
+    Widget _buildSectionTitle(String title, {VoidCallback? onTap}) {
+      Widget titleWidget = Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)));
+      if (onTap != null) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            titleWidget,
+            GestureDetector(
+              onTap: onTap,
+              child: const Row(
+                children: [
+                  Text('View All', style: TextStyle(color: Color(0xFF6C4CF1), fontSize: 12, fontWeight: FontWeight.bold)),
+                  Icon(Icons.chevron_right, color: Color(0xFF6C4CF1), size: 16),
+                ],
+              ),
+            ),
+          ],
+        );
+      }
+      return titleWidget;
+    }
 
   Widget _buildRecentTransactions() {
     final transactions = [
@@ -774,14 +816,14 @@ class _AccountantDashboardScreenState extends State<AccountantDashboardScreen> {
   // ── Quick Actions ──
   Widget _buildQuickActions() {
     final actions = [
-      {'icon': LucideIcons.receipt, 'label': 'Fee\nCollection'},
-      {'icon': LucideIcons.fileSpreadsheet, 'label': 'Expense\nEntry'},
-      {'icon': LucideIcons.fileText, 'label': 'Generate\nInvoice'},
-      {'icon': LucideIcons.pieChart, 'label': 'View\nReports'},
-      {'icon': LucideIcons.creditCard, 'label': 'Process\nPayroll'},
-      {'icon': LucideIcons.building, 'label': 'Bank\nRecon'},
-      {'icon': LucideIcons.shieldCheck, 'label': 'Tax\nFiling'},
-      {'icon': LucideIcons.history, 'label': 'Audit\nLogs'},
+      {'icon': LucideIcons.receipt, 'label': 'Fee\nCollection', 'key': 'fee'},
+      {'icon': LucideIcons.fileSpreadsheet, 'label': 'Expense\nEntry', 'key': 'expense'},
+      {'icon': LucideIcons.fileText, 'label': 'Generate\nInvoice', 'key': 'invoice'},
+      {'icon': LucideIcons.pieChart, 'label': 'View\nReports', 'key': 'reports'},
+      {'icon': LucideIcons.creditCard, 'label': 'Process\nPayroll', 'key': 'payroll'},
+      {'icon': LucideIcons.building, 'label': 'Bank\nRecon', 'key': 'bank'},
+      {'icon': LucideIcons.shieldCheck, 'label': 'Tax\nFiling', 'key': 'tax'},
+      {'icon': LucideIcons.history, 'label': 'Audit\nLogs', 'key': 'audit'},
     ];
 
     return Container(
@@ -811,9 +853,29 @@ class _AccountantDashboardScreenState extends State<AccountantDashboardScreen> {
             children: actions.map((action) {
           return GestureDetector(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('${(action['label'] as String).replaceAll('\n', ' ')} - Coming soon!')),
-              );
+              final key = action['key'] as String;
+              Widget? screen;
+              if (key == 'fee') {
+                screen = AccountantQuickCollectionScreen(onBack: () => MainLayout.popSubScreen(context));
+              } else if (key == 'expense') {
+                screen = AccountantExpensesScreen(onBack: () => MainLayout.popSubScreen(context));
+              } else if (key == 'invoice') {
+                screen = AccountantInvoicesScreen(onBack: () => MainLayout.popSubScreen(context));
+              } else if (key == 'reports') {
+                screen = AccountantReportsScreen(onBack: () => MainLayout.popSubScreen(context));
+              } else if (key == 'payroll') {
+                screen = AccountantPaySlipsScreen(onBack: () => MainLayout.popSubScreen(context));
+              } else if (key == 'bank') {
+                screen = AccountantBankAccountsScreen(onBack: () => MainLayout.popSubScreen(context));
+              }
+
+              if (screen != null) {
+                MainLayout.pushSubScreen(context, screen);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('${(action['label'] as String).replaceAll('\n', ' ')} - Coming soon!')),
+                );
+              }
             },
             child: FittedBox(
               fit: BoxFit.scaleDown,

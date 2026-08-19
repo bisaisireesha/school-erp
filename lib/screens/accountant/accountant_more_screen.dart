@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
 import '../profile/profile_screen.dart';
-import 'accountant_invoices_screen.dart';
 import 'accountant_academics_screen.dart';
 import 'accountant_hostel_fee_screen.dart';
 import 'accountant_transport_screen.dart';
@@ -13,6 +12,13 @@ import 'accountant_expenses_screen.dart';
 import 'accountant_pay_slips_screen.dart';
 import 'accountant_salary_structure_screen.dart';
 import 'accountant_financial_summary_screen.dart';
+import 'accountant_workbooks_screen.dart';
+import 'accountant_bank_accounts_screen.dart';
+import 'accountant_receipts_screen.dart';
+import 'accountant_cheque_tracker_screen.dart';
+import 'accountant_deposits_screen.dart';
+import 'accountant_gateway_setup_screen.dart';
+import 'accountant_payment_links_screen.dart';
 
 class AccountantMoreScreen extends StatefulWidget {
   const AccountantMoreScreen({super.key});
@@ -56,13 +62,11 @@ class _AccountantMoreScreenState extends State<AccountantMoreScreen> {
     {'title': 'Overdue Accounts', 'icon': LucideIcons.layers, 'key': 'Overdue Accounts'},
     // Payables
     {'title': 'Bills & Expenses', 'icon': LucideIcons.fileText, 'key': 'Bills & Expenses'},
-    {'title': 'Invoice Mgmt', 'icon': LucideIcons.fileCheck, 'key': 'Invoice Mgmt'},
     // Payroll
     {'title': 'Payslips', 'icon': LucideIcons.banknote, 'key': 'Payslips'},
     {'title': 'Salary Structures', 'icon': LucideIcons.wallet, 'key': 'Salary Structures'},
     // Reports
     {'title': 'Financial Summary', 'icon': LucideIcons.barChart3, 'key': 'Financial Summary'},
-    {'title': 'Reports Hub', 'icon': LucideIcons.barChart2, 'key': 'Reports Hub'},
     {'title': 'Workbooks', 'icon': LucideIcons.fileSpreadsheet, 'key': 'Workbooks'},
     // Banking
     {'title': 'Bank Accounts', 'icon': LucideIcons.landmark, 'key': 'Bank Accounts'},
@@ -126,12 +130,7 @@ class _AccountantMoreScreenState extends State<AccountantMoreScreen> {
                       final item = filteredActions[index];
                       return GestureDetector(
                         onTap: () {
-                          if (item['key'] == 'Invoice Mgmt') {
-                            MainLayout.pushSubScreen(
-                              context,
-                              AccountantInvoicesScreen(onBack: () => MainLayout.popSubScreen(context)),
-                            );
-                          } else if (item['key'] == 'Academics') {
+                          if (item['key'] == 'Academics') {
                             MainLayout.pushSubScreen(
                               context,
                               AccountantAcademicsScreen(onBack: () => MainLayout.popSubScreen(context)),
@@ -181,6 +180,20 @@ class _AccountantMoreScreenState extends State<AccountantMoreScreen> {
                               context,
                               AccountantFinancialSummaryScreen(onBack: () => MainLayout.popSubScreen(context)),
                             );
+                          } else if (item['key'] == 'Workbooks') {
+                            MainLayout.pushSubScreen(context, AccountantWorkbooksScreen(onBack: () => MainLayout.popSubScreen(context)));
+                          } else if (item['key'] == 'Bank Accounts') {
+                            MainLayout.pushSubScreen(context, AccountantBankAccountsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                          } else if (item['key'] == 'Receipts') {
+                            MainLayout.pushSubScreen(context, AccountantReceiptsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                          } else if (item['key'] == 'Cheque Tracker') {
+                            MainLayout.pushSubScreen(context, AccountantChequeTrackerScreen(onBack: () => MainLayout.popSubScreen(context)));
+                          } else if (item['key'] == 'Deposits') {
+                            MainLayout.pushSubScreen(context, AccountantDepositsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                          } else if (item['key'] == 'Gateway Setup') {
+                            MainLayout.pushSubScreen(context, AccountantGatewaySetupScreen(onBack: () => MainLayout.popSubScreen(context)));
+                          } else if (item['key'] == 'Payment Links') {
+                            MainLayout.pushSubScreen(context, AccountantPaymentLinksScreen(onBack: () => MainLayout.popSubScreen(context)));
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('${item['title']} - Coming soon!')),

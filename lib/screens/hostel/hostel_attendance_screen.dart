@@ -74,9 +74,9 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     
@@ -97,14 +97,14 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
       final query = _searchQuery.trim().toLowerCase();
 
       bool matchesQuery = query.isEmpty || name.contains(query) || code.contains(query) || warden.contains(query);
-      bool matchesStatus = _filterStatus == 'All' || status == _filterStatus;
+      bool matchesStatus = _filterStatus == 'All Status' || status == _filterStatus;
 
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -371,8 +371,10 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     final statusTextColor = isSubmitted ? const Color(0xFF16A34A) : const Color(0xFFD97706);
     final statusText = isSubmitted ? 'Submitted (${block['submittedAt']})' : 'Pending';
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () => setState(() => _activeRollCallBlock = block),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -469,7 +471,7 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _saveBlockAttendance(Map<String, dynamic> block, List<Map<String, dynamic>> blockStudents, String blockCode) {
@@ -514,9 +516,9 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     int absentCount = blockStudents.where((s) => s['status'] == 'Absent').length;
     int leaveCount = blockStudents.where((s) => s['status'] == 'Leave' || s['status'] == 'On Outing').length;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: Column(
           children: [
@@ -526,7 +528,7 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text('Mark Attendance — Block $blockCode', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    child: Text('Attendance', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
                   ),
                   ElevatedButton.icon(
                     onPressed: () => _saveBlockAttendance(block, blockStudents, blockCode),

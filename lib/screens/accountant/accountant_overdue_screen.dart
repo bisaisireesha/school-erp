@@ -82,7 +82,7 @@ class _AccountantOverdueScreenState extends State<AccountantOverdueScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -148,7 +148,15 @@ class _AccountantOverdueScreenState extends State<AccountantOverdueScreen> {
               children: [
                 GestureDetector(
                   onTap: widget.onBack,
-                  child: const Icon(LucideIcons.arrowLeft, size: 24, color: Color(0xFF1E1E2D)),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -165,13 +173,31 @@ class _AccountantOverdueScreenState extends State<AccountantOverdueScreen> {
           ElevatedButton.icon(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Downloading overdue report...')),
+                SnackBar(
+                  content: Row(
+                    children: [
+                      const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Text(
+                          'Overdue report downloaded successfully!',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                  backgroundColor: const Color(0xFF16A34A),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  margin: const EdgeInsets.all(24),
+                  duration: const Duration(seconds: 3),
+                ),
               );
             },
             icon: const Icon(LucideIcons.download, size: 16, color: Colors.white),
             label: const Text('Export', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF1E1E2D),
+              backgroundColor: const Color(0xFF6C4CF1),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               elevation: 0,
@@ -438,13 +464,31 @@ class _AccountantOverdueScreenState extends State<AccountantOverdueScreen> {
             child: ElevatedButton.icon(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Reminder message sent to ${o['parentName']}!')),
+                  SnackBar(
+                    content: Row(
+                      children: [
+                        const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Reminder message sent to ${o['parentName']}!',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    backgroundColor: const Color(0xFF16A34A),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    margin: const EdgeInsets.all(24),
+                    duration: const Duration(seconds: 3),
+                  ),
                 );
               },
               icon: const Icon(LucideIcons.send, size: 16, color: Colors.white),
               label: const Text('Send Reminder', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1E1E2D),
+                backgroundColor: const Color(0xFF6C4CF1),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 elevation: 0,

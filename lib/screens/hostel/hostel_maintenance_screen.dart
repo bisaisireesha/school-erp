@@ -66,9 +66,9 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     
@@ -92,9 +92,9 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
       return matchesQuery && matchesStatus && matchesBlock && matchesCategory;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -250,8 +250,12 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
       default: priBg = const Color(0xFFF1F5F9); priColor = const Color(0xFF64748B);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showDetailsModal(req);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFE2E8F0)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -308,7 +312,7 @@ class _HostelMaintenanceScreenState extends State<HostelMaintenanceScreen> {
           ]),
         ),
       ]),
-    );
+    ));
   }
 
   Widget _buildInfoItem(IconData icon, String label, String value, Color iconColor) {

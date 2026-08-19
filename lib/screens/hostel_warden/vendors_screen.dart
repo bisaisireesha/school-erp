@@ -70,9 +70,9 @@ class _VendorsScreenState extends State<VendorsScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFF8F9FA),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     
@@ -94,9 +94,9 @@ class _VendorsScreenState extends State<VendorsScreen> {
       return vendor['category'].toString().toLowerCase() == _selectedFilter.toLowerCase();
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
@@ -506,8 +506,12 @@ class _VendorsScreenState extends State<VendorsScreen> {
   }
 
   Widget _buildVendorItem(Map<String, dynamic> vendor) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showViewDetailsBottomSheet(context, vendor);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -537,8 +541,8 @@ class _VendorsScreenState extends State<VendorsScreen> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: vendor['statusBg'] as Color, borderRadius: BorderRadius.circular(12)),
-                child: Text(vendor['status'] as String, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: vendor['statusColor'] as Color)),
+                decoration: BoxDecoration(color: _getColor(vendor['statusBg'] as String), borderRadius: BorderRadius.circular(12)),
+                child: Text(vendor['status'] as String, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _getColor(vendor['statusColor'] as String))),
               ),
               const SizedBox(width: 4),
               PopupMenuButton<String>(
@@ -589,7 +593,7 @@ class _VendorsScreenState extends State<VendorsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   PopupMenuItem<String> _buildPopupItem(String value, IconData icon, String text, {bool isDestructive = false}) {
@@ -833,8 +837,8 @@ class _VendorsScreenState extends State<VendorsScreen> {
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(color: vendor['statusBg'] as Color, borderRadius: BorderRadius.circular(12)),
-                    child: Text(vendor['status'] as String, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: vendor['statusColor'] as Color)),
+                    decoration: BoxDecoration(color: _getColor(vendor['statusBg'] as String), borderRadius: BorderRadius.circular(12)),
+                    child: Text(vendor['status'] as String, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _getColor(vendor['statusColor'] as String))),
                   ),
                 ],
               ),

@@ -53,42 +53,54 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: Color(0xFF1E1E2D)),
-          onPressed: widget.onBack,
-        ),
-        title: const Text(
-          'Pay Slips',
-          style: TextStyle(
-            color: Color(0xFF1E1E2D),
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              // Scrollable Header
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: widget.onBack,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                        ),
+                        child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Text('Pay Slips',
+                          style: TextStyle(
+                            color: Color(0xFF1E1E2D),
+                            fontSize: 22,
+                            fontWeight: FontWeight.w900,
+                          )),
+                    ),
+                    IconButton(
+                      icon: const Icon(LucideIcons.download, color: Color(0xFF1E1E2D)),
+                      onPressed: () => _showDownloadReportSheet(context),
+                    ),
+                  ],
+                ),
+              ),
+              _buildFilters(),
+              ..._filteredStaff.map((staff) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: _buildStaffCard(staff),
+              )),
+              const SizedBox(height: 40),
+            ],
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(LucideIcons.download, color: Color(0xFF1E1E2D)),
-            onPressed: () => _showDownloadReportSheet(context),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          _buildFilters(),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: _filteredStaff.length,
-              itemBuilder: (context, index) {
-                return _buildStaffCard(_filteredStaff[index]);
-              },
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -142,21 +154,23 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
   Widget _buildStaffCard(Map<String, dynamic> staff) {
     final isGenerated = staff['status'] == 'Generated';
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
+    return GestureDetector(
+      onTap: () => _showViewSlipSheet(context, staff),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFE2E8F0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
@@ -257,23 +271,18 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                     ),
                   )
                 else
-                  OutlinedButton.icon(
-                    onPressed: () => _showViewSlipSheet(context, staff),
-                    icon: const Icon(LucideIcons.download, size: 16, color: Color(0xFF1E1E2D)),
-                    label: const Text(
-                      'Download Slip',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFFE2E8F0)),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    ),
+                  Row(
+                    children: [
+                      const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
+                      const SizedBox(width: 4),
+                      const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
+                    ],
                   ),
               ],
             ),
           ),
         ],
+      ),
       ),
     );
   }

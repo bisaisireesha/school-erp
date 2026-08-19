@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
 import '../profile/profile_screen.dart';
-import '../profile/personal_information_screen.dart';
 import 'appointments_screen.dart';
 import 'postal_records_screen.dart';
 import 'complaints_screen.dart';
@@ -120,7 +119,7 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -232,7 +231,7 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
                   border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFE8E3F8).withOpacity(0.5),
+                      color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),

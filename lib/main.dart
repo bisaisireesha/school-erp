@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
                     Condition.equals(name: MOBILE, value: 450),
                     Condition.between(start: 450, end: 800, value: 600),
                   ],
-                ).value ?? 450,
+                ).value,
                 child: BouncingScrollWrapper.builder(context, scaledChild),
               );
             },

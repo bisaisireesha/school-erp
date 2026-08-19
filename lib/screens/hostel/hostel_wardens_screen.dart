@@ -16,7 +16,7 @@ class HostelWardensScreen extends StatefulWidget {
 class _HostelWardensScreenState extends State<HostelWardensScreen> {
   String _searchQuery = '';
   String _filterRole = 'All Roles'; // All Roles, Head Warden, Assistant Warden, Night Warden
-  String _filterStatus = 'All Status';
+  final String _filterStatus = 'All Status';
 
   List<Map<String, dynamic>> _wardens = [];
   bool _isLoading = true;
@@ -67,9 +67,9 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
       );
     }
     int totalWardensCount = _wardens.length;
@@ -106,9 +106,9 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
       return matchesQuery && matchesRole;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -315,8 +315,12 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
     final hostelTypeBg = gender == 'Female' ? const Color(0xFFFDF2F8) : const Color(0xFFEFF6FF);
     final hostelTypeTextColor = gender == 'Female' ? const Color(0xFFDB2777) : const Color(0xFF2563EB);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showViewDetailsModal(warden);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -515,7 +519,7 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showFilterBottomSheet() {
@@ -1032,9 +1036,9 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      radius: 28,
-                      backgroundColor: warden['bgColor'] as Color,
-                      child: Text('${warden['initials']}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: warden['color'] as Color)),
+                      radius: 26,
+                      backgroundColor: _getColor(warden['bgColor'] as String),
+                      child: Text('${warden['initials']}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _getColor(warden['color'] as String))),
                     ),
                     const SizedBox(width: 16),
                     Expanded(

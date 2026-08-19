@@ -236,7 +236,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3)),
           ],
         ),
         child: Column(
@@ -447,7 +447,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -493,7 +493,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: bottomTextColor.withOpacity(0.1),
+              color: bottomTextColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
@@ -563,7 +563,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               boxShadow: [
-                BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+                BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
               ],
             ),
             child: Row(
@@ -623,7 +623,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(
@@ -709,7 +709,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(
@@ -738,7 +738,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
                           width: 44,
                           height: 44,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFE0F2FE).withOpacity(0.5),
+                            color: const Color(0xFFE0F2FE).withValues(alpha: 0.5),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Center(
@@ -805,7 +805,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(
@@ -903,7 +903,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(
@@ -993,7 +993,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -1203,7 +1203,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -1257,7 +1257,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: const Color(0xFF6C4CF1).withOpacity(0.08),
+              color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: const Color(0xFF6C4CF1), size: 26),

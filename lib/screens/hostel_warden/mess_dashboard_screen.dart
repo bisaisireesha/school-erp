@@ -150,17 +150,17 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
         children: [
           Row(
             children: [
-              Expanded(child: _buildKpiCard('603', 'Today\'s Diners', 'of 642 planned', LucideIcons.users, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), '+4%', true)),
+              Expanded(child: GestureDetector(onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))), child: _buildKpiCard('603', 'Today\'s Diners', 'of 642 planned', LucideIcons.users, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), '+4%', true))),
               const SizedBox(width: 12),
-              Expanded(child: _buildKpiCard('1,206', 'Meals Served Today', 'Breakfast + Lunch', LucideIcons.utensilsCrossed, const Color(0xFF10B981), const Color(0xFFD1FAE5), '+2.1%', true)),
+              Expanded(child: GestureDetector(onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))), child: _buildKpiCard('1,206', 'Meals Served Today', 'Breakfast + Lunch', LucideIcons.utensilsCrossed, const Color(0xFF10B981), const Color(0xFFD1FAE5), '+2.1%', true))),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _buildKpiCard('₹42', 'Plate Cost (avg)', 'Target ≤ ₹45', LucideIcons.indianRupee, const Color(0xFF3B82F6), const Color(0xFFDBEAFE), '-3%', false)),
+              Expanded(child: GestureDetector(onTap: () => MainLayout.pushSubScreen(context, ReportsScreen(onBack: () => MainLayout.popSubScreen(context))), child: _buildKpiCard('₹42', 'Plate Cost (avg)', 'Target ≤ ₹45', LucideIcons.indianRupee, const Color(0xFF3B82F6), const Color(0xFFDBEAFE), '-3%', false))),
               const SizedBox(width: 12),
-              Expanded(child: _buildKpiCard('6.2%', 'Wastage', 'Goal under 5%', LucideIcons.trendingDown, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), '+0.8%', true)),
+              Expanded(child: GestureDetector(onTap: () => MainLayout.pushSubScreen(context, ReportsScreen(onBack: () => MainLayout.popSubScreen(context))), child: _buildKpiCard('6.2%', 'Wastage', 'Goal under 5%', LucideIcons.trendingDown, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), '+0.8%', true))),
             ],
           ),
         ],
@@ -246,68 +246,71 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
   }
 
   Widget _buildServiceCard(String title, String time, String badgeText, Color badgeColor, Color badgeBg, List<String> items, String served, String percent, double progress, Color progressColor, IconData icon, Color iconColor, Color iconBg) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFF1F5F9)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)), child: Icon(icon, color: iconColor, size: 20)),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                      const SizedBox(height: 2),
-                      Row(
-                        children: [
-                          const Icon(LucideIcons.clock, size: 12, color: Color(0xFF94A3B8)),
-                          const SizedBox(width: 4),
-                          Text(time, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(12)), child: Text(badgeText, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: badgeColor))),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: items.map((item) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(12)),
-              child: Text(item, style: const TextStyle(fontSize: 11, color: Color(0xFF334155), fontWeight: FontWeight.w600)),
-            )).toList(),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Served', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-              RichText(text: TextSpan(children: [
-                TextSpan(text: served, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                const TextSpan(text: ' · ', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                TextSpan(text: percent, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-              ])),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(value: progress, minHeight: 6, backgroundColor: const Color(0xFFF1F5F9), valueColor: AlwaysStoppedAnimation<Color>(progressColor)),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFF1F5F9)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)), child: Icon(icon, color: iconColor, size: 20)),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            const Icon(LucideIcons.clock, size: 12, color: Color(0xFF94A3B8)),
+                            const SizedBox(width: 4),
+                            Text(time, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(12)), child: Text(badgeText, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: badgeColor))),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: items.map((item) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(12)),
+                child: Text(item, style: const TextStyle(fontSize: 11, color: Color(0xFF334155), fontWeight: FontWeight.w600)),
+              )).toList(),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Served', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                RichText(text: TextSpan(children: [
+                  TextSpan(text: served, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const TextSpan(text: ' · ', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                  TextSpan(text: percent, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                ])),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(value: progress, minHeight: 6, backgroundColor: const Color(0xFFF1F5F9), valueColor: AlwaysStoppedAnimation<Color>(progressColor)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -350,18 +353,22 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
   }
 
   Widget _buildExpandableDayCard(String day, String breakfast, String lunch, String dinner, bool isToday) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: isToday ? const Color(0xFF6C4CF1).withValues(alpha: 0.3) : const Color(0xFFF1F5F9), width: 1.5),
-        boxShadow: [
-          BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.4), blurRadius: 10, offset: const Offset(0, 4)),
-        ],
-      ),
-      child: Material(
-        color: isToday ? const Color(0xFFF8F5FF) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, MessMenuScreen(onBack: () => MainLayout.popSubScreen(context))),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: isToday ? const Color(0xFF6C4CF1).withValues(alpha: 0.3) : const Color(0xFFF1F5F9), width: 1.5),
+          boxShadow: [
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.4), blurRadius: 10, offset: const Offset(0, 4)),
+          ],
+        ),
+        child: AbsorbPointer(
+          child: Material(
+            color: isToday ? const Color(0xFFF8F5FF) : Colors.white,
+            borderRadius: BorderRadius.circular(16),
         child: Theme(
           data: ThemeData().copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
@@ -390,6 +397,8 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
             _buildMealRow(LucideIcons.utensilsCrossed, 'Dinner', dinner, const Color(0xFF3B82F6), const Color(0xFFEFF6FF)),
           ],
         ),
+      ),
+      ),
       ),
       ),
     );
@@ -476,8 +485,11 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
   }
 
   Widget _buildInventoryItem(IconData icon, Color iconBg, Color iconColor, String title, String onHand, String min, String status, Color statusColor, Color statusBg, double progress, Color progressColor, {bool isLast = false}) {
-    return Container(
-      decoration: BoxDecoration(border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFF1F5F9)))),
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, InventoryScreen(onBack: () => MainLayout.popSubScreen(context))),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        decoration: BoxDecoration(border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFF1F5F9)))),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -524,7 +536,7 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildVendorsPayments() {
@@ -567,8 +579,10 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
   }
 
   Widget _buildVendorItem(String iconText, String name, String tags, String amount, String rating, String status, Color statusColor, Color statusBg) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, VendorsScreen(onBack: () => MainLayout.popSubScreen(context))),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -622,7 +636,7 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildQuickActions() {

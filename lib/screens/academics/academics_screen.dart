@@ -685,11 +685,12 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
           FutureBuilder<String>(
             future: rootBundle.loadString('assets/mock/syllabus_progress.json'),
             builder: (context, snapshot) {
-              if (!snapshot.hasData)
+              if (!snapshot.hasData) {
                 return const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Center(child: CircularProgressIndicator()),
                 );
+              }
               final data = json.decode(snapshot.data!)['progress'] as List;
               return ListView.separated(
                 shrinkWrap: true,
@@ -1149,11 +1150,12 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             FutureBuilder<String>(
               future: rootBundle.loadString('assets/mock/upcoming_exams.json'),
               builder: (context, snapshot) {
-                if (!snapshot.hasData)
+                if (!snapshot.hasData) {
                   return const Padding(
                     padding: EdgeInsets.all(32.0),
                     child: Center(child: CircularProgressIndicator()),
                   );
+                }
                 final allData = json.decode(snapshot.data!)['exams'] as List;
 
                 final data = allData.where((item) {
