@@ -322,7 +322,7 @@ class _FrontDeskReportsScreenState extends State<FrontDeskReportsScreen> {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.3),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -351,15 +351,19 @@ class _FrontDeskReportsScreenState extends State<FrontDeskReportsScreen> {
   }
 
   Widget _buildReportCard(Map<String, dynamic> report) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showReportDetails(report);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.4),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -538,7 +542,7 @@ class _FrontDeskReportsScreenState extends State<FrontDeskReportsScreen> {
         ),
       ],
     ),
-  );
+  ));
 }
 
   void _showDownloadModal(Map<String, dynamic> report) {
@@ -596,7 +600,7 @@ class _FrontDeskReportsScreenState extends State<FrontDeskReportsScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF6C4CF1).withOpacity(0.1),
+                              color: const Color(0xFF6C4CF1).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -755,9 +759,9 @@ class _FrontDeskReportsScreenState extends State<FrontDeskReportsScreen> {
       return matchesQuery && matchesCategory;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -817,7 +821,7 @@ class _FrontDeskReportsScreenState extends State<FrontDeskReportsScreen> {
                               boxShadow: isSelected
                                   ? [
                                       BoxShadow(
-                                        color: const Color(0xFF6C4CF1).withOpacity(0.3),
+                                        color: const Color(0xFF6C4CF1).withValues(alpha: 0.3),
                                         blurRadius: 6,
                                         offset: const Offset(0, 2),
                                       )
@@ -1159,8 +1163,9 @@ class _DownloadProgressSheetState extends State<_DownloadProgressSheet> with Sin
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
                       Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      scaffoldMessenger.showSnackBar(
                         SnackBar(
                           backgroundColor: const Color(0xFF1E1E2D),
                           content: Row(

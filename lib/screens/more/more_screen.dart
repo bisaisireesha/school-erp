@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../my_child/my_child_screen.dart';
@@ -24,42 +26,62 @@ class MoreScreen extends StatefulWidget {
 
 class _MoreScreenState extends State<MoreScreen> {
 
-  static const List<Map<String, dynamic>> _quickActions = [
-    {'title': 'My Child', 'icon': LucideIcons.users, 'key': 'My Child'},
-    {'title': 'Homework', 'icon': LucideIcons.squarePen, 'key': 'Homework'},
-    {
-      'title': 'Attendance',
-      'icon': LucideIcons.calendarCheck,
-      'key': 'Attendance',
-    },
-    {
-      'title': 'Exams & Results',
-      'icon': LucideIcons.graduationCap,
-      'key': 'Exams & Results',
-    },
-    {
-      'title': 'Timetable',
-      'icon': LucideIcons.calendarDays,
-      'key': 'Timetable',
-    },
-    {'title': 'Calendar', 'icon': LucideIcons.calendar, 'key': 'Calendar'},
-    {
-      'title': 'Leave Request',
-      'icon': LucideIcons.fileCheck,
-      'key': 'Leave Request',
-    },
-    {'title': 'Transport', 'icon': LucideIcons.bus, 'key': 'Transport'},
-    {'title': 'CCTV Cameras', 'icon': LucideIcons.video, 'key': 'CCTV Cameras'},
-    {'title': 'Resources', 'icon': LucideIcons.folder, 'key': 'Resources'},
-    {'title': 'Library', 'icon': LucideIcons.book, 'key': 'Library'},
-    {'title': 'Activity', 'icon': LucideIcons.activity, 'key': 'Activity'},
-  ];
+  List<Map<String, dynamic>> _quickActions = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      await MyChildScreen.loadChildrenData();
+      final String response = await rootBundle.loadString('assets/mock/parent_more_actions.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _quickActions = List<Map<String, dynamic>>.from(data['quickActions']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'users': return LucideIcons.users;
+      case 'squarePen': return LucideIcons.squarePen;
+      case 'calendarCheck': return LucideIcons.calendarCheck;
+      case 'graduationCap': return LucideIcons.graduationCap;
+      case 'calendarDays': return LucideIcons.calendarDays;
+      case 'calendar': return LucideIcons.calendar;
+      case 'fileCheck': return LucideIcons.fileCheck;
+      case 'bus': return LucideIcons.bus;
+      case 'video': return LucideIcons.video;
+      case 'folder': return LucideIcons.folder;
+      case 'book': return LucideIcons.book;
+      case 'activity': return LucideIcons.activity;
+      default: return LucideIcons.layoutGrid;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
       valueListenable: MyChildScreen.selectedChildIndex,
       builder: (context, selectedIndex, child) {
+        if (_isLoading || MyChildScreen.childrenData.isEmpty) {
+          return const Scaffold(
+            backgroundColor: Color(0xFFF8F9FA),
+            body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+          );
+        }
         return SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -389,7 +411,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        item['icon'] as IconData,
+                        _getIcon(item['icon']),
                         color: const Color(0xFF6C4CF1),
                         size: 22,
                       ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -35,20 +37,46 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
     super.dispose();
   }
 
-  final Map<String, Map<String, String>> _weeklyMenuData = {
-    'Monday': {'Breakfast': 'Idli · Sambar', 'Lunch': 'Chole · Rice', 'Snacks': 'Samosa · Tea', 'Dinner': 'Veg Pulao'},
-    'Tuesday': {'Breakfast': 'Poha · Eggs', 'Lunch': 'Rajma · Rice', 'Snacks': 'Biscuits · Coffee', 'Dinner': 'Paneer · Roti'},
-    'Wednesday': {'Breakfast': 'Paratha · Curd', 'Lunch': 'Dal · Sabzi', 'Snacks': 'Puff · Juice', 'Dinner': 'Pasta · Soup'},
-    'Thursday': {'Breakfast': 'Upma · Banana', 'Lunch': 'Kadhi · Rice', 'Snacks': 'Bhel Puri', 'Dinner': 'Egg Curry · Roti'},
-    'Friday': {'Breakfast': 'Sandwich · Milk', 'Lunch': 'Biryani · Raita', 'Snacks': 'Pakoda · Tea', 'Dinner': 'Chowmein · Manchurian'},
-    'Saturday': {'Breakfast': 'Dosa · Chutney', 'Lunch': 'Special Thali', 'Snacks': 'Cake · Shake', 'Dinner': 'Pav Bhaji'},
-    'Sunday': {'Breakfast': 'Puri · Aloo', 'Lunch': 'Chicken / Mushroom', 'Snacks': 'French Fries', 'Dinner': 'Fried Rice · Dessert'},
-  };
+  Map<String, Map<String, String>> _weeklyMenuData = {};
+  bool _isLoading = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadMenuData();
+  }
+
+  Future<void> _loadMenuData() async {
+    if (!_isLoading && _weeklyMenuData.isNotEmpty) return;
+    try {
+      final String response = await rootBundle.loadString('assets/mock/mess_menu.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _weeklyMenuData = (data as Map<String, dynamic>).map(
+            (key, value) => MapEntry(key, Map<String, String>.from(value)),
+          );
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFF8F9FA),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -395,8 +423,9 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                         icon: const Icon(LucideIcons.fileText, size: 16, color: Color(0xFF64748B)),
                         label: const Text('Save PDF', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
                         onPressed: () {
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          scaffoldMessenger.showSnackBar(
                             const SnackBar(content: Text('Mess Menu PDF exported successfully to Downloads!')),
                           );
                         },
@@ -413,8 +442,9 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                         icon: const Icon(LucideIcons.printer, size: 16, color: Colors.white),
                         label: const Text('Print Now', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
                         onPressed: () {
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          scaffoldMessenger.showSnackBar(
                             SnackBar(content: Text('Print job for $copies cop${copies > 1 ? "ies" : "y"} sent to $selectedPrinter successfully! 🖨️')),
                           );
                         },
@@ -653,8 +683,9 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        final scaffoldMessenger = ScaffoldMessenger.of(context);
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Menu updated successfully!')));
+                        scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Menu updated successfully!')));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),

@@ -1,0 +1,25 @@
+{
+  "weeklyMenu": [
+    {"day": "Monday", "breakfast": "Idli · Sambar", "lunch": "Chole · Rice", "dinner": "Veg Pulao"},
+    {"day": "Tuesday", "breakfast": "Poha · Eggs", "lunch": "Rajma · Rice", "dinner": "Paneer · Roti"},
+    {"day": "Wednesday", "breakfast": "Paratha · Curd", "lunch": "Dal · Sabzi", "dinner": "Pasta · Soup"},
+    {"day": "Thursday", "breakfast": "Upma · Banana", "lunch": "Kadhi · Rice", "dinner": "Egg Curry · Roti"},
+    {"day": "Friday", "breakfast": "Sandwich · Milk", "lunch": "Biryani · Raita", "dinner": "Chowmein · Manchurian"},
+    {"day": "Saturday", "breakfast": "Dosa · Chutney", "lunch": "Special Thali", "dinner": "Pav Bhaji"},
+    {"day": "Sunday", "breakfast": "Puri · Aloo", "lunch": "Chicken / Mushroom", "dinner": "Fried Rice · Dessert"}
+  ],
+  "inventory": [
+    {"title": "Rice (Basmati)", "onHand": "120 kg on hand", "min": "min 80 kg", "status": "Healthy", "statusColor": "0xFF16A34A", "statusBg": "0xFFDCFCE7", "progress": 0.9, "progressColor": "0xFF16A34A", "iconStr": "leaf", "iconBg": "0xFFDCFCE7", "iconColor": "0xFF16A34A"},
+    {"title": "Wheat Flour", "onHand": "45 kg on hand", "min": "min 60 kg", "status": "Low", "statusColor": "0xFFD97706", "statusBg": "0xFFFEF3C7", "progress": 0.5, "progressColor": "0xFFF59E0B", "iconStr": "wheat", "iconBg": "0xFFFEF3C7", "iconColor": "0xFFF59E0B"},
+    {"title": "Cooking Oil", "onHand": "28 L on hand", "min": "min 20 L", "status": "Healthy", "statusColor": "0xFF16A34A", "statusBg": "0xFFDCFCE7", "progress": 0.8, "progressColor": "0xFF16A34A", "iconStr": "droplets", "iconBg": "0xFFDCFCE7", "iconColor": "0xFF16A34A"},
+    {"title": "Toor Dal", "onHand": "12 kg on hand", "min": "min 25 kg", "status": "Critical", "statusColor": "0xFFE11D48", "statusBg": "0xFFFEE2E2", "progress": 0.3, "progressColor": "0xFFE11D48", "iconStr": "leaf", "iconBg": "0xFFFEE2E2", "iconColor": "0xFFE11D48"},
+    {"title": "Onions", "onHand": "38 kg on hand", "min": "min 30 kg", "status": "Healthy", "statusColor": "0xFF16A34A", "statusBg": "0xFFDCFCE7", "progress": 0.8, "progressColor": "0xFF16A34A", "iconStr": "leaf", "iconBg": "0xFFDCFCE7", "iconColor": "0xFF16A34A"},
+    {"title": "LPG Cylinders", "onHand": "2 pcs on hand", "min": "min 3 pcs", "status": "Low", "statusColor": "0xFFD97706", "statusBg": "0xFFFEF3C7", "progress": 0.4, "progressColor": "0xFFF59E0B", "iconStr": "flame", "iconBg": "0xFFFEF3C7", "iconColor": "0xFFF59E0B"}
+  ],
+  "vendors": [
+    {"iconText": "AG", "name": "Annapurna Grains", "tags": "Rice · Flour · Pulses", "amount": "₹ 48,200", "rating": "4.6", "status": "On-time", "statusColor": "0xFF16A34A", "statusBg": "0xFFDCFCE7"},
+    {"iconText": "FF", "name": "Fresh Farms Co.", "tags": "Vegetables · Fruits", "amount": "₹ 12,750", "rating": "4.4", "status": "Due Today", "statusColor": "0xFF3B82F6", "statusBg": "0xFFDBEAFE"},
+    {"iconText": "D", "name": "DairyPure", "tags": "Milk · Curd · Paneer", "amount": "₹ 8,400", "rating": "4.8", "status": "On-time", "statusColor": "0xFF16A34A", "statusBg": "0xFFDCFCE7"},
+    {"iconText": "GG", "name": "GoldFlame Gas", "tags": "LPG · Fuel", "amount": "₹ 6,900", "rating": "4.1", "status": "Overdue", "statusColor": "0xFFE11D48", "statusBg": "0xFFFEE2E2"}
+  ]
+}

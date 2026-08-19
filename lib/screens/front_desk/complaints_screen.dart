@@ -53,7 +53,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))],
+        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
       ),
       child: Row(
         children: [
@@ -126,8 +126,12 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
       default: categoryIcon = LucideIcons.fileText;
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showComplaintDetails(complaint);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -135,7 +139,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
         border: Border.all(color: const Color(0xFFF1F1F5)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -304,8 +308,8 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: priorityColor.withOpacity(0.1),
-                  border: Border.all(color: priorityColor.withOpacity(0.5)),
+                  color: priorityColor.withValues(alpha: 0.1),
+                  border: Border.all(color: priorityColor.withValues(alpha: 0.5)),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Row(
@@ -335,7 +339,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showComplaintDetails(Map<String, dynamic> complaint) {
@@ -456,8 +460,8 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: priorityColor.withOpacity(0.1),
-                                  border: Border.all(color: priorityColor.withOpacity(0.5)),
+                                  color: priorityColor.withValues(alpha: 0.1),
+                                  border: Border.all(color: priorityColor.withValues(alpha: 0.5)),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Row(
@@ -596,9 +600,9 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

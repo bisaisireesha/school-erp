@@ -65,7 +65,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withOpacity(0.3),
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -144,8 +144,12 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
       typeIcon = LucideIcons.fileText;
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showCertificateDetails(cert);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -153,7 +157,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
         border: Border.all(color: const Color(0xFFF1F1F5)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -355,7 +359,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
           ],
         ],
       ),
-    );
+    ));
   }
 
   void _showCertificateDetails(Map<String, dynamic> cert) {
@@ -579,9 +583,9 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

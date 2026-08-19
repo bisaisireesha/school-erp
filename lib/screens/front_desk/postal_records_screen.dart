@@ -53,7 +53,7 @@ class _PostalRecordsScreenState extends State<PostalRecordsScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))],
+        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
       ),
       child: Row(
         children: [
@@ -107,8 +107,12 @@ class _PostalRecordsScreenState extends State<PostalRecordsScreen> {
     final typeColor = isReceive ? const Color(0xFF3B82F6) : const Color(0xFF8B5CF6);
     final typeBgColor = isReceive ? const Color(0xFFDBEAFE) : const Color(0xFFEDE9FE);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showRecordDetails(record);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -116,7 +120,7 @@ class _PostalRecordsScreenState extends State<PostalRecordsScreen> {
         border: Border.all(color: const Color(0xFFF1F1F5)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -360,7 +364,7 @@ class _PostalRecordsScreenState extends State<PostalRecordsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showRecordDetails(Map<String, dynamic> record) {
@@ -621,9 +625,9 @@ class _PostalRecordsScreenState extends State<PostalRecordsScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -831,7 +835,7 @@ class _NewRecordBottomSheetState extends State<_NewRecordBottomSheet> {
   final _noteController = TextEditingController();
   
   String _recordType = 'Receive'; // 'Receive' or 'Dispatch'
-  DateTime? _selectedDate = DateTime.now();
+  final DateTime _selectedDate = DateTime.now();
 
   @override
   void dispose() {
@@ -885,7 +889,7 @@ class _NewRecordBottomSheetState extends State<_NewRecordBottomSheet> {
       'receiver': _toController.text,
       'address': _addressController.text.isEmpty ? 'N/A' : _addressController.text,
       'referenceNo': _referenceNoController.text.isEmpty ? 'N/A' : _referenceNoController.text,
-      'date': '${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}',
+      'date': '${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}',
       'status': 'Pending',
     };
     Navigator.pop(context, newRec);

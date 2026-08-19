@@ -23,12 +23,12 @@ class _AccountantTransportScreenState extends State<AccountantTransportScreen> {
   ];
 
   final List<Map<String, dynamic>> _mockStudents = [
-    {'name': 'Rohan Das', 'id': 'TR-1029', 'stop': 'Central Station', 'progress': 1.0, 'progressText': '100%', 'paid': '₹12,000', 'pending': '₹0', 'status': 'Paid'},
-    {'name': 'Priya Sharma', 'id': 'TR-1030', 'stop': 'Main Street', 'progress': 0.8, 'progressText': '80%', 'paid': '₹9,600', 'pending': '₹2,400', 'status': 'Partial'},
-    {'name': 'Aarav Gupta', 'id': 'TR-1031', 'stop': 'North Plaza', 'progress': 0.5, 'progressText': '50%', 'paid': '₹6,000', 'pending': '₹6,000', 'status': 'Partial'},
-    {'name': 'Sneha Kumar', 'id': 'TR-1032', 'stop': 'Park Avenue', 'progress': 0.0, 'progressText': '0%', 'paid': '₹0', 'pending': '₹12,000', 'status': 'Pending'},
-    {'name': 'Vikram Singh', 'id': 'TR-1033', 'stop': 'City Center', 'progress': 1.0, 'progressText': '100%', 'paid': '₹12,000', 'pending': '₹0', 'status': 'Paid'},
-    {'name': 'Neha Reddy', 'id': 'TR-1034', 'stop': 'East Gate', 'progress': 0.9, 'progressText': '90%', 'paid': '₹10,800', 'pending': '₹1,200', 'status': 'Partial'},
+    {'name': 'Rohan Das', 'id': 'TR-1029', 'class': 'Class 5-A', 'stop': 'Central Station', 'progress': 1.0, 'progressText': '100%', 'paid': '₹12,000', 'pending': '₹0', 'status': 'Paid'},
+    {'name': 'Priya Sharma', 'id': 'TR-1030', 'class': 'Class 6-B', 'stop': 'Main Street', 'progress': 0.8, 'progressText': '80%', 'paid': '₹9,600', 'pending': '₹2,400', 'status': 'Partial'},
+    {'name': 'Aarav Gupta', 'id': 'TR-1031', 'class': 'Class 7-C', 'stop': 'North Plaza', 'progress': 0.5, 'progressText': '50%', 'paid': '₹6,000', 'pending': '₹6,000', 'status': 'Partial'},
+    {'name': 'Sneha Kumar', 'id': 'TR-1032', 'class': 'Class 8-D', 'stop': 'Park Avenue', 'progress': 0.0, 'progressText': '0%', 'paid': '₹0', 'pending': '₹12,000', 'status': 'Pending'},
+    {'name': 'Vikram Singh', 'id': 'TR-1033', 'class': 'Class 5-B', 'stop': 'City Center', 'progress': 1.0, 'progressText': '100%', 'paid': '₹12,000', 'pending': '₹0', 'status': 'Paid'},
+    {'name': 'Neha Reddy', 'id': 'TR-1034', 'class': 'Class 6-A', 'stop': 'East Gate', 'progress': 0.9, 'progressText': '90%', 'paid': '₹10,800', 'pending': '₹1,200', 'status': 'Partial'},
   ];
 
   @override
@@ -39,7 +39,7 @@ class _AccountantTransportScreenState extends State<AccountantTransportScreen> {
     ).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +101,15 @@ class _AccountantTransportScreenState extends State<AccountantTransportScreen> {
               children: [
                 GestureDetector(
                   onTap: widget.onBack,
-                  child: const Icon(LucideIcons.arrowLeft, size: 24, color: Color(0xFF1E1E2D)),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -584,8 +592,9 @@ class _AccountantTransportScreenState extends State<AccountantTransportScreen> {
                             const SizedBox(width: 16),
                             ElevatedButton(
                               onPressed: () {
+                                final scaffoldMessenger = ScaffoldMessenger.of(context);
                                 Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Roster exported!'), backgroundColor: Color(0xFF16A34A)));
+                                scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Roster exported!'), backgroundColor: Color(0xFF16A34A)));
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF1E1E2D),
@@ -656,6 +665,8 @@ class _AccountantTransportScreenState extends State<AccountantTransportScreen> {
                     Text(s['id'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF94A3B8))),
                     const SizedBox(width: 8),
                     Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(4)), child: Text(s['stop'], style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)))),
+                    const SizedBox(width: 6),
+                    Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: const Color(0xFFF0FDF4), borderRadius: BorderRadius.circular(4)), child: Text(s['class'], style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF16A34A)))),
                   ],
                 ),
               ],

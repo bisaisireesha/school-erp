@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "studentName": "Aarav Sharma",
+    "rollNo": "CS-2024-102",
+    "gender": "Male",
+    "age": "15",
+    "issue": "Fever & Cold",
+    "severity": "Moderate",
+    "reportedDate": "03 Aug 2026",
+    "reportedTime": "08:30 AM",
+    "status": "On Medication",
+    "medication": "Paracetamol 500mg, Cetirizine",
+    "initials": "AS"
+  },
+  {
+    "id": "2",
+    "studentName": "Ananya Roy",
+    "rollNo": "EC-2024-201",
+    "gender": "Female",
+    "age": "14",
+    "issue": "Food Allergy Reaction",
+    "severity": "High",
+    "reportedDate": "02 Aug 2026",
+    "reportedTime": "01:15 PM",
+    "status": "Referred to Hospital",
+    "medication": "Antihistamine, Epinephrine",
+    "initials": "AR"
+  },
+  {
+    "id": "3",
+    "studentName": "Rohan Verma",
+    "rollNo": "CS-2024-104",
+    "gender": "Male",
+    "age": "16",
+    "issue": "Headache & Dizziness",
+    "severity": "Low",
+    "reportedDate": "03 Aug 2026",
+    "reportedTime": "10:00 AM",
+    "status": "Recovered",
+    "medication": "Disprin",
+    "initials": "RV"
+  },
+  {
+    "id": "4",
+    "studentName": "Arjun Gupta",
+    "rollNo": "IT-2024-205",
+    "gender": "Male",
+    "age": "15",
+    "issue": "Sprained Ankle",
+    "severity": "Moderate",
+    "reportedDate": "01 Aug 2026",
+    "reportedTime": "04:30 PM",
+    "status": "Under Observation",
+    "medication": "Ice Pack, Crepe Bandage, Ibuprofen",
+    "initials": "AG"
+  }
+]

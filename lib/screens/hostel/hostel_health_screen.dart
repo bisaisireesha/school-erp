@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -15,11 +17,36 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
   String _filterStatus = 'All';
   String _searchQuery = '';
 
+  List<Map<String, dynamic>> _healthRecords = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadHealthRecords();
+  }
+
+  Future<void> _loadHealthRecords() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_health.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _healthRecords = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
   }
 
   void _onGlobalSearchChanged() {
@@ -36,67 +63,15 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _healthRecords = [
-    {
-      'id': '1',
-      'studentName': 'Aarav Sharma',
-      'rollNo': 'CS-2024-102',
-      'gender': 'Male',
-      'age': '15',
-      'issue': 'Fever & Cold',
-      'severity': 'Moderate',
-      'reportedDate': '03 Aug 2026',
-      'reportedTime': '08:30 AM',
-      'status': 'On Medication',
-      'medication': 'Paracetamol 500mg, Cetirizine',
-      'initials': 'AS',
-    },
-    {
-      'id': '2',
-      'studentName': 'Ananya Roy',
-      'rollNo': 'EC-2024-201',
-      'gender': 'Female',
-      'age': '14',
-      'issue': 'Food Allergy Reaction',
-      'severity': 'High',
-      'reportedDate': '02 Aug 2026',
-      'reportedTime': '01:15 PM',
-      'status': 'Referred to Hospital',
-      'medication': 'Antihistamine, Epinephrine',
-      'initials': 'AR',
-    },
-    {
-      'id': '3',
-      'studentName': 'Rohan Verma',
-      'rollNo': 'CS-2024-104',
-      'gender': 'Male',
-      'age': '16',
-      'issue': 'Headache & Dizziness',
-      'severity': 'Low',
-      'reportedDate': '03 Aug 2026',
-      'reportedTime': '10:00 AM',
-      'status': 'Recovered',
-      'medication': 'Disprin',
-      'initials': 'RV',
-    },
-    {
-      'id': '4',
-      'studentName': 'Arjun Gupta',
-      'rollNo': 'IT-2024-205',
-      'gender': 'Male',
-      'age': '15',
-      'issue': 'Sprained Ankle',
-      'severity': 'Moderate',
-      'reportedDate': '01 Aug 2026',
-      'reportedTime': '04:30 PM',
-      'status': 'Under Observation',
-      'medication': 'Ice Pack, Crepe Bandage, Ibuprofen',
-      'initials': 'AG',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     int totalCasesToday = _healthRecords.length;
     int severe = _healthRecords.where((r) => r['severity'] == 'High').length;
     int onMedication = _healthRecords.where((r) => r['status'] == 'On Medication').length;
@@ -114,9 +89,9 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -285,8 +260,12 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
       default: sevBg = const Color(0xFFF1F5F9); sevColor = const Color(0xFF64748B);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showDetailsModal(record);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFE2E8F0)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -343,7 +322,7 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
           ]),
         ),
       ]),
-    );
+    ));
   }
 
   Widget _buildInfoItem(IconData icon, String label, String value, Color iconColor) {
@@ -371,7 +350,7 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
         const SizedBox(height: 6), const Text('Select a status to filter', style: TextStyle(fontSize: 13, color: Color(0xFF64748B))), const SizedBox(height: 18),
         ...filters.map((f) {
           final isActive = _filterStatus == f['value'];
-          return GestureDetector(onTap: () { setState(() => _filterStatus = f['value'] as String); Navigator.pop(context); }, child: Container(margin: const EdgeInsets.only(bottom: 8), padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14), decoration: BoxDecoration(color: isActive ? const Color(0xFFF3F0FF) : Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0))), child: Row(children: [Icon(f['icon'] as IconData, size: 18, color: f['color'] as Color), const SizedBox(width: 12), Expanded(child: Text(f['label'] as String, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D)))), if (isActive) const Icon(LucideIcons.check, size: 18, color: Color(0xFF6C4CF1))])));
+          return GestureDetector(onTap: () { setState(() => _filterStatus = f['value'] as String); Navigator.pop(context); }, child: Container(margin: const EdgeInsets.only(bottom: 8), padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14), decoration: BoxDecoration(color: isActive ? const Color(0xFFF3F0FF) : Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0))), child: Row(children: [Icon(f['icon'] as IconData, size: 18, color: _getColor(f['color'] as String)), const SizedBox(width: 12), Expanded(child: Text(f['label'] as String, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D)))), if (isActive) const Icon(LucideIcons.check, size: 18, color: Color(0xFF6C4CF1))])));
         }),
       ]));
     });
@@ -544,8 +523,9 @@ class _HostelHealthScreenState extends State<HostelHealthScreen> {
   Widget _buildExportOption(String title, String format, IconData icon, Color iconColor, Color bgColor) {
     return GestureDetector(
       onTap: () {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
+        scaffoldMessenger.showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

@@ -1,0 +1,44 @@
+{
+  "cards": [
+    {
+      "icon": "menu_book_rounded",
+      "iconBg": "0xFFEADDF8",
+      "iconColor": "0xFF1E1E2D",
+      "title": "2 Assignments",
+      "subtitle": "Due Today",
+      "tagColor": "0xFF6C4CF1",
+      "tagBgColor": "0xFFF3EEFF",
+      "tagText": "Pending"
+    },
+    {
+      "icon": "directions_bus_rounded",
+      "iconBg": "0xFFEADDF8",
+      "iconColor": "0xFF1E1E2D",
+      "title": "Transport Update",
+      "subtitle": "Bus Green 12 is near",
+      "tagColor": "0xFF6C4CF1",
+      "tagBgColor": "0xFFF3EEFF",
+      "tagText": "Live"
+    },
+    {
+      "icon": "account_balance_wallet_rounded",
+      "iconBg": "0xFFEADDF8",
+      "iconColor": "0xFF1E1E2D",
+      "title": "Fee Reminder",
+      "subtitle": "Term 2 Tuition Fee",
+      "tagColor": "0xFF6C4CF1",
+      "tagBgColor": "0xFFF3EEFF",
+      "tagText": "Unpaid"
+    },
+    {
+      "icon": "event_available_rounded",
+      "iconBg": "0xFFEADDF8",
+      "iconColor": "0xFF1E1E2D",
+      "title": "Annual Sports Day",
+      "subtitle": "In 3 days",
+      "tagColor": "0xFF6C4CF1",
+      "tagBgColor": "0xFFF3EEFF",
+      "tagText": "Upcoming"
+    }
+  ]
+}

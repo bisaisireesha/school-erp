@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -14,13 +16,38 @@ class HostelWardensScreen extends StatefulWidget {
 class _HostelWardensScreenState extends State<HostelWardensScreen> {
   String _searchQuery = '';
   String _filterRole = 'All Roles'; // All Roles, Head Warden, Assistant Warden, Night Warden
-  String _filterStatus = 'All Status';
+  final String _filterStatus = 'All Status';
+
+  List<Map<String, dynamic>> _wardens = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadWardens();
+  }
+
+  Future<void> _loadWardens() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_wardens.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _wardens = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
   }
 
   void _onGlobalSearchChanged() {
@@ -37,137 +64,14 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _wardens = [
-    {
-      'id': '1',
-      'name': 'Mr. Rajesh Sharma',
-      'initials': 'RS',
-      'role': 'Head Warden',
-      'block': 'Aryabhata Block (A)',
-      'blockCode': 'A',
-      'phone': '+91 98765 43210',
-      'email': 'rajesh.sharma@school.edu',
-      'shift': 'Day Shift (06:00 AM - 02:00 PM)',
-      'status': 'On Duty',
-      'experience': '8 Years',
-      'gender': 'Male',
-      'assignedFloors': 'Floors 1 - 4 (40 Rooms)',
-      'emergencyContact': '+91 98765 00001',
-      'color': const Color(0xFF6C4CF1),
-      'bgColor': const Color(0xFFF3F0FF),
-    },
-    {
-      'id': '2',
-      'name': 'Mrs. Sunita Verma',
-      'initials': 'SV',
-      'role': 'Head Warden',
-      'block': 'Bhaskara Block (B)',
-      'blockCode': 'B',
-      'phone': '+91 98765 99887',
-      'email': 'sunita.verma@school.edu',
-      'shift': 'Day Shift (06:00 AM - 02:00 PM)',
-      'status': 'On Duty',
-      'experience': '6 Years',
-      'gender': 'Female',
-      'assignedFloors': 'Floors 1 - 4 (35 Rooms)',
-      'emergencyContact': '+91 98765 00002',
-      'color': const Color(0xFFEC4899),
-      'bgColor': const Color(0xFFFDF2F8),
-    },
-    {
-      'id': '3',
-      'name': 'Mr. Vikram Singh',
-      'initials': 'VS',
-      'role': 'Assistant Warden',
-      'block': 'Eklavya Block (E)',
-      'blockCode': 'E',
-      'phone': '+91 98765 11223',
-      'email': 'vikram.singh@school.edu',
-      'shift': 'Evening Shift (02:00 PM - 10:00 PM)',
-      'status': 'On Duty',
-      'experience': '4 Years',
-      'gender': 'Male',
-      'assignedFloors': 'Floors 1 - 3 (30 Rooms)',
-      'emergencyContact': '+91 98765 00003',
-      'color': const Color(0xFF3B82F6),
-      'bgColor': const Color(0xFFEFF6FF),
-    },
-    {
-      'id': '4',
-      'name': 'Mrs. Anjali Roy',
-      'initials': 'AR',
-      'role': 'Assistant Warden',
-      'block': 'Kalam Block (K)',
-      'blockCode': 'K',
-      'phone': '+91 98765 55443',
-      'email': 'anjali.roy@school.edu',
-      'shift': 'Evening Shift (02:00 PM - 10:00 PM)',
-      'status': 'On Duty',
-      'experience': '5 Years',
-      'gender': 'Female',
-      'assignedFloors': 'Floors 1 - 3 (25 Rooms)',
-      'emergencyContact': '+91 98765 00004',
-      'color': const Color(0xFF10B981),
-      'bgColor': const Color(0xFFF0FDF4),
-    },
-    {
-      'id': '5',
-      'name': 'Mr. Suresh Kumar',
-      'initials': 'SK',
-      'role': 'Night Warden',
-      'block': 'Aryabhata & Eklavya (A & E)',
-      'blockCode': 'A&E',
-      'phone': '+91 98765 77665',
-      'email': 'suresh.kumar@school.edu',
-      'shift': 'Night Shift (10:00 PM - 06:00 AM)',
-      'status': 'On Duty',
-      'experience': '7 Years',
-      'gender': 'Male',
-      'assignedFloors': 'Boys Campus Security',
-      'emergencyContact': '+91 98765 00005',
-      'color': const Color(0xFFD97706),
-      'bgColor': const Color(0xFFFEF3C7),
-    },
-    {
-      'id': '6',
-      'name': 'Mrs. Rekha Patil',
-      'initials': 'RP',
-      'role': 'Night Warden',
-      'block': 'Bhaskara & Kalam (B & K)',
-      'blockCode': 'B&K',
-      'phone': '+91 98765 88990',
-      'email': 'rekha.patil@school.edu',
-      'shift': 'Night Shift (10:00 PM - 06:00 AM)',
-      'status': 'Off Duty',
-      'experience': '3 Years',
-      'gender': 'Female',
-      'assignedFloors': 'Girls Campus Security',
-      'emergencyContact': '+91 98765 00006',
-      'color': const Color(0xFF64748B),
-      'bgColor': const Color(0xFFF1F5F9),
-    },
-    {
-      'id': '7',
-      'name': 'Mr. Deepak Verma',
-      'initials': 'DV',
-      'role': 'Assistant Warden',
-      'block': 'Eklavya Block (E)',
-      'blockCode': 'E',
-      'phone': '+91 98765 44332',
-      'email': 'deepak.verma@school.edu',
-      'shift': 'Day Shift (06:00 AM - 02:00 PM)',
-      'status': 'On Leave',
-      'experience': '5 Years',
-      'gender': 'Male',
-      'assignedFloors': 'Floor 2 (10 Rooms)',
-      'emergencyContact': '+91 98765 00007',
-      'color': const Color(0xFFD97706),
-      'bgColor': const Color(0xFFFEF3C7),
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
     int totalWardensCount = _wardens.length;
     int onDutyCount = _wardens.where((w) => w['status'] == 'On Duty').length;
     int offDutyCount = _wardens.where((w) => w['status'] == 'Off Duty').length;
@@ -202,9 +106,9 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
       return matchesQuery && matchesRole;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -411,8 +315,12 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
     final hostelTypeBg = gender == 'Female' ? const Color(0xFFFDF2F8) : const Color(0xFFEFF6FF);
     final hostelTypeTextColor = gender == 'Female' ? const Color(0xFFDB2777) : const Color(0xFF2563EB);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showViewDetailsModal(warden);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -429,10 +337,10 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
             children: [
               CircleAvatar(
                 radius: 22,
-                backgroundColor: warden['bgColor'] as Color,
+                backgroundColor: _getColor(warden['bgColor']),
                 child: Text(
                   '${warden['initials']}',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: warden['color'] as Color),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _getColor(warden['color'])),
                 ),
               ),
               const SizedBox(width: 12),
@@ -611,7 +519,7 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showFilterBottomSheet() {
@@ -1128,9 +1036,9 @@ class _HostelWardensScreenState extends State<HostelWardensScreen> {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      radius: 28,
-                      backgroundColor: warden['bgColor'] as Color,
-                      child: Text('${warden['initials']}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: warden['color'] as Color)),
+                      radius: 26,
+                      backgroundColor: _getColor(warden['bgColor'] as String),
+                      child: Text('${warden['initials']}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _getColor(warden['color'] as String))),
                     ),
                     const SizedBox(width: 16),
                     Expanded(

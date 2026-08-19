@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'dart:math' as math;
@@ -47,23 +49,38 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _pendingOutings = [
-    {
-      'studentName': 'Rahul Sharma',
-      'room': 'Block A - 102',
-      'reason': 'Family Function',
-      'duration': 'Aug 5 - Aug 7',
-    },
-    {
-      'studentName': 'Amit Kumar',
-      'room': 'Block B - 204',
-      'reason': 'Medical Checkup',
-      'duration': 'Today, 4 Hours',
+  List<Map<String, dynamic>> _pendingOutings = [];
+  bool _isLoading = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadDashboardData();
+  }
+
+  Future<void> _loadDashboardData() async {
+    if (!_isLoading && _pendingOutings.isNotEmpty) return;
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_warden_dashboard.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _pendingOutings = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
-  ];
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1)));
+    }
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
@@ -200,12 +217,12 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
       HostelScheduleModel(
         time: '04:30 PM', title: 'Outpass return cutoff', subtitle: '12 students',
         icon: LucideIcons.logIn, color: const Color(0xFF6C4CF1), bgColor: const Color(0xFFF3F0FF),
-        status: 'UPCOMING', statusColor: const Color(0xFF6C6C80), statusBg: const Color(0xFFF3F4F6),
+        status: 'UPCOMING', statusColor: const Color(0xFF6C6C80), statusBg: const Color(0xFFFFFFFF),
       ),
       HostelScheduleModel(
         time: '09:30 PM', title: 'Night attendance lock', subtitle: 'All blocks',
         icon: LucideIcons.calendar, color: const Color(0xFF0EA5E9), bgColor: const Color(0xFFE0F2FE),
-        status: 'UPCOMING', statusColor: const Color(0xFF6C6C80), statusBg: const Color(0xFFF3F4F6),
+        status: 'UPCOMING', statusColor: const Color(0xFF6C6C80), statusBg: const Color(0xFFFFFFFF),
       ),
     ];
 
@@ -219,7 +236,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3)),
           ],
         ),
         child: Column(
@@ -430,7 +447,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -455,7 +472,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
                 padding: const EdgeInsets.all(4),
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xFFF8F9FA),
+                  color: Color(0xFFFFFFFF),
                 ),
                 child: const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF9CA3AF), size: 10),
               ),
@@ -476,7 +493,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: bottomTextColor.withOpacity(0.1),
+              color: bottomTextColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
@@ -546,7 +563,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               boxShadow: [
-                BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+                BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
               ],
             ),
             child: Row(
@@ -573,7 +590,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF8F9FA),
+                    color: const Color(0xFFFFFFFF),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
                   ),
@@ -606,7 +623,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(
@@ -650,7 +667,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                               decoration: BoxDecoration(
-                                color: isOnDuty ? const Color(0xFFDCFCE7) : const Color(0xFFF3F4F6),
+                                color: isOnDuty ? const Color(0xFFDCFCE7) : const Color(0xFFFFFFFF),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
@@ -692,7 +709,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(
@@ -721,7 +738,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
                           width: 44,
                           height: 44,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFE0F2FE).withOpacity(0.5),
+                            color: const Color(0xFFE0F2FE).withValues(alpha: 0.5),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Center(
@@ -788,7 +805,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(
@@ -886,7 +903,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(
@@ -976,7 +993,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -1186,7 +1203,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -1240,7 +1257,7 @@ class _HostelWardenDashboardScreenState extends State<HostelWardenDashboardScree
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: const Color(0xFF6C4CF1).withOpacity(0.08),
+              color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: const Color(0xFF6C4CF1), size: 26),

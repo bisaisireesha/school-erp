@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -15,11 +17,32 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
   String _searchQuery = '';
   int _selectedFilter = 0; // 0: All, 1: Pending, 2: Approved, 3: Rejected
 
+  List<Map<String, dynamic>> _outingPasses = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadOutingPasses();
+  }
+
+  Future<void> _loadOutingPasses() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_outing_passes.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _outingPasses = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -36,55 +59,15 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _outingPasses = [
-    {
-      'id': 'OUT-2026-001',
-      'studentName': 'Akshara',
-      'roomInfo': 'Block B - Room 204',
-      'reason': 'Weekend Home Visit',
-      'destination': 'Springfield (Home)',
-      'fromDate': '31 Jul, 2026 (09:00 AM)',
-      'toDate': '02 Aug, 2026 (06:00 PM)',
-      'parentApproval': 'Parent Approved',
-      'status': 'Pending',
-    },
-    {
-      'id': 'OUT-2026-002',
-      'studentName': 'Rahul Sharma',
-      'roomInfo': 'Block A - Room 102',
-      'reason': 'Medical Checkup',
-      'destination': 'City Hospital',
-      'fromDate': '31 Jul, 2026 (10:00 AM)',
-      'toDate': '31 Jul, 2026 (04:00 PM)',
-      'parentApproval': 'Parent Approved',
-      'status': 'Approved',
-    },
-    {
-      'id': 'OUT-2026-003',
-      'studentName': 'Priya Singh',
-      'roomInfo': 'Block C - Room 305',
-      'reason': 'Local Market Shopping',
-      'destination': 'Downtown Mall',
-      'fromDate': '01 Aug, 2026 (02:00 PM)',
-      'toDate': '01 Aug, 2026 (07:00 PM)',
-      'parentApproval': 'Parent Approved',
-      'status': 'Approved',
-    },
-    {
-      'id': 'OUT-2026-004',
-      'studentName': 'Vivek Kumar',
-      'roomInfo': 'Block B - Room 110',
-      'reason': 'Unplanned Outing',
-      'destination': 'Friend House',
-      'fromDate': '29 Jul, 2026 (01:00 PM)',
-      'toDate': '29 Jul, 2026 (08:00 PM)',
-      'parentApproval': 'Not Approved',
-      'status': 'Rejected',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     List<Map<String, dynamic>> filteredList = _outingPasses;
     if (_selectedFilter == 1) {
       filteredList = _outingPasses.where((p) => p['status'] == 'Pending').toList();
@@ -107,9 +90,9 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
     int approvedCount = _outingPasses.where((p) => p['status'] == 'Approved').length;
     int rejectedCount = _outingPasses.where((p) => p['status'] == 'Rejected').length;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -306,8 +289,12 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
     Color statusColor = isApproved ? const Color(0xFF16A34A) : (isPending ? const Color(0xFFD97706) : const Color(0xFFE11D48));
     Color statusBg = isApproved ? const Color(0xFFDCFCE7) : (isPending ? const Color(0xFFFEF3C7) : const Color(0xFFFFE4E6));
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showGatePassModal(pass);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -424,7 +411,7 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                         color: const Color(0xFF16A34A),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
-                          BoxShadow(color: const Color(0xFF16A34A).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3)),
+                          BoxShadow(color: const Color(0xFF16A34A).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3)),
                         ],
                       ),
                       child: const Row(
@@ -448,7 +435,7 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFE11D48).withOpacity(0.5), width: 1),
+                        border: Border.all(color: const Color(0xFFE11D48).withValues(alpha: 0.5), width: 1),
                       ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -473,7 +460,7 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF6C4CF1).withOpacity(0.3), width: 1),
+                        border: Border.all(color: const Color(0xFF6C4CF1).withValues(alpha: 0.3), width: 1),
                         borderRadius: BorderRadius.circular(12),
                         color: const Color(0xFFF8F7FF),
                       ),
@@ -493,7 +480,7 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
           ],
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildInfoRow(IconData icon, String label, String value) {

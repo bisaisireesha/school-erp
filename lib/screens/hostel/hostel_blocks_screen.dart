@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'hostel_rooms_screen.dart';
@@ -16,11 +18,36 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
   String _searchQuery = '';
   String _filterType = 'All Types'; // All Types, Boys, Girls
 
+  List<Map<String, dynamic>> _blocks = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadBlocks();
+  }
+
+  Future<void> _loadBlocks() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_blocks.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _blocks = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
   }
 
   void _onGlobalSearchChanged() {
@@ -37,75 +64,15 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _blocks = [
-    {
-      'id': '1',
-      'name': 'Aryabhata Block (A)',
-      'code': 'A',
-      'type': 'Boys',
-      'warden': 'Mr. Rajesh Sharma',
-      'contact': '+91 98765 43210',
-      'floors': 4,
-      'rooms': 40,
-      'totalBeds': 160,
-      'occupiedBeds': 142,
-      'status': 'Active',
-      'color': const Color(0xFF6C4CF1),
-      'bgColor': const Color(0xFFF3F0FF),
-      'facilities': ['Air Conditioned', 'Wi-Fi 24x7', 'Study Room', 'Gym', 'CCTV 24x7', 'Power Backup'],
-    },
-    {
-      'id': '2',
-      'name': 'Eklavya Block (E)',
-      'code': 'E',
-      'type': 'Boys',
-      'warden': 'Mr. Vikram Singh',
-      'contact': '+91 98765 11223',
-      'floors': 3,
-      'rooms': 30,
-      'totalBeds': 120,
-      'occupiedBeds': 98,
-      'status': 'Active',
-      'color': const Color(0xFF3B82F6),
-      'bgColor': const Color(0xFFEFF6FF),
-      'facilities': ['Wi-Fi 24x7', 'Study Hall', 'Indoor Games', 'CCTV Security', '24x7 Water'],
-    },
-    {
-      'id': '3',
-      'name': 'Bhaskara Block (B)',
-      'code': 'B',
-      'type': 'Girls',
-      'warden': 'Mrs. Sunita Verma',
-      'contact': '+91 98765 99887',
-      'floors': 4,
-      'rooms': 35,
-      'totalBeds': 140,
-      'occupiedBeds': 130,
-      'status': 'Active',
-      'color': const Color(0xFFEC4899),
-      'bgColor': const Color(0xFFFDF2F8),
-      'facilities': ['AC Rooms', 'Wi-Fi 24x7', 'Library Access', 'Girls Gym', 'Security Guard'],
-    },
-    {
-      'id': '4',
-      'name': 'Kalam Block (K)',
-      'code': 'K',
-      'type': 'Girls',
-      'warden': 'Mrs. Anjali Roy',
-      'contact': '+91 98765 55443',
-      'floors': 3,
-      'rooms': 25,
-      'totalBeds': 100,
-      'occupiedBeds': 0,
-      'status': 'Under Maintenance',
-      'color': const Color(0xFFF59E0B),
-      'bgColor': const Color(0xFFFEF3C7),
-      'facilities': ['Wi-Fi 24x7', 'Study Room', 'Medical Room', '24x7 Power Backup'],
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+
     int totalBlocksCount = _blocks.length;
     int boysBlocksCount = _blocks.where((b) => b['type'] == 'Boys').length;
     int girlsBlocksCount = _blocks.where((b) => b['type'] == 'Girls').length;
@@ -128,9 +95,9 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
       return matchesQuery && matchesType;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -332,8 +299,12 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
     final double occupancyPct = totalBeds > 0 ? (occupiedBeds / totalBeds) : 0.0;
     final List<String> facilities = List<String>.from(block['facilities'] ?? []);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showViewDetailsModal(block);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -352,13 +323,13 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: block['bgColor'] as Color,
+                  color: _getColor(block['bgColor']),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Center(
                   child: Text(
                     '${block['code']}',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: block['color'] as Color),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: _getColor(block['color'])),
                   ),
                 ),
               ),
@@ -507,7 +478,7 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
           ],
         ],
       ),
-    );
+    ));
   }
 
   void _showFilterBottomSheet() {
@@ -898,9 +869,9 @@ class _HostelBlocksScreenState extends State<HostelBlocksScreen> {
                     Container(
                       width: 50,
                       height: 50,
-                      decoration: BoxDecoration(color: block['bgColor'] as Color, borderRadius: BorderRadius.circular(16)),
+                      decoration: BoxDecoration(color: _getColor(block['bgColor'] as String), borderRadius: BorderRadius.circular(16)),
                       child: Center(
-                        child: Text('${block['code']}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: block['color'] as Color)),
+                        child: Text('${block['code']}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: _getColor(block['color'] as String))),
                       ),
                     ),
                     const SizedBox(width: 16),

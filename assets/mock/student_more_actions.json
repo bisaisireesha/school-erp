@@ -1,0 +1,12 @@
+{
+  "quickActions": [
+    {"title": "Subjects", "icon": "bookOpen", "key": "Subjects"},
+    {"title": "Attendance", "icon": "calendarCheck", "key": "Attendance"},
+    {"title": "Exams & Results", "icon": "graduationCap", "key": "Exams & Results"},
+    {"title": "Timetable", "icon": "calendarDays", "key": "Timetable"},
+    {"title": "Library", "icon": "book", "key": "Library"},
+    {"title": "Transport", "icon": "bus", "key": "Transport"},
+    {"title": "Study Material", "icon": "folder", "key": "Study Material"},
+    {"title": "Calendar", "icon": "calendar", "key": "Calendar"}
+  ]
+}

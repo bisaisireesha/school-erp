@@ -1,0 +1,60 @@
+{
+  "hostelData": {
+    "hostelName": "Emerald Boys Hostel",
+    "block": "Block B",
+    "room": "204",
+    "bed": "Window Side (B)",
+    "wardenName": "Hostel Warden",
+    "wardenContact": "warden@school.edu"
+  },
+  "outings": [
+    {
+      "date": "28 Jul, 2026",
+      "reason": "Weekend Home Visit",
+      "duration": "2 Days",
+      "status": "Approved"
+    },
+    {
+      "date": "15 Jul, 2026",
+      "reason": "Medical Checkup",
+      "duration": "4 Hours",
+      "status": "Completed"
+    },
+    {
+      "date": "02 Jul, 2026",
+      "reason": "Local Shopping",
+      "duration": "3 Hours",
+      "status": "Rejected"
+    }
+  ],
+  "messMenu": [
+    {
+      "meal": "Breakfast",
+      "menu": "Poha, Jalebi, Tea/Coffee",
+      "iconStr": "coffee",
+      "bgColor": "0xFFFFFBEB",
+      "iconColor": "0xFFF59E0B"
+    },
+    {
+      "meal": "Lunch",
+      "menu": "Rice, Dal Makhani, Paneer Butter Masala, Roti",
+      "iconStr": "utensils",
+      "bgColor": "0xFFF0FDF4",
+      "iconColor": "0xFF16A34A"
+    },
+    {
+      "meal": "Snacks",
+      "menu": "Samosa, Tea/Coffee",
+      "iconStr": "cookie",
+      "bgColor": "0xFFFEF2F2",
+      "iconColor": "0xFFE11D48"
+    },
+    {
+      "meal": "Dinner",
+      "menu": "Fried Rice, Veg Manchurian, Soup",
+      "iconStr": "utensils_crossed",
+      "bgColor": "0xFFF0F9FF",
+      "iconColor": "0xFF0284C7"
+    }
+  ]
+}

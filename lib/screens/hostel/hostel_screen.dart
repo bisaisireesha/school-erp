@@ -18,70 +18,87 @@ class _HostelScreenState extends State<HostelScreen> {
   int _selectedSegment = 0;
   String _wardenInitials = 'HW';
 
-  final Map<String, dynamic> _mockHostelData = {
-    'hostelName': 'Emerald Boys Hostel',
-    'block': 'Block B',
-    'room': '204',
-    'bed': 'Window Side (B)',
-    'wardenName': 'Hostel Warden',
-    'wardenContact': 'warden@school.edu',
+  Map<String, dynamic> _mockHostelData = {
+    'hostelName': '',
+    'block': '',
+    'room': '',
+    'bed': '',
+    'wardenName': '',
+    'wardenContact': '',
   };
+
+  List<Map<String, dynamic>> _mockOutings = [];
+  List<Map<String, dynamic>> _menuItems = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadWardenCredentials();
+    _loadHostelData();
   }
 
-  Future<void> _loadWardenCredentials() async {
+  Future<void> _loadHostelData() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/auth.json', cache: false);
-      final data = json.decode(response);
-      final users = data['users'] as List;
-      final warden = users.firstWhere((u) => u['role'] == 'warden', orElse: () => null);
+      final String response = await rootBundle.loadString('assets/mock/hostel_student_dashboard.json');
+      final data = await json.decode(response);
       
-      if (warden != null && mounted) {
+      final String authResponse = await rootBundle.loadString('assets/mock/auth.json', cache: false);
+      final authData = json.decode(authResponse);
+      final users = authData['users'] as List;
+      final warden = users.firstWhere((u) => u['role'] == 'warden', orElse: () => null);
+
+      if (mounted) {
         setState(() {
-          _mockHostelData['wardenName'] = warden['name'];
-          _mockHostelData['wardenContact'] = warden['email'];
+          _mockHostelData = Map<String, dynamic>.from(data['hostelData']);
+          _mockOutings = List<Map<String, dynamic>>.from(data['outings']);
+          _menuItems = List<Map<String, dynamic>>.from(data['messMenu']);
           
-          final names = (warden['name'] as String).split(' ');
-          if (names.length > 1) {
-            _wardenInitials = '${names[0][0]}${names[1][0]}'.toUpperCase();
-          } else {
-            _wardenInitials = names[0].substring(0, 2).toUpperCase();
+          if (warden != null) {
+            _mockHostelData['wardenName'] = warden['name'];
+            _mockHostelData['wardenContact'] = warden['email'];
+            
+            final names = (warden['name'] as String).split(' ');
+            if (names.length > 1) {
+              _wardenInitials = '${names[0][0]}${names[1][0]}'.toUpperCase();
+            } else {
+              _wardenInitials = names[0].substring(0, 2).toUpperCase();
+            }
           }
+          
+          _isLoading = false;
         });
       }
     } catch (e) {
-      debugPrint("Error loading warden details: $e");
+      debugPrint("Error loading hostel data: $e");
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
-  static final List<Map<String, dynamic>> _mockOutings = [
-    {
-      'date': '28 Jul, 2026',
-      'reason': 'Weekend Home Visit',
-      'duration': '2 Days',
-      'status': 'Approved',
-    },
-    {
-      'date': '15 Jul, 2026',
-      'reason': 'Medical Checkup',
-      'duration': '4 Hours',
-      'status': 'Completed',
-    },
-    {
-      'date': '02 Jul, 2026',
-      'reason': 'Local Shopping',
-      'duration': '3 Hours',
-      'status': 'Rejected',
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
+  
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'coffee': return LucideIcons.coffee;
+      case 'utensils': return LucideIcons.utensils;
+      case 'cookie': return LucideIcons.cookie;
+      case 'utensils_crossed': return LucideIcons.utensilsCrossed;
+      default: return LucideIcons.utensils;
     }
-  ];
-
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFF8F9FA),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       body: SafeArea(
@@ -474,14 +491,7 @@ class _HostelScreenState extends State<HostelScreen> {
   }
 
   Widget _buildMessMenu() {
-    List<Map<String, dynamic>> menuItems = [
-      {'meal': 'Breakfast', 'menu': 'Poha, Jalebi, Tea/Coffee', 'icon': LucideIcons.coffee, 'bgColor': const Color(0xFFFFFBEB), 'iconColor': const Color(0xFFF59E0B)},
-      {'meal': 'Lunch', 'menu': 'Rice, Dal Makhani, Paneer Butter Masala, Roti', 'icon': LucideIcons.utensils, 'bgColor': const Color(0xFFF0FDF4), 'iconColor': const Color(0xFF16A34A)},
-      {'meal': 'Snacks', 'menu': 'Samosa, Tea/Coffee', 'icon': LucideIcons.cookie, 'bgColor': const Color(0xFFFEF2F2), 'iconColor': const Color(0xFFE11D48)},
-      {'meal': 'Dinner', 'menu': 'Fried Rice, Veg Manchurian, Soup', 'icon': LucideIcons.utensilsCrossed, 'bgColor': const Color(0xFFF0F9FF), 'iconColor': const Color(0xFF0284C7)},
-    ];
-
-    if (menuItems.isEmpty) {
+    if (_menuItems.isEmpty) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 40.0),
@@ -526,9 +536,9 @@ class _HostelScreenState extends State<HostelScreen> {
           ],
         ),
         const SizedBox(height: 16),
-        ...menuItems.map((item) => Padding(
+        ..._menuItems.map((item) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: _buildMenuCard(item['meal'], item['menu'], item['icon'], item['bgColor'], item['iconColor']),
+          child: _buildMenuCard(item['meal'], item['menu'], _getIcon(item['iconStr']), _getColor(item['bgColor']), _getColor(item['iconColor'])),
         )),
       ],
     );
@@ -808,8 +818,9 @@ class _HostelScreenState extends State<HostelScreen> {
                         icon: const Icon(LucideIcons.fileText, size: 16, color: Color(0xFF64748B)),
                         label: const Text('Save PDF', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
                         onPressed: () {
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          scaffoldMessenger.showSnackBar(
                             const SnackBar(content: Text('Mess Menu PDF exported successfully to Downloads!')),
                           );
                         },
@@ -826,8 +837,9 @@ class _HostelScreenState extends State<HostelScreen> {
                         icon: const Icon(LucideIcons.printer, size: 16, color: Colors.white),
                         label: const Text('Print Now', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
                         onPressed: () {
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          scaffoldMessenger.showSnackBar(
                             SnackBar(content: Text('Print job for $copies cop${copies > 1 ? "ies" : "y"} sent to $selectedPrinter successfully! 🖨️')),
                           );
                         },

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:path_provider/path_provider.dart';
@@ -6,7 +8,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:open_file/open_file.dart';
 
-class ReportCardScreen extends StatelessWidget {
+class ReportCardScreen extends StatefulWidget {
   final String title;
   final VoidCallback onBack;
 
@@ -15,6 +17,41 @@ class ReportCardScreen extends StatelessWidget {
     required this.title,
     required this.onBack,
   });
+
+  @override
+  State<ReportCardScreen> createState() => _ReportCardScreenState();
+}
+
+class _ReportCardScreenState extends State<ReportCardScreen> {
+  List<Map<String, dynamic>> subjectMarks = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadReportCard();
+  }
+
+  Future<void> _loadReportCard() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_report_card.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          subjectMarks = List<Map<String, dynamic>>.from(data['subjectMarks']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
 
   Future<void> _downloadReport(BuildContext context, String title) async {
     showDialog(
@@ -86,9 +123,10 @@ class ReportCardScreen extends StatelessWidget {
       await file.writeAsBytes(await pdf.save());
 
       if (context.mounted) {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
 
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Row(
               children: [
@@ -112,10 +150,11 @@ class ReportCardScreen extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
-            content: Text('Downloaded $title Report Card PDF'),
+            content: Text('Downloaded ${widget.title} Report Card PDF'),
             backgroundColor: const Color(0xFF16A34A),
             behavior: SnackBarBehavior.floating,
           ),
@@ -126,17 +165,10 @@ class ReportCardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mock detailed marks data
-    final List<Map<String, dynamic>> subjectMarks = [
-      {'subject': 'Mathematics', 'marks': 95, 'total': 100, 'grade': 'A+', 'color': const Color(0xFF6C4CF1)},
-      {'subject': 'Science', 'marks': 92, 'total': 100, 'grade': 'A+', 'color': const Color(0xFF16A34A)},
-      {'subject': 'English', 'marks': 88, 'total': 100, 'grade': 'A', 'color': const Color(0xFFF59E0B)},
-      {'subject': 'History', 'marks': 94, 'total': 100, 'grade': 'A+', 'color': const Color(0xFFE11D48)},
-      {'subject': 'Geography', 'marks': 90, 'total': 100, 'grade': 'A', 'color': const Color(0xFF0284C7)},
-    ];
+
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -149,7 +181,7 @@ class ReportCardScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: onBack,
+                      onTap: widget.onBack,
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
@@ -168,7 +200,7 @@ class ReportCardScreen extends StatelessWidget {
                       child: Text('Report Card', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
                     ),
                     GestureDetector(
-                      onTap: () => _downloadReport(context, title),
+                      onTap: () => _downloadReport(context, widget.title),
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
@@ -225,7 +257,7 @@ class ReportCardScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            title,
+                            widget.title,
                             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Colors.white),
                           ),
                           const SizedBox(height: 24),
@@ -248,8 +280,16 @@ class ReportCardScreen extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     // Subjects List
-                    LayoutBuilder(
-                      builder: (context, constraints) {
+                    if (_isLoading)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 40),
+                        child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                      )
+                    else if (subjectMarks.isEmpty)
+                      const Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 40), child: Text("No report card data available.")))
+                    else
+                      LayoutBuilder(
+                        builder: (context, constraints) {
                         if (constraints.maxWidth > 900) {
                           return Wrap(
                             spacing: 16,
@@ -324,6 +364,7 @@ class ReportCardScreen extends StatelessWidget {
 
   Widget _buildSubjectCard(Map<String, dynamic> subject) {
     double percentage = subject['marks'] / subject['total'];
+    Color subjectColor = _getColor(subject['color']);
     
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -347,10 +388,10 @@ class ReportCardScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: subject['color'].withValues(alpha: 0.1),
+                  color: subjectColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(LucideIcons.bookOpen, color: subject['color'], size: 20),
+                child: Icon(LucideIcons.bookOpen, color: subjectColor, size: 20),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -372,12 +413,12 @@ class ReportCardScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: subject['color'].withValues(alpha: 0.1),
+                  color: subjectColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   subject['grade'],
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: subject['color']),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: subjectColor),
                 ),
               ),
             ],
@@ -388,7 +429,7 @@ class ReportCardScreen extends StatelessWidget {
             child: LinearProgressIndicator(
               value: percentage,
               backgroundColor: const Color(0xFFF1F5F9),
-              valueColor: AlwaysStoppedAnimation<Color>(subject['color']),
+              valueColor: AlwaysStoppedAnimation<Color>(subjectColor),
               minHeight: 8,
             ),
           ),

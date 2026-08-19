@@ -1,0 +1,123 @@
+[
+  {
+    "roomNo": "A-204",
+    "block": "Aryabhata (A)",
+    "blockCode": "A",
+    "blockName": "Aryabhata",
+    "floor": "2nd Floor",
+    "type": "Boys",
+    "capacity": 2,
+    "beds": [
+      {
+        "bedNo": "Bed A",
+        "student": "Aarav Mehta",
+        "initials": "AM",
+        "rollNo": "101",
+        "admNo": "ADM2024-101",
+        "grade": "Grade 9-A",
+        "status": "Allocated",
+        "joinedDate": "12 Jun 2025",
+        "contact": "+91 98765 43210"
+      },
+      {
+        "bedNo": "Bed B",
+        "student": "Rahul Sharma",
+        "initials": "RS",
+        "rollNo": "104",
+        "admNo": "ADM2024-104",
+        "grade": "Grade 11-A",
+        "status": "Allocated",
+        "joinedDate": "10 Jun 2025",
+        "contact": "+91 98765 43212"
+      }
+    ]
+  },
+  {
+    "roomNo": "E-101",
+    "block": "Eklavya (E)",
+    "blockCode": "E",
+    "blockName": "Eklavya",
+    "floor": "1st Floor",
+    "type": "Boys",
+    "capacity": 2,
+    "beds": [
+      {
+        "bedNo": "Bed A",
+        "student": "Reyansh Khan",
+        "initials": "RK",
+        "rollNo": "102",
+        "admNo": "ADM2024-102",
+        "grade": "Grade 10-B",
+        "status": "Allocated",
+        "joinedDate": "15 Jun 2025",
+        "contact": "+91 98765 43211"
+      }
+    ]
+  },
+  {
+    "roomNo": "E-102",
+    "block": "Eklavya (E)",
+    "blockCode": "E",
+    "blockName": "Eklavya",
+    "floor": "1st Floor",
+    "type": "Girls",
+    "capacity": 2,
+    "beds": [
+      {
+        "bedNo": "Bed A",
+        "student": "Ananya Patel",
+        "initials": "AP",
+        "rollNo": "103",
+        "admNo": "ADM2024-103",
+        "grade": "Grade 8-C",
+        "status": "Pending",
+        "joinedDate": "20 Jun 2025",
+        "contact": "+91 98765 43213"
+      }
+    ]
+  },
+  {
+    "roomNo": "B-301",
+    "block": "Bhaskara (B)",
+    "blockCode": "B",
+    "blockName": "Bhaskara",
+    "floor": "3rd Floor",
+    "type": "Boys",
+    "capacity": 2,
+    "beds": [
+      {
+        "bedNo": "Bed A",
+        "student": "Kabir Mehra",
+        "initials": "KM",
+        "rollNo": "105",
+        "admNo": "ADM2024-105",
+        "grade": "Grade 12-B",
+        "status": "Checked Out",
+        "joinedDate": "05 Jun 2025",
+        "contact": "+91 98765 43214"
+      }
+    ]
+  },
+  {
+    "roomNo": "B-302",
+    "block": "Bhaskara (B)",
+    "blockCode": "B",
+    "blockName": "Bhaskara",
+    "floor": "3rd Floor",
+    "type": "Girls",
+    "capacity": 2,
+    "beds": [
+      {
+        "bedNo": "Bed B",
+        "student": "Priya Singh",
+        "initials": "PS",
+        "rollNo": "106",
+        "admNo": "ADM2024-106",
+        "grade": "Grade 9-B",
+        "status": "Allocated",
+        "joinedDate": "18 Jun 2025",
+        "contact": "+91 98765 43215"
+      }
+    ]
+  }
+]

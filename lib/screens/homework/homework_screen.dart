@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import '../main_layout.dart';
@@ -16,7 +19,13 @@ class HomeworkScreen extends StatefulWidget {
 
 class _HomeworkScreenState extends State<HomeworkScreen> {
   String _selectedFilter = 'All'; // 'All', 'Submitted', 'Pending'
-  DateTime _selectedDate = DateTime(2024, 7, 22);
+  DateTime _selectedDate = DateTime.now();
+  DateTimeRange? _selectedDateRange;
+
+  bool get _isToday {
+    final now = DateTime.now();
+    return _selectedDate.year == now.year && _selectedDate.month == now.month && _selectedDate.day == now.day && _selectedDateRange == null;
+  }
 
   String _formatDate(DateTime date) {
     final List<String> months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -35,6 +44,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       initialDate: _selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2030),
+      helpText: 'Select Custom Date',
       initialEntryMode: DatePickerEntryMode.calendarOnly,
       builder: (context, child) {
         return Theme(
@@ -64,95 +74,98 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       },
     );
 
-    if (picked != null && picked != _selectedDate) {
+    if (picked != null) {
       setState(() {
         _selectedDate = picked;
+        _selectedDateRange = null;
       });
     }
   }
 
-  final List<Map<String, dynamic>> _assignments = [
-    {
-      'subject': 'English',
-      'desc': 'Read Chapter 5 and\npractice reading aloud.',
-      'icon': LucideIcons.bookOpen,
-      'isToday': true,
-      'status': 'Pending',
-    },
-    {
-      'subject': 'Mathematics',
-      'desc': 'Complete Worksheet 8',
-      'icon': LucideIcons.calculator,
-      'isToday': true,
-      'status': 'Submitted',
-    },
-    {
-      'subject': 'Science',
-      'desc': 'Solar System Project',
-      'icon': LucideIcons.flaskConical,
-      'isToday': true,
-      'status': 'Pending',
-    },
-    {
-      'subject': 'Drawing',
-      'desc': 'Draw Water Cycle',
-      'icon': LucideIcons.palette,
-      'isToday': false,
-      'status': 'Submitted',
-    },
-    {
-      'subject': 'Social Studies',
-      'desc': 'Learn Chapter 3 - Our Environment',
-      'icon': LucideIcons.globe,
-      'isToday': false,
-      'status': 'Pending',
-    },
-    {
-      'subject': 'Computer',
-      'desc': 'Complete Chapter 2 Exercise',
-      'icon': LucideIcons.monitor,
-      'isToday': false,
-      'status': 'Submitted',
-    },
-    {
-      'subject': 'Hindi',
-      'desc': 'Learn and write 10 new words',
-      'icon': LucideIcons.bookType,
-      'isToday': false,
-      'status': 'Pending',
-    },
-    {
-      'subject': 'Physical Education',
-      'desc': 'Morning Exercise Record',
-      'icon': LucideIcons.personStanding,
-      'isToday': false,
-      'status': 'Submitted',
-    },
-    {
-      'subject': 'General Knowledge',
-      'desc': 'Read Current Affairs Page 20',
-      'icon': LucideIcons.lightbulb,
-      'isToday': false,
-      'status': 'Pending',
-    },
-  ];
+  Future<void> _selectCustomRange(BuildContext context) async {
+    final values = await showCalendarDatePicker2Dialog(
+      context: context,
+      config: CalendarDatePicker2WithActionButtonsConfig(
+        calendarType: CalendarDatePicker2Type.range,
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2030),
+        selectedDayHighlightColor: const Color(0xFF6C4CF1),
+        selectedRangeHighlightColor: const Color(0xFFE8E3F8),
+        selectedDayTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        dayTextStyle: const TextStyle(color: Color(0xFF1E1E2D), fontWeight: FontWeight.w500),
+        weekdayLabelTextStyle: const TextStyle(color: Color(0xFF7A7A9D), fontWeight: FontWeight.bold),
+        controlsTextStyle: const TextStyle(color: Color(0xFF1E1E2D), fontWeight: FontWeight.bold, fontSize: 16),
+        cancelButtonTextStyle: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold),
+        okButtonTextStyle: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold),
+      ),
+      dialogSize: const Size(325, 400),
+      borderRadius: BorderRadius.circular(24),
+      dialogBackgroundColor: Colors.white,
+      value: _selectedDateRange != null ? [_selectedDateRange!.start, _selectedDateRange!.end] : [],
+    );
 
-  final Map<String, List<Map<String, dynamic>>> _assignmentsCache = {};
+    if (values != null && values.isNotEmpty) {
+      setState(() {
+        final start = values[0];
+        final end = values.length > 1 && values[1] != null ? values[1] : start;
+        _selectedDateRange = DateTimeRange(start: start!, end: end!);
+        _selectedDate = start;
+      });
+    }
+  }
+
+  List<Map<String, dynamic>> _assignments = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAssignments();
+  }
+
+  Future<void> _loadAssignments() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_homework.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _assignments = List<Map<String, dynamic>>.from(data['assignments']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'bookOpen': return LucideIcons.bookOpen;
+      case 'calculator': return LucideIcons.calculator;
+      case 'flaskConical': return LucideIcons.flaskConical;
+      case 'palette': return LucideIcons.palette;
+      case 'globe': return LucideIcons.globe;
+      case 'monitor': return LucideIcons.monitor;
+      case 'bookType': return LucideIcons.bookType;
+      case 'personStanding': return LucideIcons.personStanding;
+      case 'lightbulb': return LucideIcons.lightbulb;
+      default: return LucideIcons.file;
+    }
+  }
 
   List<Map<String, dynamic>> _getAssignmentsForDate(DateTime date) {
-    String key = '${date.year}-${date.month}-${date.day}';
-    if (!_assignmentsCache.containsKey(key)) {
-      List<Map<String, dynamic>> result = [];
-      for (int i = 0; i < _assignments.length; i++) {
-        final item = Map<String, dynamic>.from(_assignments[i]);
-        final isPending = (date.day + i) % 2 == 0;
-        item['status'] = isPending ? 'Pending' : 'Submitted';
-        item['isToday'] = (i < 3);
-        result.add(item);
-      }
-      _assignmentsCache[key] = result;
+    List<Map<String, dynamic>> result = [];
+    for (int i = 0; i < _assignments.length; i++) {
+      final item = Map<String, dynamic>.from(_assignments[i]);
+      item['icon'] = _getIcon(item['icon'] ?? 'bookOpen');
+      final isPending = (date.day + i) % 2 == 0;
+      item['status'] = isPending ? 'Pending' : 'Submitted';
+      item['isToday'] = (i < 3);
+      result.add(item);
     }
-    return _assignmentsCache[key]!;
+    return result;
   }
 
   @override
@@ -179,7 +192,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         final allOthers = displayedAssignments.where((item) => item['isToday'] == false).toList();
 
         return Container(
-          color: const Color(0xFFF8F9FA),
+          color: Colors.transparent,
           width: double.infinity,
           height: double.infinity,
           child: SingleChildScrollView(
@@ -217,36 +230,92 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 const SizedBox(height: 24),
 
                 // Filters Row
-                Padding(
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
                     children: [
                       _buildFilterButton('All'),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 8),
                       _buildFilterButton('Submitted'),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 8),
                       _buildFilterButton('Pending'),
-                      const Spacer(),
-                      GestureDetector(
-                        onTap: () => _selectDate(context),
-                        behavior: HitTestBehavior.opaque,
+                      const SizedBox(width: 16),
+                      // Single Date/Today Button Dropdown
+                      PopupMenuButton<String>(
+                        onSelected: (value) {
+                          if (value == 'today') {
+                            setState(() {
+                              _selectedDate = DateTime.now();
+                              _selectedDateRange = null;
+                            });
+                          } else if (value == 'custom_date') {
+                            _selectDate(context);
+                          } else if (value == 'custom_range') {
+                            _selectCustomRange(context);
+                          }
+                        },
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        color: Colors.white,
+                        elevation: 4,
+                        offset: const Offset(0, 40),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: 'today',
+                            child: Row(
+                              children: const [
+                                Icon(LucideIcons.calendar, size: 18, color: Color(0xFF6C4CF1)),
+                                SizedBox(width: 12),
+                                Text('Today', style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'custom_date',
+                            child: Row(
+                              children: const [
+                                Icon(LucideIcons.calendarClock, size: 18, color: Color(0xFF6C4CF1)),
+                                SizedBox(width: 12),
+                                Text('Custom Date', style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'custom_range',
+                            child: Row(
+                              children: const [
+                                Icon(LucideIcons.calendarRange, size: 18, color: Color(0xFF6C4CF1)),
+                                SizedBox(width: 12),
+                                Text('Custom Range', style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
+                              ],
+                            ),
+                          ),
+                        ],
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: !_isToday ? const Color(0xFF6C4CF1) : Colors.white,
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: const Color(0xFFE8E3F8), width: 1.5),
+                            border: Border.all(color: !_isToday ? const Color(0xFF6C4CF1) : const Color(0xFFE8E3F8), width: 1.5),
                           ),
                           child: Row(
                             children: [
-                              const Icon(LucideIcons.calendar, color: Color(0xFF6C4CF1), size: 14),
-                              const SizedBox(width: 4),
+                              Icon(LucideIcons.calendar, color: !_isToday ? Colors.white : const Color(0xFF6C4CF1), size: 14),
+                              const SizedBox(width: 6),
                               Text(
-                                _formatShortDate(_selectedDate),
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                                _isToday
+                                    ? 'Today'
+                                    : _selectedDateRange != null
+                                        ? '${_formatShortDate(_selectedDateRange!.start)} - ${_formatShortDate(_selectedDateRange!.end)}'
+                                        : _formatShortDate(_selectedDate),
+                                style: TextStyle(
+                                  fontSize: 13, 
+                                  fontWeight: FontWeight.bold, 
+                                  color: !_isToday ? Colors.white : const Color(0xFF1E1E2D),
+                                ),
                               ),
                               const SizedBox(width: 4),
-                              Icon(LucideIcons.chevronDown, color: const Color(0xFF1E1E2D).withValues(alpha: 0.5), size: 14),
+                              Icon(LucideIcons.chevronDown, color: !_isToday ? Colors.white70 : const Color(0xFF1E1E2D).withValues(alpha: 0.5), size: 14),
                             ],
                           ),
                         ),
@@ -256,8 +325,12 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Assignments or single unified empty state
-                if (displayedAssignments.isEmpty)
+                if (_isLoading)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 60),
+                    child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                  )
+                else if (displayedAssignments.isEmpty)
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 60.0),
@@ -283,7 +356,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            'There are no $_selectedFilter assignments for ${_formatShortDate(_selectedDate)}.',
+                            'There are no $_selectedFilter assignments for ${_selectedDateRange != null ? "${_formatShortDate(_selectedDateRange!.start)} - ${_formatShortDate(_selectedDateRange!.end)}" : _formatShortDate(_selectedDate)}.',
                             style: const TextStyle(
                               fontSize: 13,
                               color: Color(0xFF7A7A9D),

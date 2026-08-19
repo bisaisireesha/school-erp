@@ -72,9 +72,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
   // Filter and Search State
   String _selectedFilter = 'All';
   // Show all filter options in modal
-  List<String> get _filterOptions => ['All', 'Unread', 'Starred', 'Archived', 'Groups'];
-  // Show only All and Unread on the screen horizontally
-  List<String> get _screenFilterOptions => ['All', 'Unread'];
+  List<String> get _filterOptions => ['All', 'Unread', 'Starred', 'Archived'];
+  // Show all filter options on the screen horizontally
+  List<String> get _screenFilterOptions => ['All', 'Unread', 'Starred', 'Archived'];
   
   String _searchQuery = '';
   
@@ -393,7 +393,26 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 ],
               ),
             ),
-
+            const SizedBox(height: 16),
+            
+            // New Message Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: _showNewMessageModal,
+                  icon: const Icon(Icons.add, size: 20, color: Colors.white),
+                  label: const Text('New Message', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF6C4CF1),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 0,
+                  ),
+                ),
+              ),
+            ),
             
             const SizedBox(height: 16),
             
@@ -433,24 +452,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
                             ),
                           );
                         }).toList(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: _showNewMessageModal,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF6C4CF1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: const [
-                          Icon(Icons.add, size: 16, color: Colors.white),
-                          SizedBox(width: 4),
-                          Text('New', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600)),
-                        ],
                       ),
                     ),
                   ),
@@ -511,6 +512,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   Widget _buildChatListItem(Map<String, dynamic> chat, bool isFirst) {
     bool hasUnread = (chat['unread'] ?? 0) > 0;
     bool isStarred = chat['isStarred'] ?? false;
+    bool isArchived = chat['isArchived'] ?? false;
     
     // Tag background colors based on role
     Color tagBgColor;
@@ -639,6 +641,69 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              chat['isStarred'] = !(chat['isStarred'] ?? false);
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: isStarred ? const Color(0xFFFFFBEB) : const Color(0xFFF8F9FA),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: isStarred ? const Color(0xFFFDE68A) : const Color(0xFFE5E7EB)),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(isStarred ? Icons.star : Icons.star_border, size: 14, color: isStarred ? const Color(0xFFF59E0B) : const Color(0xFF6C6C80)),
+                                const SizedBox(width: 4),
+                                Text(isStarred ? 'Starred' : 'Star', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: isStarred ? const Color(0xFFF59E0B) : const Color(0xFF6C6C80))),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              chat['isArchived'] = !(chat['isArchived'] ?? false);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  (chat['isArchived'] ?? false) ? 'Chat archived' : 'Chat unarchived',
+                                  style: const TextStyle(fontWeight: FontWeight.bold)
+                                ),
+                                backgroundColor: const Color(0xFF10B981),
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: isArchived ? const Color(0xFFE0F2FE) : const Color(0xFFF8F9FA),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: isArchived ? const Color(0xFFBAE6FD) : const Color(0xFFE5E7EB)),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(isArchived ? Icons.unarchive : LucideIcons.archive, size: 14, color: isArchived ? const Color(0xFF0284C7) : const Color(0xFF6C6C80)),
+                                const SizedBox(width: 4),
+                                Text(isArchived ? 'Unarchive' : 'Archive', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: isArchived ? const Color(0xFF0284C7) : const Color(0xFF6C6C80))),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),

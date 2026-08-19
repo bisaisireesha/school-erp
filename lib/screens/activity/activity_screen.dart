@@ -88,7 +88,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
       builder: (context, searchQuery, child) {
         final query = searchQuery.toLowerCase();
         return Container(
-          color: Colors.white,
+          color: Colors.transparent,
           child: ListView(
             padding: const EdgeInsets.only(bottom: 40),
             children: [

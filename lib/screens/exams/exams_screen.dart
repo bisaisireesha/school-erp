@@ -629,9 +629,10 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
       await file.writeAsBytes(await pdf.save());
 
       if (context.mounted) {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
 
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Row(
               children: [
@@ -655,8 +656,9 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
       }
     } catch (e) {
       if (context.mounted) {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text('Downloaded $title Report Card PDF'),
             backgroundColor: const Color(0xFF16A34A),

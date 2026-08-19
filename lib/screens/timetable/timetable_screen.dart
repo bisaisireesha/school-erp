@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -12,11 +14,59 @@ class TimetableScreen extends StatefulWidget {
 
 class _TimetableScreenState extends State<TimetableScreen> {
   int _selectedDateIndex = 0;
+  final DateTime _startDate = DateTime.now();
+  Map<String, List<Map<String, dynamic>>> _timetableData = {};
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTimetable();
+  }
+
+  Future<void> _loadTimetable() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/student_timetable.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _timetableData = {
+            'oddDay': List<Map<String, dynamic>>.from(data['oddDay']),
+            'evenDay': List<Map<String, dynamic>>.from(data['evenDay']),
+          };
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'flaskConical': return LucideIcons.flaskConical;
+      case 'bookOpen': return LucideIcons.bookOpen;
+      case 'coffee': return LucideIcons.coffee;
+      case 'globe': return LucideIcons.globe;
+      case 'calculator': return LucideIcons.calculator;
+      case 'monitor': return LucideIcons.monitor;
+      case 'utensils': return LucideIcons.utensils;
+      case 'palette': return LucideIcons.palette;
+      case 'music': return LucideIcons.music;
+      default: return LucideIcons.circle;
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -117,12 +167,17 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   ),
                 ],
               ),
-              child: Column(
-                children: [
-                  ..._buildDailySchedule(_selectedDateIndex),
-                  const SizedBox(height: 120), // Padding for bottom nav
-                ],
-              ),
+              child: _isLoading 
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 100),
+                      child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                    )
+                  : Column(
+                      children: [
+                        ..._buildDailySchedule(_selectedDateIndex),
+                        const SizedBox(height: 120), // Padding for bottom nav
+                      ],
+                    ),
             ),
           ],
         ),
@@ -132,34 +187,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
   }
 
   List<Widget> _buildDailySchedule(int dayIndex) {
+    if (_timetableData.isEmpty) return [];
     final isOddDay = dayIndex % 2 != 0;
+    List<Map<String, dynamic>> scheduleData = isOddDay ? _timetableData['oddDay']! : _timetableData['evenDay']!;
 
-    List<Map<String, dynamic>> scheduleData = isOddDay ? [
-      {'type': 'class', 'startTime': '08:30', 'endTime': '09:15 AM', 'subject': 'Science', 'room': 'Room 102', 'teacher': 'Ms. Neha Singh', 'icon': LucideIcons.flaskConical, 'iconColor': const Color(0xFFE11D48), 'iconBg': const Color(0xFFFFF1F2)},
-      {'type': 'class', 'startTime': '09:15', 'endTime': '10:00 AM', 'subject': 'English', 'room': 'Room 101', 'teacher': 'Ms. Priya Sharma', 'icon': LucideIcons.bookOpen, 'iconColor': const Color(0xFF6C4CF1), 'iconBg': const Color(0xFFF3F0FF)},
-      {'type': 'break', 'startTime': '10:00', 'endTime': '10:20 AM', 'label': 'Break Time', 'icon': LucideIcons.coffee, 'bgColor': const Color(0xFFFFF7ED), 'iconColor': const Color(0xFFF97316)},
-      {'type': 'class', 'startTime': '10:20', 'endTime': '11:05 AM', 'subject': 'Social Studies', 'room': 'Room 101', 'teacher': 'Mr. Amit Kumar', 'icon': LucideIcons.globe, 'iconColor': const Color(0xFF2563EB), 'iconBg': const Color(0xFFEFF6FF)},
-      {'type': 'class', 'startTime': '11:05', 'endTime': '11:50 AM', 'subject': 'Mathematics', 'room': 'Room 101', 'teacher': 'Mr. Rahul Verma', 'icon': LucideIcons.calculator, 'iconColor': const Color(0xFF16A34A), 'iconBg': const Color(0xFFF0FDF4)},
-      {'type': 'class', 'startTime': '11:50', 'endTime': '12:35 PM', 'subject': 'Computer', 'room': 'Room 105', 'teacher': 'Ms. Riya Malhotra', 'icon': LucideIcons.monitor, 'iconColor': const Color(0xFFBE123C), 'iconBg': const Color(0xFFFFE4E6)},
-      {'type': 'break', 'startTime': '12:35', 'endTime': '01:15 PM', 'label': 'Lunch Time', 'icon': LucideIcons.utensils, 'bgColor': const Color(0xFFF8F4FF), 'iconColor': const Color(0xFF6C4CF1)},
-      {'type': 'class', 'startTime': '01:15', 'endTime': '02:00 PM', 'subject': 'Art & Craft', 'room': 'Room 103', 'teacher': 'Ms. Kavita Rao', 'icon': LucideIcons.palette, 'iconColor': const Color(0xFFD97706), 'iconBg': const Color(0xFFFFFBEB)},
-      {'type': 'class', 'startTime': '02:00', 'endTime': '02:45 PM', 'subject': 'Music', 'room': 'Room 104', 'teacher': 'Mr. Suresh Iyer', 'icon': LucideIcons.music, 'iconColor': const Color(0xFF059669), 'iconBg': const Color(0xFFECFDF5)},
-    ] : [
-      {'type': 'class', 'startTime': '08:30', 'endTime': '09:15 AM', 'subject': 'English', 'room': 'Room 101', 'teacher': 'Ms. Priya Sharma', 'icon': LucideIcons.bookOpen, 'iconColor': const Color(0xFF6C4CF1), 'iconBg': const Color(0xFFF3F0FF)},
-      {'type': 'class', 'startTime': '09:15', 'endTime': '10:00 AM', 'subject': 'Mathematics', 'room': 'Room 101', 'teacher': 'Mr. Rahul Verma', 'icon': LucideIcons.calculator, 'iconColor': const Color(0xFF16A34A), 'iconBg': const Color(0xFFF0FDF4)},
-      {'type': 'break', 'startTime': '10:00', 'endTime': '10:20 AM', 'label': 'Break Time', 'icon': LucideIcons.coffee, 'bgColor': const Color(0xFFFFF7ED), 'iconColor': const Color(0xFFF97316)},
-      {'type': 'class', 'startTime': '10:20', 'endTime': '11:05 AM', 'subject': 'Science', 'room': 'Room 102', 'teacher': 'Ms. Neha Singh', 'icon': LucideIcons.flaskConical, 'iconColor': const Color(0xFFE11D48), 'iconBg': const Color(0xFFFFF1F2)},
-      {'type': 'class', 'startTime': '11:05', 'endTime': '11:50 AM', 'subject': 'Computer', 'room': 'Room 105', 'teacher': 'Ms. Riya Malhotra', 'icon': LucideIcons.monitor, 'iconColor': const Color(0xFFBE123C), 'iconBg': const Color(0xFFFFE4E6)},
-      {'type': 'class', 'startTime': '11:50', 'endTime': '12:35 PM', 'subject': 'Art & Craft', 'room': 'Room 103', 'teacher': 'Ms. Kavita Rao', 'icon': LucideIcons.palette, 'iconColor': const Color(0xFFD97706), 'iconBg': const Color(0xFFFFFBEB)},
-      {'type': 'break', 'startTime': '12:35', 'endTime': '01:15 PM', 'label': 'Lunch Time', 'icon': LucideIcons.utensils, 'bgColor': const Color(0xFFF8F4FF), 'iconColor': const Color(0xFF6C4CF1)},
-      {'type': 'class', 'startTime': '01:15', 'endTime': '02:00 PM', 'subject': 'Social Studies', 'room': 'Room 101', 'teacher': 'Mr. Amit Kumar', 'icon': LucideIcons.globe, 'iconColor': const Color(0xFF2563EB), 'iconBg': const Color(0xFFEFF6FF)},
-      {'type': 'class', 'startTime': '02:00', 'endTime': '02:45 PM', 'subject': 'Computer', 'room': 'Room 105', 'teacher': 'Ms. Riya Malhotra', 'icon': LucideIcons.monitor, 'iconColor': const Color(0xFFBE123C), 'iconBg': const Color(0xFFFFE4E6)},
-    ];
     return [
       const SizedBox(height: 16),
       ...scheduleData.map((item) {
         if (item['type'] == 'break') {
-          return _buildBreakRow(item['startTime'], item['endTime'], item['label'], item['icon'], item['bgColor'], item['iconColor']);
+          return _buildBreakRow(item['startTime'], item['endTime'], item['label'], _getIcon(item['icon']), _getColor(item['bgColor']), _getColor(item['iconColor']));
         }
         return _buildScheduleRow(
           startTime: item['startTime'],
@@ -167,9 +203,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
           subject: item['subject'],
           room: item['room'],
           teacher: item['teacher'],
-          icon: item['icon'],
-          iconColor: item['iconColor'],
-          iconBg: item['iconBg'],
+          icon: _getIcon(item['icon']),
+          iconColor: _getColor(item['iconColor']),
+          iconBg: _getColor(item['iconBg']),
         );
       }),
     ];

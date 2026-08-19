@@ -1,0 +1,68 @@
+{
+  "files": [
+    {
+      "title": "Notes 01",
+      "type": "PDF",
+      "size": "0.3 MB",
+      "date": "01 Jan 2026",
+      "uploader": "Anita Rao",
+      "color": "0xFFE11D48"
+    },
+    {
+      "title": "Question Bank 02",
+      "type": "DOC",
+      "size": "0.7 MB",
+      "date": "02 Feb 2026",
+      "uploader": "R. Khan",
+      "color": "0xFF2563EB"
+    },
+    {
+      "title": "Worksheets 03",
+      "type": "Link",
+      "size": "1.1 MB",
+      "date": "03 Mar 2026",
+      "uploader": "P. Iyer",
+      "color": "0xFF10B981"
+    },
+    {
+      "title": "Assignments 04",
+      "type": "Video",
+      "size": "1.5 MB",
+      "date": "04 Apr 2026",
+      "uploader": "V. Gupta",
+      "color": "0xFF8B5CF6"
+    },
+    {
+      "title": "Practice Papers 05",
+      "type": "PDF",
+      "size": "1.9 MB",
+      "date": "05 May 2026",
+      "uploader": "Anita Rao",
+      "color": "0xFFE11D48"
+    },
+    {
+      "title": "Notes 06",
+      "type": "DOC",
+      "size": "2.3 MB",
+      "date": "06 Jun 2026",
+      "uploader": "R. Khan",
+      "color": "0xFF2563EB"
+    },
+    {
+      "title": "Question Bank 07",
+      "type": "Link",
+      "size": "2.7 MB",
+      "date": "07 Jul 2026",
+      "uploader": "P. Iyer",
+      "color": "0xFF10B981"
+    },
+    {
+      "title": "Worksheets 08",
+      "type": "PDF",
+      "size": "1.2 MB",
+      "date": "08 Aug 2026",
+      "uploader": "Anita Rao",
+      "color": "0xFFE11D48"
+    }
+  ]
+}

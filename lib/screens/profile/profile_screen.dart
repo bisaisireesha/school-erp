@@ -32,10 +32,10 @@ class ProfileScreen extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   stops: const [0.0, 0.5, 0.84, 1.0],
                   colors: [
-                    const Color(0xFF995EFF).withOpacity(0.40),
-                    const Color(0xFFCCAEFF).withOpacity(0.30),
-                    const Color(0xFFFFFFFF).withOpacity(0.20),
-                    const Color(0xFFFFFFFF).withOpacity(0.10),
+                    const Color(0xFF995EFF).withValues(alpha: 0.40),
+                    const Color(0xFFCCAEFF).withValues(alpha: 0.30),
+                    const Color(0xFFFFFFFF).withValues(alpha: 0.20),
+                    const Color(0xFFFFFFFF).withValues(alpha: 0.10),
                   ],
                 ),
               ),
@@ -112,7 +112,8 @@ class ProfileScreen extends StatelessWidget {
     String subtitle = 'Parent · 2 Children Enrolled';
     String initials = 'SP';
     String email = 'suresh.patel@email.com';
-    String phone = '+91 98765 43210';
+    String contact2 = '+91 98765 43210';
+    IconData contact2Icon = LucideIcons.phone;
     String badge = 'Parent';
     Color badgeColor = const Color(0xFF6C4CF1);
     Color badgeBg = const Color(0xFFF3F0FF);
@@ -123,7 +124,8 @@ class ProfileScreen extends StatelessWidget {
       subtitle = 'Class 10-A | Roll No: 1042';
       initials = 'AK';
       email = 'akshara.s@school.edu';
-      phone = '+91 98765 11223';
+      contact2 = 'ADM-2024-1042';
+      contact2Icon = LucideIcons.badgeCheck;
       badge = 'Student';
       badgeColor = const Color(0xFF3B82F6);
       badgeBg = const Color(0xFFEFF6FF);
@@ -132,7 +134,8 @@ class ProfileScreen extends StatelessWidget {
       subtitle = 'Hostel Warden · Block A & B';
       initials = 'RV';
       email = 'warden.verma@school.edu';
-      phone = '+91 98765 55443';
+      contact2 = '+91 98765 55443';
+      contact2Icon = LucideIcons.phone;
       badge = 'Staff · Warden';
       badgeColor = const Color(0xFFF59E0B);
       badgeBg = const Color(0xFFFEF3C7);
@@ -142,11 +145,23 @@ class ProfileScreen extends StatelessWidget {
       subtitle = 'Front Desk Executive · Main Reception';
       initials = 'AT';
       email = 'frontdesk@school.edu';
-      phone = '+91 98765 99887';
+      contact2 = '+91 98765 99887';
+      contact2Icon = LucideIcons.phone;
       badge = 'Staff · Front Desk';
       badgeColor = const Color(0xFF10B981);
       badgeBg = const Color(0xFFD1FAE5);
       extraPill = 'Ext 205';
+    } else if (role == 'accountant') {
+      name = 'Arun Kumar';
+      subtitle = 'Finance Department · Accountant';
+      initials = 'AK';
+      email = 'accountant@school.edu';
+      contact2 = '+91 98765 12345';
+      contact2Icon = LucideIcons.phone;
+      badge = 'Staff · Accountant';
+      badgeColor = const Color(0xFF6C4CF1);
+      badgeBg = const Color(0xFFF3F0FF);
+      extraPill = 'EMP-FIN-001';
     }
 
     return Padding(
@@ -157,7 +172,7 @@ class ProfileScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.5), blurRadius: 20, offset: const Offset(0, 10)),
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 20, offset: const Offset(0, 10)),
           ],
         ),
         child: Column(
@@ -190,7 +205,7 @@ class ProfileScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 4),
                         boxShadow: [
-                          BoxShadow(color: const Color(0xFF6C4CF1).withOpacity(0.15), blurRadius: 10, offset: const Offset(0, 5)),
+                          BoxShadow(color: const Color(0xFF6C4CF1).withValues(alpha: 0.15), blurRadius: 10, offset: const Offset(0, 5)),
                         ],
                       ),
                       child: Container(
@@ -232,7 +247,7 @@ class ProfileScreen extends StatelessWidget {
               runSpacing: 8,
               children: [
                 _buildContactPill(LucideIcons.mail, email),
-                _buildContactPill(LucideIcons.phone, phone),
+                _buildContactPill(contact2Icon, contact2),
                 if (extraPill != null) _buildContactPill(LucideIcons.phoneCall, extraPill),
               ],
             ),
@@ -250,6 +265,8 @@ class ProfileScreen extends StatelessWidget {
       return _buildWardenDetailsSection();
     } else if (role == 'student') {
       return _buildStudentAcademicSection();
+    } else if (role == 'accountant') {
+      return const SizedBox.shrink();
     } else {
       return _buildMyChildrenSection();
     }
@@ -274,7 +291,7 @@ class ProfileScreen extends StatelessWidget {
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFE8E3F8).withOpacity(0.4),
+                  color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -318,7 +335,7 @@ class ProfileScreen extends StatelessWidget {
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFE8E3F8).withOpacity(0.4),
+                  color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -362,7 +379,7 @@ class ProfileScreen extends StatelessWidget {
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFE8E3F8).withOpacity(0.4),
+                  color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),

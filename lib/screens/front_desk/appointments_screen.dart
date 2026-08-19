@@ -89,7 +89,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))],
+        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
       ),
       child: Row(
         children: [
@@ -140,8 +140,12 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
         statusTextColor = const Color(0xFF64748B);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showAppointmentDetails(apt);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -149,7 +153,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
         border: Border.all(color: const Color(0xFFF1F1F5)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -369,7 +373,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
           ],
         ],
       ),
-    );
+    ));
   }
 
   @override
@@ -392,9 +396,9 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -565,6 +569,137 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showAppointmentDetails(Map<String, dynamic> apt) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF8F9FA),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 56,
+                        height: 56,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFE8E3F8),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            (apt['visitorName'] as String)[0],
+                            style: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w900, fontSize: 24),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              apt['title'] ?? apt['purpose'],
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              apt['visitorName'],
+                              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(LucideIcons.x, color: Color(0xFF8B8B8B)),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    children: [
+                      _buildDetailRow(LucideIcons.phone, 'Phone Number', apt['phone']),
+                      const SizedBox(height: 16),
+                      _buildDetailRow(LucideIcons.mail, 'Email', apt['email']),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Divider(color: Color(0xFFF3EEFF), height: 1, thickness: 1.5),
+                      ),
+                      _buildDetailRow(LucideIcons.calendar, 'Date & Time', '${apt['date']} at ${apt['time']}'),
+                      const SizedBox(height: 16),
+                      _buildDetailRow(LucideIcons.clock, 'Duration', '${apt['duration']} minutes'),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Divider(color: Color(0xFFF3EEFF), height: 1, thickness: 1.5),
+                      ),
+                      _buildDetailRow(LucideIcons.briefcase, 'Purpose', apt['purpose']),
+                      const SizedBox(height: 16),
+                      _buildDetailRow(LucideIcons.user, 'Host (Whom to Meet)', apt['hostName']),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDetailRow(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            color: Color(0xFFF8F9FA),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, size: 16, color: const Color(0xFF8B8B8B)),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF8B8B8B)),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

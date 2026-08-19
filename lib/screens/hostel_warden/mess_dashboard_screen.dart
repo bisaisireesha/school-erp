@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -20,12 +22,50 @@ class MessDashboardScreen extends StatefulWidget {
 
 class _MessDashboardScreenState extends State<MessDashboardScreen> {
   String _searchQuery = '';
+  List<Map<String, dynamic>> _weeklyMenu = [];
+  List<Map<String, dynamic>> _inventory = [];
+  List<Map<String, dynamic>> _vendors = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadDashboardData();
+  }
+
+  Future<void> _loadDashboardData() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/mess_dashboard.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _weeklyMenu = List<Map<String, dynamic>>.from(data['weeklyMenu']);
+          _inventory = List<Map<String, dynamic>>.from(data['inventory']);
+          _vendors = List<Map<String, dynamic>>.from(data['vendors']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
+  }
+  
+  IconData _getIcon(String iconStr) {
+    switch (iconStr) {
+      case 'leaf': return LucideIcons.leaf;
+      case 'wheat': return LucideIcons.wheat;
+      case 'droplets': return LucideIcons.droplets;
+      case 'flame': return LucideIcons.flame;
+      default: return LucideIcons.box;
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -44,8 +84,15 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFF8F9FA),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -103,17 +150,17 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
         children: [
           Row(
             children: [
-              Expanded(child: _buildKpiCard('603', 'Today\'s Diners', 'of 642 planned', LucideIcons.users, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), '+4%', true)),
+              Expanded(child: GestureDetector(onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))), child: _buildKpiCard('603', 'Today\'s Diners', 'of 642 planned', LucideIcons.users, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), '+4%', true))),
               const SizedBox(width: 12),
-              Expanded(child: _buildKpiCard('1,206', 'Meals Served Today', 'Breakfast + Lunch', LucideIcons.utensilsCrossed, const Color(0xFF10B981), const Color(0xFFD1FAE5), '+2.1%', true)),
+              Expanded(child: GestureDetector(onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))), child: _buildKpiCard('1,206', 'Meals Served Today', 'Breakfast + Lunch', LucideIcons.utensilsCrossed, const Color(0xFF10B981), const Color(0xFFD1FAE5), '+2.1%', true))),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _buildKpiCard('₹42', 'Plate Cost (avg)', 'Target ≤ ₹45', LucideIcons.indianRupee, const Color(0xFF3B82F6), const Color(0xFFDBEAFE), '-3%', false)),
+              Expanded(child: GestureDetector(onTap: () => MainLayout.pushSubScreen(context, ReportsScreen(onBack: () => MainLayout.popSubScreen(context))), child: _buildKpiCard('₹42', 'Plate Cost (avg)', 'Target ≤ ₹45', LucideIcons.indianRupee, const Color(0xFF3B82F6), const Color(0xFFDBEAFE), '-3%', false))),
               const SizedBox(width: 12),
-              Expanded(child: _buildKpiCard('6.2%', 'Wastage', 'Goal under 5%', LucideIcons.trendingDown, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), '+0.8%', true)),
+              Expanded(child: GestureDetector(onTap: () => MainLayout.pushSubScreen(context, ReportsScreen(onBack: () => MainLayout.popSubScreen(context))), child: _buildKpiCard('6.2%', 'Wastage', 'Goal under 5%', LucideIcons.trendingDown, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), '+0.8%', true))),
             ],
           ),
         ],
@@ -199,68 +246,71 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
   }
 
   Widget _buildServiceCard(String title, String time, String badgeText, Color badgeColor, Color badgeBg, List<String> items, String served, String percent, double progress, Color progressColor, IconData icon, Color iconColor, Color iconBg) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFF1F5F9)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)), child: Icon(icon, color: iconColor, size: 20)),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                      const SizedBox(height: 2),
-                      Row(
-                        children: [
-                          const Icon(LucideIcons.clock, size: 12, color: Color(0xFF94A3B8)),
-                          const SizedBox(width: 4),
-                          Text(time, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(12)), child: Text(badgeText, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: badgeColor))),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: items.map((item) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(12)),
-              child: Text(item, style: const TextStyle(fontSize: 11, color: Color(0xFF334155), fontWeight: FontWeight.w600)),
-            )).toList(),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Served', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-              RichText(text: TextSpan(children: [
-                TextSpan(text: served, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                const TextSpan(text: ' · ', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                TextSpan(text: percent, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-              ])),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(value: progress, minHeight: 6, backgroundColor: const Color(0xFFF1F5F9), valueColor: AlwaysStoppedAnimation<Color>(progressColor)),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFF1F5F9)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)), child: Icon(icon, color: iconColor, size: 20)),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            const Icon(LucideIcons.clock, size: 12, color: Color(0xFF94A3B8)),
+                            const SizedBox(width: 4),
+                            Text(time, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(12)), child: Text(badgeText, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: badgeColor))),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: items.map((item) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(12)),
+                child: Text(item, style: const TextStyle(fontSize: 11, color: Color(0xFF334155), fontWeight: FontWeight.w600)),
+              )).toList(),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Served', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                RichText(text: TextSpan(children: [
+                  TextSpan(text: served, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const TextSpan(text: ' · ', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                  TextSpan(text: percent, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                ])),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(value: progress, minHeight: 6, backgroundColor: const Color(0xFFF1F5F9), valueColor: AlwaysStoppedAnimation<Color>(progressColor)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -286,15 +336,16 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            children: [
-              _buildExpandableDayCard('Monday', 'Idli · Sambar', 'Chole · Rice', 'Veg Pulao', false),
-              _buildExpandableDayCard('Tuesday', 'Poha · Eggs', 'Rajma · Rice', 'Paneer · Roti', false),
-              _buildExpandableDayCard('Wednesday', 'Paratha · Curd', 'Dal · Sabzi', 'Pasta · Soup', true),
-              _buildExpandableDayCard('Thursday', 'Upma · Banana', 'Kadhi · Rice', 'Egg Curry · Roti', false),
-              _buildExpandableDayCard('Friday', 'Sandwich · Milk', 'Biryani · Raita', 'Chowmein · Manchurian', false),
-              _buildExpandableDayCard('Saturday', 'Dosa · Chutney', 'Special Thali', 'Pav Bhaji', false),
-              _buildExpandableDayCard('Sunday', 'Puri · Aloo', 'Chicken / Mushroom', 'Fried Rice · Dessert', false),
-            ],
+            children: _weeklyMenu.map((dayData) {
+              final isToday = dayData['day'] == 'Wednesday'; // Just mocking today
+              return _buildExpandableDayCard(
+                dayData['day'],
+                dayData['breakfast'],
+                dayData['lunch'],
+                dayData['dinner'],
+                isToday,
+              );
+            }).toList(),
           ),
         ),
       ],
@@ -302,18 +353,22 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
   }
 
   Widget _buildExpandableDayCard(String day, String breakfast, String lunch, String dinner, bool isToday) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: isToday ? const Color(0xFF6C4CF1).withValues(alpha: 0.3) : const Color(0xFFF1F5F9), width: 1.5),
-        boxShadow: [
-          BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.4), blurRadius: 10, offset: const Offset(0, 4)),
-        ],
-      ),
-      child: Material(
-        color: isToday ? const Color(0xFFF8F5FF) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, MessMenuScreen(onBack: () => MainLayout.popSubScreen(context))),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: isToday ? const Color(0xFF6C4CF1).withValues(alpha: 0.3) : const Color(0xFFF1F5F9), width: 1.5),
+          boxShadow: [
+            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.4), blurRadius: 10, offset: const Offset(0, 4)),
+          ],
+        ),
+        child: AbsorbPointer(
+          child: Material(
+            color: isToday ? const Color(0xFFF8F5FF) : Colors.white,
+            borderRadius: BorderRadius.circular(16),
         child: Theme(
           data: ThemeData().copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
@@ -342,6 +397,8 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
             _buildMealRow(LucideIcons.utensilsCrossed, 'Dinner', dinner, const Color(0xFF3B82F6), const Color(0xFFEFF6FF)),
           ],
         ),
+      ),
+      ),
       ),
       ),
     );
@@ -402,14 +459,24 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
           child: Container(
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFF1F5F9)), boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))]),
             child: Column(
-              children: [
-                _buildInventoryItem(LucideIcons.leaf, const Color(0xFFDCFCE7), const Color(0xFF16A34A), 'Rice (Basmati)', '120 kg on hand', 'min 80 kg', 'Healthy', const Color(0xFF16A34A), const Color(0xFFDCFCE7), 0.9, const Color(0xFF16A34A)),
-                _buildInventoryItem(LucideIcons.wheat, const Color(0xFFFEF3C7), const Color(0xFFF59E0B), 'Wheat Flour', '45 kg on hand', 'min 60 kg', 'Low', const Color(0xFFD97706), const Color(0xFFFEF3C7), 0.5, const Color(0xFFF59E0B)),
-                _buildInventoryItem(LucideIcons.droplets, const Color(0xFFDCFCE7), const Color(0xFF16A34A), 'Cooking Oil', '28 L on hand', 'min 20 L', 'Healthy', const Color(0xFF16A34A), const Color(0xFFDCFCE7), 0.8, const Color(0xFF16A34A)),
-                _buildInventoryItem(LucideIcons.leaf, const Color(0xFFFEE2E2), const Color(0xFFE11D48), 'Toor Dal', '12 kg on hand', 'min 25 kg', 'Critical', const Color(0xFFE11D48), const Color(0xFFFEE2E2), 0.3, const Color(0xFFE11D48)),
-                _buildInventoryItem(LucideIcons.leaf, const Color(0xFFDCFCE7), const Color(0xFF16A34A), 'Onions', '38 kg on hand', 'min 30 kg', 'Healthy', const Color(0xFF16A34A), const Color(0xFFDCFCE7), 0.8, const Color(0xFF16A34A)),
-                _buildInventoryItem(LucideIcons.flame, const Color(0xFFFEF3C7), const Color(0xFFF59E0B), 'LPG Cylinders', '2 pcs on hand', 'min 3 pcs', 'Low', const Color(0xFFD97706), const Color(0xFFFEF3C7), 0.4, const Color(0xFFF59E0B), isLast: true),
-              ],
+              children: _inventory.asMap().entries.map((entry) {
+                int idx = entry.key;
+                var item = entry.value;
+                return _buildInventoryItem(
+                  _getIcon(item['iconStr']),
+                  _getColor(item['iconBg']),
+                  _getColor(item['iconColor']),
+                  item['title'],
+                  item['onHand'],
+                  item['min'],
+                  item['status'],
+                  _getColor(item['statusColor']),
+                  _getColor(item['statusBg']),
+                  item['progress'].toDouble(),
+                  _getColor(item['progressColor']),
+                  isLast: idx == _inventory.length - 1,
+                );
+              }).toList(),
             ),
           ),
         ),
@@ -418,8 +485,11 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
   }
 
   Widget _buildInventoryItem(IconData icon, Color iconBg, Color iconColor, String title, String onHand, String min, String status, Color statusColor, Color statusBg, double progress, Color progressColor, {bool isLast = false}) {
-    return Container(
-      decoration: BoxDecoration(border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFF1F5F9)))),
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, InventoryScreen(onBack: () => MainLayout.popSubScreen(context))),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        decoration: BoxDecoration(border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFF1F5F9)))),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -466,7 +536,7 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildVendorsPayments() {
@@ -490,12 +560,18 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            children: [
-              _buildVendorItem('AG', 'Annapurna Grains', 'Rice · Flour · Pulses', '₹ 48,200', '4.6', 'On-time', const Color(0xFF16A34A), const Color(0xFFDCFCE7)),
-              _buildVendorItem('FF', 'Fresh Farms Co.', 'Vegetables · Fruits', '₹ 12,750', '4.4', 'Due Today', const Color(0xFF3B82F6), const Color(0xFFDBEAFE)),
-              _buildVendorItem('D', 'DairyPure', 'Milk · Curd · Paneer', '₹ 8,400', '4.8', 'On-time', const Color(0xFF16A34A), const Color(0xFFDCFCE7)),
-              _buildVendorItem('GG', 'GoldFlame Gas', 'LPG · Fuel', '₹ 6,900', '4.1', 'Overdue', const Color(0xFFE11D48), const Color(0xFFFEE2E2)),
-            ],
+            children: _vendors.map((vendor) {
+              return _buildVendorItem(
+                vendor['iconText'],
+                vendor['name'],
+                vendor['tags'],
+                vendor['amount'],
+                vendor['rating'],
+                vendor['status'],
+                _getColor(vendor['statusColor']),
+                _getColor(vendor['statusBg']),
+              );
+            }).toList(),
           ),
         ),
       ],
@@ -503,8 +579,10 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
   }
 
   Widget _buildVendorItem(String iconText, String name, String tags, String amount, String rating, String status, Color statusColor, Color statusBg) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+    return GestureDetector(
+      onTap: () => MainLayout.pushSubScreen(context, VendorsScreen(onBack: () => MainLayout.popSubScreen(context))),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -558,7 +636,7 @@ class _MessDashboardScreenState extends State<MessDashboardScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildQuickActions() {

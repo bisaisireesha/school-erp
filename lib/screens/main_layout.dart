@@ -23,6 +23,7 @@ import 'front_desk/enquiries_screen.dart';
 import 'front_desk/front_desk_more_screen.dart';
 import 'accountant/accountant_dashboard_screen.dart';
 import 'accountant/accountant_reports_screen.dart';
+import 'accountant/accountant_invoices_screen.dart';
 import 'accountant/accountant_more_screen.dart';
 
 class MainLayout extends StatefulWidget {
@@ -120,7 +121,7 @@ class _MainLayoutState extends State<MainLayout> {
     if (role == 'accountant') {
       return [
         const AccountantDashboardScreen(),
-        const FeesScreen(),
+        AccountantInvoicesScreen(onBack: () => switchTab(0)),
         AccountantReportsScreen(onBack: () => switchTab(0)),
         const AccountantMoreScreen(),
       ];
@@ -146,9 +147,20 @@ class _MainLayoutState extends State<MainLayout> {
       statusBarIconBrightness: Brightness.dark,
     ));
 
-    return Scaffold(
-      extendBody: true,
-      backgroundColor: Colors.white,
+    return PopScope(
+      canPop: _subScreens.isEmpty && _currentIndex == 0,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          if (_subScreens.isNotEmpty) {
+            popSubScreen();
+          } else if (_currentIndex != 0) {
+            switchTab(0);
+          }
+        }
+      },
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.white,
       body: Stack(
         children: [
           // Top Gradient Background (App Bar Area)
@@ -319,7 +331,7 @@ class _MainLayoutState extends State<MainLayout> {
                       ),
                       ..._subScreens.map((screen) => Positioned.fill(
                         child: Container(
-                          color: const Color(0xFFF8F9FA),
+                          color: Colors.white,
                           child: screen,
                         ),
                       )),
@@ -334,6 +346,7 @@ class _MainLayoutState extends State<MainLayout> {
             child: _buildBottomNavigationBar(),
           ),
         ],
+      ),
       ),
     );
   }
@@ -536,7 +549,7 @@ class _MainLayoutState extends State<MainLayout> {
                    : role == 'accountant'
                    ? [
                       _buildNavItem(icon: LucideIcons.home, label: 'Dashboard', isActive: _currentIndex == 0, index: 0),
-                      _buildNavItem(icon: LucideIcons.indianRupee, label: 'Fees', isActive: _currentIndex == 1, index: 1),
+                      _buildNavItem(icon: LucideIcons.fileCheck, label: 'Invoices', isActive: _currentIndex == 1, index: 1),
                       _buildNavItem(icon: LucideIcons.chartNoAxesCombined, label: 'Reports', isActive: _currentIndex == 2, index: 2),
                       _buildNavItem(icon: LucideIcons.layoutGrid, label: 'More', isActive: _currentIndex == 3, index: 3),
                     ]

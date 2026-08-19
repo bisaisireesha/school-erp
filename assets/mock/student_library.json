@@ -1,0 +1,57 @@
+{
+  "myBooks": [
+    {
+      "title": "The Universe in a Nutshell",
+      "author": "Stephen Hawking",
+      "issueDate": "15 May 2026",
+      "dueDate": "30 May 2026",
+      "coverColor": "0xFF6C4CF1",
+      "status": "Issued"
+    },
+    {
+      "title": "Sapiens",
+      "author": "Yuval Noah Harari",
+      "issueDate": "01 Apr 2026",
+      "dueDate": "15 Apr 2026",
+      "coverColor": "0xFFF97316",
+      "status": "Returned"
+    }
+  ],
+  "catalogBooks": [
+    {
+      "title": "A Brief History of Time",
+      "author": "Stephen Hawking",
+      "category": "Science",
+      "available": true,
+      "coverColor": "0xFF0EA5E9"
+    },
+    {
+      "title": "Cosmos",
+      "author": "Carl Sagan",
+      "category": "Science",
+      "available": true,
+      "coverColor": "0xFF6C4CF1"
+    },
+    {
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "category": "Fiction",
+      "available": false,
+      "coverColor": "0xFFF59E0B"
+    },
+    {
+      "title": "1984",
+      "author": "George Orwell",
+      "category": "Fiction",
+      "available": true,
+      "coverColor": "0xFFEF4444"
+    },
+    {
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "category": "Fiction",
+      "available": true,
+      "coverColor": "0xFF10B981"
+    }
+  ]
+}

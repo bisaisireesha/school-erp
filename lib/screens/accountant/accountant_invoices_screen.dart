@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -13,12 +15,34 @@ class AccountantInvoicesScreen extends StatefulWidget {
 class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
   String _searchQuery = '';
   int _selectedFilter = 0; // 0: All, 1: Paid, 2: Unpaid, 3: Overdue
+  List<Map<String, dynamic>> _invoices = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadInvoices();
+  }
+
+  Future<void> _loadInvoices() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/accountant_invoices.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _invoices = List<Map<String, dynamic>>.from(data['invoices']);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   void _onGlobalSearchChanged() {
@@ -35,72 +59,19 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _invoices = [
-    {
-      'id': 'INV-1041',
-      'student': 'Aarav Gupta',
-      'rollNo': '10A-014',
-      'grade': 'Grade 10-A',
-      'feeHead': 'Tuition + Lab',
-      'amount': '₹24,500',
-      'balance': '₹0',
-      'date': '10 Jun 2026',
-      'status': 'Paid',
-    },
-    {
-      'id': 'INV-1042',
-      'student': 'Rahul Verma',
-      'rollNo': '09B-021',
-      'grade': 'Grade 9-B',
-      'feeHead': 'Transport',
-      'amount': '₹12,500',
-      'balance': '₹12,500',
-      'date': '12 Jun 2026',
-      'status': 'Unpaid',
-    },
-    {
-      'id': 'INV-1038',
-      'student': 'Neha Gupta',
-      'rollNo': '12S-005',
-      'grade': 'Grade 12-Sci',
-      'feeHead': 'Tuition + Hostel',
-      'amount': '₹55,000',
-      'balance': '₹20,000',
-      'date': '05 Jun 2026',
-      'status': 'Overdue',
-    },
-    {
-      'id': 'INV-1044',
-      'student': 'Vikram Singh',
-      'rollNo': '08C-032',
-      'grade': 'Grade 8-C',
-      'feeHead': 'Tuition',
-      'amount': '₹28,000',
-      'balance': '₹28,000',
-      'date': '15 Jun 2026',
-      'status': 'Unpaid',
-    },
-    {
-      'id': 'INV-1035',
-      'student': 'Priya Desai',
-      'rollNo': '11C-018',
-      'grade': 'Grade 11-Com',
-      'feeHead': 'Tuition + Lab',
-      'amount': '₹42,000',
-      'balance': '₹0',
-      'date': '01 Jun 2026',
-      'status': 'Paid',
-    },
-  ];
+
 
   @override
   Widget build(BuildContext context) {
     final filteredInvoices = _invoices.where((inv) {
       // Apply search
       final q = _searchQuery.toLowerCase();
-      final matchesSearch = (inv['id'] as String).toLowerCase().contains(q) ||
-          (inv['student'] as String).toLowerCase().contains(q) ||
-          (inv['rollNo'] as String).toLowerCase().contains(q);
+      final id = (inv['id'] as String?) ?? '';
+      final student = (inv['student'] as String?) ?? '';
+      final rollNo = (inv['rollNo'] as String?) ?? '';
+      final matchesSearch = id.toLowerCase().contains(q) ||
+          student.toLowerCase().contains(q) ||
+          rollNo.toLowerCase().contains(q);
       
       if (!matchesSearch) return false;
 
@@ -113,7 +84,7 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -125,7 +96,12 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
                     _buildHeader(),
                     _buildKPIs(),
                     _buildFilters(),
-                    if (filteredInvoices.isEmpty)
+                    if (_isLoading)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 60),
+                        child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                      )
+                    else if (filteredInvoices.isEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
                         child: _buildEmptyState(),
@@ -246,7 +222,15 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
             children: [
               GestureDetector(
                 onTap: widget.onBack,
-                child: const Icon(LucideIcons.arrowLeft, size: 24, color: Color(0xFF1E1E2D)),
+                child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    ),
+                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  ),
               ),
               const SizedBox(width: 16),
               const Text(
@@ -329,22 +313,24 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
       statusBg = const Color(0xFFFEF2F2);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFF1F5F9)),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
+    return GestureDetector(
+      onTap: () => _showInvoiceDetails(inv),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFF1F5F9)),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -426,7 +412,7 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      _showDownloadBottomSheet(inv);
+                      _downloadInvoice(inv['id'] as String);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),
@@ -438,27 +424,19 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () {
-                      _showInvoiceDetails(inv);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF3F0FF),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Text(
-                        'View Details',
-                        style: TextStyle(color: Color(0xFF6C4CF1), fontSize: 13, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                  Row(
+                    children: [
+                      const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
+                      const SizedBox(width: 4),
+                      const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
+                    ],
                   ),
                 ],
               ),
             ],
           ),
         ],
+      ),
       ),
     );
   }
@@ -492,58 +470,26 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
     );
   }
 
-  void _showDownloadBottomSheet(Map<String, dynamic> inv) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+  void _downloadInvoice(String invoiceId) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Invoice $invoiceId downloaded successfully!',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF3F0FF),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(LucideIcons.download, size: 32, color: Color(0xFF6C4CF1)),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                'Downloading ${inv['id']}...',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Your invoice is being downloaded. This will take just a moment.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
-              ),
-              const SizedBox(height: 32),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Download complete!')));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF6C4CF1),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: const Text('Got it', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
-                ),
-              ),
-            ],
-          ),
-        ),
+        backgroundColor: const Color(0xFF16A34A),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.all(24),
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -590,19 +536,37 @@ class _AccountantInvoicesScreenState extends State<AccountantInvoicesScreen> {
               const SizedBox(height: 16),
               _buildDetailRow('Status', inv['status'] as String),
               const SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFF8F9FA),
-                    foregroundColor: const Color(0xFF1E1E2D),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    elevation: 0,
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        side: const BorderSide(color: Color(0xFFE8E3F8)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      child: const Text('Close', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    ),
                   ),
-                  child: const Text('Close', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _downloadInvoice(inv['id'] as String);
+                      },
+                      icon: const Icon(LucideIcons.download, size: 18, color: Colors.white),
+                      label: const Text('Download', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6C4CF1),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

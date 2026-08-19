@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
@@ -15,11 +17,36 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
   String _searchQuery = '';
   String _filterStatus = 'All';
 
+  List<Map<String, dynamic>> _visitorsList = [];
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     MainLayout.globalSearchQuery.addListener(_onGlobalSearchChanged);
     _searchQuery = MainLayout.globalSearchQuery.value;
+    _loadVisitors();
+  }
+
+  Future<void> _loadVisitors() async {
+    try {
+      final String response = await rootBundle.loadString('assets/mock/hostel_visitors.json');
+      final data = await json.decode(response);
+      if (mounted) {
+        setState(() {
+          _visitorsList = List<Map<String, dynamic>>.from(data);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Color _getColor(String colorStr) {
+    return Color(int.parse(colorStr));
   }
 
   void _onGlobalSearchChanged() {
@@ -36,89 +63,15 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _visitorsList = [
-    {
-      'id': '1',
-      'name': 'Mr. Rajesh Sharma',
-      'phone': '+91 98765 43210',
-      'relation': 'Father',
-      'purpose': 'Monthly Family Visit',
-      'studentName': 'Aarav Sharma',
-      'rollNo': 'CS-2024-102',
-      'checkIn': '10:30 AM',
-      'checkOut': '--',
-      'status': 'Currently Inside',
-      'initials': 'RS',
-    },
-    {
-      'id': '2',
-      'name': 'Mrs. Kavita Patel',
-      'phone': '+91 98765 77665',
-      'relation': 'Mother',
-      'purpose': 'Delivering Study Material',
-      'studentName': 'Aditya Patel',
-      'rollNo': 'ME-2024-302',
-      'checkIn': '11:15 AM',
-      'checkOut': '01:30 PM',
-      'status': 'Checked Out',
-      'initials': 'KP',
-    },
-    {
-      'id': '3',
-      'name': 'Mr. Sunil Roy',
-      'phone': '+91 98765 99887',
-      'relation': 'Uncle',
-      'purpose': 'Emergency Visit',
-      'studentName': 'Ananya Roy',
-      'rollNo': 'EC-2024-201',
-      'checkIn': '--',
-      'checkOut': '--',
-      'status': 'Pending Approval',
-      'initials': 'SR',
-    },
-    {
-      'id': '4',
-      'name': 'Mr. Suresh Verma',
-      'phone': '+91 98765 11223',
-      'relation': 'Father',
-      'purpose': 'Fee Receipt Verification',
-      'studentName': 'Rohan Verma',
-      'rollNo': 'CS-2024-104',
-      'checkIn': '09:45 AM',
-      'checkOut': '11:00 AM',
-      'status': 'Checked Out',
-      'initials': 'SV',
-    },
-    {
-      'id': '5',
-      'name': 'Mrs. Priya Gupta',
-      'phone': '+91 98765 44332',
-      'relation': 'Mother',
-      'purpose': 'Health Check-up',
-      'studentName': 'Arjun Gupta',
-      'rollNo': 'IT-2024-205',
-      'checkIn': '02:00 PM',
-      'checkOut': '--',
-      'status': 'Currently Inside',
-      'initials': 'PG',
-    },
-    {
-      'id': '6',
-      'name': 'Mr. Dinesh Yadav',
-      'phone': '+91 98765 88110',
-      'relation': 'Guardian',
-      'purpose': 'Document Submission',
-      'studentName': 'Mohit Yadav',
-      'rollNo': 'CE-2024-310',
-      'checkIn': '--',
-      'checkOut': '--',
-      'status': 'Rejected',
-      'initials': 'DY',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Container(
+        color: Colors.transparent,
+        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+      );
+    }
+    
     int totalVisitors = _visitorsList.length;
     int currentlyInsideCount = _visitorsList.where((v) => v['status'] == 'Currently Inside').length;
     int pendingCount = _visitorsList.where((v) => v['status'] == 'Pending Approval').length;
@@ -137,9 +90,9 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
       return matchesQuery && matchesStatus;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -365,7 +318,7 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
                     ),
                     child: Row(
                       children: [
-                        Icon(f['icon'] as IconData, size: 18, color: f['color'] as Color),
+                        Icon(f['icon'] as IconData, size: 18, color: _getColor(f['color'] as String)),
                         const SizedBox(width: 12),
                         Expanded(child: Text(f['label'] as String, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D)))),
                         if (isActive) const Icon(LucideIcons.check, size: 18, color: Color(0xFF6C4CF1)),
@@ -441,8 +394,12 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
         statusTextColor = const Color(0xFF64748B);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () {
+        _showVisitorDetailsModal(visitor);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -581,7 +538,7 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildInfoItem(IconData icon, String label, String value, Color iconColor) {
@@ -799,8 +756,9 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
                                 'initials': initials.isNotEmpty ? initials : 'NV',
                               });
                             });
+                            final scaffoldMessenger = ScaffoldMessenger.of(context);
                             Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
+                            scaffoldMessenger.showSnackBar(
                               SnackBar(
                                 content: Text('Visitor $name logged successfully!'),
                                 backgroundColor: const Color(0xFF10B981),
@@ -948,8 +906,9 @@ class _HostelVisitorsScreenState extends State<HostelVisitorsScreen> {
   Widget _buildExportOption(String title, String format, IconData icon, Color iconColor, Color bgColor) {
     return GestureDetector(
       onTap: () {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
+        scaffoldMessenger.showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

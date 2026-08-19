@@ -218,6 +218,29 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     );
   }
 
+  Widget _buildLegendItem(Color color, Color bgColor, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 6),
+          Text(label, style: TextStyle(fontSize: 12, color: color, fontWeight: FontWeight.w700)),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCalendar() {
     int daysInMonth = DateUtils.getDaysInMonth(_currentDate.year, _currentDate.month);
     DateTime firstDay = DateTime(_currentDate.year, _currentDate.month, 1);
@@ -288,6 +311,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   ),
                 ],
               ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // Legend
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            alignment: WrapAlignment.center,
+            children: [
+              _buildLegendItem(const Color(0xFF16A34A), const Color(0xFFF0FDF4), 'Present'),
+              _buildLegendItem(const Color(0xFFE11D48), const Color(0xFFFFF1F2), 'Absent'),
+              _buildLegendItem(const Color(0xFFF59E0B), const Color(0xFFFFFBEB), 'Late'),
+              _buildLegendItem(const Color(0xFF0EA5E9), const Color(0xFFF0F9FF), 'Holiday'),
             ],
           ),
           const SizedBox(height: 24),

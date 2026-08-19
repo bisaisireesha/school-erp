@@ -341,7 +341,7 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -383,7 +383,7 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -528,7 +528,7 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                 border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFE8E3F8).withOpacity(0.5),
+                    color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -613,7 +613,7 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                 border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFE8E3F8).withOpacity(0.5),
+                    color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -672,7 +672,7 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                 border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFE8E3F8).withOpacity(0.5),
+                    color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -730,7 +730,7 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                 border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFE8E3F8).withOpacity(0.5),
+                    color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -865,7 +865,7 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withOpacity(0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),

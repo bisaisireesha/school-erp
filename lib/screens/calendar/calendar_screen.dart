@@ -95,7 +95,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final currentEvents = _getEventsToDisplay();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
