@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+// import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'parent_dashboard/parent_dashboard_screen.dart';
@@ -25,6 +26,9 @@ import 'accountant/accountant_dashboard_screen.dart';
 import 'accountant/accountant_reports_screen.dart';
 import 'accountant/accountant_invoices_screen.dart';
 import 'accountant/accountant_more_screen.dart';
+import 'transport_portal/transport_dashboard_screen.dart';
+import 'transport_portal/transport_vehicles_screen.dart';
+import 'transport_portal/transport_more_screen.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -52,9 +56,11 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
+  int _unreadNotificationsCount = 3;
   final List<Widget> _subScreens = [];
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
+  final PageController _pageController = PageController();
 
   @override
   void initState() {
@@ -69,6 +75,7 @@ class _MainLayoutState extends State<MainLayout> {
     }
     _searchController.dispose();
     _searchFocusNode.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -91,12 +98,13 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   void switchTab(int index) {
-    setState(() {
-      _currentIndex = index;
-      _subScreens.clear();
-      MainLayout.globalSearchQuery.value = '';
-      _searchController.clear();
-    });
+    if (_currentIndex != index) {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   List<Widget> _getScreens(String? role) {
@@ -127,11 +135,23 @@ class _MainLayoutState extends State<MainLayout> {
       ];
     }
 
+    if (role == 'transport') {
+      return [
+        const TransportDashboardScreen(),
+        TransportVehiclesScreen(onBack: () => switchTab(0)),
+        const TransportMoreScreen(),
+      ];
+    }
+
     final isStudent = role == 'student';
     return [
-      isStudent ? const StudentDashboardScreen() : const ParentDashboardScreen(),
+      isStudent
+          ? const StudentDashboardScreen()
+          : const ParentDashboardScreen(),
       const AcademicsScreen(),
-      isStudent ? HomeworkScreen(onBack: () => switchTab(0), isStudentPortal: true) : const FeesScreen(),
+      isStudent
+          ? HomeworkScreen(onBack: () => switchTab(0), isStudentPortal: true)
+          : const FeesScreen(),
       isStudent ? const StudentMoreScreen() : const MoreScreen(),
     ];
   }
@@ -142,10 +162,12 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
 
     return PopScope(
       canPop: _subScreens.isEmpty && _currentIndex == 0,
@@ -161,192 +183,257 @@ class _MainLayoutState extends State<MainLayout> {
       child: Scaffold(
         extendBody: true,
         backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          // Top Gradient Background (App Bar Area)
-          if (!_hideGlobalHeader)
-            Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 250,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: const [0.0, 0.5, 0.84, 1.0],
-                  colors: [
-                    const Color(0xFF995EFF).withValues(alpha: 0.40),
-                    const Color(0xFFCCAEFF).withValues(alpha: 0.30),
-                    const Color(0xFFFFFFFF).withValues(alpha: 0.20),
-                    const Color(0xFFFFFFFF).withValues(alpha: 0.10),
-                  ],
+        body: Stack(
+          children: [
+            // Top Gradient Background (App Bar Area)
+            if (!_hideGlobalHeader)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 250,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: const [0.0, 0.5, 0.84, 1.0],
+                      colors: [
+                        const Color(0xFF995EFF).withValues(alpha: 0.40),
+                        const Color(0xFFCCAEFF).withValues(alpha: 0.30),
+                        const Color(0xFFFFFFFF).withValues(alpha: 0.20),
+                        const Color(0xFFFFFFFF).withValues(alpha: 0.10),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          // Main Content
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!_hideGlobalHeader) ...[
-                  // Fixed Top Header Row
-                Padding(
-                  padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Shield Logo
-                      _buildShieldLogo(),
-                      const SizedBox(width: 14), // Perfect spacing between logo and text
-                      // Title & Subtitle
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Sunrise Academy',
-                              style: TextStyle(
-                                fontSize: 24, // Updated to 24px
-                                fontWeight: FontWeight.w800,
-                                color: Color(0xFF1E1E2D),
-                                letterSpacing: -0.5,
-                                height: 1.1,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Consumer<AuthProvider>(
-                              builder: (context, authProvider, child) {
-                                final role = authProvider.currentUser?.role;
-                                String subtitle = 'Parent Portal';
-                                if (role == 'student') {
-                                  subtitle = 'Student Portal';
-                                } else if (role == 'warden') {
-                                  subtitle = 'Warden Portal';
-                                } else if (role == 'front_desk') {
-                                  subtitle = 'Front Desk Portal';
-                                } else if (role == 'accountant') {
-                                  subtitle = 'Accountant Portal';
-                                }
-                                
-                                return Text(
-                                  subtitle,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF4A4A68), // Darker gray
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+            // Main Content
+            SafeArea(
+              bottom: false, // Let content flow under the bottom navigation bar for glass effect
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!_hideGlobalHeader) ...[
+                    // Fixed Top Header Row
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 24.0,
+                        right: 24.0,
+                        top: 16.0,
+                        bottom: 8.0,
                       ),
-                      // Action Buttons (Chat, Bell, Profile)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          _buildIconButton(
-                            icon: Icons.chat_bubble_outline_rounded,
-                            badgeCount: 2,
-                            badgeColor: const Color(0xFF6C4CF1), // Primary Purple
-                            onTap: () {
-                              MainLayout.pushSubScreen(context, MessagesScreen(onBack: () => MainLayout.popSubScreen(context)));
-                            },
-                          ),
-                          const SizedBox(width: 10), // Reduced spacing slightly
-                          _buildIconButton(
-                            icon: Icons.notifications_none_rounded,
-                            badgeCount: 5,
-                            badgeColor: const Color(0xFFFF4B4B),
-                            onTap: () {
-                              MainLayout.pushSubScreen(context, NotificationsScreen(onBack: () => MainLayout.popSubScreen(context)));
-                            },
-                          ),
-                          const SizedBox(width: 10),
-                          Consumer<AuthProvider>(
-                            builder: (context, authProvider, child) {
-                              final role = authProvider.currentUser?.role;
-                              String initials = 'SP';
-                              Color bgColor = const Color(0xFFF3F0FF);
-                              Color textColor = const Color(0xFF6C4CF1);
+                          // Shield Logo
+                          _buildShieldLogo(),
+                          const SizedBox(
+                            width: 14,
+                          ), // Perfect spacing between logo and text
+                          // Title & Subtitle
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Sunrise Academy',
+                                  style: TextStyle(
+                                    fontSize: 24, // Updated to 24px
+                                    fontWeight: FontWeight.w800,
+                                    color: Color(0xFF1E1E2D),
+                                    letterSpacing: -0.5,
+                                    height: 1.1,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Consumer<AuthProvider>(
+                                  builder: (context, authProvider, child) {
+                                    final role = authProvider.currentUser?.role;
+                                    String subtitle = 'Parent Portal';
+                                    if (role == 'student') {
+                                      subtitle = 'Student Portal';
+                                    } else if (role == 'warden') {
+                                      subtitle = 'Warden Portal';
+                                    } else if (role == 'front_desk') {
+                                      subtitle = 'Front Desk Portal';
+                                    } else if (role == 'accountant') {
+                                      subtitle = 'Accountant Portal';
+                                    } else if (role == 'transport') {
+                                      subtitle = 'Transport Portal';
+                                    }
 
-                              if (role == 'student') {
-                                initials = 'AK';
-                                bgColor = const Color(0xFFF3F0FF);
-                                textColor = const Color(0xFF6C4CF1);
-                              } else if (role == 'warden') {
-                                initials = 'RV';
-                                bgColor = const Color(0xFFF3F0FF);
-                                textColor = const Color(0xFF6C4CF1);
-                              } else if (role == 'front_desk') {
-                                initials = 'AT';
-                                bgColor = const Color(0xFFF3F0FF);
-                                textColor = const Color(0xFF6C4CF1);
-                              } else if (role == 'accountant') {
-                                initials = 'AC';
-                                bgColor = const Color(0xFFF3F0FF);
-                                textColor = const Color(0xFF6C4CF1);
-                              }
-
-                              return _buildProfileAvatar(
-                                initials: initials,
-                                bgColor: bgColor,
-                                textColor: textColor,
+                                    return Text(
+                                      subtitle,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF4A4A68), // Darker gray
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Action Buttons (Chat, Bell, Profile)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _buildIconButton(
+                                icon: Icons.chat_bubble_outline_rounded,
+                                badgeCount: 2,
+                                badgeColor: const Color(
+                                  0xFF6C4CF1,
+                                ), // Primary Purple
                                 onTap: () {
-                                  Navigator.push(
+                                  MainLayout.pushSubScreen(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                                    MessagesScreen(
+                                      onBack: () =>
+                                          MainLayout.popSubScreen(context),
+                                    ),
                                   );
                                 },
-                              );
-                            },
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ), // Reduced spacing slightly
+                              _buildIconButton(
+                                icon: Icons.notifications_none_rounded,
+                                badgeCount: _unreadNotificationsCount,
+                                badgeColor: const Color(0xFFFF4B4B),
+                                onTap: () {
+                                  final role = Provider.of<AuthProvider>(context, listen: false).currentUser?.role ?? 'teacher';
+                                  showDialog(
+                                    context: context,
+                                    barrierColor: Colors.transparent,
+                                    builder: (context) => Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 80,
+                                          left: 64, // More space on left
+                                          right: 16, // Less space on right
+                                        ),
+                                        child: Material(
+                                          type: MaterialType.transparency,
+                                          child: NotificationsScreen(
+                                            role: role,
+                                            onBack: () =>
+                                                Navigator.pop(context),
+                                            onMarkAllRead: () {
+                                              setState(() {
+                                                _unreadNotificationsCount = 0;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(width: 10),
+                              Consumer<AuthProvider>(
+                                builder: (context, authProvider, child) {
+                                  final role = authProvider.currentUser?.role;
+                                  String initials = 'SP';
+                                  Color bgColor = const Color(0xFFF3F0FF);
+                                  Color textColor = const Color(0xFF6C4CF1);
+
+                                  if (role == 'student') {
+                                    initials = 'AK';
+                                    bgColor = const Color(0xFFF3F0FF);
+                                    textColor = const Color(0xFF6C4CF1);
+                                  } else if (role == 'warden') {
+                                    initials = 'RV';
+                                    bgColor = const Color(0xFFF3F0FF);
+                                    textColor = const Color(0xFF6C4CF1);
+                                  } else if (role == 'front_desk') {
+                                    initials = 'AT';
+                                    bgColor = const Color(0xFFF3F0FF);
+                                    textColor = const Color(0xFF6C4CF1);
+                                  } else if (role == 'accountant') {
+                                    initials = 'AC';
+                                    bgColor = const Color(0xFFF3F0FF);
+                                    textColor = const Color(0xFF6C4CF1);
+                                  } else if (role == 'transport') {
+                                    initials = 'TR';
+                                    bgColor = const Color(0xFFF3F0FF);
+                                    textColor = const Color(0xFF6C4CF1);
+                                  }
+
+                                  return _buildProfileAvatar(
+                                    initials: initials,
+                                    bgColor: bgColor,
+                                    textColor: textColor,
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ProfileScreen(),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                // Fixed Search Bar
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: _buildSearchBar(),
-                ),
-                const SizedBox(height: 16),
-                ],
-                // Dynamic Scrollable Content
-                Expanded(
-                  child: Stack(
-                    children: [
-                      Consumer<AuthProvider>(
-                        builder: (context, authProvider, child) {
-                          return IndexedStack(
-                            index: _currentIndex,
-                            children: _getScreens(authProvider.currentUser?.role),
-                          );
-                        },
-                      ),
-                      ..._subScreens.map((screen) => Positioned.fill(
-                        child: Container(
-                          color: Colors.white,
-                          child: screen,
+                    ),
+                    const SizedBox(height: 8),
+                    // Fixed Search Bar
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: _buildSearchBar(),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  // Dynamic Scrollable Content
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Consumer<AuthProvider>(
+                          builder: (context, authProvider, child) {
+                            return PageView(
+                              controller: _pageController,
+                              physics: const BouncingScrollPhysics(), // Edge to edge fluid swipe
+                              onPageChanged: (index) {
+                                setState(() {
+                                  _currentIndex = index;
+                                  _subScreens.clear();
+                                });
+                              },
+                              children: _getScreens(
+                                authProvider.currentUser?.role,
+                              ),
+                            );
+                          },
                         ),
-                      )),
-                    ],
+                        ..._subScreens.map(
+                          (screen) => Positioned.fill(
+                            child: Container(
+                              color: Colors.white,
+                              child: screen,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: _buildBottomNavigationBar(),
-          ),
-        ],
-      ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _buildBottomNavigationBar(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -408,7 +495,10 @@ class _MainLayoutState extends State<MainLayout> {
                 decoration: BoxDecoration(
                   color: badgeColor,
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFF7F5FF), width: 1.5),
+                  border: Border.all(
+                    color: const Color(0xFFF7F5FF),
+                    width: 1.5,
+                  ),
                 ),
                 child: Text(
                   badgeCount.toString(),
@@ -440,7 +530,10 @@ class _MainLayoutState extends State<MainLayout> {
         decoration: BoxDecoration(
           color: bgColor,
           shape: BoxShape.circle,
-          border: Border.all(color: textColor.withValues(alpha: 0.2), width: 1.5),
+          border: Border.all(
+            color: textColor.withValues(alpha: 0.2),
+            width: 1.5,
+          ),
         ),
         child: Center(
           child: Text(
@@ -463,7 +556,9 @@ class _MainLayoutState extends State<MainLayout> {
         borderRadius: BorderRadius.circular(24), // 24px radius
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.25), // Soft shadow
+            color: const Color(
+              0xFFE8E3F8,
+            ).withValues(alpha: 0.25), // Soft shadow
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -480,8 +575,15 @@ class _MainLayoutState extends State<MainLayout> {
             },
             decoration: InputDecoration(
               hintText: 'Search anything...',
-              hintStyle: const TextStyle(color: Color(0xFF9E9E9E), fontSize: 14, fontWeight: FontWeight.w500),
-              prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF1E1E2D)), // Dark search icon
+              hintStyle: const TextStyle(
+                color: Color(0xFF9E9E9E),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+              prefixIcon: const Icon(
+                Icons.search_rounded,
+                color: Color(0xFF1E1E2D),
+              ), // Dark search icon
               suffixIcon: query.isNotEmpty
                   ? IconButton(
                       icon: const Icon(Icons.close, color: Color(0xFF9E9E9E)),
@@ -496,7 +598,10 @@ class _MainLayoutState extends State<MainLayout> {
                 borderRadius: BorderRadius.circular(24),
                 borderSide: BorderSide.none,
               ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 16,
+              ),
             ),
           );
         },
@@ -505,126 +610,139 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   Widget _buildBottomNavigationBar() {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final role = authProvider.currentUser?.role;
-    final isWarden = role == 'warden';
-    final isStudent = role == 'student';
-
     return SafeArea(
+      bottom: true,
       child: Container(
-        height: 86,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6C4CF1).withValues(alpha: 0.12),
-              blurRadius: 20,
-              offset: const Offset(0, -4),
+        margin: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+        child: Stack(
+          children: [
+            // 1. Shadow layer (clipped in the center so it doesn't ruin the glass effect)
+            ClipPath(
+              clipper: _HoleClipper(radius: 36),
+              child: Container(
+                height: 72,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(36),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFE8E3F8).withValues(alpha: 0.8), // Shadow color
+                      blurRadius: 20,
+                      offset: const Offset(0, 0), // 4-sided shadow
+                    ),
+                  ],
+                ),
+              ),
             ),
-            BoxShadow(
-              color: const Color(0xFF1E1E2D).withValues(alpha: 0.04),
-              blurRadius: 10,
-              offset: const Offset(0, 10),
+            // 2. Glassmorphism layer
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(36),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 1.5), // Brighter, crisp border
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(36),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0), // Extremely faint 5% blur
+                  child: Container(
+                    height: 72,
+                    color: Colors.white.withValues(alpha: 0.05), // Ultra transparent 5% tint
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final tabWidth = constraints.maxWidth / 4;
+                        final leftOffset = (tabWidth * _currentIndex) + (tabWidth / 2) - 38; // Center pill (76 / 2 = 38)
+
+                        return Stack(
+                          children: [
+                            // Sliding Pill Animation
+                            AnimatedPositioned(
+                              duration: const Duration(milliseconds: 100), // Ultra-fast snappy transmission
+                              curve: Curves.easeOut,
+                              left: leftOffset,
+                              top: 12, // (72 total height - 48 pill height) / 2
+                              child: Container(
+                                width: 76,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(24),
+                                  color: const Color(0xFF6C4CF1).withValues(alpha: 0.15),
+                                ),
+                              ),
+                            ),
+                            // Icons Row
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _buildNavItem(icon: Icons.home_outlined, activeIcon: Icons.home_rounded, isActive: _currentIndex == 0, index: 0),
+                                _buildNavItem(icon: Icons.menu_book_outlined, activeIcon: Icons.menu_book_rounded, isActive: _currentIndex == 1, index: 1),
+                                _buildNavItem(icon: Icons.account_balance_wallet_outlined, activeIcon: Icons.account_balance_wallet_rounded, isActive: _currentIndex == 2, index: 2),
+                                _buildNavItem(icon: Icons.grid_view_outlined, activeIcon: Icons.grid_view_rounded, isActive: _currentIndex == 3, index: 3),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: isWarden
-              ? [
-                  _buildNavItem(icon: LucideIcons.home, label: 'Dashboard', isActive: _currentIndex == 0, index: 0),
-                  _buildNavItem(icon: LucideIcons.calendarClock, label: 'Outings', isActive: _currentIndex == 1, index: 1),
-                  _buildNavItem(icon: LucideIcons.bedDouble, label: 'Rooms', isActive: _currentIndex == 2, index: 2),
-                  _buildNavItem(icon: LucideIcons.layoutGrid, label: 'More', isActive: _currentIndex == 3, index: 3),
-                ]
-              : role == 'front_desk'
-                   ? [
-                      _buildNavItem(icon: LucideIcons.home, label: 'Dashboard', isActive: _currentIndex == 0, index: 0),
-                      _buildNavItem(icon: LucideIcons.userCheck, label: 'Visitors', isActive: _currentIndex == 1, index: 1),
-                      _buildNavItem(icon: LucideIcons.clipboardList, label: 'Enquiries', isActive: _currentIndex == 2, index: 2),
-                      _buildNavItem(icon: LucideIcons.layoutGrid, label: 'More', isActive: _currentIndex == 3, index: 3),
-                    ]
-                   : role == 'accountant'
-                   ? [
-                      _buildNavItem(icon: LucideIcons.home, label: 'Dashboard', isActive: _currentIndex == 0, index: 0),
-                      _buildNavItem(icon: LucideIcons.fileCheck, label: 'Invoices', isActive: _currentIndex == 1, index: 1),
-                      _buildNavItem(icon: LucideIcons.chartNoAxesCombined, label: 'Reports', isActive: _currentIndex == 2, index: 2),
-                      _buildNavItem(icon: LucideIcons.layoutGrid, label: 'More', isActive: _currentIndex == 3, index: 3),
-                    ]
-                  : isStudent
-                  ? [
-                      _buildNavItem(icon: LucideIcons.home, label: 'Dashboard', isActive: _currentIndex == 0, index: 0),
-                      _buildNavItem(icon: LucideIcons.bookOpen, label: 'Academics', isActive: _currentIndex == 1, index: 1),
-                      _buildNavItem(icon: LucideIcons.fileText, label: 'Homework', isActive: _currentIndex == 2, index: 2),
-                      _buildNavItem(icon: LucideIcons.layoutGrid, label: 'More', isActive: _currentIndex == 3, index: 3),
-                    ]
-                  : [
-                      _buildNavItem(icon: LucideIcons.home, label: 'Dashboard', isActive: _currentIndex == 0, index: 0),
-                      _buildNavItem(icon: LucideIcons.bookOpen, label: 'Academics', isActive: _currentIndex == 1, index: 1),
-                      _buildNavItem(icon: LucideIcons.wallet, label: 'Fees', isActive: _currentIndex == 2, index: 2),
-                      _buildNavItem(icon: LucideIcons.layoutGrid, label: 'More', isActive: _currentIndex == 3, index: 3),
-                    ],
         ),
       ),
     );
   }
 
-  Widget _buildNavItem({required IconData icon, required String label, required bool isActive, required int index}) {
+  Widget _buildNavItem({
+    required IconData icon,
+    required IconData activeIcon,
+    required bool isActive,
+    required int index,
+  }) {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            _currentIndex = index;
-            _subScreens.clear();
-          });
+          if (_currentIndex != index) {
+            // Instantly update the active tab highlight
+            setState(() {
+              _currentIndex = index;
+              _subScreens.clear();
+            });
+            // Instantly switch the screen without waiting for an animation
+            _pageController.jumpToPage(index);
+          }
         },
         behavior: HitTestBehavior.opaque,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF94A3B8),
-                size: isActive ? 24 : 22,
+        child: SizedBox(
+          height: 72, // Full height of navbar for huge tap target area
+          child: Center(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 100), // Fast icon switch
+              child: Icon(
+                isActive ? activeIcon : icon,
+                key: ValueKey(isActive), // Animates color change
+                color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF94A3B8), // Soft Slate when inactive
+                size: 24, // Keep icon size perfectly identical for both states
               ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
-                  color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF94A3B8),
-                ),
-              ),
-              const SizedBox(height: 2),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                width: isActive ? 14 : 0,
-                height: 3,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF6C4CF1),
-                  borderRadius: BorderRadius.circular(2),
-                  boxShadow: isActive
-                      ? [
-                          BoxShadow(
-                            color: const Color(0xFF6C4CF1).withValues(alpha: 0.5),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ]
-                      : [],
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+class _HoleClipper extends CustomClipper<Path> {
+  final double radius;
+  _HoleClipper({required this.radius});
+
+  @override
+  Path getClip(Size size) {
+    return Path()
+      ..addRect(Rect.fromLTRB(-100, -100, size.width + 100, size.height + 100)) // Outer bounds for shadow
+      ..addRRect(RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius))) // Inner bounds to cut out
+      ..fillType = PathFillType.evenOdd;
+  }
+
+  @override
+  bool shouldReclip(_HoleClipper oldClipper) => radius != oldClipper.radius;
 }

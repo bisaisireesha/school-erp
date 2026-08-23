@@ -29,7 +29,8 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
       'reporterContact': '+91 98112 34567',
       'claimedBy': '',
       'claimDate': '',
-      'description': 'Black silicone strap with slight scratch on upper bezel edge. Screen locked with PIN.',
+      'description':
+          'Black silicone strap with slight scratch on upper bezel edge. Screen locked with PIN.',
     },
     {
       'id': 'LF-102',
@@ -46,7 +47,8 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
       'reporterContact': '+91 98765 00011',
       'claimedBy': 'Rohan Sharma (Grade 9A)',
       'claimDate': 'Oct 25, 2023',
-      'description': 'School crest on pocket. Student name tag "Rohan S." stitched inside inner collar.',
+      'description':
+          'School crest on pocket. Student name tag "Rohan S." stitched inside inner collar.',
     },
     {
       'id': 'LF-103',
@@ -63,7 +65,8 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
       'reporterContact': '+91 98450 99887',
       'claimedBy': '',
       'claimDate': '',
-      'description': 'Silver steel finish with bright orange flip cap and superhero sticker on bottom base.',
+      'description':
+          'Silver steel finish with bright orange flip cap and superhero sticker on bottom base.',
     },
     {
       'id': 'LF-104',
@@ -80,7 +83,8 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
       'reporterContact': '+91 98221 44556',
       'claimedBy': '',
       'claimDate': '',
-      'description': 'Covered in brown wrapper with Camlin transparent geometry compass box inside.',
+      'description':
+          'Covered in brown wrapper with Camlin transparent geometry compass box inside.',
     },
     {
       'id': 'LF-105',
@@ -97,11 +101,18 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
       'reporterContact': '+91 97110 33221',
       'claimedBy': '',
       'claimDate': '',
-      'description': 'ID belongs to Ananya Deshpande, Admission No. ADM-2022-8874, Grade 7-C.',
+      'description':
+          'ID belongs to Ananya Deshpande, Admission No. ADM-2022-8874, Grade 7-C.',
     },
   ];
 
-  Widget _buildKpiCard(String label, String count, IconData icon, Color textColor, Color bgColor) {
+  Widget _buildKpiCard(
+    String label,
+    String count,
+    IconData icon,
+    Color textColor,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
       decoration: BoxDecoration(
@@ -120,7 +131,10 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Icon(icon, color: textColor, size: 20),
           ),
           const SizedBox(width: 12),
@@ -128,8 +142,24 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(
+                  count,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF6C6C80),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
@@ -192,227 +222,314 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Top Header
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF3F0FF),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(categoryIcon, color: const Color(0xFF6C4CF1), size: 20),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              item['title'],
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF1E1E2D),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF8F9FA),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: const Color(0xFFE2E8F0)),
-                            ),
-                            child: Text(
-                              item['category'],
-                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                            decoration: BoxDecoration(
-                              color: statusBg,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              status,
-                              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: statusTextColor),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                PopupMenuButton<String>(
-                  color: Colors.white,
-                  surfaceTintColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  icon: const Icon(LucideIcons.moreVertical, size: 18, color: Color(0xFF8F90A6)),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  onSelected: (val) {
-                    if (val == 'View Details') {
-                      _showItemDetails(item);
-                    } else if (val == 'Mark as Claimed') {
-                      _showClaimDialog(item);
-                    } else if (val == 'Delete') {
-                      setState(() {
-                        _items.remove(item);
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item record deleted.')));
-                    } else {
-                      setState(() {
-                        item['status'] = val;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Item marked as $val.')));
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    if (status != 'Claimed')
-                      const PopupMenuItem(
-                        value: 'Mark as Claimed',
-                        child: Row(
-                          children: [
-                            Icon(LucideIcons.checkCircle2, size: 16, color: Color(0xFF10B981)),
-                            SizedBox(width: 8),
-                            Text('Mark as Claimed', style: TextStyle(color: Color(0xFF10B981), fontWeight: FontWeight.w600)),
-                          ],
-                        ),
-                      ),
-                    const PopupMenuItem(value: 'Found', child: Text('Mark as Found (In Custody)')),
-                    const PopupMenuItem(value: 'Lost Reported', child: Text('Mark as Lost Reported')),
-                    const PopupMenuItem(value: 'Disposed', child: Text('Mark as Disposed')),
-                    const PopupMenuDivider(),
-                    const PopupMenuItem(
-                      value: 'View Details',
-                      child: Row(
-                        children: [
-                          Icon(LucideIcons.eye, size: 16),
-                          SizedBox(width: 8),
-                          Text('View Details'),
-                        ],
-                      ),
-                    ),
-                    const PopupMenuItem(
-                      value: 'Delete',
-                      child: Row(
-                        children: [
-                          Icon(LucideIcons.trash2, size: 16, color: Colors.red),
-                          SizedBox(width: 8),
-                          Text('Delete', style: TextStyle(color: Colors.red)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-          ),
-
-          // Location & Storage Box
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8F9FA),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFF1F1F5)),
-              ),
-              child: Column(
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Top Header
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(LucideIcons.mapPin, size: 13, color: Color(0xFF6C4CF1)),
-                      const SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          item['location'],
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF3F0FF),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      categoryIcon,
+                      color: const Color(0xFF6C4CF1),
+                      size: 20,
+                    ),
                   ),
-                  if (item['storageLocation'] != 'N/A' && item['storageLocation'] != '') ...[
-                    const SizedBox(height: 6),
-                    Row(
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(LucideIcons.archive, size: 13, color: Color(0xFF8F90A6)),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Storage: ${item['storageLocation']}',
-                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF64748B)),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                item['title'],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1E1E2D),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF8F9FA),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                  color: const Color(0xFFE2E8F0),
+                                ),
+                              ),
+                              child: Text(
+                                item['category'],
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: statusBg,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                status,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: statusTextColor,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
+                  PopupMenuButton<String>(
+                    color: Colors.white,
+                    surfaceTintColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    icon: const Icon(
+                      LucideIcons.moreVertical,
+                      size: 18,
+                      color: Color(0xFF8F90A6),
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onSelected: (val) {
+                      if (val == 'View Details') {
+                        _showItemDetails(item);
+                      } else if (val == 'Mark as Claimed') {
+                        _showClaimDialog(item);
+                      } else if (val == 'Delete') {
+                        setState(() {
+                          _items.remove(item);
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Item record deleted.')),
+                        );
+                      } else {
+                        setState(() {
+                          item['status'] = val;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Item marked as $val.')),
+                        );
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      if (status != 'Claimed')
+                        const PopupMenuItem(
+                          value: 'Mark as Claimed',
+                          child: Row(
+                            children: [
+                              Icon(
+                                LucideIcons.checkCircle2,
+                                size: 16,
+                                color: Color(0xFF10B981),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Mark as Claimed',
+                                style: TextStyle(
+                                  color: Color(0xFF10B981),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      const PopupMenuItem(
+                        value: 'Found',
+                        child: Text('Mark as Found (In Custody)'),
+                      ),
+                      const PopupMenuItem(
+                        value: 'Lost Reported',
+                        child: Text('Mark as Lost Reported'),
+                      ),
+                      const PopupMenuItem(
+                        value: 'Disposed',
+                        child: Text('Mark as Disposed'),
+                      ),
+                      const PopupMenuDivider(),
+                      const PopupMenuItem(
+                        value: 'View Details',
+                        child: Row(
+                          children: [
+                            Icon(LucideIcons.eye, size: 16),
+                            SizedBox(width: 8),
+                            Text('View Details'),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: 'Delete',
+                        child: Row(
+                          children: [
+                            Icon(
+                              LucideIcons.trash2,
+                              size: 16,
+                              color: Colors.red,
+                            ),
+                            SizedBox(width: 8),
+                            Text('Delete', style: TextStyle(color: Colors.red)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
-          ),
 
-          const SizedBox(height: 12),
-
-          // Footer Row
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: Row(
-              children: [
-                const Icon(LucideIcons.user, size: 13, color: Color(0xFF8F90A6)),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    item['reportedBy'],
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF64748B)),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+            // Location & Storage Box
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8F9FA),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFF1F1F5)),
                 ),
-                const Icon(LucideIcons.calendar, size: 13, color: Color(0xFF8F90A6)),
-                const SizedBox(width: 4),
-                Text(
-                  item['date'],
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF8F90A6)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          LucideIcons.mapPin,
+                          size: 13,
+                          color: Color(0xFF6C4CF1),
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            item['location'],
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (item['storageLocation'] != 'N/A' &&
+                        item['storageLocation'] != '') ...[
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          const Icon(
+                            LucideIcons.archive,
+                            size: 13,
+                            color: Color(0xFF8F90A6),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Storage: ${item['storageLocation']}',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF64748B),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+
+            const SizedBox(height: 12),
+
+            // Footer Row
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Row(
+                children: [
+                  const Icon(
+                    LucideIcons.user,
+                    size: 13,
+                    color: Color(0xFF8F90A6),
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      item['reportedBy'],
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF64748B),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const Icon(
+                    LucideIcons.calendar,
+                    size: 13,
+                    color: Color(0xFF8F90A6),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    item['date'],
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF8F90A6),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   void _showClaimDialog(Map<String, dynamic> item) {
@@ -427,26 +544,48 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
           children: [
             Icon(LucideIcons.checkCircle2, color: Color(0xFF10B981), size: 22),
             SizedBox(width: 10),
-            Text('Claim Item', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+            Text(
+              'Claim Item',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1E1E2D),
+              ),
+            ),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Mark "${item['title']}" as claimed and returned.', style: const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
+            Text(
+              'Mark "${item['title']}" as claimed and returned.',
+              style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+            ),
             const SizedBox(height: 16),
             TextField(
               controller: claimantController,
               decoration: InputDecoration(
                 labelText: 'Claimant Full Name & Class *',
                 hintText: 'e.g. Rohan Sharma (Grade 9-A)',
-                hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13),
+                hintStyle: const TextStyle(
+                  color: Color(0xFF94A3B8),
+                  fontSize: 13,
+                ),
                 filled: true,
                 fillColor: const Color(0xFFF8F9FA),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF6C4CF1))),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFF6C4CF1)),
+                ),
               ),
             ),
           ],
@@ -454,31 +593,65 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel', style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.bold)),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                color: Color(0xFF64748B),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
               if (claimantController.text.trim().isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter Claimant Name.')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Please enter Claimant Name.')),
+                );
                 return;
               }
-              final monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+              final monthNames = [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+              ];
               final now = DateTime.now();
               setState(() {
                 item['status'] = 'Claimed';
                 item['claimedBy'] = claimantController.text.trim();
-                item['claimDate'] = '${monthNames[now.month - 1]} ${now.day}, ${now.year}';
+                item['claimDate'] =
+                    '${monthNames[now.month - 1]} ${now.day}, ${now.year}';
               });
               final scaffoldMessenger = ScaffoldMessenger.of(context);
               Navigator.pop(context);
-              scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Item marked as claimed & returned!')));
+              scaffoldMessenger.showSnackBar(
+                const SnackBar(
+                  content: Text('Item marked as claimed & returned!'),
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF10B981),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               elevation: 0,
             ),
-            child: const Text('Confirm Claim', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: const Text(
+              'Confirm Claim',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
@@ -545,7 +718,11 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                         color: Color(0xFFF3F0FF),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(categoryIcon, color: const Color(0xFF6C4CF1), size: 24),
+                      child: Icon(
+                        categoryIcon,
+                        color: const Color(0xFF6C4CF1),
+                        size: 24,
+                      ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -554,32 +731,50 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                         children: [
                           Text(
                             item['id'],
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
                           ),
                           const SizedBox(height: 6),
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
                                 decoration: BoxDecoration(
                                   color: statusBg,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
                                   status,
-                                  style: TextStyle(fontSize: 11, color: statusTextColor, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: statusTextColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 6),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFE2E8F0),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
                                   item['category'],
-                                  style: const TextStyle(fontSize: 11, color: Color(0xFF475569), fontWeight: FontWeight.w600),
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Color(0xFF475569),
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ],
@@ -591,7 +786,9 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                       icon: const Icon(LucideIcons.x, color: Color(0xFF8B8B8B)),
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       onPressed: () => Navigator.pop(context),
                     ),
@@ -619,36 +816,74 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                         children: [
                           const Text(
                             'Item Title',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF8F90A6)),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF8F90A6),
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             item['title'],
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D)),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF1E1E2D),
+                            ),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 20),
 
-                    _buildDetailItem(LucideIcons.mapPin, 'Location Found / Lost', item['location']),
+                    _buildDetailItem(
+                      LucideIcons.mapPin,
+                      'Location Found / Lost',
+                      item['location'],
+                    ),
                     const SizedBox(height: 14),
-                    _buildDetailItem(LucideIcons.archive, 'Storage Custody Location', item['storageLocation'] ?? 'Front Desk Custody'),
+                    _buildDetailItem(
+                      LucideIcons.archive,
+                      'Storage Custody Location',
+                      item['storageLocation'] ?? 'Front Desk Custody',
+                    ),
                     const SizedBox(height: 14),
-                    _buildDetailItem(LucideIcons.calendar, 'Date & Time Reported', '${item['date']} at ${item['time']}'),
+                    _buildDetailItem(
+                      LucideIcons.calendar,
+                      'Date & Time Reported',
+                      '${item['date']} at ${item['time']}',
+                    ),
                     const SizedBox(height: 14),
-                    _buildDetailItem(LucideIcons.user, 'Reported By', '${item['reportedBy']} (${item['reporterRole']})'),
-                    if ((item['reporterContact'] as String?)?.isNotEmpty ?? false) ...[
+                    _buildDetailItem(
+                      LucideIcons.user,
+                      'Reported By',
+                      '${item['reportedBy']} (${item['reporterRole']})',
+                    ),
+                    if ((item['reporterContact'] as String?)?.isNotEmpty ??
+                        false) ...[
                       const SizedBox(height: 14),
-                      _buildDetailItem(LucideIcons.phone, 'Reporter Contact', item['reporterContact']),
+                      _buildDetailItem(
+                        LucideIcons.phone,
+                        'Reporter Contact',
+                        item['reporterContact'],
+                      ),
                     ],
                     if (status == 'Claimed') ...[
                       const SizedBox(height: 14),
-                      _buildDetailItem(LucideIcons.checkCircle2, 'Claimed By', '${item['claimedBy']} on ${item['claimDate']}'),
+                      _buildDetailItem(
+                        LucideIcons.checkCircle2,
+                        'Claimed By',
+                        '${item['claimedBy']} on ${item['claimDate']}',
+                      ),
                     ],
-                    if ((item['description'] as String?)?.isNotEmpty ?? false) ...[
+                    if ((item['description'] as String?)?.isNotEmpty ??
+                        false) ...[
                       const SizedBox(height: 14),
-                      _buildDetailItem(LucideIcons.fileText, 'Distinct Features & Details', item['description']),
+                      _buildDetailItem(
+                        LucideIcons.fileText,
+                        'Distinct Features & Details',
+                        item['description'],
+                      ),
                     ],
                     const SizedBox(height: 16),
                   ],
@@ -677,9 +912,23 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF8F90A6))),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF8F90A6),
+                ),
+              ),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
             ],
           ),
         ),
@@ -702,7 +951,8 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
       final status = (item['status'] as String);
       final query = _searchQuery.trim().toLowerCase();
 
-      bool matchesQuery = query.isEmpty ||
+      bool matchesQuery =
+          query.isEmpty ||
           title.contains(query) ||
           category.contains(query) ||
           location.contains(query) ||
@@ -735,24 +985,54 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                            border: Border.all(
+                              color: const Color(0xFFF3EEFF),
+                              width: 1.5,
+                            ),
                           ),
-                          child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                          child: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Color(0xFF1E1E2D),
+                            size: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
                     ],
                     const Expanded(
-                      child: Text('Lost & Found', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      child: Text(
+                        'Lost & Found',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                     ),
                     ElevatedButton.icon(
                       onPressed: _showNewItemModal,
-                      icon: const Icon(LucideIcons.plus, size: 16, color: Colors.white),
-                      label: const Text('Report Item', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+                      icon: const Icon(
+                        LucideIcons.plus,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Report Item',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         elevation: 0,
                       ),
                     ),
@@ -768,17 +1048,49 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                   children: [
                     Row(
                       children: [
-                        Expanded(child: _buildKpiCard('Total Items', '$totalItems', LucideIcons.package, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF))),
+                        Expanded(
+                          child: _buildKpiCard(
+                            'Total Items',
+                            '$totalItems',
+                            LucideIcons.package,
+                            const Color(0xFF6C4CF1),
+                            const Color(0xFFF3F0FF),
+                          ),
+                        ),
                         const SizedBox(width: 12),
-                        Expanded(child: _buildKpiCard('In Custody', '$foundCount', LucideIcons.packageCheck, const Color(0xFFF59E0B), const Color(0xFFFEF3C7))),
+                        Expanded(
+                          child: _buildKpiCard(
+                            'In Custody',
+                            '$foundCount',
+                            LucideIcons.packageCheck,
+                            const Color(0xFFF59E0B),
+                            const Color(0xFFFEF3C7),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        Expanded(child: _buildKpiCard('Claimed', '$claimedCount', LucideIcons.checkCircle2, const Color(0xFF10B981), const Color(0xFFD1FAE5))),
+                        Expanded(
+                          child: _buildKpiCard(
+                            'Claimed',
+                            '$claimedCount',
+                            LucideIcons.checkCircle2,
+                            const Color(0xFF10B981),
+                            const Color(0xFFD1FAE5),
+                          ),
+                        ),
                         const SizedBox(width: 12),
-                        Expanded(child: _buildKpiCard('Lost Reported', '$lostCount', LucideIcons.helpCircle, const Color(0xFF3B82F6), const Color(0xFFEFF6FF))),
+                        Expanded(
+                          child: _buildKpiCard(
+                            'Lost Reported',
+                            '$lostCount',
+                            LucideIcons.helpCircle,
+                            const Color(0xFF3B82F6),
+                            const Color(0xFFEFF6FF),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -793,14 +1105,36 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                   onChanged: (val) => setState(() => _searchQuery = val),
                   decoration: InputDecoration(
                     hintText: 'Search items, categories, locations...',
-                    hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13),
-                    prefixIcon: const Icon(LucideIcons.search, color: Color(0xFF6C4CF1), size: 18),
+                    hintStyle: const TextStyle(
+                      color: Color(0xFF94A3B8),
+                      fontSize: 13,
+                    ),
+                    prefixIcon: const Icon(
+                      LucideIcons.search,
+                      color: Color(0xFF6C4CF1),
+                      size: 18,
+                    ),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF6C4CF1),
+                        width: 1.5,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -812,28 +1146,48 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                 child: Wrap(
                   spacing: 8,
                   runSpacing: 12,
-                  children: ['All', 'Found', 'Claimed', 'Lost Reported', 'Disposed'].map((status) {
-                    final isSelected = _filterStatus == status;
-                    return GestureDetector(
-                      onTap: () => setState(() => _filterStatus = status),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: isSelected ? const Color(0xFF6C4CF1) : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0)),
-                        ),
-                        child: Text(
-                          status,
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : const Color(0xFF64748B),
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                            fontSize: 13,
+                  children:
+                      [
+                        'All',
+                        'Found',
+                        'Claimed',
+                        'Lost Reported',
+                        'Disposed',
+                      ].map((status) {
+                        final isSelected = _filterStatus == status;
+                        return GestureDetector(
+                          onTap: () => setState(() => _filterStatus = status),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? const Color(0xFF6C4CF1)
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: isSelected
+                                    ? const Color(0xFF6C4CF1)
+                                    : const Color(0xFFE2E8F0),
+                              ),
+                            ),
+                            child: Text(
+                              status,
+                              style: TextStyle(
+                                color: isSelected
+                                    ? Colors.white
+                                    : const Color(0xFF64748B),
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
+                                fontSize: 13,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      }).toList(),
                 ),
               ),
               const SizedBox(height: 20),
@@ -852,7 +1206,11 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                             color: Color(0xFFF3F0FF),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(LucideIcons.inbox, size: 48, color: Color(0xFF6C4CF1)),
+                          child: const Icon(
+                            LucideIcons.inbox,
+                            size: 48,
+                            color: Color(0xFF6C4CF1),
+                          ),
                         ),
                         const SizedBox(height: 16),
                         const Text(
@@ -880,7 +1238,9 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
-                    children: displayedItems.map((item) => _buildItemCard(item)).toList(),
+                    children: displayedItems
+                        .map((item) => _buildItemCard(item))
+                        .toList(),
                   ),
                 ),
 
@@ -905,7 +1265,9 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
         _items.insert(0, newItem);
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item record saved successfully!')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Item record saved successfully!')),
+        );
       }
     }
   }
@@ -915,10 +1277,12 @@ class _NewLostAndFoundBottomSheet extends StatefulWidget {
   const _NewLostAndFoundBottomSheet();
 
   @override
-  State<_NewLostAndFoundBottomSheet> createState() => _NewLostAndFoundBottomSheetState();
+  State<_NewLostAndFoundBottomSheet> createState() =>
+      _NewLostAndFoundBottomSheetState();
 }
 
-class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet> {
+class _NewLostAndFoundBottomSheetState
+    extends State<_NewLostAndFoundBottomSheet> {
   final _titleController = TextEditingController();
   final _locationController = TextEditingController();
   final _storageController = TextEditingController();
@@ -1007,8 +1371,22 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
         RichText(
           text: TextSpan(
             text: label,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842)),
-            children: isRequired ? [const TextSpan(text: ' *', style: TextStyle(color: Color(0xFFEF4444), fontWeight: FontWeight.bold))] : [],
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF323842),
+            ),
+            children: isRequired
+                ? [
+                    const TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Color(0xFFEF4444),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ]
+                : [],
           ),
         ),
         const SizedBox(height: 8),
@@ -1016,17 +1394,42 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
           controller: controller,
           maxLines: maxLines,
           keyboardType: keyboardType,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF1E1E2D),
+          ),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13, fontWeight: FontWeight.normal),
-            prefixIcon: prefixIcon != null ? Icon(prefixIcon, size: 18, color: const Color(0xFF8F90A6)) : null,
+            hintStyle: const TextStyle(
+              color: Color(0xFF94A3B8),
+              fontSize: 13,
+              fontWeight: FontWeight.normal,
+            ),
+            prefixIcon: prefixIcon != null
+                ? Icon(prefixIcon, size: 18, color: const Color(0xFF8F90A6))
+                : null,
             filled: true,
             fillColor: const Color(0xFFF8F9FA),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0xFF6C4CF1),
+                width: 1.5,
+              ),
+            ),
           ),
         ),
       ],
@@ -1047,8 +1450,22 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
         RichText(
           text: TextSpan(
             text: label,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842)),
-            children: isRequired ? [const TextSpan(text: ' *', style: TextStyle(color: Color(0xFFEF4444), fontWeight: FontWeight.bold))] : [],
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF323842),
+            ),
+            children: isRequired
+                ? [
+                    const TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Color(0xFFEF4444),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ]
+                : [],
           ),
         ),
         const SizedBox(height: 8),
@@ -1070,13 +1487,21 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                   child: DropdownButton<String>(
                     value: value,
                     isExpanded: true,
-                    icon: const Icon(LucideIcons.chevronDown, color: Color(0xFF8F90A6), size: 18),
+                    icon: const Icon(
+                      LucideIcons.chevronDown,
+                      color: Color(0xFF8F90A6),
+                      size: 18,
+                    ),
                     items: items.map((String item) {
                       return DropdownMenuItem<String>(
                         value: item,
                         child: Text(
                           item,
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1E1E2D),
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       );
@@ -1094,30 +1519,53 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
 
   void _submitForm() {
     if (_titleController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter Item Title.')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter Item Title.')));
       return;
     }
     if (_locationController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter Location Found / Lost.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter Location Found / Lost.')),
+      );
       return;
     }
     if (_reportedByController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter Reported By.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter Reported By.')),
+      );
       return;
     }
 
-    final monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    final formattedDate = '${monthNames[_selectedDate.month - 1]} ${_selectedDate.day}, ${_selectedDate.year}';
+    final monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    final formattedDate =
+        '${monthNames[_selectedDate.month - 1]} ${_selectedDate.day}, ${_selectedDate.year}';
     final nowTime = TimeOfDay.now().format(context);
 
     final newItem = {
-      'id': 'LF-${_selectedDate.millisecondsSinceEpoch.toString().substring(8)}',
+      'id':
+          'LF-${_selectedDate.millisecondsSinceEpoch.toString().substring(8)}',
       'title': _titleController.text.trim(),
       'category': _selectedCategory,
       'itemType': _selectedType,
       'status': _selectedType == 'Found' ? 'Found' : 'Lost Reported',
       'location': _locationController.text.trim(),
-      'storageLocation': _storageController.text.trim().isEmpty ? 'Front Desk Custody' : _storageController.text.trim(),
+      'storageLocation': _storageController.text.trim().isEmpty
+          ? 'Front Desk Custody'
+          : _storageController.text.trim(),
       'date': formattedDate,
       'time': nowTime,
       'reportedBy': _reportedByController.text.trim(),
@@ -1133,8 +1581,22 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
 
   @override
   Widget build(BuildContext context) {
-    final monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    final dateDisplay = '${monthNames[_selectedDate.month - 1]} ${_selectedDate.day}, ${_selectedDate.year}';
+    final monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    final dateDisplay =
+        '${monthNames[_selectedDate.month - 1]} ${_selectedDate.day}, ${_selectedDate.year}';
 
     return Container(
       constraints: BoxConstraints(
@@ -1169,24 +1631,47 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                         color: const Color(0xFFF3F0FF),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(LucideIcons.packagePlus, color: Color(0xFF6C4CF1), size: 22),
+                      child: const Icon(
+                        LucideIcons.packagePlus,
+                        color: Color(0xFF6C4CF1),
+                        size: 22,
+                      ),
                     ),
                     const SizedBox(width: 14),
                     const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Report Item', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                        Text(
+                          'Report Item',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         SizedBox(height: 2),
-                        Text('Record lost or found article details', style: TextStyle(fontSize: 12, color: Color(0xFF8F90A6))),
+                        Text(
+                          'Record lost or found article details',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF8F90A6),
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
                 IconButton(
-                  icon: const Icon(LucideIcons.x, color: Color(0xFF8B8B8B), size: 20),
+                  icon: const Icon(
+                    LucideIcons.x,
+                    color: Color(0xFF8B8B8B),
+                    size: 20,
+                  ),
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -1214,19 +1699,36 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
-                              color: _selectedType == 'Found' ? const Color(0xFFF59E0B).withValues(alpha: 0.12) : const Color(0xFFF8F9FA),
+                              color: _selectedType == 'Found'
+                                  ? const Color(
+                                      0xFFF59E0B,
+                                    ).withValues(alpha: 0.12)
+                                  : const Color(0xFFF8F9FA),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: _selectedType == 'Found' ? const Color(0xFFF59E0B) : const Color(0xFFE2E8F0),
+                                color: _selectedType == 'Found'
+                                    ? const Color(0xFFF59E0B)
+                                    : const Color(0xFFE2E8F0),
                                 width: _selectedType == 'Found' ? 1.5 : 1,
                               ),
                             ),
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(LucideIcons.packageCheck, size: 16, color: Color(0xFFF59E0B)),
+                                Icon(
+                                  LucideIcons.packageCheck,
+                                  size: 16,
+                                  color: Color(0xFFF59E0B),
+                                ),
                                 SizedBox(width: 8),
-                                Text('Found Item (Custody)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFFF59E0B))),
+                                Text(
+                                  'Found Item (Custody)',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFFF59E0B),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -1239,19 +1741,36 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
-                              color: _selectedType == 'Lost' ? const Color(0xFF3B82F6).withValues(alpha: 0.12) : const Color(0xFFF8F9FA),
+                              color: _selectedType == 'Lost'
+                                  ? const Color(
+                                      0xFF3B82F6,
+                                    ).withValues(alpha: 0.12)
+                                  : const Color(0xFFF8F9FA),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: _selectedType == 'Lost' ? const Color(0xFF3B82F6) : const Color(0xFFE2E8F0),
+                                color: _selectedType == 'Lost'
+                                    ? const Color(0xFF3B82F6)
+                                    : const Color(0xFFE2E8F0),
                                 width: _selectedType == 'Lost' ? 1.5 : 1,
                               ),
                             ),
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(LucideIcons.helpCircle, size: 16, color: Color(0xFF3B82F6)),
+                                Icon(
+                                  LucideIcons.helpCircle,
+                                  size: 16,
+                                  color: Color(0xFF3B82F6),
+                                ),
                                 SizedBox(width: 8),
-                                Text('Lost Item (Reported)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF3B82F6))),
+                                Text(
+                                  'Lost Item (Reported)',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF3B82F6),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -1263,7 +1782,8 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
 
                   _buildInputField(
                     label: 'Item Title',
-                    hint: 'e.g. Fastrack Watch, Navy Blue Blazer, Milton Bottle',
+                    hint:
+                        'e.g. Fastrack Watch, Navy Blue Blazer, Milton Bottle',
                     controller: _titleController,
                     isRequired: true,
                     prefixIcon: LucideIcons.tag,
@@ -1281,7 +1801,7 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                       'Books & Stationery',
                       'ID Card & Wallet',
                       'Sports & Bags',
-                      'Other'
+                      'Other',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedCategory = val);
@@ -1296,7 +1816,9 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                   const SizedBox(height: 16),
 
                   _buildInputField(
-                    label: _selectedType == 'Found' ? 'Location Found' : 'Last Seen Location',
+                    label: _selectedType == 'Found'
+                        ? 'Location Found'
+                        : 'Last Seen Location',
                     hint: 'e.g. Junior Lab 2, Bus #14, Auditorium Row F',
                     controller: _locationController,
                     isRequired: true,
@@ -1319,25 +1841,45 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Date Reported', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842))),
+                            const Text(
+                              'Date Reported',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF323842),
+                              ),
+                            ),
                             const SizedBox(height: 8),
                             GestureDetector(
                               onTap: _pickDate,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 13,
+                                ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFF8F9FA),
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                                  border: Border.all(
+                                    color: const Color(0xFFE2E8F0),
+                                  ),
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(LucideIcons.calendar, size: 18, color: Color(0xFF6C4CF1)),
+                                    const Icon(
+                                      LucideIcons.calendar,
+                                      size: 18,
+                                      color: Color(0xFF6C4CF1),
+                                    ),
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
                                         dateDisplay,
-                                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF1E1E2D)),
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF1E1E2D),
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
@@ -1355,7 +1897,10 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                   const SizedBox(height: 20),
 
                   // Section 3: Reporter & Remarks
-                  _buildSectionTitle('Reporter & Description', LucideIcons.user),
+                  _buildSectionTitle(
+                    'Reporter & Description',
+                    LucideIcons.user,
+                  ),
                   const SizedBox(height: 16),
 
                   Row(
@@ -1376,9 +1921,18 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                         child: _buildDropdownField(
                           label: 'Role',
                           value: _selectedReporterRole,
-                          items: ['Student', 'Staff', 'Support Staff', 'Parent', 'Security', 'Other'],
+                          items: [
+                            'Student',
+                            'Staff',
+                            'Support Staff',
+                            'Parent',
+                            'Security',
+                            'Other',
+                          ],
                           onChanged: (val) {
-                            if (val != null) setState(() => _selectedReporterRole = val);
+                            if (val != null) {
+                              setState(() => _selectedReporterRole = val);
+                            }
                           },
                         ),
                       ),
@@ -1397,7 +1951,8 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
 
                   _buildInputField(
                     label: 'Distinct Physical Features / Notes',
-                    hint: 'e.g. Black silicone strap, initial engraved, specific sticker on the side',
+                    hint:
+                        'e.g. Black silicone strap, initial engraved, specific sticker on the side',
                     controller: _descriptionController,
                     maxLines: 2,
                     prefixIcon: LucideIcons.fileText,
@@ -1423,10 +1978,19 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                     onPressed: () => Navigator.pop(context),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 15),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                       side: const BorderSide(color: Color(0xFFE2E8F0)),
                     ),
-                    child: const Text('Cancel', style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.bold, fontSize: 14)),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Color(0xFF64748B),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -1434,12 +1998,25 @@ class _NewLostAndFoundBottomSheetState extends State<_NewLostAndFoundBottomSheet
                   flex: 2,
                   child: ElevatedButton.icon(
                     onPressed: _submitForm,
-                    icon: const Icon(LucideIcons.check, size: 18, color: Colors.white),
-                    label: const Text('Save Item Record', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                    icon: const Icon(
+                      LucideIcons.check,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      'Save Item Record',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF6C4CF1),
                       padding: const EdgeInsets.symmetric(vertical: 15),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                       elevation: 0,
                     ),
                   ),

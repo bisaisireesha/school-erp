@@ -7,7 +7,8 @@ class AccountantReceiptsScreen extends StatefulWidget {
   const AccountantReceiptsScreen({super.key, required this.onBack});
 
   @override
-  State<AccountantReceiptsScreen> createState() => _AccountantReceiptsScreenState();
+  State<AccountantReceiptsScreen> createState() =>
+      _AccountantReceiptsScreenState();
 }
 
 class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
@@ -107,7 +108,10 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -117,9 +121,16 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
                         ),
-                        child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -127,24 +138,52 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Receipts', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                          Text('Manage and generate receipts', style: TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
+                          Text(
+                            'Receipts',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
+                          Text(
+                            'Manage and generate receipts',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF64748B),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     GestureDetector(
                       onTap: () => _showNewReceiptDialog(context),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF6C4CF1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Row(
                           children: [
-                            Icon(LucideIcons.plus, color: Colors.white, size: 16),
+                            Icon(
+                              LucideIcons.plus,
+                              color: Colors.white,
+                              size: 16,
+                            ),
                             SizedBox(width: 6),
-                            Text('New', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+                            Text(
+                              'New',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -153,12 +192,14 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-              
+
               // List
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
-                  children: filteredReceipts.map((receipt) => _buildReceiptCard(receipt)).toList(),
+                  children: filteredReceipts
+                      .map((receipt) => _buildReceiptCard(receipt))
+                      .toList(),
                 ),
               ),
               const SizedBox(height: 40),
@@ -180,143 +221,222 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF1F5F9)),
-          boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                receipt['id'] as String,
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Color(0xFF6C4CF1)),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isDraft ? const Color(0xFFF1F5F9) : const Color(0xFFF0FDF4),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  receipt['status'] as String,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    color: isDraft ? const Color(0xFF64748B) : const Color(0xFF16A34A),
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  receipt['id'] as String,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF6C4CF1),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8F9FA),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isDraft
+                        ? const Color(0xFFF1F5F9)
+                        : const Color(0xFFF0FDF4),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    receipt['status'] as String,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: isDraft
+                          ? const Color(0xFF64748B)
+                          : const Color(0xFF16A34A),
+                    ),
+                  ),
                 ),
-                child: const Icon(LucideIcons.user, color: Color(0xFF64748B), size: 20),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8F9FA),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: const Icon(
+                    LucideIcons.user,
+                    color: Color(0xFF64748B),
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            receipt['name'] as String,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF1F5F9),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              receipt['className'] as String? ?? 'Class 10-A',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${receipt['category']} • ${receipt['paymentMode']}',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF64748B),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          receipt['name'] as String,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF1F5F9),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            receipt['className'] as String? ?? 'Class 10-A',
-                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF64748B)),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      receipt['amount'] as String,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF1E1E2D),
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${receipt['category']} • ${receipt['paymentMode']}',
-                      style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+                      receipt['date'] as String,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF94A3B8),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    receipt['amount'] as String,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    receipt['date'] as String,
-                    style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const Divider(color: Color(0xFFF1F5F9), height: 1),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => _downloadReceipt(receipt),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF8F9FA),
-                        borderRadius: BorderRadius.circular(8),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Divider(color: Color(0xFFF1F5F9), height: 1),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => _downloadReceipt(receipt),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8F9FA),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: receipt['isDownloading'] == true
+                            ? const SizedBox(
+                                height: 14,
+                                width: 14,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Color(0xFF6C4CF1),
+                                ),
+                              )
+                            : const Icon(
+                                LucideIcons.download,
+                                size: 16,
+                                color: Color(0xFF64748B),
+                              ),
                       ),
-                      child: receipt['isDownloading'] == true 
-                          ? const SizedBox(height: 14, width: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF6C4CF1)))
-                          : const Icon(LucideIcons.download, size: 16, color: Color(0xFF64748B)),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: () => _shareReceipt(receipt),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF8F9FA),
-                        borderRadius: BorderRadius.circular(8),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () => _shareReceipt(receipt),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8F9FA),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: receipt['isSharing'] == true
+                            ? const SizedBox(
+                                height: 14,
+                                width: 14,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Color(0xFF6C4CF1),
+                                ),
+                              )
+                            : Icon(
+                                receipt['isShared'] == true
+                                    ? LucideIcons.check
+                                    : LucideIcons.share2,
+                                size: 16,
+                                color: receipt['isShared'] == true
+                                    ? const Color(0xFF16A34A)
+                                    : const Color(0xFF64748B),
+                              ),
                       ),
-                      child: receipt['isSharing'] == true
-                          ? const SizedBox(height: 14, width: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF6C4CF1)))
-                          : Icon(receipt['isShared'] == true ? LucideIcons.check : LucideIcons.share2, size: 16, color: receipt['isShared'] == true ? const Color(0xFF16A34A) : const Color(0xFF64748B)),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      'View details',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF0EA5E9),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.arrow_forward,
+                      size: 14,
+                      color: Color(0xFF0EA5E9),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -334,14 +454,25 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
         SnackBar(
           content: Row(
             children: [
-              const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+              const Icon(
+                LucideIcons.checkCircle,
+                color: Colors.white,
+                size: 20,
+              ),
               const SizedBox(width: 12),
-              Expanded(child: Text('Receipt ${receipt['id']} downloaded successfully!', style: const TextStyle(fontWeight: FontWeight.bold))),
+              Expanded(
+                child: Text(
+                  'Receipt ${receipt['id']} downloaded successfully!',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ],
           ),
           backgroundColor: const Color(0xFF16A34A),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           margin: const EdgeInsets.all(24),
           duration: const Duration(seconds: 3),
         ),
@@ -363,14 +494,25 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
         SnackBar(
           content: Row(
             children: [
-              const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+              const Icon(
+                LucideIcons.checkCircle,
+                color: Colors.white,
+                size: 20,
+              ),
               const SizedBox(width: 12),
-              Expanded(child: Text('Receipt ${receipt['id']} shared successfully!', style: const TextStyle(fontWeight: FontWeight.bold))),
+              Expanded(
+                child: Text(
+                  'Receipt ${receipt['id']} shared successfully!',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ],
           ),
           backgroundColor: const Color(0xFF16A34A),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           margin: const EdgeInsets.all(24),
           duration: const Duration(seconds: 3),
         ),
@@ -399,13 +541,27 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Receipt Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const Text(
+                    'Receipt Details',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(8)),
-                      child: const Icon(LucideIcons.x, size: 20, color: Color(0xFF64748B)),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F5F9),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        LucideIcons.x,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
                     ),
                   ),
                 ],
@@ -420,22 +576,47 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Receipt ${receipt['id']}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+                        Text(
+                          'Receipt ${receipt['id']}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF6C4CF1),
+                          ),
+                        ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
-                            color: receipt['status'] == 'Draft' ? const Color(0xFFF1F5F9) : const Color(0xFFF0FDF4),
+                            color: receipt['status'] == 'Draft'
+                                ? const Color(0xFFF1F5F9)
+                                : const Color(0xFFF0FDF4),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
                             receipt['status'] as String,
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: receipt['status'] == 'Draft' ? const Color(0xFF64748B) : const Color(0xFF16A34A)),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: receipt['status'] == 'Draft'
+                                  ? const Color(0xFF64748B)
+                                  : const Color(0xFF16A34A),
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 24),
-                    const Text('Student Information', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Student Information',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -448,12 +629,22 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
                         children: [
                           _buildDetailRow('Name', receipt['name'] as String),
                           const Divider(height: 24, color: Color(0xFFE2E8F0)),
-                          _buildDetailRow('Class', receipt['className'] as String? ?? 'Class 10-A'),
+                          _buildDetailRow(
+                            'Class',
+                            receipt['className'] as String? ?? 'Class 10-A',
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Text('Payment Details', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Payment Details',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -464,11 +655,20 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
                       ),
                       child: Column(
                         children: [
-                          _buildDetailRow('Category', receipt['category'] as String),
+                          _buildDetailRow(
+                            'Category',
+                            receipt['category'] as String,
+                          ),
                           const Divider(height: 24, color: Color(0xFFE2E8F0)),
-                          _buildDetailRow('Amount', receipt['amount'] as String),
+                          _buildDetailRow(
+                            'Amount',
+                            receipt['amount'] as String,
+                          ),
                           const Divider(height: 24, color: Color(0xFFE2E8F0)),
-                          _buildDetailRow('Mode', receipt['paymentMode'] as String),
+                          _buildDetailRow(
+                            'Mode',
+                            receipt['paymentMode'] as String,
+                          ),
                           const Divider(height: 24, color: Color(0xFFE2E8F0)),
                           _buildDetailRow('Date', receipt['date'] as String),
                         ],
@@ -483,13 +683,26 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
                               Navigator.pop(context);
                               _downloadReceipt(receipt);
                             },
-                            icon: const Icon(LucideIcons.download, size: 16, color: Color(0xFF6C4CF1)),
-                            label: const Text('Download PDF', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+                            icon: const Icon(
+                              LucideIcons.download,
+                              size: 16,
+                              color: Color(0xFF6C4CF1),
+                            ),
+                            label: const Text(
+                              'Download PDF',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF6C4CF1),
+                              ),
+                            ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFF3F0FF),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               elevation: 0,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                           ),
                         ),
@@ -500,13 +713,26 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
                               Navigator.pop(context);
                               _shareReceipt(receipt);
                             },
-                            icon: const Icon(LucideIcons.share2, size: 16, color: Colors.white),
-                            label: const Text('Share Receipt', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                            icon: const Icon(
+                              LucideIcons.share2,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                            label: const Text(
+                              'Share Receipt',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF6C4CF1),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               elevation: 0,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                           ),
                         ),
@@ -526,8 +752,18 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
-        Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
       ],
     );
   }
@@ -538,13 +774,17 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
     final TextEditingController sectionController = TextEditingController();
     final TextEditingController categoryController = TextEditingController();
     final TextEditingController amountController = TextEditingController();
-    final TextEditingController modeController = TextEditingController(text: 'Online');
+    final TextEditingController modeController = TextEditingController(
+      text: 'Online',
+    );
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (BuildContext context) {
         return Padding(
           padding: EdgeInsets.only(
@@ -553,105 +793,169 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('New Receipt', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: const Icon(Icons.close, color: Color(0xFF64748B)),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Generate a new manual receipt for collected payments.',
-                style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(flex: 2, child: _buildFormField('STUDENT NAME', nameController)),
-                  const SizedBox(width: 12),
-                  Expanded(flex: 1, child: _buildFormField('CLASS', classController)),
-                  const SizedBox(width: 12),
-                  Expanded(flex: 1, child: _buildFormField('SECTION', sectionController)),
-                ],
-              ),
-              const SizedBox(height: 16),
-              _buildFormField('FEE CATEGORY (e.g. Tuition, Transport)', categoryController),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(child: _buildFormField('AMOUNT (₹)', amountController, isNumber: true)),
-                  const SizedBox(width: 16),
-                  Expanded(child: _buildFormField('PAYMENT MODE', modeController)),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: TextButton.styleFrom(
-                      foregroundColor: const Color(0xFF1E1E2D),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Color(0xFFE2E8F0)),
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'New Receipt',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
                       ),
                     ),
-                    child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                  const SizedBox(width: 12),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _receipts.insert(0, {
-                          'id': 'REC-2408-${(_receipts.length + 1).toString().padLeft(2, '0')}',
-                          'name': nameController.text.isEmpty ? 'Unknown' : nameController.text,
-                          'className': 'Class ${classController.text.isEmpty ? '?' : classController.text}-${sectionController.text.isEmpty ? '?' : sectionController.text}',
-                          'category': categoryController.text.isEmpty ? 'General Fee' : categoryController.text,
-                          'amount': '₹${amountController.text.isEmpty ? '0' : amountController.text}',
-                          'date': 'Just now',
-                          'status': 'Generated',
-                          'paymentMode': modeController.text.isEmpty ? 'Cash' : modeController.text,
-                        });
-                      });
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Receipt generated successfully!')),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C4CF1),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      elevation: 0,
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.close, color: Color(0xFF64748B)),
                     ),
-                    child: const Text('Generate', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-            ],
-          ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Generate a new manual receipt for collected payments.',
+                  style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: _buildFormField('STUDENT NAME', nameController),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      flex: 1,
+                      child: _buildFormField('CLASS', classController),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      flex: 1,
+                      child: _buildFormField('SECTION', sectionController),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                _buildFormField(
+                  'FEE CATEGORY (e.g. Tuition, Transport)',
+                  categoryController,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildFormField(
+                        'AMOUNT (₹)',
+                        amountController,
+                        isNumber: true,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildFormField('PAYMENT MODE', modeController),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: TextButton.styleFrom(
+                        foregroundColor: const Color(0xFF1E1E2D),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: const BorderSide(color: Color(0xFFE2E8F0)),
+                        ),
+                      ),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _receipts.insert(0, {
+                            'id':
+                                'REC-2408-${(_receipts.length + 1).toString().padLeft(2, '0')}',
+                            'name': nameController.text.isEmpty
+                                ? 'Unknown'
+                                : nameController.text,
+                            'className':
+                                'Class ${classController.text.isEmpty ? '?' : classController.text}-${sectionController.text.isEmpty ? '?' : sectionController.text}',
+                            'category': categoryController.text.isEmpty
+                                ? 'General Fee'
+                                : categoryController.text,
+                            'amount':
+                                '₹${amountController.text.isEmpty ? '0' : amountController.text}',
+                            'date': 'Just now',
+                            'status': 'Generated',
+                            'paymentMode': modeController.text.isEmpty
+                                ? 'Cash'
+                                : modeController.text,
+                          });
+                        });
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Receipt generated successfully!'),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6C4CF1),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: const Text(
+                        'Generate',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildFormField(String label, TextEditingController controller, {bool isNumber = false}) {
+  Widget _buildFormField(
+    String label,
+    TextEditingController controller, {
+    bool isNumber = false,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF64748B), letterSpacing: 0.5)),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF64748B),
+            letterSpacing: 0.5,
+          ),
+        ),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,
@@ -660,7 +964,10 @@ class _AccountantReceiptsScreenState extends State<AccountantReceiptsScreen> {
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color(0xFFF8F9FA),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 12,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Color(0xFFE2E8F0)),

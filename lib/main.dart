@@ -8,15 +8,14 @@ import 'screens/splash/splash_screen.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
       child: const MyApp(),
     ),
   );
 }
 
-final GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> globalNavigatorKey =
+    GlobalKey<NavigatorState>();
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -43,7 +42,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       builder: (context, child) {
         if (child == null) return const SizedBox.shrink();
-        
+
         // Force text scale to 1.0 globally to prevent text from hiding or wrapping unpredictably
         final mediaQueryData = MediaQuery.of(context);
         final scaledChild = MediaQuery(
@@ -83,25 +82,51 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         textTheme: TextTheme(
           // Screen Title: Inter Bold (24 px)
-          headlineSmall: GoogleFonts.inter(fontSize: 24, fontWeight: FontWeight.bold),
-          titleLarge: GoogleFonts.inter(fontSize: 24, fontWeight: FontWeight.bold), // Fallback
-          
+          headlineSmall: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+          titleLarge: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ), // Fallback
           // Section Title: Inter SemiBold (18 px)
-          titleMedium: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w600),
-          
+          titleMedium: GoogleFonts.inter(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+
           // Card Title: Inter SemiBold (16 px)
-          titleSmall: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
-          
+          titleSmall: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+
           // Body Text: Roboto Regular (14 px)
-          bodyLarge: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.normal),
-          bodyMedium: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.normal),
-          
+          bodyLarge: GoogleFonts.roboto(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+          ),
+          bodyMedium: GoogleFonts.roboto(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+          ),
+
           // Button Text: Inter Medium (16 px)
-          labelLarge: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w500),
-          
+          labelLarge: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+
           // Labels: Roboto Regular (12-13 px)
-          labelMedium: GoogleFonts.roboto(fontSize: 13, fontWeight: FontWeight.normal),
-          labelSmall: GoogleFonts.roboto(fontSize: 12, fontWeight: FontWeight.normal),
+          labelMedium: GoogleFonts.roboto(
+            fontSize: 13,
+            fontWeight: FontWeight.normal,
+          ),
+          labelSmall: GoogleFonts.roboto(
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
+          ),
         ),
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6C5CE7)),
         useMaterial3: true,

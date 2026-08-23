@@ -7,7 +7,8 @@ class AccountantPaySlipsScreen extends StatefulWidget {
   const AccountantPaySlipsScreen({super.key, required this.onBack});
 
   @override
-  State<AccountantPaySlipsScreen> createState() => _AccountantPaySlipsScreenState();
+  State<AccountantPaySlipsScreen> createState() =>
+      _AccountantPaySlipsScreenState();
 }
 
 class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
@@ -61,7 +62,10 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
             children: [
               // Scrollable Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -71,32 +75,46 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
                         ),
-                        child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
                     const Expanded(
-                      child: Text('Pay Slips',
-                          style: TextStyle(
-                            color: Color(0xFF1E1E2D),
-                            fontSize: 22,
-                            fontWeight: FontWeight.w900,
-                          )),
+                      child: Text(
+                        'Pay Slips',
+                        style: TextStyle(
+                          color: Color(0xFF1E1E2D),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
                     ),
                     IconButton(
-                      icon: const Icon(LucideIcons.download, color: Color(0xFF1E1E2D)),
+                      icon: const Icon(
+                        LucideIcons.download,
+                        color: Color(0xFF1E1E2D),
+                      ),
                       onPressed: () => _showDownloadReportSheet(context),
                     ),
                   ],
                 ),
               ),
               _buildFilters(),
-              ..._filteredStaff.map((staff) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: _buildStaffCard(staff),
-              )),
+              ..._filteredStaff.map(
+                (staff) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: _buildStaffCard(staff),
+                ),
+              ),
               const SizedBox(height: 40),
             ],
           ),
@@ -126,19 +144,30 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                 },
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFF6C4CF1) : Colors.transparent,
+                    color: isSelected
+                        ? const Color(0xFF6C4CF1)
+                        : Colors.transparent,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0),
+                      color: isSelected
+                          ? const Color(0xFF6C4CF1)
+                          : const Color(0xFFE2E8F0),
                     ),
                   ),
                   child: Text(
                     filter,
                     style: TextStyle(
-                      color: isSelected ? Colors.white : const Color(0xFF64748B),
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                      color: isSelected
+                          ? Colors.white
+                          : const Color(0xFF64748B),
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w500,
                       fontSize: 14,
                     ),
                   ),
@@ -171,128 +200,167 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
           ],
         ),
         child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF3F0FF),
-                    borderRadius: BorderRadius.circular(12),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F0FF),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      LucideIcons.user,
+                      color: Color(0xFF6C4CF1),
+                    ),
                   ),
-                  child: const Icon(LucideIcons.user, color: Color(0xFF6C4CF1)),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          staff['name'],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${staff['id']} • ${staff['role']}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isGenerated
+                          ? const Color(0xFFF0FDF4)
+                          : const Color(0xFFFFFBEB),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      staff['status'],
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: isGenerated
+                            ? const Color(0xFF16A34A)
+                            : const Color(0xFFD97706),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: Color(0xFFF1F5F9)),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        staff['name'],
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1E1E2D),
+                      const Text(
+                        'Base Salary',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF94A3B8),
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${staff['id']} • ${staff['role']}',
+                        staff['salary'],
                         style: const TextStyle(
-                          fontSize: 13,
-                          color: Color(0xFF64748B),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF1E1E2D),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: isGenerated ? const Color(0xFFF0FDF4) : const Color(0xFFFFFBEB),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    staff['status'],
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: isGenerated ? const Color(0xFF16A34A) : const Color(0xFFD97706),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Base Salary',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Color(0xFF94A3B8),
-                        fontWeight: FontWeight.w600,
+                  if (!isGenerated)
+                    ElevatedButton.icon(
+                      onPressed: () => _showGenerateSlipSheet(context, staff),
+                      icon: const Icon(
+                        LucideIcons.filePlus,
+                        size: 16,
+                        color: Colors.white,
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      staff['salary'],
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF1E1E2D),
+                      label: const Text(
+                        'Generate',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6C4CF1),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                    )
+                  else
+                    Row(
+                      children: [
+                        const Text(
+                          'View details',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF0EA5E9),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.arrow_forward,
+                          size: 14,
+                          color: Color(0xFF0EA5E9),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                if (!isGenerated)
-                  ElevatedButton.icon(
-                    onPressed: () => _showGenerateSlipSheet(context, staff),
-                    icon: const Icon(LucideIcons.filePlus, size: 16, color: Colors.white),
-                    label: const Text(
-                      'Generate',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C4CF1),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    ),
-                  )
-                else
-                  Row(
-                    children: [
-                      const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
-                    ],
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
 
-  void _showGenerateSlipSheet(BuildContext context, Map<String, dynamic> staff) {
+  void _showGenerateSlipSheet(
+    BuildContext context,
+    Map<String, dynamic> staff,
+  ) {
     final TextEditingController bonusController = TextEditingController();
     final TextEditingController deductionController = TextEditingController();
     bool isProcessing = false;
     bool isGenerated = false;
-    double baseSalary = double.parse(staff['salary'].replaceAll('₹', '').replaceAll(',', ''));
+    double baseSalary = double.parse(
+      staff['salary'].replaceAll('₹', '').replaceAll(',', ''),
+    );
     double bonus = 0;
     double deductions = 0;
 
@@ -306,166 +374,251 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
           String formatRupees(int amount) {
             String res = amount.toString();
             if (res.length > 3) {
-              res = '${res.substring(0, res.length - 3)},${res.substring(res.length - 3)}';
+              res =
+                  '${res.substring(0, res.length - 3)},${res.substring(res.length - 3)}';
             }
             if (res.length > 6) {
-              res = '${res.substring(0, res.length - 6)},${res.substring(res.length - 6)}';
+              res =
+                  '${res.substring(0, res.length - 6)},${res.substring(res.length - 6)}';
             }
             return '₹$res';
           }
+
           String netPayStr = formatRupees(netPay.toInt());
 
           return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 12),
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2)),
-                  ),
-                ),
-                if (isProcessing) ...[
-                  _buildProcessingState(staff['name']),
-                ] else if (isGenerated) ...[
-                  _buildGeneratedState(context),
-                ] else ...[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
-                    child: Row(
-                      children: [
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Generate Pay Slip', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                              SizedBox(height: 4),
-                              Text('August 2026', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF3E8FF),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: const Icon(LucideIcons.x, color: Color(0xFF1E1E2D)),
-                            padding: const EdgeInsets.all(8),
-                            constraints: const BoxConstraints(),
-                          ),
-                        ),
-                      ],
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 12),
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE2E8F0),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
                     ),
                   ),
-                  Flexible(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  if (isProcessing) ...[
+                    _buildProcessingState(staff['name']),
+                  ] else if (isGenerated) ...[
+                    _buildGeneratedState(context),
+                  ] else ...[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+                      child: Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF8F9FA),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(LucideIcons.user, color: Color(0xFF64748B)),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(staff['name'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                                      Text('${staff['id']} • ${staff['role']}', style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                                    ],
+                                Text(
+                                  'Generate Pay Slip',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xFF1E1E2D),
                                   ),
                                 ),
-                                Text(staff['salary'], style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                                SizedBox(height: 4),
+                                Text(
+                                  'August 2026',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF64748B),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          const SizedBox(height: 24),
-                          Row(
-                            children: [
-                              Expanded(child: _buildInputField('BONUS / ALLOWANCE', bonusController, onChanged: (v) {
-                                setSheetState(() {
-                                  bonus = double.tryParse(v) ?? 0;
-                                });
-                              })),
-                              const SizedBox(width: 16),
-                              Expanded(child: _buildInputField('DEDUCTIONS', deductionController, onChanged: (v) {
-                                setSheetState(() {
-                                  deductions = double.tryParse(v) ?? 0;
-                                });
-                              })),
-                            ],
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3E8FF),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: const Icon(
+                                LucideIcons.x,
+                                color: Color(0xFF1E1E2D),
+                              ),
+                              padding: const EdgeInsets.all(8),
+                              constraints: const BoxConstraints(),
+                            ),
                           ),
-                          const SizedBox(height: 24),
-                          const Divider(height: 1, color: Color(0xFFE2E8F0)),
-                          const SizedBox(height: 24),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Total Net Pay', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                              Text(netPayStr, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFF6C4CF1))),
-                            ],
-                          ),
-                          const SizedBox(height: 32),
                         ],
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(24),
-                    decoration: const BoxDecoration(
-                      border: Border(top: BorderSide(color: Color(0xFFE2E8F0))),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        setSheetState(() => isProcessing = true);
-                        await Future.delayed(const Duration(seconds: 2));
-                        if (!context.mounted) return;
-                        setState(() {
-                          staff['status'] = 'Generated';
-                          staff['salary'] = netPayStr;
-                        });
-                        setSheetState(() {
-                          isProcessing = false;
-                          isGenerated = true;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF6C4CF1),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        elevation: 0,
+                    Flexible(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF8F9FA),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    LucideIcons.user,
+                                    color: Color(0xFF64748B),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          staff['name'],
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF1E1E2D),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${staff['id']} • ${staff['role']}',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF64748B),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    staff['salary'],
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                      color: Color(0xFF1E1E2D),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: _buildInputField(
+                                    'BONUS / ALLOWANCE',
+                                    bonusController,
+                                    onChanged: (v) {
+                                      setSheetState(() {
+                                        bonus = double.tryParse(v) ?? 0;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: _buildInputField(
+                                    'DEDUCTIONS',
+                                    deductionController,
+                                    onChanged: (v) {
+                                      setSheetState(() {
+                                        deductions = double.tryParse(v) ?? 0;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 24),
+                            const Divider(height: 1, color: Color(0xFFE2E8F0)),
+                            const SizedBox(height: 24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Total Net Pay',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1E1E2D),
+                                  ),
+                                ),
+                                Text(
+                                  netPayStr,
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xFF6C4CF1),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 32),
+                          ],
+                        ),
                       ),
-                      child: const Text('Generate & Notify', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                     ),
-                  ),
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(color: Color(0xFFE2E8F0)),
+                        ),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          setSheetState(() => isProcessing = true);
+                          await Future.delayed(const Duration(seconds: 2));
+                          if (!context.mounted) return;
+                          setState(() {
+                            staff['status'] = 'Generated';
+                            staff['salary'] = netPayStr;
+                          });
+                          setSheetState(() {
+                            isProcessing = false;
+                            isGenerated = true;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF6C4CF1),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Generate & Notify',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-        );
-      },
-    ),
-  );
-}
+          );
+        },
+      ),
+    );
+  }
 
   Widget _buildProcessingState(String name) {
     return Container(
@@ -476,9 +629,19 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
         children: [
           const CircularProgressIndicator(color: Color(0xFF6C4CF1)),
           const SizedBox(height: 24),
-          const Text('Generating Pay Slip...', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          const Text(
+            'Generating Pay Slip...',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 8),
-          Text('Calculating totals for $name', style: const TextStyle(fontSize: 14, color: Color(0xFF64748B))),
+          Text(
+            'Calculating totals for $name',
+            style: const TextStyle(fontSize: 14, color: Color(0xFF64748B)),
+          ),
         ],
       ),
     );
@@ -507,7 +670,10 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                   margin: const EdgeInsets.symmetric(vertical: 12),
                   width: 40,
                   height: 4,
-                  decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2)),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE2E8F0),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
               if (isDownloading)
@@ -524,9 +690,22 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Pay Slip', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                            const Text(
+                              'Pay Slip',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF1E1E2D),
+                              ),
+                            ),
                             const SizedBox(height: 8),
-                            const Text('August 2026', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
+                            const Text(
+                              'August 2026',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -535,8 +714,18 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                           color: const Color(0xFFF0FDF4),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        child: const Text('Generated', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF16A34A))),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        child: const Text(
+                          'Generated',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF16A34A),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -549,32 +738,84 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Employee', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
-                          Text(staff['name'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                          const Text(
+                            'Employee',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF64748B),
+                            ),
+                          ),
+                          Text(
+                            staff['name'],
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('ID', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
-                          Text(staff['id'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                          const Text(
+                            'ID',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF64748B),
+                            ),
+                          ),
+                          Text(
+                            staff['id'],
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Role', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
-                          Text(staff['role'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                          const Text(
+                            'Role',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF64748B),
+                            ),
+                          ),
+                          Text(
+                            staff['role'],
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Base Salary', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
-                          Text(staff['salary'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                          const Text(
+                            'Base Salary',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF64748B),
+                            ),
+                          ),
+                          Text(
+                            staff['salary'],
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 24),
@@ -583,8 +824,22 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Total Net Pay', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                          Text(staff['salary'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFF6C4CF1))),
+                          const Text(
+                            'Total Net Pay',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
+                          Text(
+                            staff['salary'],
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF6C4CF1),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -597,11 +852,24 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                       Expanded(
                         child: OutlinedButton.icon(
                           onPressed: () => Navigator.pop(context),
-                          icon: const Icon(LucideIcons.x, size: 16, color: Color(0xFF1E1E2D)),
-                          label: const Text('Close', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                          icon: const Icon(
+                            LucideIcons.x,
+                            size: 16,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                          label: const Text(
+                            'Close',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         ),
                       ),
@@ -617,12 +885,25 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                               isDownloaded = true;
                             });
                           },
-                          icon: const Icon(LucideIcons.download, size: 16, color: Colors.white),
-                          label: const Text('Download', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                          icon: const Icon(
+                            LucideIcons.download,
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                          label: const Text(
+                            'Download',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF6C4CF1),
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                             elevation: 0,
                           ),
                         ),
@@ -647,9 +928,19 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
         children: [
           const CircularProgressIndicator(color: Color(0xFF6C4CF1)),
           const SizedBox(height: 24),
-          const Text('Downloading PDF...', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          const Text(
+            'Downloading PDF...',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 8),
-          Text('Preparing pay slip for $name', style: const TextStyle(fontSize: 14, color: Color(0xFF64748B))),
+          Text(
+            'Preparing pay slip for $name',
+            style: const TextStyle(fontSize: 14, color: Color(0xFF64748B)),
+          ),
         ],
       ),
     );
@@ -664,13 +955,30 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(color: Color(0xFFF0FDF4), shape: BoxShape.circle),
-            child: const Icon(LucideIcons.checkCircle2, color: Color(0xFF16A34A), size: 48),
+            decoration: const BoxDecoration(
+              color: Color(0xFFF0FDF4),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              LucideIcons.checkCircle2,
+              color: Color(0xFF16A34A),
+              size: 48,
+            ),
           ),
           const SizedBox(height: 24),
-          const Text('Slip Generated!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          const Text(
+            'Slip Generated!',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 8),
-          const Text('Staff member has been notified', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
+          const Text(
+            'Staff member has been notified',
+            style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
+          ),
           const SizedBox(height: 32),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
@@ -679,10 +987,19 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF6C4CF1),
                 minimumSize: const Size(double.infinity, 48),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 elevation: 0,
               ),
-              child: const Text('Done', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+              child: const Text(
+                'Done',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ),
         ],
@@ -699,13 +1016,30 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(color: Color(0xFFF0FDF4), shape: BoxShape.circle),
-            child: const Icon(LucideIcons.checkCircle2, color: Color(0xFF16A34A), size: 48),
+            decoration: const BoxDecoration(
+              color: Color(0xFFF0FDF4),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              LucideIcons.checkCircle2,
+              color: Color(0xFF16A34A),
+              size: 48,
+            ),
           ),
           const SizedBox(height: 24),
-          const Text('Download Complete!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          const Text(
+            'Download Complete!',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 8),
-          const Text('Saved to your device', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
+          const Text(
+            'Saved to your device',
+            style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
+          ),
           const SizedBox(height: 32),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
@@ -714,10 +1048,19 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF6C4CF1),
                 minimumSize: const Size(double.infinity, 48),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 elevation: 0,
               ),
-              child: const Text('Done', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+              child: const Text(
+                'Done',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ),
         ],
@@ -745,7 +1088,10 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                 margin: const EdgeInsets.symmetric(vertical: 12),
                 width: 40,
                 height: 4,
-                decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE2E8F0),
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
             ),
             Container(
@@ -758,11 +1104,26 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+                        const CircularProgressIndicator(
+                          color: Color(0xFF6C4CF1),
+                        ),
                         const SizedBox(height: 24),
-                        const Text('Downloading Report...', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        const Text(
+                          'Downloading Report...',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         const SizedBox(height: 8),
-                        const Text('Preparing pay slips data', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
+                        const Text(
+                          'Preparing pay slips data',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
                       ],
                     );
                   } else {
@@ -771,13 +1132,33 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                       children: [
                         Container(
                           padding: const EdgeInsets.all(16),
-                          decoration: const BoxDecoration(color: Color(0xFFF0FDF4), shape: BoxShape.circle),
-                          child: const Icon(LucideIcons.checkCircle2, color: Color(0xFF16A34A), size: 48),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFF0FDF4),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            LucideIcons.checkCircle2,
+                            color: Color(0xFF16A34A),
+                            size: 48,
+                          ),
                         ),
                         const SizedBox(height: 24),
-                        const Text('Download Complete!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        const Text(
+                          'Download Complete!',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         const SizedBox(height: 8),
-                        const Text('Report saved to your device', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
+                        const Text(
+                          'Report saved to your device',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
                         const SizedBox(height: 32),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 48),
@@ -786,10 +1167,19 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF6C4CF1),
                               minimumSize: const Size(double.infinity, 48),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                               elevation: 0,
                             ),
-                            child: const Text('Done', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                            child: const Text(
+                              'Done',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -804,11 +1194,23 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
     );
   }
 
-  Widget _buildInputField(String label, TextEditingController controller, {Function(String)? onChanged}) {
+  Widget _buildInputField(
+    String label,
+    TextEditingController controller, {
+    Function(String)? onChanged,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 0.5)),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF64748B),
+            letterSpacing: 0.5,
+          ),
+        ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
@@ -822,9 +1224,16 @@ class _AccountantPaySlipsScreenState extends State<AccountantPaySlipsScreen> {
             style: const TextStyle(color: Color(0xFF1E1E2D), fontSize: 14),
             decoration: const InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
               prefixText: '₹ ',
-              prefixStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 14, fontWeight: FontWeight.bold),
+              prefixStyle: TextStyle(
+                color: Color(0xFF94A3B8),
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),

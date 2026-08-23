@@ -174,6 +174,41 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     );
   }
 
+
+  void _showReportDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Report User'),
+        content: const Text('Are you sure you want to report this user? They will be reviewed by our moderation team.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel', style: TextStyle(color: Color(0xFF6B7280))),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text('User reported successfully'),
+                backgroundColor: const Color(0xFFE11D48),
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFE11D48),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Report'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isStarred = widget.chatData['isStarred'] ?? false;
@@ -249,26 +284,32 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       offset: const Offset(0, 40),
                       onSelected: (value) {
-                        if (value == 'View Profile') {
+                        if (value == 'Star Chat') {
+                          if (widget.onStar != null) {
+                            widget.onStar!();
+                          } else {
+                            widget.chatData['isStarred'] = !isStarred;
+                          }
+                          setState(() {});
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Viewing profile of ${widget.chatData['name']}'),
+                            content: Text(!isStarred ? 'Chat starred' : 'Chat unstarred'),
                             behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                           ));
-                        } else if (value == 'Star Chat' && widget.onStar != null) {
-                          widget.onStar!();
+                        } else if (value == 'Archive Chat') {
+                          if (widget.onArchive != null) {
+                            widget.onArchive!();
+                          } else {
+                            widget.chatData['isArchived'] = !isArchived;
+                          }
+                          setState(() {});
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(isStarred ? 'Chat unstarred' : 'Chat starred'),
+                            content: Text(!isArchived ? 'Chat archived' : 'Chat unarchived'),
                             behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                           ));
-                        } else if (value == 'Archive Chat' && widget.onArchive != null) {
-                          widget.onArchive!();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(isArchived ? 'Chat unarchived' : 'Chat archived'),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          ));
+                        } else if (value == 'Report') {
+                          _showReportDialog();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text('Selected: $value'),
@@ -278,16 +319,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         }
                       },
                       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                        PopupMenuItem<String>(
-                          value: 'View Profile',
-                          child: Row(
-                            children: const [
-                              Icon(LucideIcons.user, size: 18, color: Color(0xFF1E1E2D)),
-                              SizedBox(width: 12),
-                              Text('View Profile', style: TextStyle(fontWeight: FontWeight.w500)),
-                            ],
-                          ),
-                        ),
                         PopupMenuItem<String>(
                           value: 'Star Chat',
                           child: Row(

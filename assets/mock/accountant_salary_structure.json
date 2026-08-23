@@ -1,0 +1,14 @@
+{
+  "teachers": {
+    "base": 50000,
+    "hra": 10000,
+    "ta": 5000,
+    "pf_deduction": 4000
+  },
+  "admin_staff": {
+    "base": 30000,
+    "hra": 8000,
+    "ta": 3000,
+    "pf_deduction": 2400
+  }
+}

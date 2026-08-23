@@ -113,16 +113,28 @@ class AllHighlightsScreen extends StatelessWidget {
   void _navigateToScreen(BuildContext context, String route) {
     switch (route) {
       case 'homework':
-        MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'transport':
-        MainLayout.pushSubScreen(context, TransportScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          TransportScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'fees':
-        MainLayout.pushSubScreen(context, const FeesScreen());
+        MainLayout.pushSubScreen(
+          context,
+          FeesScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'calendar':
-        MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
     }
   }
@@ -149,20 +161,36 @@ class AllHighlightsScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+                              color: const Color(
+                                0xFFE8E3F8,
+                              ).withValues(alpha: 0.3),
                               blurRadius: 6,
                               offset: const Offset(0, 2),
                             ),
                           ],
                         ),
-                        child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
-                    const Text('All Highlights', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'All Highlights',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const Spacer(),
                     Container(
                       padding: const EdgeInsets.all(8),
@@ -170,7 +198,11 @@ class AllHighlightsScreen extends StatelessWidget {
                         color: const Color(0xFFF3F0FF),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(LucideIcons.sparkles, size: 20, color: Color(0xFF6C4CF1)),
+                      child: const Icon(
+                        LucideIcons.sparkles,
+                        size: 20,
+                        color: Color(0xFF6C4CF1),
+                      ),
                     ),
                   ],
                 ),
@@ -182,7 +214,8 @@ class AllHighlightsScreen extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(24, 8, 24, 120),
                 itemCount: _highlights.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 14),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 14),
                 itemBuilder: (context, index) {
                   final item = _highlights[index];
                   return GestureDetector(
@@ -192,10 +225,15 @@ class AllHighlightsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                        border: Border.all(
+                          color: const Color(0xFFF3EEFF),
+                          width: 1.5,
+                        ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+                            color: const Color(
+                              0xFFE8E3F8,
+                            ).withValues(alpha: 0.5),
                             blurRadius: 15,
                             offset: const Offset(0, 5),
                           ),
@@ -210,7 +248,11 @@ class AllHighlightsScreen extends StatelessWidget {
                               color: item['iconBg'],
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Icon(item['icon'], color: item['iconColor'], size: 28),
+                            child: Icon(
+                              item['icon'],
+                              color: item['iconColor'],
+                              size: 28,
+                            ),
                           ),
                           const SizedBox(width: 14),
                           Expanded(
@@ -218,12 +260,17 @@ class AllHighlightsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Text(
                                         item['title'],
-                                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF1E1E2D),
+                                        ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -231,23 +278,35 @@ class AllHighlightsScreen extends StatelessWidget {
                                     const SizedBox(width: 8),
                                     Text(
                                       item['time'],
-                                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF9090A7)),
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF9090A7),
+                                      ),
                                     ),
                                   ],
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   item['subtitle'],
-                                  style: const TextStyle(fontSize: 13, color: Color(0xFF6C6C80), height: 1.4),
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: Color(0xFF6C6C80),
+                                    height: 1.4,
+                                  ),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 8),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 4,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: item['tagBgColor'],
                                         borderRadius: BorderRadius.circular(12),
@@ -255,7 +314,11 @@ class AllHighlightsScreen extends StatelessWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(Icons.circle, color: item['tagColor'], size: 8),
+                                          Icon(
+                                            Icons.circle,
+                                            color: item['tagColor'],
+                                            size: 8,
+                                          ),
                                           const SizedBox(width: 4),
                                           Text(
                                             item['tagText'],
@@ -268,7 +331,11 @@ class AllHighlightsScreen extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    const Icon(LucideIcons.chevronRight, size: 16, color: Color(0xFFBDBDD0)),
+                                    const Icon(
+                                      LucideIcons.chevronRight,
+                                      size: 16,
+                                      color: Color(0xFFBDBDD0),
+                                    ),
                                   ],
                                 ),
                               ],

@@ -63,7 +63,8 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
       'date': '22 Aug 2026',
       'status': 'Pending',
       'nextFollowUp': '27 Aug 2026',
-      'notes': 'Inquired about Integrated JEE/NEET coaching batches and lab facilities.',
+      'notes':
+          'Inquired about Integrated JEE/NEET coaching batches and lab facilities.',
     },
     {
       'id': 'ENQ-2026-004',
@@ -89,7 +90,8 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
       'date': '19 Aug 2026',
       'status': 'Converted',
       'nextFollowUp': 'Completed',
-      'notes': 'Entrance assessment cleared with Grade A. Enrolled successfully.',
+      'notes':
+          'Entrance assessment cleared with Grade A. Enrolled successfully.',
     },
     {
       'id': 'ENQ-2026-006',
@@ -102,7 +104,8 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
       'date': '18 Aug 2026',
       'status': 'Closed',
       'nextFollowUp': '--',
-      'notes': 'Decided to join another branch closer to their residential locality.',
+      'notes':
+          'Decided to join another branch closer to their residential locality.',
     },
   ];
 
@@ -140,7 +143,8 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
     // Filter and search logic
     final filteredEnquiries = _enquiries.where((enq) {
       final query = _searchQuery.toLowerCase().trim();
-      final matchesSearch = query.isEmpty ||
+      final matchesSearch =
+          query.isEmpty ||
           enq['studentName'].toString().toLowerCase().contains(query) ||
           enq['parentName'].toString().toLowerCase().contains(query) ||
           enq['phone'].toString().contains(query) ||
@@ -157,7 +161,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
 
     int totalCount = _enquiries.length;
     int pendingCount = _enquiries.where((e) => e['status'] == 'Pending').length;
-    int convertedCount = _enquiries.where((e) => e['status'] == 'Converted').length;
+    int convertedCount = _enquiries
+        .where((e) => e['status'] == 'Converted')
+        .length;
     int closedCount = _enquiries.where((e) => e['status'] == 'Closed').length;
 
     return Scaffold(
@@ -182,9 +188,16 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                            border: Border.all(
+                              color: const Color(0xFFF3EEFF),
+                              width: 1.5,
+                            ),
                           ),
-                          child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                          child: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Color(0xFF1E1E2D),
+                            size: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -215,12 +228,28 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                     ),
                     ElevatedButton.icon(
                       onPressed: () => _showEnquiryModal(),
-                      icon: const Icon(LucideIcons.plus, size: 16, color: Colors.white),
-                      label: const Text('New Enquiry', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+                      icon: const Icon(
+                        LucideIcons.plus,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'New Enquiry',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         elevation: 0,
                       ),
                     ),
@@ -301,7 +330,10 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    border: Border.all(
+                      color: const Color(0xFFF3EEFF),
+                      width: 1.5,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
@@ -314,16 +346,31 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                     onChanged: (val) => setState(() => _searchQuery = val),
                     decoration: InputDecoration(
                       hintText: 'Search student, parent, phone, grade...',
-                      hintStyle: const TextStyle(color: Color(0xFF8B8B8B), fontSize: 13),
-                      prefixIcon: const Icon(LucideIcons.search, color: Color(0xFF6C4CF1), size: 18),
+                      hintStyle: const TextStyle(
+                        color: Color(0xFF8B8B8B),
+                        fontSize: 13,
+                      ),
+                      prefixIcon: const Icon(
+                        LucideIcons.search,
+                        color: Color(0xFF6C4CF1),
+                        size: 18,
+                      ),
                       suffixIcon: _searchQuery.isNotEmpty
                           ? IconButton(
-                              icon: const Icon(LucideIcons.x, size: 16, color: Color(0xFF8B8B8B)),
-                              onPressed: () => setState(() => _searchQuery = ''),
+                              icon: const Icon(
+                                LucideIcons.x,
+                                size: 16,
+                                color: Color(0xFF8B8B8B),
+                              ),
+                              onPressed: () =>
+                                  setState(() => _searchQuery = ''),
                             )
                           : null,
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                     ),
                   ),
                 ),
@@ -340,7 +387,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                 child: filteredEnquiries.isEmpty
                     ? _buildEmptyState()
                     : Column(
-                        children: filteredEnquiries.map((enquiry) => _buildEnquiryCard(enquiry)).toList(),
+                        children: filteredEnquiries
+                            .map((enquiry) => _buildEnquiryCard(enquiry))
+                            .toList(),
                       ),
               ),
               const SizedBox(height: 120),
@@ -374,7 +423,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           ),
           boxShadow: [
             BoxShadow(
-              color: isActive ? color.withValues(alpha: 0.18) : const Color(0xFFE8E3F8).withValues(alpha: 0.4),
+              color: isActive
+                  ? color.withValues(alpha: 0.18)
+                  : const Color(0xFFE8E3F8).withValues(alpha: 0.4),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -384,7 +435,10 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Icon(icon, color: color, size: 20),
             ),
             const SizedBox(width: 12),
@@ -394,7 +448,11 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                 children: [
                   Text(
                     count,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -444,12 +502,26 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           color: isSelected ? const Color(0xFF6C4CF1) : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFF3EEFF),
+            color: isSelected
+                ? const Color(0xFF6C4CF1)
+                : const Color(0xFFF3EEFF),
             width: 1.5,
           ),
           boxShadow: isSelected
-              ? [BoxShadow(color: const Color(0xFF6C4CF1).withValues(alpha: 0.25), blurRadius: 8, offset: const Offset(0, 4))]
-              : [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 2))],
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF6C4CF1).withValues(alpha: 0.25),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
         ),
         child: Text(
           label,
@@ -513,7 +585,11 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                   child: Center(
                     child: Text(
                       enquiry['studentName'][0],
-                      style: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w800, fontSize: 18),
+                      style: const TextStyle(
+                        color: Color(0xFF6C4CF1),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
@@ -524,19 +600,30 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                     children: [
                       Text(
                         enquiry['studentName'],
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D)),
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFF1E1E2D),
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 3),
                       Text(
                         'Parent: ${enquiry['parentName']}',
-                        style: const TextStyle(fontSize: 12, color: Color(0xFF6B7280), fontWeight: FontWeight.w500),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF6B7280),
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: statusBgColor,
                     borderRadius: BorderRadius.circular(12),
@@ -552,10 +639,16 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                 ),
                 const SizedBox(width: 4),
                 PopupMenuButton<String>(
-                  icon: const Icon(LucideIcons.ellipsisVertical, size: 18, color: Color(0xFF8B8B8B)),
+                  icon: const Icon(
+                    LucideIcons.ellipsisVertical,
+                    size: 18,
+                    color: Color(0xFF8B8B8B),
+                  ),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   color: Colors.white,
                   surfaceTintColor: Colors.white,
                   elevation: 6,
@@ -570,7 +663,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                         enquiry['nextFollowUp'] = 'Completed';
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Enquiry marked as Converted!')),
+                        const SnackBar(
+                          content: Text('Enquiry marked as Converted!'),
+                        ),
                       );
                     } else if (value == 'Close') {
                       setState(() {
@@ -578,7 +673,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                         enquiry['nextFollowUp'] = '--';
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Enquiry marked as Closed.')),
+                        const SnackBar(
+                          content: Text('Enquiry marked as Closed.'),
+                        ),
                       );
                     } else if (value == 'Delete') {
                       setState(() {
@@ -594,9 +691,19 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                       value: 'View',
                       child: Row(
                         children: [
-                          Icon(LucideIcons.eye, size: 16, color: Color(0xFF4A4A68)),
+                          Icon(
+                            LucideIcons.eye,
+                            size: 16,
+                            color: Color(0xFF4A4A68),
+                          ),
                           SizedBox(width: 10),
-                          Text('View Details', style: TextStyle(fontSize: 13, color: Color(0xFF1E1E2D))),
+                          Text(
+                            'View Details',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -604,9 +711,19 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                       value: 'Edit',
                       child: Row(
                         children: [
-                          Icon(LucideIcons.fileEdit, size: 16, color: Color(0xFF4A4A68)),
+                          Icon(
+                            LucideIcons.fileEdit,
+                            size: 16,
+                            color: Color(0xFF4A4A68),
+                          ),
                           SizedBox(width: 10),
-                          Text('Edit Enquiry', style: TextStyle(fontSize: 13, color: Color(0xFF1E1E2D))),
+                          Text(
+                            'Edit Enquiry',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -615,9 +732,20 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                         value: 'Convert',
                         child: Row(
                           children: [
-                            Icon(LucideIcons.checkCircle2, size: 16, color: Color(0xFF10B981)),
+                            Icon(
+                              LucideIcons.checkCircle2,
+                              size: 16,
+                              color: Color(0xFF10B981),
+                            ),
                             SizedBox(width: 10),
-                            Text('Mark as Converted', style: TextStyle(fontSize: 13, color: Color(0xFF10B981), fontWeight: FontWeight.bold)),
+                            Text(
+                              'Mark as Converted',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF10B981),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -625,9 +753,19 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                         value: 'Close',
                         child: Row(
                           children: [
-                            Icon(LucideIcons.xCircle, size: 16, color: Color(0xFFEF4444)),
+                            Icon(
+                              LucideIcons.xCircle,
+                              size: 16,
+                              color: Color(0xFFEF4444),
+                            ),
                             SizedBox(width: 10),
-                            Text('Mark as Closed', style: TextStyle(fontSize: 13, color: Color(0xFFEF4444))),
+                            Text(
+                              'Mark as Closed',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFFEF4444),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -637,9 +775,20 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                       value: 'Delete',
                       child: Row(
                         children: [
-                          Icon(LucideIcons.trash2, size: 16, color: Color(0xFFEF4444)),
+                          Icon(
+                            LucideIcons.trash2,
+                            size: 16,
+                            color: Color(0xFFEF4444),
+                          ),
                           SizedBox(width: 10),
-                          Text('Delete', style: TextStyle(fontSize: 13, color: Color(0xFFEF4444), fontWeight: FontWeight.bold)),
+                          Text(
+                            'Delete',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFFEF4444),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -654,25 +803,52 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
               spacing: 6,
               runSpacing: 6,
               children: [
-                _buildInfoBadge(LucideIcons.tag, enquiry['id'], const Color(0xFF6C4CF1), const Color(0xFFF3F0FF)),
-                _buildInfoBadge(LucideIcons.graduationCap, enquiry['grade'], const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
-                _buildInfoBadge(LucideIcons.mapPin, enquiry['source'] ?? 'Walk-in', const Color(0xFF8B5CF6), const Color(0xFFF5F3FF)),
+                _buildInfoBadge(
+                  LucideIcons.tag,
+                  enquiry['id'],
+                  const Color(0xFF6C4CF1),
+                  const Color(0xFFF3F0FF),
+                ),
+                _buildInfoBadge(
+                  LucideIcons.graduationCap,
+                  enquiry['grade'],
+                  const Color(0xFF0EA5E9),
+                  const Color(0xFFE0F2FE),
+                ),
+                _buildInfoBadge(
+                  LucideIcons.mapPin,
+                  enquiry['source'] ?? 'Walk-in',
+                  const Color(0xFF8B5CF6),
+                  const Color(0xFFF5F3FF),
+                ),
               ],
             ),
 
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
-              child: Divider(color: Color(0xFFF3EEFF), height: 1, thickness: 1.2),
+              child: Divider(
+                color: Color(0xFFF3EEFF),
+                height: 1,
+                thickness: 1.2,
+              ),
             ),
 
             // Key Details Grid
             Row(
               children: [
                 Expanded(
-                  child: _buildDetailCell(LucideIcons.phone, 'Phone', enquiry['phone']),
+                  child: _buildDetailCell(
+                    LucideIcons.phone,
+                    'Phone',
+                    enquiry['phone'],
+                  ),
                 ),
                 Expanded(
-                  child: _buildDetailCell(LucideIcons.calendar, 'Enquiry Date', enquiry['date']),
+                  child: _buildDetailCell(
+                    LucideIcons.calendar,
+                    'Enquiry Date',
+                    enquiry['date'],
+                  ),
                 ),
               ],
             ),
@@ -680,10 +856,21 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
             Row(
               children: [
                 Expanded(
-                  child: _buildDetailCell(LucideIcons.clock, 'Next Follow-up', enquiry['nextFollowUp']),
+                  child: _buildDetailCell(
+                    LucideIcons.clock,
+                    'Next Follow-up',
+                    enquiry['nextFollowUp'],
+                  ),
                 ),
                 Expanded(
-                  child: _buildDetailCell(LucideIcons.fileText, 'Notes', (enquiry['notes'] as String).isEmpty ? '--' : enquiry['notes'], maxLines: 1),
+                  child: _buildDetailCell(
+                    LucideIcons.fileText,
+                    'Notes',
+                    (enquiry['notes'] as String).isEmpty
+                        ? '--'
+                        : enquiry['notes'],
+                    maxLines: 1,
+                  ),
                 ),
               ],
             ),
@@ -707,14 +894,23 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           const SizedBox(width: 4),
           Text(
             label,
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: color),
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDetailCell(IconData icon, String label, String value, {int maxLines = 1}) {
+  Widget _buildDetailCell(
+    IconData icon,
+    String label,
+    String value, {
+    int maxLines = 1,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -724,11 +920,22 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 11, color: Color(0xFF8B8B8B), fontWeight: FontWeight.w500)),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: Color(0xFF8B8B8B),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               const SizedBox(height: 2),
               Text(
                 value,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
                 maxLines: maxLines,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -756,12 +963,20 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
               color: Color(0xFFF3F0FF),
               shape: BoxShape.circle,
             ),
-            child: const Icon(LucideIcons.files, size: 36, color: Color(0xFF6C4CF1)),
+            child: const Icon(
+              LucideIcons.files,
+              size: 36,
+              color: Color(0xFF6C4CF1),
+            ),
           ),
           const SizedBox(height: 16),
           const Text(
             'No Enquiries Found',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
           const SizedBox(height: 6),
           const Text(
@@ -773,11 +988,20 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           ElevatedButton.icon(
             onPressed: () => _showEnquiryModal(),
             icon: const Icon(LucideIcons.plus, size: 16, color: Colors.white),
-            label: const Text('Add New Enquiry', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+            label: const Text(
+              'Add New Enquiry',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF6C4CF1),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               elevation: 0,
             ),
           ),
@@ -805,7 +1029,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
       _emailController.clear();
       _gradeController.clear();
       _sourceController.text = 'Walk-in';
-      _followUpDateController.text = DateFormat('dd MMM yyyy').format(DateTime.now().add(const Duration(days: 3)));
+      _followUpDateController.text = DateFormat(
+        'dd MMM yyyy',
+      ).format(DateTime.now().add(const Duration(days: 3)));
       _notesController.clear();
     }
 
@@ -836,21 +1062,36 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                       children: [
                         Text(
                           isEdit ? 'Edit Enquiry' : 'New Admission Enquiry',
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF1E1E2D),
+                          ),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          isEdit ? 'Update existing prospect information' : 'Record a new student prospect details',
-                          style: const TextStyle(fontSize: 12, color: Color(0xFF8B8B8B)),
+                          isEdit
+                              ? 'Update existing prospect information'
+                              : 'Record a new student prospect details',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF8B8B8B),
+                          ),
                         ),
                       ],
                     ),
                     IconButton(
-                      icon: const Icon(LucideIcons.x, color: Color(0xFF1E1E2D), size: 20),
+                      icon: const Icon(
+                        LucideIcons.x,
+                        color: Color(0xFF1E1E2D),
+                        size: 20,
+                      ),
                       onPressed: () => Navigator.pop(context),
                       style: IconButton.styleFrom(
                         backgroundColor: const Color(0xFFF3F0FF),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                   ],
@@ -858,31 +1099,82 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                 const SizedBox(height: 20),
                 Row(
                   children: [
-                    Expanded(child: _buildFormField('Student Name', 'e.g. Aarav Patel', controller: _studentNameController, isRequired: true)),
+                    Expanded(
+                      child: _buildFormField(
+                        'Student Name',
+                        'e.g. Aarav Patel',
+                        controller: _studentNameController,
+                        isRequired: true,
+                      ),
+                    ),
                     const SizedBox(width: 12),
-                    Expanded(child: _buildFormField('Parent Name', 'e.g. Rakesh Patel', controller: _parentNameController, isRequired: true)),
+                    Expanded(
+                      child: _buildFormField(
+                        'Parent Name',
+                        'e.g. Rakesh Patel',
+                        controller: _parentNameController,
+                        isRequired: true,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 14),
                 Row(
                   children: [
-                    Expanded(child: _buildFormField('Phone Number', '+91 98765 43210', controller: _phoneController, isRequired: true, keyboardType: TextInputType.phone)),
+                    Expanded(
+                      child: _buildFormField(
+                        'Phone Number',
+                        '+91 98765 43210',
+                        controller: _phoneController,
+                        isRequired: true,
+                        keyboardType: TextInputType.phone,
+                      ),
+                    ),
                     const SizedBox(width: 12),
-                    Expanded(child: _buildFormField('Grade Interested', 'e.g. Grade 5', controller: _gradeController, isRequired: true)),
+                    Expanded(
+                      child: _buildFormField(
+                        'Grade Interested',
+                        'e.g. Grade 5',
+                        controller: _gradeController,
+                        isRequired: true,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 14),
                 Row(
                   children: [
-                    Expanded(child: _buildFormField('Email Address', 'parent@example.com', controller: _emailController, keyboardType: TextInputType.emailAddress)),
+                    Expanded(
+                      child: _buildFormField(
+                        'Email Address',
+                        'parent@example.com',
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                    ),
                     const SizedBox(width: 12),
-                    Expanded(child: _buildFormField('Enquiry Source', 'Walk-in / Online / Referral', controller: _sourceController)),
+                    Expanded(
+                      child: _buildFormField(
+                        'Enquiry Source',
+                        'Walk-in / Online / Referral',
+                        controller: _sourceController,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 14),
-                _buildFormField('Follow-up Date', 'e.g. 28 Aug 2026', controller: _followUpDateController),
+                _buildFormField(
+                  'Follow-up Date',
+                  'e.g. 28 Aug 2026',
+                  controller: _followUpDateController,
+                ),
                 const SizedBox(height: 14),
-                _buildFormField('Notes & Remarks', 'Enter specific requests or requirements...', controller: _notesController, maxLines: 2),
+                _buildFormField(
+                  'Notes & Remarks',
+                  'Enter specific requests or requirements...',
+                  controller: _notesController,
+                  maxLines: 2,
+                ),
                 const SizedBox(height: 24),
                 Row(
                   children: [
@@ -891,65 +1183,122 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                         onPressed: () => Navigator.pop(context),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          side: const BorderSide(color: Color(0xFFE8E3F8), width: 1.5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFFE8E3F8),
+                            width: 1.5,
+                          ),
                         ),
-                        child: const Text('Cancel', style: TextStyle(color: Color(0xFF1E1E2D), fontWeight: FontWeight.bold, fontSize: 14)),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Color(0xFF1E1E2D),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          if (_studentNameController.text.trim().isEmpty || _phoneController.text.trim().isEmpty) {
+                          if (_studentNameController.text.trim().isEmpty ||
+                              _phoneController.text.trim().isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Please fill in Student Name and Phone Number')),
+                              const SnackBar(
+                                content: Text(
+                                  'Please fill in Student Name and Phone Number',
+                                ),
+                              ),
                             );
                             return;
                           }
 
                           setState(() {
                             if (isEdit) {
-                              enquiry['studentName'] = _studentNameController.text.trim();
-                              enquiry['parentName'] = _parentNameController.text.trim();
+                              enquiry['studentName'] = _studentNameController
+                                  .text
+                                  .trim();
+                              enquiry['parentName'] = _parentNameController.text
+                                  .trim();
                               enquiry['phone'] = _phoneController.text.trim();
                               enquiry['email'] = _emailController.text.trim();
                               enquiry['grade'] = _gradeController.text.trim();
                               enquiry['source'] = _sourceController.text.trim();
-                              enquiry['nextFollowUp'] = _followUpDateController.text.trim();
+                              enquiry['nextFollowUp'] = _followUpDateController
+                                  .text
+                                  .trim();
                               enquiry['notes'] = _notesController.text.trim();
                             } else {
                               final now = DateTime.now();
-                              final dateStr = DateFormat('dd MMM yyyy').format(now);
+                              final dateStr = DateFormat(
+                                'dd MMM yyyy',
+                              ).format(now);
 
                               _enquiries.insert(0, {
-                                'id': 'ENQ-2026-${(_enquiries.length + 1).toString().padLeft(3, '0')}',
-                                'studentName': _studentNameController.text.trim(),
-                                'parentName': _parentNameController.text.trim().isEmpty ? 'Parent' : _parentNameController.text.trim(),
+                                'id':
+                                    'ENQ-2026-${(_enquiries.length + 1).toString().padLeft(3, '0')}',
+                                'studentName': _studentNameController.text
+                                    .trim(),
+                                'parentName':
+                                    _parentNameController.text.trim().isEmpty
+                                    ? 'Parent'
+                                    : _parentNameController.text.trim(),
                                 'phone': _phoneController.text.trim(),
                                 'email': _emailController.text.trim(),
-                                'grade': _gradeController.text.trim().isEmpty ? 'General' : _gradeController.text.trim(),
-                                'source': _sourceController.text.trim().isEmpty ? 'Walk-in' : _sourceController.text.trim(),
+                                'grade': _gradeController.text.trim().isEmpty
+                                    ? 'General'
+                                    : _gradeController.text.trim(),
+                                'source': _sourceController.text.trim().isEmpty
+                                    ? 'Walk-in'
+                                    : _sourceController.text.trim(),
                                 'date': dateStr,
                                 'status': 'Pending',
-                                'nextFollowUp': _followUpDateController.text.trim().isEmpty ? dateStr : _followUpDateController.text.trim(),
+                                'nextFollowUp':
+                                    _followUpDateController.text.trim().isEmpty
+                                    ? dateStr
+                                    : _followUpDateController.text.trim(),
                                 'notes': _notesController.text.trim(),
                               });
                             }
                           });
-                          final scaffoldMessenger = ScaffoldMessenger.of(context);
+                          final scaffoldMessenger = ScaffoldMessenger.of(
+                            context,
+                          );
                           Navigator.pop(context);
                           scaffoldMessenger.showSnackBar(
-                            SnackBar(content: Text(isEdit ? 'Enquiry updated successfully!' : 'New enquiry added successfully!')),
+                            SnackBar(
+                              content: Text(
+                                isEdit
+                                    ? 'Enquiry updated successfully!'
+                                    : 'New enquiry added successfully!',
+                              ),
+                            ),
                           );
                         },
-                        icon: Icon(isEdit ? LucideIcons.save : LucideIcons.plus, size: 18, color: Colors.white),
-                        label: Text(isEdit ? 'Save Changes' : 'Add Enquiry', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                        icon: Icon(
+                          isEdit ? LucideIcons.save : LucideIcons.plus,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          isEdit ? 'Save Changes' : 'Add Enquiry',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6C4CF1),
                           elevation: 0,
                           padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                       ),
                     ),
@@ -977,9 +1326,17 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
         RichText(
           text: TextSpan(
             text: label,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
             children: [
-              if (isRequired) const TextSpan(text: ' *', style: TextStyle(color: Color(0xFFEF4444))),
+              if (isRequired)
+                const TextSpan(
+                  text: ' *',
+                  style: TextStyle(color: Color(0xFFEF4444)),
+                ),
             ],
           ),
         ),
@@ -988,13 +1345,20 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           controller: controller,
           maxLines: maxLines,
           keyboardType: keyboardType,
-          style: const TextStyle(fontSize: 13, color: Color(0xFF1E1E2D), fontWeight: FontWeight.w600),
+          style: const TextStyle(
+            fontSize: 13,
+            color: Color(0xFF1E1E2D),
+            fontWeight: FontWeight.w600,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: const TextStyle(color: Color(0xFF8B8B8B), fontSize: 12),
             filled: true,
             fillColor: const Color(0xFFF8F9FA),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 12,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: Color(0xFFF3EEFF)),
@@ -1005,7 +1369,10 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5),
+              borderSide: const BorderSide(
+                color: Color(0xFF6C4CF1),
+                width: 1.5,
+              ),
             ),
           ),
         ),
@@ -1051,7 +1418,9 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                   padding: const EdgeInsets.all(20),
                   decoration: const BoxDecoration(
                     color: Color(0xFFF8F9FA),
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -1065,7 +1434,11 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                         child: Center(
                           child: Text(
                             enquiry['studentName'][0],
-                            style: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w900, fontSize: 22),
+                            style: const TextStyle(
+                              color: Color(0xFF6C4CF1),
+                              fontWeight: FontWeight.w900,
+                              fontSize: 22,
+                            ),
                           ),
                         ),
                       ),
@@ -1076,13 +1449,20 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                           children: [
                             Text(
                               enquiry['studentName'],
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF1E1E2D),
+                              ),
                             ),
                             const SizedBox(height: 4),
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 3,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: statusBgColor,
                                     borderRadius: BorderRadius.circular(8),
@@ -1099,7 +1479,11 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                                 const SizedBox(width: 8),
                                 Text(
                                   enquiry['id'],
-                                  style: const TextStyle(fontSize: 11, color: Color(0xFF8B8B8B), fontWeight: FontWeight.w600),
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Color(0xFF8B8B8B),
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ],
                             ),
@@ -1108,10 +1492,16 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                       ),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: const Icon(LucideIcons.x, color: Color(0xFF1E1E2D), size: 20),
+                        icon: const Icon(
+                          LucideIcons.x,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                         style: IconButton.styleFrom(
                           backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       ),
                     ],
@@ -1123,29 +1513,71 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      _buildDetailRow(LucideIcons.user, 'Parent / Guardian', enquiry['parentName']),
+                      _buildDetailRow(
+                        LucideIcons.user,
+                        'Parent / Guardian',
+                        enquiry['parentName'],
+                      ),
                       const SizedBox(height: 12),
-                      _buildDetailRow(LucideIcons.phone, 'Phone Number', enquiry['phone']),
+                      _buildDetailRow(
+                        LucideIcons.phone,
+                        'Phone Number',
+                        enquiry['phone'],
+                      ),
                       if ((enquiry['email'] ?? '').toString().isNotEmpty) ...[
                         const SizedBox(height: 12),
-                        _buildDetailRow(LucideIcons.mail, 'Email Address', enquiry['email']),
+                        _buildDetailRow(
+                          LucideIcons.mail,
+                          'Email Address',
+                          enquiry['email'],
+                        ),
                       ],
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12),
-                        child: Divider(color: Color(0xFFF3EEFF), height: 1, thickness: 1.2),
+                        child: Divider(
+                          color: Color(0xFFF3EEFF),
+                          height: 1,
+                          thickness: 1.2,
+                        ),
                       ),
-                      _buildDetailRow(LucideIcons.graduationCap, 'Grade / Class Interested', enquiry['grade']),
+                      _buildDetailRow(
+                        LucideIcons.graduationCap,
+                        'Grade / Class Interested',
+                        enquiry['grade'],
+                      ),
                       const SizedBox(height: 12),
-                      _buildDetailRow(LucideIcons.compass, 'Enquiry Source', enquiry['source'] ?? 'Walk-in'),
+                      _buildDetailRow(
+                        LucideIcons.compass,
+                        'Enquiry Source',
+                        enquiry['source'] ?? 'Walk-in',
+                      ),
                       const SizedBox(height: 12),
-                      _buildDetailRow(LucideIcons.calendar, 'Enquiry Date', enquiry['date']),
+                      _buildDetailRow(
+                        LucideIcons.calendar,
+                        'Enquiry Date',
+                        enquiry['date'],
+                      ),
                       const SizedBox(height: 12),
-                      _buildDetailRow(LucideIcons.clock, 'Next Follow-up', enquiry['nextFollowUp']),
+                      _buildDetailRow(
+                        LucideIcons.clock,
+                        'Next Follow-up',
+                        enquiry['nextFollowUp'],
+                      ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12),
-                        child: Divider(color: Color(0xFFF3EEFF), height: 1, thickness: 1.2),
+                        child: Divider(
+                          color: Color(0xFFF3EEFF),
+                          height: 1,
+                          thickness: 1.2,
+                        ),
                       ),
-                      _buildDetailRow(LucideIcons.fileText, 'Notes & Remarks', (enquiry['notes'] as String).isEmpty ? 'No notes added.' : enquiry['notes']),
+                      _buildDetailRow(
+                        LucideIcons.fileText,
+                        'Notes & Remarks',
+                        (enquiry['notes'] as String).isEmpty
+                            ? 'No notes added.'
+                            : enquiry['notes'],
+                      ),
                       const SizedBox(height: 24),
 
                       // Action Button in Bottom Sheet
@@ -1154,18 +1586,42 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                           Expanded(
                             child: OutlinedButton.icon(
                               onPressed: () {
-                                final scaffoldMessenger = ScaffoldMessenger.of(context);
+                                final scaffoldMessenger = ScaffoldMessenger.of(
+                                  context,
+                                );
                                 Navigator.pop(context);
                                 scaffoldMessenger.showSnackBar(
-                                  SnackBar(content: Text('Calling ${enquiry['phone']}...')),
+                                  SnackBar(
+                                    content: Text(
+                                      'Calling ${enquiry['phone']}...',
+                                    ),
+                                  ),
                                 );
                               },
-                              icon: const Icon(LucideIcons.phoneCall, size: 16, color: Color(0xFF6C4CF1)),
-                              label: const Text('Call Parent', style: TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold, fontSize: 13)),
+                              icon: const Icon(
+                                LucideIcons.phoneCall,
+                                size: 16,
+                                color: Color(0xFF6C4CF1),
+                              ),
+                              label: const Text(
+                                'Call Parent',
+                                style: TextStyle(
+                                  color: Color(0xFF6C4CF1),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
                               style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 14),
-                                side: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                side: const BorderSide(
+                                  color: Color(0xFF6C4CF1),
+                                  width: 1.5,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
                             ),
                           ),
@@ -1176,13 +1632,28 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
                                 Navigator.pop(context);
                                 _showEnquiryModal(enquiry: enquiry);
                               },
-                              icon: const Icon(LucideIcons.fileEdit, size: 16, color: Colors.white),
-                              label: const Text('Edit Enquiry', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+                              icon: const Icon(
+                                LucideIcons.fileEdit,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              label: const Text(
+                                'Edit Enquiry',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF6C4CF1),
                                 elevation: 0,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
                             ),
                           ),
@@ -1217,9 +1688,23 @@ class _EnquiriesScreenState extends State<EnquiriesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF8B8B8B))),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF8B8B8B),
+                ),
+              ),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
             ],
           ),
         ),

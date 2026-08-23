@@ -20,14 +20,16 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
       'phone': '+91 98765 43210',
       'callType': 'Incoming',
       'category': 'Parent',
-      'purpose': 'Enquiry regarding Class 11 Science admission criteria and fee schedule',
+      'purpose':
+          'Enquiry regarding Class 11 Science admission criteria and fee schedule',
       'staff': 'Mrs. Sunita (Admissions)',
       'date': 'Oct 25, 2023',
       'time': '10:30 AM',
       'duration': '3m 45s',
       'status': 'Completed',
       'followUpDate': 'Oct 28, 2023',
-      'notes': 'Sent admission brochure and fee structure via WhatsApp. Requested entrance syllabus.',
+      'notes':
+          'Sent admission brochure and fee structure via WhatsApp. Requested entrance syllabus.',
     },
     {
       'id': 'CALL-102',
@@ -42,7 +44,8 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
       'duration': '2m 10s',
       'status': 'Completed',
       'followUpDate': '',
-      'notes': 'Parent notified to collect original physician prescription from front office.',
+      'notes':
+          'Parent notified to collect original physician prescription from front office.',
     },
     {
       'id': 'CALL-103',
@@ -50,14 +53,16 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
       'phone': '+91 94123 45678',
       'callType': 'Incoming',
       'category': 'Vendor',
-      'purpose': 'Library textbook consignment delivery status and invoice submission',
+      'purpose':
+          'Library textbook consignment delivery status and invoice submission',
       'staff': 'Mr. R.K. Sharma (Librarian)',
       'date': 'Oct 24, 2023',
       'time': '02:40 PM',
       'duration': '5m 12s',
       'status': 'Follow-up',
       'followUpDate': 'Oct 26, 2023',
-      'notes': 'Delivery scheduled for Thursday morning 10 AM. Gate pass prepared.',
+      'notes':
+          'Delivery scheduled for Thursday morning 10 AM. Gate pass prepared.',
     },
     {
       'id': 'CALL-104',
@@ -72,7 +77,8 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
       'duration': '0s',
       'status': 'Pending',
       'followUpDate': 'Oct 25, 2023',
-      'notes': 'Callback required to enquire about primary wing admission query.',
+      'notes':
+          'Callback required to enquire about primary wing admission query.',
     },
     {
       'id': 'CALL-105',
@@ -87,11 +93,18 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
       'duration': '1m 50s',
       'status': 'Completed',
       'followUpDate': '',
-      'notes': 'Informed that drop off will be 20 mins delayed at South Ext stop.',
+      'notes':
+          'Informed that drop off will be 20 mins delayed at South Ext stop.',
     },
   ];
 
-  Widget _buildKpiCard(String label, String count, IconData icon, Color textColor, Color bgColor) {
+  Widget _buildKpiCard(
+    String label,
+    String count,
+    IconData icon,
+    Color textColor,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
       decoration: BoxDecoration(
@@ -110,7 +123,10 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Icon(icon, color: textColor, size: 20),
           ),
           const SizedBox(width: 12),
@@ -118,8 +134,24 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(
+                  count,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF6C6C80),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
@@ -185,230 +217,303 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Top Header Row
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: typeBg,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(typeIcon, color: typeTextColor, size: 18),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              call['callerName'],
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF1E1E2D),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF3F0FF),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              call['category'] ?? 'Caller',
-                              style: const TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF6C4CF1),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          const Icon(LucideIcons.phone, size: 13, color: Color(0xFF8F90A6)),
-                          const SizedBox(width: 6),
-                          Text(
-                            call['phone'],
-                            style: const TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                PopupMenuButton<String>(
-                  color: Colors.white,
-                  surfaceTintColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  icon: const Icon(LucideIcons.moreVertical, size: 18, color: Color(0xFF8F90A6)),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  onSelected: (val) {
-                    if (val == 'View Details') {
-                      _showCallDetails(call);
-                    } else if (val == 'Delete') {
-                      setState(() {
-                        _callLogs.remove(call);
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Call log deleted.')));
-                    } else {
-                      setState(() {
-                        call['status'] = val;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Status marked as $val.')));
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(value: 'Completed', child: Text('Mark as Completed')),
-                    const PopupMenuItem(value: 'Follow-up', child: Text('Mark as Follow-up')),
-                    const PopupMenuItem(
-                      value: 'Cancelled',
-                      child: Row(
-                        children: [
-                          Icon(LucideIcons.xCircle, size: 16, color: Color(0xFFEF4444)),
-                          SizedBox(width: 8),
-                          Text('Mark as Cancelled', style: TextStyle(color: Color(0xFFEF4444))),
-                        ],
-                      ),
-                    ),
-                    const PopupMenuDivider(),
-                    const PopupMenuItem(
-                      value: 'View Details',
-                      child: Row(
-                        children: [
-                          Icon(LucideIcons.eye, size: 16),
-                          SizedBox(width: 8),
-                          Text('View Details'),
-                        ],
-                      ),
-                    ),
-                    const PopupMenuItem(
-                      value: 'Delete',
-                      child: Row(
-                        children: [
-                          Icon(LucideIcons.trash2, size: 16, color: Colors.red),
-                          SizedBox(width: 8),
-                          Text('Delete', style: TextStyle(color: Colors.red)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-          ),
-
-          // Purpose snippet
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8F9FA),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFF1F1F5)),
-              ),
-              child: Column(
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Top Header Row
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
-                    children: [
-                      Icon(LucideIcons.helpCircle, size: 14, color: Color(0xFF6C4CF1)),
-                      SizedBox(width: 6),
-                      Text(
-                        'Call Purpose',
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF8F90A6)),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: typeBg,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(typeIcon, color: typeTextColor, size: 18),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                call['callerName'],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1E1E2D),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF3F0FF),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                call['category'] ?? 'Caller',
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF6C4CF1),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            const Icon(
+                              LucideIcons.phone,
+                              size: 13,
+                              color: Color(0xFF8F90A6),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              call['phone'],
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF64748B),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                    color: Colors.white,
+                    surfaceTintColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    icon: const Icon(
+                      LucideIcons.moreVertical,
+                      size: 18,
+                      color: Color(0xFF8F90A6),
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onSelected: (val) {
+                      if (val == 'View Details') {
+                        _showCallDetails(call);
+                      } else if (val == 'Delete') {
+                        setState(() {
+                          _callLogs.remove(call);
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Call log deleted.')),
+                        );
+                      } else {
+                        setState(() {
+                          call['status'] = val;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Status marked as $val.')),
+                        );
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      const PopupMenuItem(
+                        value: 'Completed',
+                        child: Text('Mark as Completed'),
+                      ),
+                      const PopupMenuItem(
+                        value: 'Follow-up',
+                        child: Text('Mark as Follow-up'),
+                      ),
+                      const PopupMenuItem(
+                        value: 'Cancelled',
+                        child: Row(
+                          children: [
+                            Icon(
+                              LucideIcons.xCircle,
+                              size: 16,
+                              color: Color(0xFFEF4444),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'Mark as Cancelled',
+                              style: TextStyle(color: Color(0xFFEF4444)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuDivider(),
+                      const PopupMenuItem(
+                        value: 'View Details',
+                        child: Row(
+                          children: [
+                            Icon(LucideIcons.eye, size: 16),
+                            SizedBox(width: 8),
+                            Text('View Details'),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: 'Delete',
+                        child: Row(
+                          children: [
+                            Icon(
+                              LucideIcons.trash2,
+                              size: 16,
+                              color: Colors.red,
+                            ),
+                            SizedBox(width: 8),
+                            Text('Delete', style: TextStyle(color: Colors.red)),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    call['purpose'],
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ),
-          ),
 
-          const SizedBox(height: 12),
-
-          // Footer Row with Meta Tags
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: typeBg,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(typeIcon, size: 12, color: typeTextColor),
-                      const SizedBox(width: 4),
-                      Text(
-                        callType,
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: typeTextColor),
+            // Purpose snippet
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8F9FA),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFF1F1F5)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(
+                          LucideIcons.helpCircle,
+                          size: 14,
+                          color: Color(0xFF6C4CF1),
+                        ),
+                        SizedBox(width: 6),
+                        Text(
+                          'Call Purpose',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF8F90A6),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      call['purpose'],
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1E1E2D),
                       ),
-                    ],
-                  ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: statusBg,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    status,
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: statusTextColor),
-                  ),
-                ),
-                const Spacer(),
-                const Icon(LucideIcons.clock, size: 13, color: Color(0xFF8F90A6)),
-                const SizedBox(width: 4),
-                Text(
-                  '${call['date']} • ${call['time']}',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF8F90A6)),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+
+            const SizedBox(height: 12),
+
+            // Footer Row with Meta Tags
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: typeBg,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(typeIcon, size: 12, color: typeTextColor),
+                        const SizedBox(width: 4),
+                        Text(
+                          callType,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: typeTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: statusBg,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: statusTextColor,
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  const Icon(
+                    LucideIcons.clock,
+                    size: 13,
+                    color: Color(0xFF8F90A6),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '${call['date']} • ${call['time']}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF8F90A6),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   void _showCallDetails(Map<String, dynamic> call) {
@@ -502,32 +607,50 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                         children: [
                           Text(
                             call['id'],
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
                           ),
                           const SizedBox(height: 6),
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
                                 decoration: BoxDecoration(
                                   color: typeBg,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
                                   callType,
-                                  style: TextStyle(fontSize: 11, color: typeTextColor, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: typeTextColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 6),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
                                 decoration: BoxDecoration(
                                   color: statusBg,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
                                   status,
-                                  style: TextStyle(fontSize: 11, color: statusTextColor, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: statusTextColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ],
@@ -539,7 +662,9 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                       icon: const Icon(LucideIcons.x, color: Color(0xFF8B8B8B)),
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       onPressed: () => Navigator.pop(context),
                     ),
@@ -567,36 +692,77 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                         children: [
                           const Text(
                             'Call Purpose / Topic',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF8F90A6)),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF8F90A6),
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             call['purpose'],
-                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D)),
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF1E1E2D),
+                            ),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 20),
 
-                    _buildDetailItem(LucideIcons.user, 'Caller Name', call['callerName']),
+                    _buildDetailItem(
+                      LucideIcons.user,
+                      'Caller Name',
+                      call['callerName'],
+                    ),
                     const SizedBox(height: 14),
-                    _buildDetailItem(LucideIcons.phone, 'Phone Number', call['phone']),
+                    _buildDetailItem(
+                      LucideIcons.phone,
+                      'Phone Number',
+                      call['phone'],
+                    ),
                     const SizedBox(height: 14),
-                    _buildDetailItem(LucideIcons.tag, 'Caller Category', call['category'] ?? 'General Caller'),
+                    _buildDetailItem(
+                      LucideIcons.tag,
+                      'Caller Category',
+                      call['category'] ?? 'General Caller',
+                    ),
                     const SizedBox(height: 14),
-                    _buildDetailItem(LucideIcons.userCheck, 'Handled / Assigned Staff', call['staff']),
+                    _buildDetailItem(
+                      LucideIcons.userCheck,
+                      'Handled / Assigned Staff',
+                      call['staff'],
+                    ),
                     const SizedBox(height: 14),
-                    _buildDetailItem(LucideIcons.calendar, 'Date & Time', '${call['date']} at ${call['time']}'),
+                    _buildDetailItem(
+                      LucideIcons.calendar,
+                      'Date & Time',
+                      '${call['date']} at ${call['time']}',
+                    ),
                     const SizedBox(height: 14),
-                    _buildDetailItem(LucideIcons.timer, 'Call Duration', call['duration'] ?? 'N/A'),
-                    if ((call['followUpDate'] as String?)?.isNotEmpty ?? false) ...[
+                    _buildDetailItem(
+                      LucideIcons.timer,
+                      'Call Duration',
+                      call['duration'] ?? 'N/A',
+                    ),
+                    if ((call['followUpDate'] as String?)?.isNotEmpty ??
+                        false) ...[
                       const SizedBox(height: 14),
-                      _buildDetailItem(LucideIcons.calendarPlus, 'Next Follow-up Date', call['followUpDate']),
+                      _buildDetailItem(
+                        LucideIcons.calendarPlus,
+                        'Next Follow-up Date',
+                        call['followUpDate'],
+                      ),
                     ],
                     if ((call['notes'] as String?)?.isNotEmpty ?? false) ...[
                       const SizedBox(height: 14),
-                      _buildDetailItem(LucideIcons.fileText, 'Discussion Notes / Remarks', call['notes']),
+                      _buildDetailItem(
+                        LucideIcons.fileText,
+                        'Discussion Notes / Remarks',
+                        call['notes'],
+                      ),
                     ],
                     const SizedBox(height: 16),
                   ],
@@ -625,9 +791,23 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF8F90A6))),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF8F90A6),
+                ),
+              ),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
             ],
           ),
         ),
@@ -638,9 +818,20 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
   @override
   Widget build(BuildContext context) {
     int totalCalls = _callLogs.length;
-    int incomingCount = _callLogs.where((e) => e['callType'] == 'Incoming').length;
-    int outgoingCount = _callLogs.where((e) => e['callType'] == 'Outgoing').length;
-    int followUpCount = _callLogs.where((e) => e['callType'] == 'Follow-up' || e['callType'] == 'Missed' || e['status'] == 'Follow-up').length;
+    int incomingCount = _callLogs
+        .where((e) => e['callType'] == 'Incoming')
+        .length;
+    int outgoingCount = _callLogs
+        .where((e) => e['callType'] == 'Outgoing')
+        .length;
+    int followUpCount = _callLogs
+        .where(
+          (e) =>
+              e['callType'] == 'Follow-up' ||
+              e['callType'] == 'Missed' ||
+              e['status'] == 'Follow-up',
+        )
+        .length;
 
     final displayedCallLogs = _callLogs.where((item) {
       final name = (item['callerName'] as String).toLowerCase();
@@ -650,7 +841,8 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
       final type = (item['callType'] as String);
       final query = _searchQuery.trim().toLowerCase();
 
-      bool matchesQuery = query.isEmpty ||
+      bool matchesQuery =
+          query.isEmpty ||
           name.contains(query) ||
           phone.contains(query) ||
           purpose.contains(query) ||
@@ -683,24 +875,54 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                            border: Border.all(
+                              color: const Color(0xFFF3EEFF),
+                              width: 1.5,
+                            ),
                           ),
-                          child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                          child: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Color(0xFF1E1E2D),
+                            size: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
                     ],
                     const Expanded(
-                      child: Text('Call Logs', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      child: Text(
+                        'Call Logs',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                     ),
                     ElevatedButton.icon(
                       onPressed: _showNewCallLogModal,
-                      icon: const Icon(LucideIcons.plus, size: 16, color: Colors.white),
-                      label: const Text('Log Call', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+                      icon: const Icon(
+                        LucideIcons.plus,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Log Call',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         elevation: 0,
                       ),
                     ),
@@ -716,17 +938,49 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                   children: [
                     Row(
                       children: [
-                        Expanded(child: _buildKpiCard('Total Calls', '$totalCalls', LucideIcons.phoneCall, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF))),
+                        Expanded(
+                          child: _buildKpiCard(
+                            'Total Calls',
+                            '$totalCalls',
+                            LucideIcons.phoneCall,
+                            const Color(0xFF6C4CF1),
+                            const Color(0xFFF3F0FF),
+                          ),
+                        ),
                         const SizedBox(width: 12),
-                        Expanded(child: _buildKpiCard('Incoming', '$incomingCount', LucideIcons.phoneIncoming, const Color(0xFF10B981), const Color(0xFFD1FAE5))),
+                        Expanded(
+                          child: _buildKpiCard(
+                            'Incoming',
+                            '$incomingCount',
+                            LucideIcons.phoneIncoming,
+                            const Color(0xFF10B981),
+                            const Color(0xFFD1FAE5),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        Expanded(child: _buildKpiCard('Outgoing', '$outgoingCount', LucideIcons.phoneOutgoing, const Color(0xFF3B82F6), const Color(0xFFEFF6FF))),
+                        Expanded(
+                          child: _buildKpiCard(
+                            'Outgoing',
+                            '$outgoingCount',
+                            LucideIcons.phoneOutgoing,
+                            const Color(0xFF3B82F6),
+                            const Color(0xFFEFF6FF),
+                          ),
+                        ),
                         const SizedBox(width: 12),
-                        Expanded(child: _buildKpiCard('Follow-up / Missed', '$followUpCount', LucideIcons.phoneForwarded, const Color(0xFFF59E0B), const Color(0xFFFEF3C7))),
+                        Expanded(
+                          child: _buildKpiCard(
+                            'Follow-up / Missed',
+                            '$followUpCount',
+                            LucideIcons.phoneForwarded,
+                            const Color(0xFFF59E0B),
+                            const Color(0xFFFEF3C7),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -741,14 +995,36 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                   onChanged: (val) => setState(() => _searchQuery = val),
                   decoration: InputDecoration(
                     hintText: 'Search caller, phone, purpose, staff...',
-                    hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13),
-                    prefixIcon: const Icon(LucideIcons.search, color: Color(0xFF6C4CF1), size: 18),
+                    hintStyle: const TextStyle(
+                      color: Color(0xFF94A3B8),
+                      fontSize: 13,
+                    ),
+                    prefixIcon: const Icon(
+                      LucideIcons.search,
+                      color: Color(0xFF6C4CF1),
+                      size: 18,
+                    ),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF6C4CF1),
+                        width: 1.5,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -760,28 +1036,48 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                 child: Wrap(
                   spacing: 8,
                   runSpacing: 12,
-                  children: ['All', 'Incoming', 'Outgoing', 'Follow-up', 'Missed'].map((type) {
-                    final isSelected = _filterType == type;
-                    return GestureDetector(
-                      onTap: () => setState(() => _filterType = type),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: isSelected ? const Color(0xFF6C4CF1) : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0)),
-                        ),
-                        child: Text(
-                          type,
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : const Color(0xFF64748B),
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                            fontSize: 13,
+                  children:
+                      [
+                        'All',
+                        'Incoming',
+                        'Outgoing',
+                        'Follow-up',
+                        'Missed',
+                      ].map((type) {
+                        final isSelected = _filterType == type;
+                        return GestureDetector(
+                          onTap: () => setState(() => _filterType = type),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? const Color(0xFF6C4CF1)
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: isSelected
+                                    ? const Color(0xFF6C4CF1)
+                                    : const Color(0xFFE2E8F0),
+                              ),
+                            ),
+                            child: Text(
+                              type,
+                              style: TextStyle(
+                                color: isSelected
+                                    ? Colors.white
+                                    : const Color(0xFF64748B),
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
+                                fontSize: 13,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      }).toList(),
                 ),
               ),
               const SizedBox(height: 20),
@@ -800,7 +1096,11 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                             color: Color(0xFFF3F0FF),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(LucideIcons.phoneOff, size: 48, color: Color(0xFF6C4CF1)),
+                          child: const Icon(
+                            LucideIcons.phoneOff,
+                            size: 48,
+                            color: Color(0xFF6C4CF1),
+                          ),
                         ),
                         const SizedBox(height: 16),
                         const Text(
@@ -828,7 +1128,9 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
-                    children: displayedCallLogs.map((c) => _buildCallLogCard(c)).toList(),
+                    children: displayedCallLogs
+                        .map((c) => _buildCallLogCard(c))
+                        .toList(),
                   ),
                 ),
 
@@ -853,7 +1155,9 @@ class _CallLogsScreenState extends State<CallLogsScreen> {
         _callLogs.insert(0, newCall);
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Call log recorded successfully!')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Call log recorded successfully!')),
+        );
       }
     }
   }
@@ -920,7 +1224,8 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
   Future<void> _pickFollowUpDate() async {
     final picked = await showDatePicker(
       context: context,
-      initialDate: _selectedFollowUpDate ?? DateTime.now().add(const Duration(days: 2)),
+      initialDate:
+          _selectedFollowUpDate ?? DateTime.now().add(const Duration(days: 2)),
       firstDate: DateTime.now(),
       lastDate: DateTime(2030),
       builder: (context, child) {
@@ -1006,8 +1311,22 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
         RichText(
           text: TextSpan(
             text: label,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842)),
-            children: isRequired ? [const TextSpan(text: ' *', style: TextStyle(color: Color(0xFFEF4444), fontWeight: FontWeight.bold))] : [],
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF323842),
+            ),
+            children: isRequired
+                ? [
+                    const TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Color(0xFFEF4444),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ]
+                : [],
           ),
         ),
         const SizedBox(height: 8),
@@ -1015,17 +1334,42 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
           controller: controller,
           maxLines: maxLines,
           keyboardType: keyboardType,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF1E1E2D),
+          ),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13, fontWeight: FontWeight.normal),
-            prefixIcon: prefixIcon != null ? Icon(prefixIcon, size: 18, color: const Color(0xFF8F90A6)) : null,
+            hintStyle: const TextStyle(
+              color: Color(0xFF94A3B8),
+              fontSize: 13,
+              fontWeight: FontWeight.normal,
+            ),
+            prefixIcon: prefixIcon != null
+                ? Icon(prefixIcon, size: 18, color: const Color(0xFF8F90A6))
+                : null,
             filled: true,
             fillColor: const Color(0xFFF8F9FA),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0xFF6C4CF1),
+                width: 1.5,
+              ),
+            ),
           ),
         ),
       ],
@@ -1046,8 +1390,22 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
         RichText(
           text: TextSpan(
             text: label,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842)),
-            children: isRequired ? [const TextSpan(text: ' *', style: TextStyle(color: Color(0xFFEF4444), fontWeight: FontWeight.bold))] : [],
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF323842),
+            ),
+            children: isRequired
+                ? [
+                    const TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Color(0xFFEF4444),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ]
+                : [],
           ),
         ),
         const SizedBox(height: 8),
@@ -1069,13 +1427,21 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                   child: DropdownButton<String>(
                     value: value,
                     isExpanded: true,
-                    icon: const Icon(LucideIcons.chevronDown, color: Color(0xFF8F90A6), size: 18),
+                    icon: const Icon(
+                      LucideIcons.chevronDown,
+                      color: Color(0xFF8F90A6),
+                      size: 18,
+                    ),
                     items: items.map((String item) {
                       return DropdownMenuItem<String>(
                         value: item,
                         child: Text(
                           item,
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1E1E2D),
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       );
@@ -1093,39 +1459,67 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
 
   void _submitCallLog() {
     if (_callerNameController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter Caller Name.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter Caller Name.')),
+      );
       return;
     }
     if (_phoneController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter Phone Number.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter Phone Number.')),
+      );
       return;
     }
     if (_purposeController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please specify Call Purpose / Topic.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please specify Call Purpose / Topic.')),
+      );
       return;
     }
 
-    final monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    final formattedDate = '${monthNames[_selectedDate.month - 1]} ${_selectedDate.day}, ${_selectedDate.year}';
+    final monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    final formattedDate =
+        '${monthNames[_selectedDate.month - 1]} ${_selectedDate.day}, ${_selectedDate.year}';
     final formattedTime = _selectedTime.format(context);
 
     String followUpStr = '';
     if (_selectedFollowUpDate != null) {
-      followUpStr = '${monthNames[_selectedFollowUpDate!.month - 1]} ${_selectedFollowUpDate!.day}, ${_selectedFollowUpDate!.year}';
+      followUpStr =
+          '${monthNames[_selectedFollowUpDate!.month - 1]} ${_selectedFollowUpDate!.day}, ${_selectedFollowUpDate!.year}';
     }
 
     final newCall = {
-      'id': 'CALL-${_selectedDate.millisecondsSinceEpoch.toString().substring(8)}',
+      'id':
+          'CALL-${_selectedDate.millisecondsSinceEpoch.toString().substring(8)}',
       'callerName': _callerNameController.text.trim(),
       'phone': _phoneController.text.trim(),
       'callType': _selectedCallType,
       'category': _selectedCategory,
       'purpose': _purposeController.text.trim(),
-      'staff': _staffController.text.trim().isEmpty ? 'Front Desk' : _staffController.text.trim(),
+      'staff': _staffController.text.trim().isEmpty
+          ? 'Front Desk'
+          : _staffController.text.trim(),
       'date': formattedDate,
       'time': formattedTime,
-      'duration': _durationController.text.trim().isEmpty ? 'N/A' : _durationController.text.trim(),
-      'status': _selectedCallType == 'Missed' ? 'Pending' : (_selectedCallType == 'Follow-up' ? 'Follow-up' : 'Completed'),
+      'duration': _durationController.text.trim().isEmpty
+          ? 'N/A'
+          : _durationController.text.trim(),
+      'status': _selectedCallType == 'Missed'
+          ? 'Pending'
+          : (_selectedCallType == 'Follow-up' ? 'Follow-up' : 'Completed'),
       'followUpDate': followUpStr,
       'notes': _notesController.text.trim(),
     };
@@ -1135,8 +1529,22 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    final dateDisplay = '${monthNames[_selectedDate.month - 1]} ${_selectedDate.day}, ${_selectedDate.year}';
+    final monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    final dateDisplay =
+        '${monthNames[_selectedDate.month - 1]} ${_selectedDate.day}, ${_selectedDate.year}';
     final timeDisplay = _selectedTime.format(context);
     final followUpDisplay = _selectedFollowUpDate != null
         ? '${monthNames[_selectedFollowUpDate!.month - 1]} ${_selectedFollowUpDate!.day}, ${_selectedFollowUpDate!.year}'
@@ -1175,24 +1583,47 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                         color: const Color(0xFFF3F0FF),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(LucideIcons.phoneCall, color: Color(0xFF6C4CF1), size: 22),
+                      child: const Icon(
+                        LucideIcons.phoneCall,
+                        color: Color(0xFF6C4CF1),
+                        size: 22,
+                      ),
                     ),
                     const SizedBox(width: 14),
                     const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Log Phone Call', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                        Text(
+                          'Log Phone Call',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         SizedBox(height: 2),
-                        Text('Record incoming / outgoing call info', style: TextStyle(fontSize: 12, color: Color(0xFF8F90A6))),
+                        Text(
+                          'Record incoming / outgoing call info',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF8F90A6),
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
                 IconButton(
-                  icon: const Icon(LucideIcons.x, color: Color(0xFF8B8B8B), size: 20),
+                  icon: const Icon(
+                    LucideIcons.x,
+                    color: Color(0xFF8B8B8B),
+                    size: 20,
+                  ),
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -1238,9 +1669,19 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                           label: 'Caller Category',
                           value: _selectedCategory,
                           prefixIcon: LucideIcons.tag,
-                          items: ['Parent', 'Student', 'Vendor', 'Prospective Parent', 'Alumni', 'Staff', 'Other'],
+                          items: [
+                            'Parent',
+                            'Student',
+                            'Vendor',
+                            'Prospective Parent',
+                            'Alumni',
+                            'Staff',
+                            'Other',
+                          ],
                           onChanged: (val) {
-                            if (val != null) setState(() => _selectedCategory = val);
+                            if (val != null) {
+                              setState(() => _selectedCategory = val);
+                            }
                           },
                         ),
                       ),
@@ -1260,18 +1701,38 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                     children: [
                       const Text(
                         'Call Type',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842)),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF323842),
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          _buildTypeOption('Incoming', LucideIcons.phoneIncoming, const Color(0xFF10B981)),
+                          _buildTypeOption(
+                            'Incoming',
+                            LucideIcons.phoneIncoming,
+                            const Color(0xFF10B981),
+                          ),
                           const SizedBox(width: 8),
-                          _buildTypeOption('Outgoing', LucideIcons.phoneOutgoing, const Color(0xFF3B82F6)),
+                          _buildTypeOption(
+                            'Outgoing',
+                            LucideIcons.phoneOutgoing,
+                            const Color(0xFF3B82F6),
+                          ),
                           const SizedBox(width: 8),
-                          _buildTypeOption('Follow-up', LucideIcons.phoneForwarded, const Color(0xFFF59E0B)),
+                          _buildTypeOption(
+                            'Follow-up',
+                            LucideIcons.phoneForwarded,
+                            const Color(0xFFF59E0B),
+                          ),
                           const SizedBox(width: 8),
-                          _buildTypeOption('Missed', LucideIcons.phoneMissed, const Color(0xFFEF4444)),
+                          _buildTypeOption(
+                            'Missed',
+                            LucideIcons.phoneMissed,
+                            const Color(0xFFEF4444),
+                          ),
                         ],
                       ),
                     ],
@@ -1280,7 +1741,8 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
 
                   _buildInputField(
                     label: 'Call Purpose / Topic',
-                    hint: 'e.g. Admission enquiry, Fee schedule, Bus delay info',
+                    hint:
+                        'e.g. Admission enquiry, Fee schedule, Bus delay info',
                     controller: _purposeController,
                     isRequired: true,
                     maxLines: 2,
@@ -1323,25 +1785,45 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Call Date', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842))),
+                            const Text(
+                              'Call Date',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF323842),
+                              ),
+                            ),
                             const SizedBox(height: 8),
                             GestureDetector(
                               onTap: _pickDate,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 13,
+                                ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFF8F9FA),
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                                  border: Border.all(
+                                    color: const Color(0xFFE2E8F0),
+                                  ),
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(LucideIcons.calendar, size: 18, color: Color(0xFF6C4CF1)),
+                                    const Icon(
+                                      LucideIcons.calendar,
+                                      size: 18,
+                                      color: Color(0xFF6C4CF1),
+                                    ),
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
                                         dateDisplay,
-                                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF1E1E2D)),
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF1E1E2D),
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
@@ -1357,25 +1839,45 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Call Time', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842))),
+                            const Text(
+                              'Call Time',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF323842),
+                              ),
+                            ),
                             const SizedBox(height: 8),
                             GestureDetector(
                               onTap: _pickTime,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 13,
+                                ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFF8F9FA),
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                                  border: Border.all(
+                                    color: const Color(0xFFE2E8F0),
+                                  ),
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(LucideIcons.clock, size: 18, color: Color(0xFF6C4CF1)),
+                                    const Icon(
+                                      LucideIcons.clock,
+                                      size: 18,
+                                      color: Color(0xFF6C4CF1),
+                                    ),
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
                                         timeDisplay,
-                                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF1E1E2D)),
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF1E1E2D),
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
@@ -1393,12 +1895,22 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Next Follow-up Date (Optional)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF323842))),
+                      const Text(
+                        'Next Follow-up Date (Optional)',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF323842),
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       GestureDetector(
                         onTap: _pickFollowUpDate,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 13,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFF8F9FA),
                             borderRadius: BorderRadius.circular(12),
@@ -1406,14 +1918,20 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                           ),
                           child: Row(
                             children: [
-                              const Icon(LucideIcons.calendarPlus, size: 18, color: Color(0xFFF59E0B)),
+                              const Icon(
+                                LucideIcons.calendarPlus,
+                                size: 18,
+                                color: Color(0xFFF59E0B),
+                              ),
                               const SizedBox(width: 10),
                               Text(
                                 followUpDisplay,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
-                                  color: _selectedFollowUpDate != null ? const Color(0xFF1E1E2D) : const Color(0xFF94A3B8),
+                                  color: _selectedFollowUpDate != null
+                                      ? const Color(0xFF1E1E2D)
+                                      : const Color(0xFF94A3B8),
                                 ),
                               ),
                             ],
@@ -1426,7 +1944,8 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
 
                   _buildInputField(
                     label: 'Discussion Notes / Remarks',
-                    hint: 'e.g. Sent admission brochure on email, parent requested callback on Friday',
+                    hint:
+                        'e.g. Sent admission brochure on email, parent requested callback on Friday',
                     controller: _notesController,
                     maxLines: 2,
                     prefixIcon: LucideIcons.messageSquare,
@@ -1452,10 +1971,19 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                     onPressed: () => Navigator.pop(context),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 15),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                       side: const BorderSide(color: Color(0xFFE2E8F0)),
                     ),
-                    child: const Text('Cancel', style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.bold, fontSize: 14)),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Color(0xFF64748B),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -1463,12 +1991,25 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
                   flex: 2,
                   child: ElevatedButton.icon(
                     onPressed: _submitCallLog,
-                    icon: const Icon(LucideIcons.check, size: 18, color: Colors.white),
-                    label: const Text('Save Call Log', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                    icon: const Icon(
+                      LucideIcons.check,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      'Save Call Log',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF6C4CF1),
                       padding: const EdgeInsets.symmetric(vertical: 15),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                       elevation: 0,
                     ),
                   ),
@@ -1489,14 +2030,23 @@ class _NewCallLogBottomSheetState extends State<_NewCallLogBottomSheet> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: isSelected ? color.withValues(alpha: 0.12) : const Color(0xFFF8F9FA),
+            color: isSelected
+                ? color.withValues(alpha: 0.12)
+                : const Color(0xFFF8F9FA),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: isSelected ? color : const Color(0xFFE2E8F0), width: isSelected ? 1.5 : 1),
+            border: Border.all(
+              color: isSelected ? color : const Color(0xFFE2E8F0),
+              width: isSelected ? 1.5 : 1,
+            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 16, color: isSelected ? color : const Color(0xFF8F90A6)),
+              Icon(
+                icon,
+                size: 16,
+                color: isSelected ? color : const Color(0xFF8F90A6),
+              ),
               const SizedBox(height: 4),
               Text(
                 type,

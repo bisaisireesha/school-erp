@@ -43,22 +43,50 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
   }
 
   static const List<Map<String, dynamic>> _operationsActions = [
-    {'title': 'Appointments', 'icon': LucideIcons.calendarCheck, 'key': 'Appointments'},
-    {'title': 'Postal Records', 'icon': LucideIcons.mailbox, 'key': 'Postal Records'},
-    {'title': 'Complaints', 'icon': LucideIcons.messageCircleWarning, 'key': 'Complaints'},
+    {
+      'title': 'Appointments',
+      'icon': LucideIcons.calendarCheck,
+      'key': 'Appointments',
+    },
+    {
+      'title': 'Postal Records',
+      'icon': LucideIcons.mailbox,
+      'key': 'Postal Records',
+    },
+    {
+      'title': 'Complaints',
+      'icon': LucideIcons.messageCircleWarning,
+      'key': 'Complaints',
+    },
     {'title': 'Call Log', 'icon': LucideIcons.phoneIncoming, 'key': 'Call Log'},
   ];
 
   static const List<Map<String, dynamic>> _otherActions = [
     {'title': 'Certificates', 'icon': LucideIcons.award, 'key': 'Certificates'},
-    {'title': 'Lost & Found', 'icon': LucideIcons.searchCheck, 'key': 'Lost & Found'},
+    {
+      'title': 'Lost & Found',
+      'icon': LucideIcons.searchCheck,
+      'key': 'Lost & Found',
+    },
     {'title': 'Tasks', 'icon': LucideIcons.listChecks, 'key': 'Tasks'},
-    {'title': 'Reports', 'icon': LucideIcons.chartNoAxesCombined, 'key': 'Reports'},
+    {
+      'title': 'Reports',
+      'icon': LucideIcons.chartNoAxesCombined,
+      'key': 'Reports',
+    },
   ];
 
-  List<Map<String, dynamic>> _filterActions(List<Map<String, dynamic>> actions) {
+  List<Map<String, dynamic>> _filterActions(
+    List<Map<String, dynamic>> actions,
+  ) {
     if (_searchQuery.isEmpty) return actions;
-    return actions.where((action) => (action['title'] as String).toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+    return actions
+        .where(
+          (action) => (action['title'] as String).toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          ),
+        )
+        .toList();
   }
 
   @override
@@ -80,7 +108,11 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
             const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: _buildActionSection(context, 'Front Desk Operations', filteredOps),
+              child: _buildActionSection(
+                context,
+                'Front Desk Operations',
+                filteredOps,
+              ),
             ),
           ],
           if (filteredOther.isNotEmpty) ...[
@@ -94,7 +126,10 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(40.0),
-                child: Text('No matching items found', style: TextStyle(color: Colors.grey.shade500, fontSize: 15)),
+                child: Text(
+                  'No matching items found',
+                  style: TextStyle(color: Colors.grey.shade500, fontSize: 15),
+                ),
               ),
             ),
           const SizedBox(height: 120),
@@ -153,12 +188,20 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
                 children: [
                   const Text(
                     'Aditi Tiwari',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Front Desk Executive',
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -171,7 +214,11 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
               ),
               child: const Text(
                 'Staff',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF16A34A)),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF16A34A),
+                ),
               ),
             ),
           ],
@@ -180,11 +227,22 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
     );
   }
 
-  Widget _buildActionSection(BuildContext context, String sectionTitle, List<Map<String, dynamic>> actions) {
+  Widget _buildActionSection(
+    BuildContext context,
+    String sectionTitle,
+    List<Map<String, dynamic>> actions,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(sectionTitle, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+        Text(
+          sectionTitle,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
         const SizedBox(height: 16),
         GridView.builder(
           shrinkWrap: true,
@@ -202,21 +260,59 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
             return GestureDetector(
               onTap: () {
                 if (item['key'] == 'Appointments') {
-                  MainLayout.pushSubScreen(context, AppointmentsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                  MainLayout.pushSubScreen(
+                    context,
+                    AppointmentsScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
                 } else if (item['key'] == 'Postal Records') {
-                  MainLayout.pushSubScreen(context, PostalRecordsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                  MainLayout.pushSubScreen(
+                    context,
+                    PostalRecordsScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
                 } else if (item['key'] == 'Complaints') {
-                  MainLayout.pushSubScreen(context, ComplaintsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                  MainLayout.pushSubScreen(
+                    context,
+                    ComplaintsScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
                 } else if (item['key'] == 'Certificates') {
-                  MainLayout.pushSubScreen(context, CertificatesScreen(onBack: () => MainLayout.popSubScreen(context)));
+                  MainLayout.pushSubScreen(
+                    context,
+                    CertificatesScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
                 } else if (item['key'] == 'Call Log') {
-                  MainLayout.pushSubScreen(context, CallLogsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                  MainLayout.pushSubScreen(
+                    context,
+                    CallLogsScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
                 } else if (item['key'] == 'Lost & Found') {
-                  MainLayout.pushSubScreen(context, LostAndFoundScreen(onBack: () => MainLayout.popSubScreen(context)));
+                  MainLayout.pushSubScreen(
+                    context,
+                    LostAndFoundScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
                 } else if (item['key'] == 'Tasks') {
-                  MainLayout.pushSubScreen(context, TasksScreen(onBack: () => MainLayout.popSubScreen(context)));
+                  MainLayout.pushSubScreen(
+                    context,
+                    TasksScreen(onBack: () => MainLayout.popSubScreen(context)),
+                  );
                 } else if (item['key'] == 'Reports') {
-                  MainLayout.pushSubScreen(context, FrontDeskReportsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                  MainLayout.pushSubScreen(
+                    context,
+                    FrontDeskReportsScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('${item['title']} clicked!')),
@@ -228,7 +324,10 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                  border: Border.all(
+                    color: const Color(0xFFF3EEFF),
+                    width: 1.5,
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
@@ -246,7 +345,11 @@ class _FrontDeskMoreScreenState extends State<FrontDeskMoreScreen> {
                         color: Color(0xFFF3F0FF),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(item['icon'] as IconData, color: const Color(0xFF6C4CF1), size: 24),
+                      child: Icon(
+                        item['icon'] as IconData,
+                        color: const Color(0xFF6C4CF1),
+                        size: 24,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "RT-01",
+    "name": "Green Glen Route",
+    "startPoint": "City Center",
+    "endPoint": "Sunrise Academy",
+    "stops": 12,
+    "assignedVehicle": "BUS-01",
+    "driverName": "Rajesh Kumar",
+    "status": "Active",
+    "statusColor": "green"
+  },
+  {
+    "id": "RT-02",
+    "name": "Northwood Express",
+    "startPoint": "Northwood Station",
+    "endPoint": "Sunrise Academy",
+    "stops": 8,
+    "assignedVehicle": "BUS-02",
+    "driverName": "Suresh Singh",
+    "status": "Delayed",
+    "statusColor": "orange"
+  },
+  {
+    "id": "RT-03",
+    "name": "Eastside Loop",
+    "startPoint": "Eastside Mall",
+    "endPoint": "Sunrise Academy",
+    "stops": 15,
+    "assignedVehicle": "VAN-01",
+    "driverName": "Dinesh Patel",
+    "status": "Active",
+    "statusColor": "green"
+  },
+  {
+    "id": "RT-04",
+    "name": "South Park Shift",
+    "startPoint": "South Park",
+    "endPoint": "Sunrise Academy",
+    "stops": 5,
+    "assignedVehicle": "Unassigned",
+    "driverName": "Unassigned",
+    "status": "Pending",
+    "statusColor": "purple"
+  }
+]

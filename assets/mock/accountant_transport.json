@@ -1,0 +1,23 @@
+{
+  "transport_expenses": [
+    {
+      "vehicle_no": "BUS-01",
+      "fuel_cost": 15000,
+      "maintenance_cost": 5000,
+      "driver_salary": 20000
+    },
+    {
+      "vehicle_no": "BUS-02",
+      "fuel_cost": 12000,
+      "maintenance_cost": 2000,
+      "driver_salary": 20000
+    }
+  ],
+  "transport_revenue": [
+    {
+      "route": "Route A",
+      "collected_fees": 45000,
+      "pending_fees": 5000
+    }
+  ]
+}

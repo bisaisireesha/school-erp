@@ -51,17 +51,33 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
   }
 
   static const List<Map<String, dynamic>> _hostelActions = [
-    {'title': 'Hostel Students', 'icon': LucideIcons.users, 'key': 'Hostel Students'},
+    {
+      'title': 'Hostel Students',
+      'icon': LucideIcons.users,
+      'key': 'Hostel Students',
+    },
     {'title': 'Blocks', 'icon': LucideIcons.building, 'key': 'Blocks'},
     {'title': 'Wardens', 'icon': LucideIcons.shield, 'key': 'Wardens'},
-    {'title': 'Hostel Attendance', 'icon': LucideIcons.calendarCheck, 'key': 'Hostel Attendance'},
+    {
+      'title': 'Hostel Attendance',
+      'icon': LucideIcons.calendarCheck,
+      'key': 'Hostel Attendance',
+    },
     {'title': 'Visitors', 'icon': LucideIcons.userCheck, 'key': 'Visitors'},
-    {'title': 'Health & Medical', 'icon': LucideIcons.heartPulse, 'key': 'Health & Medical'},
+    {
+      'title': 'Health & Medical',
+      'icon': LucideIcons.heartPulse,
+      'key': 'Health & Medical',
+    },
     {'title': 'Maintenance', 'icon': LucideIcons.wrench, 'key': 'Maintenance'},
   ];
 
   static const List<Map<String, dynamic>> _messActions = [
-    {'title': 'Mess Dashboard', 'icon': LucideIcons.layoutDashboard, 'key': 'Mess Dashboard'},
+    {
+      'title': 'Mess Dashboard',
+      'icon': LucideIcons.layoutDashboard,
+      'key': 'Mess Dashboard',
+    },
     {'title': 'Mess Menu', 'icon': LucideIcons.utensils, 'key': 'Mess Menu'},
     {'title': 'Inventory', 'icon': LucideIcons.boxes, 'key': 'Inventory'},
     {'title': 'Vendors', 'icon': LucideIcons.truck, 'key': 'Vendors'},
@@ -71,9 +87,17 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
     {'title': 'Reports', 'icon': LucideIcons.barChart3, 'key': 'Reports'},
   ];
 
-  List<Map<String, dynamic>> _filterActions(List<Map<String, dynamic>> actions) {
+  List<Map<String, dynamic>> _filterActions(
+    List<Map<String, dynamic>> actions,
+  ) {
     if (_searchQuery.isEmpty) return actions;
-    return actions.where((action) => (action['title'] as String).toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+    return actions
+        .where(
+          (action) => (action['title'] as String).toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          ),
+        )
+        .toList();
   }
 
   @override
@@ -96,28 +120,45 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
             const SizedBox(height: 28),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: _buildActionSection(context, 'Hostel Management', filteredHostelActions),
+              child: _buildActionSection(
+                context,
+                'Hostel Management',
+                filteredHostelActions,
+              ),
             ),
           ],
           if (filteredMessActions.isNotEmpty) ...[
             const SizedBox(height: 28),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: _buildActionSection(context, 'Mess Management', filteredMessActions),
+              child: _buildActionSection(
+                context,
+                'Mess Management',
+                filteredMessActions,
+              ),
             ),
           ],
           if (filteredReportActions.isNotEmpty) ...[
             const SizedBox(height: 28),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: _buildActionSection(context, 'Reports & Analytics', filteredReportActions),
+              child: _buildActionSection(
+                context,
+                'Reports & Analytics',
+                filteredReportActions,
+              ),
             ),
           ],
-          if (filteredHostelActions.isEmpty && filteredMessActions.isEmpty && filteredReportActions.isEmpty)
+          if (filteredHostelActions.isEmpty &&
+              filteredMessActions.isEmpty &&
+              filteredReportActions.isEmpty)
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(40.0),
-                child: Text('No matching items found', style: TextStyle(color: Colors.grey.shade500, fontSize: 15)),
+                child: Text(
+                  'No matching items found',
+                  style: TextStyle(color: Colors.grey.shade500, fontSize: 15),
+                ),
               ),
             ),
           const SizedBox(height: 120),
@@ -176,12 +217,20 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
                 children: [
                   const Text(
                     'Ramesh Verma',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Hostel Warden - Block B',
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -194,7 +243,11 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
               ),
               child: const Text(
                 'Warden',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF16A34A)),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF16A34A),
+                ),
               ),
             ),
           ],
@@ -203,7 +256,11 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
     );
   }
 
-  Widget _buildActionSection(BuildContext context, String sectionTitle, List<Map<String, dynamic>> actions) {
+  Widget _buildActionSection(
+    BuildContext context,
+    String sectionTitle,
+    List<Map<String, dynamic>> actions,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -232,11 +289,17 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
             return GestureDetector(
               onTap: () => _handleTap(context, item['key'] as String),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                  border: Border.all(
+                    color: const Color(0xFFF3EEFF),
+                    width: 1.5,
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color(0xFFE8E3F8).withValues(alpha: 0.45),
@@ -254,7 +317,11 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
                         color: Color(0xFFF3F0FF),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(item['icon'] as IconData, color: const Color(0xFF6C4CF1), size: 22),
+                      child: Icon(
+                        item['icon'] as IconData,
+                        color: const Color(0xFF6C4CF1),
+                        size: 22,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Flexible(
@@ -283,39 +350,66 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
 
   void _handleTap(BuildContext context, String key) {
     if (key == 'Outings') {
-      MainLayout.pushSubScreen(context, OutingPassScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        OutingPassScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
     if (key == 'Visitors') {
-      MainLayout.pushSubScreen(context, HostelVisitorsScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        HostelVisitorsScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
     if (key == 'Hostel Students') {
-      MainLayout.pushSubScreen(context, HostelStudentsScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        HostelStudentsScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
     if (key == 'Blocks') {
-      MainLayout.pushSubScreen(context, HostelBlocksScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        HostelBlocksScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
     if (key == 'Wardens') {
-      MainLayout.pushSubScreen(context, HostelWardensScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        HostelWardensScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
     if (key == 'Hostel Attendance') {
-      MainLayout.pushSubScreen(context, HostelAttendanceScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        HostelAttendanceScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
     if (key == 'Health & Medical') {
-      MainLayout.pushSubScreen(context, HostelHealthScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        HostelHealthScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
     if (key == 'Maintenance') {
-      MainLayout.pushSubScreen(context, HostelMaintenanceScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        HostelMaintenanceScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
     if (key == 'Mess Dashboard') {
-      MainLayout.pushSubScreen(context, MessDashboardScreen(onBack: () => MainLayout.popSubScreen(context)));
+      MainLayout.pushSubScreen(
+        context,
+        MessDashboardScreen(onBack: () => MainLayout.popSubScreen(context)),
+      );
       return;
     }
 
@@ -324,22 +418,40 @@ class _WardenMoreScreenState extends State<WardenMoreScreen> {
       case 'Blocks':
       case 'Wardens':
       case 'Visitors':
-        MainLayout.pushSubScreen(context, HostelScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          HostelScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'Vendors':
-        MainLayout.pushSubScreen(context, VendorsScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          VendorsScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'Inventory':
-        MainLayout.pushSubScreen(context, InventoryScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          InventoryScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'Mess Menu':
-        MainLayout.pushSubScreen(context, MessMenuScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          MessMenuScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'Hostel Attendance':
-        MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          AttendanceScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'Reports':
-        MainLayout.pushSubScreen(context, ReportsScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          ReportsScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
     }
   }

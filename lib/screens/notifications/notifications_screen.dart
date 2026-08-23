@@ -12,98 +12,64 @@ import '../library/library_screen.dart';
 
 class NotificationsScreen extends StatefulWidget {
   final VoidCallback onBack;
+  final String role;
+  final VoidCallback? onMarkAllRead;
 
-  const NotificationsScreen({super.key, required this.onBack});
+  const NotificationsScreen({
+    super.key,
+    required this.onBack,
+    this.role = 'teacher',
+    this.onMarkAllRead,
+  });
 
   @override
   State<NotificationsScreen> createState() => _NotificationsScreenState();
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  final List<Map<String, dynamic>> _notifications = [
+
+  List<Map<String, dynamic>> _notifications = [
     {
-      'title': 'Fee Payment Due',
-      'message': 'Term 2 fees of ₹12,500 are due by this Friday. Avoid late charges!',
-      'time': 'Just now',
-      'icon': LucideIcons.creditCard,
-      'color': const Color(0xFFF59E0B),
-      'bgColor': const Color(0xFFFFFBEB),
+      'title': 'Fee Receipt Generated',
+      'message': 'Term 2 payment of ₹12,500 processed successfully.',
+      'time': '20m ago',
+      'icon': LucideIcons.wallet,
+      'iconColor': const Color(0xFF22C55E),
+      'iconBg': const Color(0xFFDCFCE7),
       'isRead': false,
       'route': 'fees',
     },
     {
-      'title': 'Exam Results Published',
-      'message': 'Mid-term results for Class 10 are now available. Check your grades.',
-      'time': '5 mins ago',
-      'icon': LucideIcons.fileText,
-      'color': const Color(0xFF16A34A),
-      'bgColor': const Color(0xFFF0FDF4),
-      'isRead': false,
-      'route': 'exams',
-    },
-    {
       'title': 'Attendance Alert',
-      'message': 'Your attendance dropped below 80% this month. Please maintain regularity.',
-      'time': '30 mins ago',
-      'icon': LucideIcons.userCheck,
-      'color': const Color(0xFFF59E0B),
-      'bgColor': const Color(0xFFFFFBEB),
+      'message': 'Arjun was marked absent for Period 1 today.',
+      'time': '4h ago',
+      'icon': LucideIcons.userX,
+      'iconColor': const Color(0xFFE11D48),
+      'iconBg': const Color(0xFFFFE4E6),
       'isRead': false,
       'route': 'attendance',
     },
     {
-      'title': 'Timetable Updated',
-      'message': 'Monday\'s timetable has been changed. Physics and Chemistry are swapped.',
-      'time': '1 hour ago',
-      'icon': LucideIcons.calendarClock,
-      'color': const Color(0xFF6C4CF1),
-      'bgColor': const Color(0xFFF3EEFF),
+      'title': 'Exams Results Published',
+      'message': 'Mid-term examination results are now available.',
+      'time': '1d ago',
+      'icon': LucideIcons.clipboardCheck,
+      'iconColor': const Color(0xFF6C4CF1),
+      'iconBg': const Color(0xFFF3EEFF),
       'isRead': false,
-      'route': 'timetable',
-    },
-    {
-      'title': 'Bus Route Changed',
-      'message': 'Route #5 will take a detour via MG Road from tomorrow due to construction.',
-      'time': '2 hours ago',
-      'icon': LucideIcons.bus,
-      'color': const Color(0xFF6C4CF1),
-      'bgColor': const Color(0xFFF3EEFF),
-      'isRead': true,
-      'route': 'transport',
-    },
-    {
-      'title': 'Library Book Due',
-      'message': '"The Great Gatsby" is due for return tomorrow. Renew or return to avoid fines.',
-      'time': '5 hours ago',
-      'icon': LucideIcons.bookOpen,
-      'color': const Color(0xFF16A34A),
-      'bgColor': const Color(0xFFF0FDF4),
-      'isRead': true,
-      'route': 'library',
-    },
-    {
-      'title': 'Leave Request Approved',
-      'message': 'Your leave request for Aug 18–19 has been approved by class teacher.',
-      'time': '1 day ago',
-      'icon': LucideIcons.checkCircle,
-      'color': const Color(0xFF16A34A),
-      'bgColor': const Color(0xFFF0FDF4),
-      'isRead': true,
-      'route': 'leave',
-    },
-    {
-      'title': 'School Event Tomorrow',
-      'message': 'Annual Sports Day is tomorrow. Report to the ground by 8:00 AM.',
-      'time': '1 day ago',
-      'icon': LucideIcons.trophy,
-      'color': const Color(0xFFF59E0B),
-      'bgColor': const Color(0xFFFFFBEB),
-      'isRead': true,
-      'route': 'calendar',
+      'route': 'exams',
     },
   ];
 
-  int get _unreadCount => _notifications.where((n) => n['isRead'] == false).length;
+  @override
+  void initState() {
+    super.initState();
+    _loadNotifications();
+  }
+
+  Future<void> _loadNotifications() async {
+    // Hardcoded mock data as per user instructions
+  }
 
   void _markAllRead() {
     setState(() {
@@ -111,6 +77,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         n['isRead'] = true;
       }
     });
+    if (widget.onMarkAllRead != null) {
+      widget.onMarkAllRead!();
+    }
   }
 
   void _navigateToScreen(String route) {
@@ -119,310 +88,247 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         MainLayout.pushSubScreen(context, const FeesScreen());
         break;
       case 'exams':
-        MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'attendance':
-        MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          AttendanceScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'timetable':
-        MainLayout.pushSubScreen(context, TimetableScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          TimetableScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'transport':
-        MainLayout.pushSubScreen(context, TransportScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          TransportScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'library':
-        MainLayout.pushSubScreen(context, LibraryScreen(onBack: () => MainLayout.popSubScreen(context), isStudentPortal: true));
+        MainLayout.pushSubScreen(
+          context,
+          LibraryScreen(
+            onBack: () => MainLayout.popSubScreen(context),
+            isStudentPortal: true,
+          ),
+        );
         break;
       case 'leave':
-        MainLayout.pushSubScreen(context, LeaveRequestScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          LeaveRequestScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
       case 'calendar':
-        MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context)));
+        MainLayout.pushSubScreen(
+          context,
+          CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+        );
         break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
-      valueListenable: MainLayout.globalSearchQuery,
-      builder: (context, searchQuery, child) {
-        final query = searchQuery.toLowerCase();
-        final filtered = _notifications.where((n) {
-          if (query.isEmpty) return true;
-          return n['title'].toString().toLowerCase().contains(query) ||
-                 n['message'].toString().toLowerCase().contains(query);
-        }).toList();
-
-        final unreadFiltered = filtered.where((n) => n['isRead'] == false).toList();
-        final readFiltered = filtered.where((n) => n['isRead'] == true).toList();
-
-        return Container(
-          color: const Color(0xFFF8F9FA),
-          width: double.infinity,
-          height: double.infinity,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+    return Container(
+      width: double.infinity,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // Triangular pointer
+          Positioned(
+            top: -6,
+            right: 68, // Aligned with the bell icon based on 16px right margin
+            child: Transform.rotate(
+              angle: 3.14159 / 4,
+              child: Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(-2, -2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Main Popover Card
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 24,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                // App Bar
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: widget.onBack,
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      const Text(
-                        'Notifications',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1E1E2D),
-                        ),
-                      ),
-                      const Spacer(),
-                      if (_unreadCount > 0)
-                        GestureDetector(
-                          onTap: _markAllRead,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF3EEFF),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(LucideIcons.checkCheck, size: 14, color: Color(0xFF6C4CF1)),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'Read All',
-                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                    ],
+          // Header
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+            child: Row(
+              children: [
+                const Icon(
+                  LucideIcons.bellRing,
+                  color: Color(0xFF6C4CF1),
+                  size: 20,
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'Notifications',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
                   ),
                 ),
-                const SizedBox(height: 8),
-
-                // Unread section
-                if (unreadFiltered.isNotEmpty) ...[
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
-                    child: Text('NEW', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: Color(0xFF6C4CF1), letterSpacing: 1.2)),
-                  ),
-                  _buildNotificationsList(unreadFiltered),
-                  const SizedBox(height: 16),
-                ],
-
-                // Read section
-                if (readFiltered.isNotEmpty) ...[
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
-                    child: Text('EARLIER', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: Color(0xFF9090A7), letterSpacing: 1.2)),
-                  ),
-                  _buildNotificationsList(readFiltered),
-                ],
-
-                // Empty state
-                if (filtered.isEmpty)
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 60.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFF3F0FF),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(LucideIcons.bellOff, color: Color(0xFF6C4CF1), size: 36),
-                          ),
-                          const SizedBox(height: 16),
-                          const Text(
-                            'No Notifications',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                          ),
-                          const SizedBox(height: 6),
-                          const Text(
-                            'You are all caught up! No notifications to display right now.',
-                            style: TextStyle(fontSize: 13, color: Color(0xFF7A7A9D)),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
+                const Spacer(),
+                GestureDetector(
+                  onTap: _markAllRead,
+                  child: const Text(
+                    'Mark all read',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF6C4CF1),
                     ),
                   ),
-                const SizedBox(height: 120),
+                ),
               ],
             ),
           ),
-        );
-      },
+          const Divider(height: 1, color: Color(0xFFF3F4F6)),
+          // Notifications List
+          Flexible(
+            child: ListView.separated(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              itemCount: _notifications.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              itemBuilder: (context, index) {
+                return _buildNotificationItem(_notifications[index]);
+              },
+            ),
+          ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildNotificationsList(List<Map<String, dynamic>> notifications) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      itemCount: notifications.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final notification = notifications[index];
-        final isRead = notification['isRead'] == true;
+  Widget _buildNotificationItem(Map<String, dynamic> notification) {
+    final isRead = notification['isRead'] as bool;
 
-        return GestureDetector(
-          onTap: () {
-            // Mark as read
-            setState(() {
-              notification['isRead'] = true;
-            });
-            // Navigate to related screen
-            final route = notification['route'] as String?;
-            if (route != null) {
-              _navigateToScreen(route);
-            }
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: isRead ? Colors.white : const Color(0xFFF8F3FF),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: isRead ? const Color(0xFFF3EEFF) : const Color(0xFFD8C8FF),
-                width: isRead ? 1.5 : 2.0,
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          notification['isRead'] = true;
+        });
+        widget.onBack();
+        final route = notification['route'] as String?;
+        if (route != null) {
+          _navigateToScreen(route);
+        }
+      },
+      child: Container(
+        color: Colors.transparent,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: notification['iconBg'],
+                shape: BoxShape.circle,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: isRead 
-                    ? const Color(0xFFE8E3F8).withValues(alpha: 0.3)
-                    : const Color(0xFFD8C8FF).withValues(alpha: 0.4),
-                  blurRadius: isRead ? 8 : 14,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              child: Icon(
+                notification['icon'],
+                color: notification['iconColor'],
+                size: 20,
+              ),
             ),
-            child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: notification['bgColor'],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(notification['icon'], color: notification['color'], size: 22),
-                      ),
-                      const SizedBox(width: 14),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      if (!isRead)
-                                        Container(
-                                          width: 8,
-                                          height: 8,
-                                          margin: const EdgeInsets.only(right: 8),
-                                          decoration: BoxDecoration(
-                                            color: notification['color'],
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                      Expanded(
-                                        child: Text(
-                                          notification['title'],
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: isRead ? FontWeight.w600 : FontWeight.w800,
-                                            color: const Color(0xFF1E1E2D),
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  notification['time'],
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: isRead ? const Color(0xFF9090A7) : notification['color'],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              notification['message'],
-                              style: TextStyle(
-                                fontSize: 13,
-                                height: 1.5,
-                                color: isRead ? const Color(0xFF9090A7) : const Color(0xFF4A4A68),
-                                fontWeight: isRead ? FontWeight.w400 : FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Icon(LucideIcons.arrowRight, size: 12, color: isRead ? const Color(0xFFBDBDD0) : const Color(0xFF6C4CF1)),
-                                const SizedBox(width: 4),
-                                Text(
-                                  'Tap to view',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: isRead ? const Color(0xFFBDBDD0) : const Color(0xFF6C4CF1),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                        child: Text(
+                          notification['title'],
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      const SizedBox(width: 8),
+                      Text(
+                        notification['time'],
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF9CA3AF),
+                        ),
+                      ),
+                      if (!isRead) ...[
+                        const SizedBox(width: 6),
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFEF4444), // Red dot for unread
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ] else ...[
+                        // Invisible placeholder to keep alignment
+                        const SizedBox(width: 12),
+                      ],
                     ],
                   ),
-                ),
-          ),
-        );
-      },
+                  const SizedBox(height: 4),
+                  Text(
+                    notification['message'],
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF6B7280),
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'subject_performance_screen.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:math' as math;
 import '../main_layout.dart';
 import '../homework/homework_screen.dart';
 import '../exams/exams_screen.dart';
+import '../exams/report_card_screen.dart';
 import '../resources/resources_screen.dart';
 
 class AcademicsScreen extends StatefulWidget {
@@ -189,12 +192,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
               // Upcoming Exams
               _buildUpcomingExams(context),
               const SizedBox(height: 32),
-              // Syllabus Progress
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: _buildSyllabusProgressSection(),
-              ),
-              const SizedBox(height: 24),
+
               // Learning Resources
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -531,7 +529,10 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
               GestureDetector(
                 onTap: () => MainLayout.pushSubScreen(
                   context,
-                  ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+                  SubjectPerformanceScreen(
+                    onBack: () => MainLayout.popSubScreen(context),
+                    subjects: _subjects,
+                  ),
                 ),
                 child: const Text(
                   'View all',
@@ -574,15 +575,15 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
         Container(
           width: 44,
           height: 44,
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(12),
+          decoration: const BoxDecoration(
+            color: Color(0xFFF3F0FF),
+            shape: BoxShape.circle,
           ),
-          child: Icon(icon, color: color, size: 24),
+          child: Icon(icon, color: const Color(0xFF6C4CF1), size: 20),
         ),
         const SizedBox(width: 16),
         Expanded(
-          flex: 3,
+          flex: 4,
           child: Text(
             subject,
             style: const TextStyle(
@@ -592,14 +593,15 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             ),
           ),
         ),
+        const SizedBox(width: 12),
         Expanded(
-          flex: 4,
+          flex: 3,
           child: Stack(
             children: [
               Container(
                 height: 6,
                 decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.15),
+                  color: const Color(0xFFF3EEFF),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),
@@ -608,7 +610,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
                 child: Container(
                   height: 6,
                   decoration: BoxDecoration(
-                    color: color,
+                    color: const Color(0xFF6C4CF1),
                     borderRadius: BorderRadius.circular(3),
                   ),
                 ),
@@ -616,9 +618,9 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
             ],
           ),
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: 12),
         SizedBox(
-          width: 32,
+          width: 36,
           child: Text(
             '$percentage%',
             style: const TextStyle(
@@ -630,18 +632,23 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
           ),
         ),
         const SizedBox(width: 8),
-        Text(
-          grade,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: color,
+        SizedBox(
+          width: 24,
+          child: Text(
+            grade,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF6C4CF1),
+            ),
+            textAlign: TextAlign.right,
           ),
         ),
       ],
     );
   }
 
+// ignore: unused_element
   Widget _buildSyllabusProgressSection() {
     return Container(
       width: double.infinity,
@@ -791,190 +798,157 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
   }
 
   Widget _buildAssignmentsSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return FutureBuilder<String>(
+      future: DefaultAssetBundle.of(context).loadString('assets/mock/student_homework.json'),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final Map<String, dynamic> data = json.decode(snapshot.data!);
+        final List<dynamic> assignments = data['assignments'];
+
+        final List<dynamic> today = assignments.where((hw) => hw['isToday'] == true).take(2).toList();
+        final List<dynamic> upcoming = assignments.where((hw) => hw['isToday'] == false).take(2).toList();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Assignments',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF1E1E2D),
-              ),
-            ),
-            GestureDetector(
-              onTap: () => MainLayout.pushSubScreen(
-                context,
-                HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
-              ),
-              child: const Text(
-                'View all',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF6C4CF1),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Homework and Assignments',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF1E1E2D),
+                  ),
                 ),
+                GestureDetector(
+                  onTap: () => MainLayout.pushSubScreen(
+                    context,
+                    HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
+                  ),
+                  child: const Text(
+                    'View all',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF6C4CF1),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+
+            if (today.isNotEmpty) ...[
+              _buildTimelineHeader(
+                title: 'Today',
+                color: const Color(0xFFEF4444),
+                hasTopLine: false,
               ),
-            ),
+              ...today.map((hw) {
+                final status = hw['status'] as String;
+                return _buildTimelineItem(
+                  lineColor: const Color(0xFFEF4444),
+                  child: _buildAssignmentCard(
+                    item: hw,
+                    subject: hw['subject'],
+                    title: hw['desc']?.toString().replaceAll('\n', ' ') ?? '',
+                    isToday: true,
+                    status: status,
+                    iconColor: status == 'Submitted' ? const Color(0xFF4CAF50) : const Color(0xFF6C4CF1),
+                    iconBg: status == 'Submitted' ? const Color(0xFFF0FDF4) : const Color(0xFFF3F0FF),
+                    onTap: () => MainLayout.pushSubScreen(
+                      context,
+                      HomeworkScreen(
+                        onBack: () => MainLayout.popSubScreen(context),
+                        initialAssignmentToOpen: hw,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ],
+            
+            if (upcoming.isNotEmpty) ...[
+              _buildTimelineHeader(
+                title: 'Upcoming',
+                color: const Color(0xFF6C4CF1),
+                topColor: today.isNotEmpty ? const Color(0xFFEF4444) : Colors.transparent,
+              ),
+              ...upcoming.map((hw) {
+                final status = hw['status'] as String;
+                return _buildTimelineItem(
+                  lineColor: const Color(0xFF6C4CF1),
+                  child: _buildAssignmentCard(
+                    item: hw,
+                    subject: hw['subject'],
+                    title: hw['desc']?.toString().replaceAll('\n', ' ') ?? '',
+                    isToday: false,
+                    status: status,
+                    iconColor: status == 'Submitted' ? const Color(0xFF4CAF50) : const Color(0xFF6C4CF1),
+                    iconBg: status == 'Submitted' ? const Color(0xFFF0FDF4) : const Color(0xFFF3F0FF),
+                    onTap: () => MainLayout.pushSubScreen(
+                      context,
+                      HomeworkScreen(
+                        onBack: () => MainLayout.popSubScreen(context),
+                        initialAssignmentToOpen: hw,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ],
           ],
-        ),
-        const SizedBox(height: 24),
-
-        // Today
-        _buildTimelineHeader(
-          title: 'Today – 17 May',
-          color: const Color(0xFFEF4444),
-          hasTopLine: false,
-        ),
-        _buildTimelineItem(
-          lineColor: const Color(0xFFEF4444),
-          child: _buildAssignmentCard(
-            title: 'Maths – Worksheet 12',
-            subtitle: 'Due Today, 11:59 PM',
-            icon: Icons.description_outlined,
-            iconColor: const Color(0xFFEF4444),
-            status: 'Pending',
-            statusColor: const Color(0xFFEF4444),
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-        ),
-        _buildTimelineItem(
-          lineColor: const Color(0xFFEF4444),
-          child: _buildAssignmentCard(
-            title: 'Science – Lab Record',
-            subtitle: 'Due Today, 11:59 PM',
-            icon: Icons.science_outlined,
-            iconColor: const Color(0xFF22C55E),
-            status: 'Pending',
-            statusColor: const Color(0xFFEF4444),
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-        ),
-
-        // Tomorrow
-        _buildTimelineHeader(
-          title: 'Tomorrow – 18 May',
-          color: const Color(0xFFF97316),
-          topColor: const Color(0xFFEF4444),
-        ),
-        _buildTimelineItem(
-          lineColor: const Color(0xFFF97316),
-          child: _buildAssignmentCard(
-            title: 'English – Essay Writing',
-            subtitle: 'Due Tomorrow, 11:59 PM',
-            icon: Icons.description_outlined,
-            iconColor: const Color(0xFFF97316),
-            status: 'Pending',
-            statusColor: const Color(0xFFF97316),
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-        ),
-        _buildTimelineItem(
-          lineColor: const Color(0xFFF97316),
-          child: _buildAssignmentCard(
-            title: 'Social Studies – Map Work',
-            subtitle: 'Due Tomorrow, 11:59 PM',
-            icon: Icons.public_outlined,
-            iconColor: const Color(0xFF8B5CF6),
-            status: 'Pending',
-            statusColor: const Color(0xFFF97316),
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-        ),
-
-        // This Week
-        _buildTimelineHeader(
-          title: 'This Week',
-          color: const Color(0xFF3B82F6),
-          topColor: const Color(0xFFF97316),
-        ),
-        _buildTimelineItem(
-          lineColor: const Color(0xFF3B82F6),
-          child: _buildAssignmentCard(
-            title: 'Computer – Presentation',
-            subtitle: 'Due on 20 May, 11:59 PM',
-            icon: Icons.desktop_windows_outlined,
-            iconColor: const Color(0xFF3B82F6),
-            status: 'Upcoming',
-            statusColor: const Color(0xFF3B82F6),
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-        ),
-        _buildTimelineItem(
-          lineColor: const Color(0xFF3B82F6),
-          child: _buildAssignmentCard(
-            title: 'Hindi – Grammar Worksheet',
-            subtitle: 'Due on 21 May, 11:59 PM',
-            icon: Icons.desktop_windows_outlined,
-            iconColor: const Color(0xFF3B82F6),
-            status: 'Upcoming',
-            statusColor: const Color(0xFF3B82F6),
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 
+  
   Widget _buildTimelineHeader({
     required String title,
     required Color color,
-    bool hasTopLine = true,
     Color? topColor,
+    bool hasTopLine = true,
   }) {
     return Row(
       children: [
         SizedBox(
           width: 16,
-          height: 24,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              if (hasTopLine)
-                Positioned(
-                  top: 0,
-                  bottom: 12,
-                  child: Container(
+          child: Center(
+            child: Column(
+              children: [
+                if (hasTopLine)
+                  Container(
                     width: 2,
-                    color: (topColor ?? color).withValues(alpha: 0.3),
+                    height: 12,
+                    color: topColor?.withValues(alpha: 0.3) ?? color.withValues(alpha: 0.3),
+                  )
+                else
+                  const SizedBox(height: 12),
+                Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: color.withValues(alpha: 0.3),
+                      width: 2,
+                    ),
                   ),
                 ),
-              Positioned(
-                top: 12,
-                bottom: 0,
-                child: Container(width: 2, color: color.withValues(alpha: 0.3)),
-              ),
-              Container(
-                width: 12,
-                height: 12,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: color, width: 3),
-                  color: Colors.white,
+                Container(
+                  width: 2,
+                  height: 12,
+                  color: color.withValues(alpha: 0.3),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         const SizedBox(width: 12),
@@ -1017,26 +991,27 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
   }
 
   Widget _buildAssignmentCard({
+    required Map<String, dynamic> item,
+    required String subject,
     required String title,
-    required String subtitle,
-    required IconData icon,
-    required Color iconColor,
+    required bool isToday,
     required String status,
-    required Color statusColor,
+    required Color iconColor,
+    required Color iconBg,
     VoidCallback? onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -1045,59 +1020,91 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: iconColor.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
+                color: iconBg,
+                shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: iconColor, size: 24),
+              child: Icon(LucideIcons.bookOpen, color: iconColor, size: 24),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    title,
+                    subject,
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF1E1E2D),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    subtitle,
+                    title,
                     style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
                       color: Colors.grey.shade600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: status == 'Submitted'
+                          ? const Color(0xFFF0FDF4)
+                          : const Color(0xFFFFF3E0),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: status == 'Submitted'
+                            ? const Color(0xFF22C55E)
+                            : const Color(0xFFFF9800),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: statusColor.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                status,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: statusColor,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isToday ? const Color(0xFFFFF1F0) : const Color(0xFFF3F4F6),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    isToday ? 'Due Today' : 'Tomorrow',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: isToday ? const Color(0xFFFF5630) : const Color(0xFF4A4A68),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
       ),
     );
   }
+
 
   Widget _buildUpcomingExams(BuildContext context) {
     return Padding(
@@ -1189,7 +1196,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  itemCount: data.length,
+                  itemCount: data.length > 3 ? 3 : data.length,
                   separatorBuilder: (context, index) => const Divider(
                     color: Color(0xFFF3EEFF),
                     height: 32,
@@ -1211,6 +1218,8 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
                         context,
                         ExamsScreen(
                           onBack: () => MainLayout.popSubScreen(context),
+                          initialTabIndex: 0,
+                          initialExamToOpen: item['type'],
                         ),
                       ),
                     );
@@ -1226,7 +1235,10 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
               child: GestureDetector(
                 onTap: () => MainLayout.pushSubScreen(
                   context,
-                  ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+                  SubjectPerformanceScreen(
+                    onBack: () => MainLayout.popSubScreen(context),
+                    subjects: _subjects,
+                  ),
                 ),
                 behavior: HitTestBehavior.opaque,
                 child: Container(
@@ -1293,99 +1305,9 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
     );
   }
 
-  Widget _buildExamListItem({
-    required String day,
-    required String month,
-    required Color color,
-    required String subject,
-    required String type,
-    required String daysLeft,
-    VoidCallback? onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Row(
-        children: [
-          Container(
-            width: 56,
-            height: 64,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.05),
-              border: Border.all(
-                color: color.withValues(alpha: 0.3),
-                width: 1.5,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  day,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    color: color,
-                    height: 1.1,
-                  ),
-                ),
-                Text(
-                  month,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  subject,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xFF1E1E2D),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  type,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF7A7A9D),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.schedule_rounded, color: color, size: 14),
-              const SizedBox(width: 4),
-              Text(
-                daysLeft,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w900,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+
+
+
 
   Widget _buildLearningResourcesSection(BuildContext context) {
     final List<Map<String, dynamic>> resourceLibraryData = [
@@ -1558,7 +1480,7 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
         'subtitle': 'Term 1 · 2025–26',
         'score': '86%',
         'grade': 'A',
-        'icon': Icons.star_rounded,
+        'icon': LucideIcons.award,
         'color': const Color(0xFF6C4CF1),
         'subjects': [
           {'name': 'Mathematics', 'marks': 92, 'max': 100, 'grade': 'A+'},
@@ -1573,8 +1495,8 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
         'subtitle': '2024–25',
         'score': '88%',
         'grade': 'A',
-        'icon': Icons.bookmark_rounded,
-        'color': const Color(0xFF3B82F6),
+        'icon': LucideIcons.award,
+        'color': const Color(0xFF6C4CF1),
         'subjects': [
           {'name': 'Mathematics', 'marks': 90, 'max': 100, 'grade': 'A+'},
           {'name': 'Science', 'marks': 85, 'max': 100, 'grade': 'A'},
@@ -1588,8 +1510,8 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
         'subtitle': '2024–25',
         'score': '87%',
         'grade': 'A',
-        'icon': Icons.donut_large_rounded,
-        'color': const Color(0xFF22C55E),
+        'icon': LucideIcons.award,
+        'color': const Color(0xFF6C4CF1),
         'subjects': [
           {'name': 'Mathematics', 'marks': 89, 'max': 100, 'grade': 'A'},
           {'name': 'Science', 'marks': 91, 'max': 100, 'grade': 'A+'},
@@ -1603,8 +1525,8 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
         'subtitle': '2023–24',
         'score': '89%',
         'grade': 'A+',
-        'icon': Icons.emoji_events_rounded,
-        'color': const Color(0xFFF97316),
+        'icon': LucideIcons.award,
+        'color': const Color(0xFF6C4CF1),
         'subjects': [
           {'name': 'Mathematics', 'marks': 94, 'max': 100, 'grade': 'A+'},
           {'name': 'Science', 'marks': 90, 'max': 100, 'grade': 'A+'},
@@ -1688,10 +1610,15 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
                 .map(
                   (data) => _buildReportCard(
                     data,
-                    onTap: () => _showReportCardSheet(context, data),
+                    onTap: () => MainLayout.pushSubScreen(
+                      context,
+                      ReportCardScreen(
+                        title: data['title'],
+                        onBack: () => MainLayout.popSubScreen(context),
+                      ),
+                    ),
                   ),
-                )
-                .toList(),
+                ).toList(),
           ),
         ],
       ),
@@ -1779,274 +1706,82 @@ class _AcademicsScreenState extends State<AcademicsScreen> {
     );
   }
 
-  void _showReportCardSheet(BuildContext context, Map<String, dynamic> data) {
-    final color = data['color'] as Color;
-    final subjects = data['subjects'] as List;
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) {
-        return DraggableScrollableSheet(
-          initialChildSize: 0.85,
-          minChildSize: 0.5,
-          maxChildSize: 0.95,
-          builder: (_, scrollController) {
-            return Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+  Widget _buildExamListItem({
+    required String day,
+    required String month,
+    required Color color,
+    required String subject,
+    required String type,
+    required String daysLeft,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Row(
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              LucideIcons.calendar,
+              color: color,
+              size: 24,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  subject,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  type,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF7A7A9D),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.schedule_rounded, color: color, size: 14),
+              const SizedBox(width: 4),
+              Text(
+                daysLeft,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w800,
+                  color: color,
+                ),
               ),
-              child: ListView(
-                controller: scrollController,
-                padding: EdgeInsets.zero,
-                children: [
-                  // Drag handle
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 12, bottom: 4),
-                      width: 40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE5E7EB),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-
-                  // Header banner
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [color, color.withValues(alpha: 0.75)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 56,
-                          height: 56,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Icon(
-                            data['icon'],
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data['subtitle'],
-                                style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                data['title'],
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              data['score'],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 28,
-                                fontWeight: FontWeight.w900,
-                                height: 1,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.25),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                'Grade ${data['grade']}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Subject breakdown
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(20, 24, 20, 12),
-                    child: Text(
-                      'Subject-wise Performance',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF1E1E2D),
-                      ),
-                    ),
-                  ),
-
-                  ...subjects.map((s) {
-                    final pct = (s['marks'] as int) / (s['max'] as int);
-                    final subColor = pct >= 0.9
-                        ? const Color(0xFF22C55E)
-                        : pct >= 0.8
-                        ? const Color(0xFF6C4CF1)
-                        : pct >= 0.7
-                        ? const Color(0xFF3B82F6)
-                        : const Color(0xFFF59E0B);
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF9F8FF),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: const Color(0xFFF3EEFF),
-                            width: 1,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    s['name'],
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF1E1E2D),
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  '${s['marks']}/${s['max']}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                    color: subColor,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 3,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: subColor.withValues(alpha: 0.12),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Text(
-                                    s['grade'],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: subColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: LinearProgressIndicator(
-                                value: pct,
-                                backgroundColor: subColor.withValues(
-                                  alpha: 0.1,
-                                ),
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  subColor,
-                                ),
-                                minHeight: 6,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-
-                  // View Full Results button
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(ctx);
-                          MainLayout.pushSubScreen(
-                            context,
-                            ExamsScreen(
-                              onBack: () => MainLayout.popSubScreen(context),
-                              initialTabIndex: 1,
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: color,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: const Text(
-                          'View Full Results',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
 
-class StatRingPainter extends CustomPainter {
+
+class PerformanceChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -2077,4 +1812,7 @@ class StatRingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+
+
+
 }

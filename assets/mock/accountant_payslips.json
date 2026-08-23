@@ -1,0 +1,11 @@
+[
+  {
+    "payslip_id": "PS-2023-07-001",
+    "employee_name": "Vikram Singh",
+    "month": "July",
+    "year": 2023,
+    "net_pay": 78000.0,
+    "status": "Generated",
+    "download_url": "/payslips/ps_001.pdf"
+  }
+]

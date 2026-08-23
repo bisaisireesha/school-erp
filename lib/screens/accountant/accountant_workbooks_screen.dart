@@ -7,7 +7,8 @@ class AccountantWorkbooksScreen extends StatefulWidget {
   const AccountantWorkbooksScreen({super.key, required this.onBack});
 
   @override
-  State<AccountantWorkbooksScreen> createState() => _AccountantWorkbooksScreenState();
+  State<AccountantWorkbooksScreen> createState() =>
+      _AccountantWorkbooksScreenState();
 }
 
 class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
@@ -106,7 +107,10 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -116,9 +120,16 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
                         ),
-                        child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -126,24 +137,52 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Workbooks', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                          Text('Manage financial spreadsheets', style: TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
+                          Text(
+                            'Workbooks',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
+                          Text(
+                            'Manage financial spreadsheets',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF64748B),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     GestureDetector(
                       onTap: () => _showNewSheetDialog(context),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF6C4CF1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Row(
                           children: [
-                            Icon(LucideIcons.plus, color: Colors.white, size: 16),
+                            Icon(
+                              LucideIcons.plus,
+                              color: Colors.white,
+                              size: 16,
+                            ),
                             SizedBox(width: 6),
-                            Text('New', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+                            Text(
+                              'New',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -152,12 +191,14 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-              
+
               // List
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
-                  children: filteredWorkbooks.map((wb) => _buildWorkbookCard(wb)).toList(),
+                  children: filteredWorkbooks
+                      .map((wb) => _buildWorkbookCard(wb))
+                      .toList(),
                 ),
               ),
               const SizedBox(height: 40),
@@ -175,14 +216,25 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
           SnackBar(
             content: Row(
               children: [
-                const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                const Icon(
+                  LucideIcons.checkCircle,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 const SizedBox(width: 12),
-                Expanded(child: Text('Opening ${workbook['title']}...', style: const TextStyle(fontWeight: FontWeight.bold))),
+                Expanded(
+                  child: Text(
+                    'Opening ${workbook['title']}...',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ],
             ),
             backgroundColor: const Color(0xFF16A34A),
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             margin: const EdgeInsets.all(24),
             duration: const Duration(seconds: 3),
           ),
@@ -195,98 +247,164 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF1F5F9)),
-          boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: workbook['bg'] as Color,
-              borderRadius: BorderRadius.circular(12),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: workbook['bg'] as Color,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                workbook['icon'] as IconData,
+                color: workbook['color'] as Color,
+                size: 24,
+              ),
             ),
-            child: Icon(workbook['icon'] as IconData, color: workbook['color'] as Color, size: 24),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    workbook['title'] as String,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Text(
+                        workbook['type'] as String,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: workbook['color'] as Color,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        width: 4,
+                        height: 4,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFCBD5E1),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        workbook['size'] as String,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF64748B),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      const Icon(
+                        LucideIcons.clock,
+                        size: 14,
+                        color: Color(0xFF94A3B8),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Modified ${workbook['lastModified']}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF64748B),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  workbook['title'] as String,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                IconButton(
+                  icon: const Icon(
+                    LucideIcons.moreVertical,
+                    color: Color(0xFF64748B),
+                    size: 20,
+                  ),
+                  onPressed: () {},
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 24),
                 Row(
                   children: [
-                    Text(
-                      workbook['type'] as String,
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: workbook['color'] as Color),
+                    const Text(
+                      'Open',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF0EA5E9),
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    Container(width: 4, height: 4, decoration: const BoxDecoration(color: Color(0xFFCBD5E1), shape: BoxShape.circle)),
-                    const SizedBox(width: 8),
-                    Text(
-                      workbook['size'] as String,
-                      style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    const Icon(LucideIcons.clock, size: 14, color: Color(0xFF94A3B8)),
                     const SizedBox(width: 4),
-                    Text(
-                      'Modified ${workbook['lastModified']}',
-                      style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                    const Icon(
+                      Icons.arrow_forward,
+                      size: 14,
+                      color: Color(0xFF0EA5E9),
                     ),
                   ],
                 ),
               ],
             ),
-          ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              IconButton(
-                icon: const Icon(LucideIcons.moreVertical, color: Color(0xFF64748B), size: 20),
-                onPressed: () {},
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  const Text('Open', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
 
   void _showNewSheetDialog(BuildContext context) {
-    final TextEditingController nameController = TextEditingController(text: 'Untitled Sheet');
-    final TextEditingController shortNameController = TextEditingController(text: 'Untitled');
-    final TextEditingController ownerController = TextEditingController(text: 'Accounts Desk');
-    final TextEditingController cadenceController = TextEditingController(text: 'Manual');
-    final TextEditingController statusController = TextEditingController(text: 'Ready');
-    final TextEditingController tabsController = TextEditingController(text: 'Sheet1');
-    final TextEditingController purposeController = TextEditingController(text: 'A clean blank spreadsheet with no pre-filled accounting rows.');
+    final TextEditingController nameController = TextEditingController(
+      text: 'Untitled Sheet',
+    );
+    final TextEditingController shortNameController = TextEditingController(
+      text: 'Untitled',
+    );
+    final TextEditingController ownerController = TextEditingController(
+      text: 'Accounts Desk',
+    );
+    final TextEditingController cadenceController = TextEditingController(
+      text: 'Manual',
+    );
+    final TextEditingController statusController = TextEditingController(
+      text: 'Ready',
+    );
+    final TextEditingController tabsController = TextEditingController(
+      text: 'Sheet1',
+    );
+    final TextEditingController purposeController = TextEditingController(
+      text: 'A clean blank spreadsheet with no pre-filled accounting rows.',
+    );
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (BuildContext context) {
         return Padding(
           padding: EdgeInsets.only(
@@ -302,7 +420,14 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('New Sheet', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const Text(
+                    'New Sheet',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: const Icon(Icons.close, color: Color(0xFF64748B)),
@@ -317,9 +442,13 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
               const SizedBox(height: 24),
               Row(
                 children: [
-                  Expanded(child: _buildFormField('SHEET NAME', nameController)),
+                  Expanded(
+                    child: _buildFormField('SHEET NAME', nameController),
+                  ),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildFormField('SHORT NAME', shortNameController)),
+                  Expanded(
+                    child: _buildFormField('SHORT NAME', shortNameController),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -327,7 +456,9 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
                 children: [
                   Expanded(child: _buildFormField('OWNER', ownerController)),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildFormField('CADENCE', cadenceController)),
+                  Expanded(
+                    child: _buildFormField('CADENCE', cadenceController),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -335,7 +466,9 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
                 children: [
                   Expanded(child: _buildFormField('STATUS', statusController)),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildFormField('STARTING TABS', tabsController)),
+                  Expanded(
+                    child: _buildFormField('STARTING TABS', tabsController),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -348,13 +481,19 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
                     onPressed: () => Navigator.pop(context),
                     style: TextButton.styleFrom(
                       foregroundColor: const Color(0xFF1E1E2D),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: const BorderSide(color: Color(0xFFE2E8F0)),
                       ),
                     ),
-                    child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   ElevatedButton(
@@ -373,17 +512,29 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
                       });
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${nameController.text} created successfully!')),
+                        SnackBar(
+                          content: Text(
+                            '${nameController.text} created successfully!',
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF6C4CF1),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       elevation: 0,
                     ),
-                    child: const Text('Create Sheet', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Create Sheet',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -395,11 +546,23 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
     );
   }
 
-  Widget _buildFormField(String label, TextEditingController controller, {int maxLines = 1}) {
+  Widget _buildFormField(
+    String label,
+    TextEditingController controller, {
+    int maxLines = 1,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF64748B), letterSpacing: 0.5)),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF64748B),
+            letterSpacing: 0.5,
+          ),
+        ),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,
@@ -408,7 +571,10 @@ class _AccountantWorkbooksScreenState extends State<AccountantWorkbooksScreen> {
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color(0xFFF8F9FA),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 12,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Color(0xFFE2E8F0)),

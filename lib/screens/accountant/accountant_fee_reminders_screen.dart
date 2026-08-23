@@ -7,10 +7,12 @@ class AccountantFeeRemindersScreen extends StatefulWidget {
   const AccountantFeeRemindersScreen({super.key, required this.onBack});
 
   @override
-  State<AccountantFeeRemindersScreen> createState() => _AccountantFeeRemindersScreenState();
+  State<AccountantFeeRemindersScreen> createState() =>
+      _AccountantFeeRemindersScreenState();
 }
 
-class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScreen> {
+class _AccountantFeeRemindersScreenState
+    extends State<AccountantFeeRemindersScreen> {
   String _searchQuery = '';
   int _selectedFilter = 0; // 0: All, 1: Overdue, 2: Upcoming, 3: Sent
 
@@ -96,8 +98,8 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
       final id = (r['id'] as String?) ?? '';
       final feeHead = (r['feeHead'] as String?) ?? '';
       return student.toLowerCase().contains(q) ||
-             id.toLowerCase().contains(q) ||
-             feeHead.toLowerCase().contains(q);
+          id.toLowerCase().contains(q) ||
+          feeHead.toLowerCase().contains(q);
     }).toList();
 
     return Scaffold(
@@ -118,17 +120,24 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                       _buildEmptyState()
                     else
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 8,
+                        ),
                         child: LayoutBuilder(
                           builder: (context, constraints) {
                             if (constraints.maxWidth > 900) {
                               return Wrap(
                                 spacing: 16,
                                 runSpacing: 16,
-                                children: filteredReminders.map((r) => SizedBox(
-                                  width: (constraints.maxWidth - 16) / 2,
-                                  child: _buildReminderCard(r),
-                                )).toList(),
+                                children: filteredReminders
+                                    .map(
+                                      (r) => SizedBox(
+                                        width: (constraints.maxWidth - 16) / 2,
+                                        child: _buildReminderCard(r),
+                                      ),
+                                    )
+                                    .toList(),
                               );
                             }
                             return ListView.builder(
@@ -138,7 +147,9 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 16),
-                                  child: _buildReminderCard(filteredReminders[index]),
+                                  child: _buildReminderCard(
+                                    filteredReminders[index],
+                                  ),
                                 );
                               },
                             );
@@ -172,16 +183,27 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                      border: Border.all(
+                        color: const Color(0xFFF3EEFF),
+                        width: 1.5,
+                      ),
                     ),
-                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                    child: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Color(0xFF1E1E2D),
+                      size: 20,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
                   child: Text(
                     'Fee Reminders',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -195,7 +217,11 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                 SnackBar(
                   content: Row(
                     children: [
-                      const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                      const Icon(
+                        LucideIcons.checkCircle,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                       const SizedBox(width: 12),
                       const Expanded(
                         child: Text(
@@ -207,18 +233,29 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                   ),
                   backgroundColor: const Color(0xFF16A34A),
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   margin: const EdgeInsets.all(24),
                   duration: const Duration(seconds: 3),
                 ),
               );
             },
             icon: const Icon(LucideIcons.send, size: 16, color: Colors.white),
-            label: const Text('Send All', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+            label: const Text(
+              'Send All',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF6C4CF1),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               elevation: 0,
             ),
           ),
@@ -234,17 +271,49 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
         children: [
           Row(
             children: [
-              Expanded(child: _buildKPICard('Overdue', '24', LucideIcons.alertTriangle, const Color(0xFFEF4444), const Color(0xFFFEF2F2))),
+              Expanded(
+                child: _buildKPICard(
+                  'Overdue',
+                  '24',
+                  LucideIcons.alertTriangle,
+                  const Color(0xFFEF4444),
+                  const Color(0xFFFEF2F2),
+                ),
+              ),
               const SizedBox(width: 16),
-              Expanded(child: _buildKPICard('Upcoming', '56', LucideIcons.calendarClock, const Color(0xFFF59E0B), const Color(0xFFFFFBEB))),
+              Expanded(
+                child: _buildKPICard(
+                  'Upcoming',
+                  '56',
+                  LucideIcons.calendarClock,
+                  const Color(0xFFF59E0B),
+                  const Color(0xFFFFFBEB),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildKPICard('Sent Today', '12', LucideIcons.mailCheck, const Color(0xFF16A34A), const Color(0xFFF0FDF4))),
+              Expanded(
+                child: _buildKPICard(
+                  'Sent Today',
+                  '12',
+                  LucideIcons.mailCheck,
+                  const Color(0xFF16A34A),
+                  const Color(0xFFF0FDF4),
+                ),
+              ),
               const SizedBox(width: 16),
-              Expanded(child: _buildKPICard('Response Rate', '42%', LucideIcons.barChart2, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE))),
+              Expanded(
+                child: _buildKPICard(
+                  'Response Rate',
+                  '42%',
+                  LucideIcons.barChart2,
+                  const Color(0xFF0EA5E9),
+                  const Color(0xFFE0F2FE),
+                ),
+              ),
             ],
           ),
         ],
@@ -252,7 +321,13 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
     );
   }
 
-  Widget _buildKPICard(String title, String value, IconData icon, Color color, Color bgColor) {
+  Widget _buildKPICard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -260,7 +335,11 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
-          BoxShadow(color: const Color(0xFFE2E8F0).withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: const Color(0xFFE2E8F0).withValues(alpha: 0.5),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Row(
@@ -269,7 +348,10 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
           Container(
             width: 44,
             height: 44,
-            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Icon(icon, color: color, size: 20),
           ),
           const SizedBox(width: 12),
@@ -279,14 +361,22 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
               children: [
                 Text(
                   value,
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 12, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF64748B),
+                    fontWeight: FontWeight.w500,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -324,10 +414,20 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFF6C4CF1) : Colors.white,
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0)),
-          boxShadow: isSelected ? [
-            BoxShadow(color: const Color(0xFF6C4CF1).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))
-          ] : null,
+          border: Border.all(
+            color: isSelected
+                ? const Color(0xFF6C4CF1)
+                : const Color(0xFFE2E8F0),
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF6C4CF1).withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
         child: Text(
           title,
@@ -355,7 +455,11 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
           decoration: const InputDecoration(
             hintText: 'Search students, classes...',
             hintStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
-            prefixIcon: Icon(LucideIcons.search, color: Color(0xFF94A3B8), size: 18),
+            prefixIcon: Icon(
+              LucideIcons.search,
+              color: Color(0xFF94A3B8),
+              size: 18,
+            ),
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(vertical: 14),
           ),
@@ -413,25 +517,40 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                   children: [
                     Text(
                       r['student'],
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       '${r['id']} • ${r['class']}',
-                      style: const TextStyle(fontSize: 12, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF64748B),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: statusBgColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   r['status'],
-                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: statusColor),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: statusColor,
+                  ),
                 ),
               ),
             ],
@@ -445,17 +564,45 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Pending Amount', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8), fontWeight: FontWeight.w600)),
+                  const Text(
+                    'Pending Amount',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF94A3B8),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(r['amount'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                  Text(
+                    r['amount'],
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text('Fee Head', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8), fontWeight: FontWeight.w600)),
+                  const Text(
+                    'Fee Head',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF94A3B8),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(r['feeHead'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  Text(
+                    r['feeHead'],
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -468,7 +615,14 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                 children: [
                   Icon(LucideIcons.calendar, size: 14, color: statusColor),
                   const SizedBox(width: 4),
-                  Text('Due: ${r['dueDate']} (${r['days']})', style: TextStyle(fontSize: 11, color: statusColor, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Due: ${r['dueDate']} (${r['days']})',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: statusColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -482,7 +636,11 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                   SnackBar(
                     content: Row(
                       children: [
-                        const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                        const Icon(
+                          LucideIcons.checkCircle,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -494,18 +652,29 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
                     ),
                     backgroundColor: const Color(0xFF16A34A),
                     behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     margin: const EdgeInsets.all(24),
                     duration: const Duration(seconds: 3),
                   ),
                 );
               },
               icon: const Icon(LucideIcons.send, size: 16, color: Colors.white),
-              label: const Text('Send Reminder', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+              label: const Text(
+                'Send Reminder',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF6C4CF1),
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 elevation: 0,
               ),
             ),
@@ -528,12 +697,20 @@ class _AccountantFeeRemindersScreenState extends State<AccountantFeeRemindersScr
               shape: BoxShape.circle,
               border: Border.all(color: const Color(0xFFF1F5F9), width: 2),
             ),
-            child: const Icon(LucideIcons.checkCircle, size: 48, color: Color(0xFF16A34A)),
+            child: const Icon(
+              LucideIcons.checkCircle,
+              size: 48,
+              color: Color(0xFF16A34A),
+            ),
           ),
           const SizedBox(height: 24),
           const Text(
             'All clear!',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
           const SizedBox(height: 8),
           const Text(

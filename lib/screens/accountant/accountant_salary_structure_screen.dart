@@ -7,10 +7,12 @@ class AccountantSalaryStructureScreen extends StatefulWidget {
   const AccountantSalaryStructureScreen({super.key, required this.onBack});
 
   @override
-  State<AccountantSalaryStructureScreen> createState() => _AccountantSalaryStructureScreenState();
+  State<AccountantSalaryStructureScreen> createState() =>
+      _AccountantSalaryStructureScreenState();
 }
 
-class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStructureScreen> {
+class _AccountantSalaryStructureScreenState
+    extends State<AccountantSalaryStructureScreen> {
   final List<Map<String, dynamic>> _staffSalaries = [
     {
       'name': 'Rahul Sharma',
@@ -63,7 +65,10 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: grouped.entries.map((entry) {
@@ -101,13 +106,21 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                 shape: BoxShape.circle,
                 border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
               ),
-              child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+              child: const Icon(
+                Icons.arrow_back_rounded,
+                color: Color(0xFF1E1E2D),
+                size: 20,
+              ),
             ),
           ),
           const SizedBox(width: 12),
           const Text(
             'Salary Structures',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
         ],
       ),
@@ -201,7 +214,10 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                     ),
                     const SizedBox(height: 4),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFF0FDF4),
                         borderRadius: BorderRadius.circular(8),
@@ -228,9 +244,23 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                   Expanded(
                     child: Column(
                       children: [
-                        const Text('Basic', style: TextStyle(fontSize: 11, color: Color(0xFF64748B), fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Basic',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFF64748B),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text('₹${staff['basic']}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        Text(
+                          '₹${staff['basic']}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -238,9 +268,23 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                   Expanded(
                     child: Column(
                       children: [
-                        const Text('Allowances', style: TextStyle(fontSize: 11, color: Color(0xFF64748B), fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Allowances',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFF64748B),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text('+₹${staff['allowances']}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF16A34A))),
+                        Text(
+                          '+₹${staff['allowances']}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF16A34A),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -248,9 +292,23 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                   Expanded(
                     child: Column(
                       children: [
-                        const Text('Deductions', style: TextStyle(fontSize: 11, color: Color(0xFF64748B), fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Deductions',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFF64748B),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text('-₹${staff['deductions']}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFFEF4444))),
+                        Text(
+                          '-₹${staff['deductions']}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFEF4444),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -284,13 +342,27 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Salary Structure Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const Text(
+                    'Salary Structure Details',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(8)),
-                      child: const Icon(LucideIcons.x, size: 20, color: Color(0xFF64748B)),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F5F9),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        LucideIcons.x,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
                     ),
                   ),
                 ],
@@ -311,7 +383,11 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                             color: const Color(0xFFF3F0FF),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Icon(LucideIcons.user, color: Color(0xFF6C4CF1), size: 32),
+                          child: const Icon(
+                            LucideIcons.user,
+                            color: Color(0xFF6C4CF1),
+                            size: 32,
+                          ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -320,12 +396,19 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                             children: [
                               Text(
                                 staff['name'],
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1E1E2D),
+                                ),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 staff['role'],
-                                style: const TextStyle(fontSize: 14, color: Color(0xFF64748B)),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF64748B),
+                                ),
                               ),
                             ],
                           ),
@@ -333,7 +416,14 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                       ],
                     ),
                     const SizedBox(height: 32),
-                    const Text('Monthly Net Salary', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Monthly Net Salary',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -345,13 +435,34 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Total Net Salary', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF16A34A))),
-                          Text('₹${staff['netSalary']}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF16A34A))),
+                          const Text(
+                            'Total Net Salary',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF16A34A),
+                            ),
+                          ),
+                          Text(
+                            '₹${staff['netSalary']}',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF16A34A),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Text('Earnings', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Earnings',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -361,14 +472,29 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                       ),
                       child: Column(
                         children: [
-                          _buildDetailRow('Basic Salary', '₹${staff['basic']}', isGreen: false),
+                          _buildDetailRow(
+                            'Basic Salary',
+                            '₹${staff['basic']}',
+                            isGreen: false,
+                          ),
                           const Divider(height: 24, color: Color(0xFFF1F5F9)),
-                          _buildDetailRow('Allowances', '+₹${staff['allowances']}', isGreen: true),
+                          _buildDetailRow(
+                            'Allowances',
+                            '+₹${staff['allowances']}',
+                            isGreen: true,
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Text('Deductions', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Deductions',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -378,7 +504,11 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                       ),
                       child: Column(
                         children: [
-                          _buildDetailRow('Total Deductions', '-₹${staff['deductions']}', isRed: true),
+                          _buildDetailRow(
+                            'Total Deductions',
+                            '-₹${staff['deductions']}',
+                            isRed: true,
+                          ),
                         ],
                       ),
                     ),
@@ -389,15 +519,30 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
                         onPressed: () {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Edit feature coming soon!')),
+                            const SnackBar(
+                              content: Text('Edit feature coming soon!'),
+                            ),
                           );
                         },
-                        icon: const Icon(LucideIcons.edit, size: 16, color: Colors.white),
-                        label: const Text('Edit Structure', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                        icon: const Icon(
+                          LucideIcons.edit,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                        label: const Text(
+                          'Edit Structure',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6C4CF1),
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                       ),
                     ),
@@ -411,7 +556,12 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
     );
   }
 
-  Widget _buildDetailRow(String label, String value, {bool isGreen = false, bool isRed = false}) {
+  Widget _buildDetailRow(
+    String label,
+    String value, {
+    bool isGreen = false,
+    bool isRed = false,
+  }) {
     Color valColor = const Color(0xFF1E1E2D);
     if (isGreen) valColor = const Color(0xFF16A34A);
     if (isRed) valColor = const Color(0xFFEF4444);
@@ -419,8 +569,22 @@ class _AccountantSalaryStructureScreenState extends State<AccountantSalaryStruct
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 14, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
-        Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: valColor)),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Color(0xFF64748B),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: valColor,
+          ),
+        ),
       ],
     );
   }

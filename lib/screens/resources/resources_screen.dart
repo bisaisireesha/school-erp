@@ -26,7 +26,9 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
 
   Future<void> _loadFolders() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/student_resources.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/student_resources.json',
+      );
       final data = await json.decode(response);
       if (mounted) {
         setState(() {
@@ -73,18 +75,32 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               shape: BoxShape.circle,
-                              border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                              border: Border.all(
+                                color: const Color(0xFFF3EEFF),
+                                width: 1.5,
+                              ),
                               boxShadow: [
-                                BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10),
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 10,
+                                ),
                               ],
                             ),
-                            child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                            child: const Icon(
+                              Icons.arrow_back_rounded,
+                              color: Color(0xFF1E1E2D),
+                              size: 20,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 16),
                         const Text(
                           'Study Material',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
                         ),
                         const Spacer(),
                       ],
@@ -99,9 +115,21 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                         // Stats Row
                         Row(
                           children: [
-                            Expanded(child: _buildStatCard('Total Folders', '11', LucideIcons.folder)),
+                            Expanded(
+                              child: _buildStatCard(
+                                'Total Folders',
+                                '11',
+                                LucideIcons.folder,
+                              ),
+                            ),
                             const SizedBox(width: 16),
-                            Expanded(child: _buildStatCard('Total Resources', '1,567', LucideIcons.fileText)),
+                            Expanded(
+                              child: _buildStatCard(
+                                'Total Resources',
+                                '1,567',
+                                LucideIcons.fileText,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 24),
@@ -110,7 +138,11 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                         if (_isLoading)
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 40),
-                            child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFF6C4CF1),
+                              ),
+                            ),
                           )
                         else if (filteredFolders.isEmpty)
                           Center(
@@ -118,7 +150,11 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                               padding: const EdgeInsets.only(top: 40.0),
                               child: Text(
                                 'No folders found',
-                                style: TextStyle(color: Colors.grey.shade500, fontSize: 16, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                  color: Colors.grey.shade500,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           )
@@ -127,12 +163,13 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: filteredFolders.length,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                              childAspectRatio: 0.85,
-                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 16,
+                                  mainAxisSpacing: 16,
+                                  childAspectRatio: 1.3,
+                                ),
                             itemBuilder: (context, index) {
                               final folder = filteredFolders[index];
                               return GestureDetector(
@@ -141,7 +178,8 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                                     context,
                                     SubjectResourcesScreen(
                                       subjectData: folder,
-                                      onBack: () => MainLayout.popSubScreen(context),
+                                      onBack: () =>
+                                          MainLayout.popSubScreen(context),
                                     ),
                                   );
                                 },
@@ -169,7 +207,11 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
-          BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Row(
@@ -187,9 +229,23 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 11, color: Color(0xFF6C6C80), fontWeight: FontWeight.w600)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF6C6C80),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
               ],
             ),
           ),
@@ -206,7 +262,11 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
-          BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.4), blurRadius: 12, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
@@ -241,31 +301,44 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
 
           Text(
             folder['subject'],
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
           const SizedBox(height: 6),
 
           Row(
             children: [
-              const Icon(LucideIcons.folder, size: 12, color: Color(0xFF6C6C80)),
+              const Icon(
+                LucideIcons.folder,
+                size: 12,
+                color: Color(0xFF6C6C80),
+              ),
               const SizedBox(width: 4),
-              Text('${folder['folders']}', style: const TextStyle(fontSize: 12, color: Color(0xFF6C6C80))),
+              Text(
+                '${folder['folders']}',
+                style: const TextStyle(fontSize: 12, color: Color(0xFF6C6C80)),
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4),
-                child: Text('•', style: TextStyle(fontSize: 12, color: Color(0xFF6C6C80))),
+                child: Text(
+                  '•',
+                  style: TextStyle(fontSize: 12, color: Color(0xFF6C6C80)),
+                ),
               ),
-              Text('${folder['resources']} resources', style: const TextStyle(fontSize: 12, color: Color(0xFF6C6C80))),
+              Expanded(
+                child: Text(
+                  '${folder['resources']} resources',
+                  style: const TextStyle(fontSize: 12, color: Color(0xFF6C6C80)),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           ),
 
-          const SizedBox(height: 12),
-
-          const Text(
-            'Notes • Question Bank • Worksheets • Assignments • Practice Papers',
-            style: TextStyle(fontSize: 10, color: Color(0xFF9E9E9E), height: 1.5),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
         ],
       ),
     );

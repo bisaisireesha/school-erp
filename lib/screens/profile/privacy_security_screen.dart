@@ -40,14 +40,41 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
           children: [
             _buildSectionTitle('Security'),
             const SizedBox(height: 16),
-            _buildListTile(LucideIcons.lock, 'Change Password', 'Update your password regularly', onTap: () {}),
-            _buildSwitchTile(LucideIcons.shieldCheck, 'Two-Factor Authentication', 'Add an extra layer of security', _twoFactor, (val) => setState(() => _twoFactor = val)),
-            _buildSwitchTile(LucideIcons.fingerprint, 'Biometric Login', 'Use Face ID or Fingerprint', _biometrics, (val) => setState(() => _biometrics = val)),
+            _buildListTile(
+              LucideIcons.lock,
+              'Change Password',
+              'Update your password regularly',
+              onTap: () {},
+            ),
+            _buildSwitchTile(
+              LucideIcons.shieldCheck,
+              'Two-Factor Authentication',
+              'Add an extra layer of security',
+              _twoFactor,
+              (val) => setState(() => _twoFactor = val),
+            ),
+            _buildSwitchTile(
+              LucideIcons.fingerprint,
+              'Biometric Login',
+              'Use Face ID or Fingerprint',
+              _biometrics,
+              (val) => setState(() => _biometrics = val),
+            ),
             const SizedBox(height: 32),
             _buildSectionTitle('Privacy'),
             const SizedBox(height: 16),
-            _buildListTile(LucideIcons.eyeOff, 'Profile Visibility', 'Manage who can see your profile', onTap: () {}),
-            _buildListTile(LucideIcons.smartphone, 'Active Sessions', 'Manage your logged-in devices', onTap: () {}),
+            _buildListTile(
+              LucideIcons.eyeOff,
+              'Profile Visibility',
+              'Manage who can see your profile',
+              onTap: () {},
+            ),
+            _buildListTile(
+              LucideIcons.smartphone,
+              'Active Sessions',
+              'Manage your logged-in devices',
+              onTap: () {},
+            ),
           ],
         ),
       ),
@@ -65,7 +92,12 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
     );
   }
 
-  Widget _buildListTile(IconData icon, String title, String subtitle, {required VoidCallback onTap}) {
+  Widget _buildListTile(
+    IconData icon,
+    String title,
+    String subtitle, {
+    required VoidCallback onTap,
+  }) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Container(
@@ -76,14 +108,32 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
         ),
         child: Icon(icon, color: const Color(0xFFF59E0B), size: 20),
       ),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
-      subtitle: Text(subtitle, style: const TextStyle(fontSize: 12, color: Color(0xFF9090A7))),
-      trailing: const Icon(Icons.chevron_right_rounded, color: Color(0xFF9090A7)),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF1E1E2D),
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF9090A7)),
+      ),
+      trailing: const Icon(
+        Icons.chevron_right_rounded,
+        color: Color(0xFF9090A7),
+      ),
       onTap: onTap,
     );
   }
 
-  Widget _buildSwitchTile(IconData icon, String title, String subtitle, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildSwitchTile(
+    IconData icon,
+    String title,
+    String subtitle,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Container(
@@ -94,8 +144,17 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
         ),
         child: Icon(icon, color: const Color(0xFFF59E0B), size: 20),
       ),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
-      subtitle: Text(subtitle, style: const TextStyle(fontSize: 12, color: Color(0xFF9090A7))),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF1E1E2D),
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF9090A7)),
+      ),
       trailing: Switch(
         value: value,
         onChanged: onChanged,

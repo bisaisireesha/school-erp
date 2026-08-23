@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
+import '../calendar/calendar_screen.dart';
+import '../homework/homework_screen.dart';
+import '../transport/transport_screen.dart';
+import '../exams/exams_screen.dart';
+// import '../academics/academics_screen.dart';
 
 class ActivityScreen extends StatefulWidget {
   final VoidCallback onBack;
@@ -195,16 +200,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
     }).where((group) => (group['items'] as List).isNotEmpty).toList();
 
     for (var group in filteredGroups) {
-      children.add(
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16, top: 8),
-          child: Text(
-            group['date'] as String,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
-          ),
-        ),
-      );
 
+      bool isToday = group['date'] == 'Today';
       var items = group['items'] as List<dynamic>;
       children.add(
         LayoutBuilder(
@@ -216,7 +213,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                 children: items.map((item) {
                   return SizedBox(
                     width: (constraints.maxWidth - 16) / 2,
-                    child: _buildTimelineCard(item),
+                    child: _buildTimelineCard(item, isToday: isToday),
                   );
                 }).toList(),
               );
@@ -224,7 +221,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: items.map((item) {
-                  return _buildTimelineCard(item);
+                  return _buildTimelineCard(item, isToday: isToday);
                 }).toList(),
               );
             }
@@ -245,7 +242,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
     return children;
   }
 
-  Widget _buildTimelineCard(Map<String, dynamic> item) {
+  Widget _buildTimelineCard(Map<String, dynamic> item, {bool isToday = false}) {
     Color themeColor;
     Color bgColor;
     IconData icon;
@@ -275,7 +272,30 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
     return GestureDetector(
       onTap: () {
-        // Do nothing, as requested by user
+        if (item['title'] == 'Homework Assigned' || item['type'] == 'Homework') {
+          MainLayout.pushSubScreen(
+            context,
+            HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
+        } else if (item['title'] == 'Quiz Completed' || item['title'] == 'Exam') {
+          MainLayout.pushSubScreen(
+            context,
+            ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
+        } else if (item['type'] == 'Academic') {
+          MainLayout.switchTab(1); // Switch to Academics tab
+          MainLayout.popSubScreen(context); // Close Activity screen
+        } else if (item['type'] == 'Transport') {
+          MainLayout.pushSubScreen(
+            context,
+            TransportScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
+        } else if (item['type'] == 'Event' || item['type'] == 'Others') {
+          MainLayout.pushSubScreen(
+            context,
+            CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
+        }
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
@@ -296,18 +316,6 @@ class _ActivityScreenState extends State<ActivityScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Dot Indicator
-            Container(
-              margin: const EdgeInsets.only(top: 18),
-              width: 8,
-              height: 8,
-              decoration: BoxDecoration(
-                color: themeColor,
-                shape: BoxShape.circle,
-              ),
-            ),
-            const SizedBox(width: 12),
-            
             // Circular Icon Background
             Container(
               padding: const EdgeInsets.all(12),

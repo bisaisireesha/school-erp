@@ -6,10 +6,12 @@ class AccountantBankAccountsScreen extends StatefulWidget {
   const AccountantBankAccountsScreen({super.key, required this.onBack});
 
   @override
-  State<AccountantBankAccountsScreen> createState() => _AccountantBankAccountsScreenState();
+  State<AccountantBankAccountsScreen> createState() =>
+      _AccountantBankAccountsScreenState();
 }
 
-class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScreen> {
+class _AccountantBankAccountsScreenState
+    extends State<AccountantBankAccountsScreen> {
   final List<Map<String, dynamic>> _bankAccounts = [
     {
       'bankName': 'HDFC Bank',
@@ -58,7 +60,10 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -72,9 +77,16 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                                border: Border.all(
+                                  color: const Color(0xFFF3EEFF),
+                                  width: 1.5,
+                                ),
                               ),
-                              child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                              child: const Icon(
+                                Icons.arrow_back_rounded,
+                                color: Color(0xFF1E1E2D),
+                                size: 20,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -82,8 +94,22 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Bank Accounts', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                                Text('Manage connected accounts', style: TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
+                                Text(
+                                  'Bank Accounts',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xFF1E1E2D),
+                                  ),
+                                ),
+                                Text(
+                                  'Manage connected accounts',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Color(0xFF64748B),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -93,16 +119,30 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                     GestureDetector(
                       onTap: () => _showLinkBankDialog(context),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF6C4CF1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Row(
                           children: [
-                            Icon(LucideIcons.plus, color: Colors.white, size: 16),
+                            Icon(
+                              LucideIcons.plus,
+                              color: Colors.white,
+                              size: 16,
+                            ),
                             SizedBox(width: 6),
-                            Text('Link Bank', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+                            Text(
+                              'Link Bank',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -110,7 +150,7 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                   ],
                 ),
               ),
-              
+
               // Total Balance Summary
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -124,7 +164,11 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                     ),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
-                      BoxShadow(color: const Color(0xFF6C4CF1).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4)),
+                      BoxShadow(
+                        color: const Color(0xFF6C4CF1).withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
                     ],
                   ),
                   child: Row(
@@ -135,31 +179,67 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                           color: Colors.white.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(LucideIcons.building, color: Colors.white, size: 28),
+                        child: const Icon(
+                          LucideIcons.building,
+                          color: Colors.white,
+                          size: 28,
+                        ),
                       ),
                       const SizedBox(width: 16),
                       const Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Total Liquid Balance', style: TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w500)),
+                            Text(
+                              'Total Liquid Balance',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                             SizedBox(height: 4),
-                            Text('₹45,75,000', style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold)),
+                            Text(
+                              '₹45,75,000',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF10B981).withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.3)),
+                          border: Border.all(
+                            color: const Color(
+                              0xFF10B981,
+                            ).withValues(alpha: 0.3),
+                          ),
                         ),
                         child: const Row(
                           children: [
-                            Icon(LucideIcons.trendingUp, color: Color(0xFF34D399), size: 14),
+                            Icon(
+                              LucideIcons.trendingUp,
+                              color: Color(0xFF34D399),
+                              size: 14,
+                            ),
                             SizedBox(width: 4),
-                            Text('+4.2%', style: TextStyle(color: Color(0xFF34D399), fontSize: 12, fontWeight: FontWeight.bold)),
+                            Text(
+                              '+4.2%',
+                              style: TextStyle(
+                                color: Color(0xFF34D399),
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -168,18 +248,27 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                 ),
               ),
               const SizedBox(height: 24),
-              
+
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
-                child: Text('Connected Accounts', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+                child: Text(
+                  'Connected Accounts',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
               ),
               const SizedBox(height: 16),
-              
+
               // List
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
-                  children: _bankAccounts.map((account) => _buildAccountCard(account)).toList(),
+                  children: _bankAccounts
+                      .map((account) => _buildAccountCard(account))
+                      .toList(),
                 ),
               ),
               const SizedBox(height: 40),
@@ -202,118 +291,191 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFF1F5F9)),
-          boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: account['bgColor'] as Color,
-                  shape: BoxShape.circle,
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: account['bgColor'] as Color,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    account['icon'] as IconData,
+                    color: account['logoColor'] as Color,
+                    size: 24,
+                  ),
                 ),
-                child: Icon(account['icon'] as IconData, color: account['logoColor'] as Color, size: 24),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        account['bankName'] as String,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        account['accountType'] as String,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF64748B),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      account['bankName'] as String,
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      account['accountType'] as String,
-                      style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    account['balance'] as String,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
-                  ),
-                  const SizedBox(height: 4),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: isNeedsSync ? const Color(0xFFFFFBEB) : const Color(0xFFF0FDF4),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      account['status'] as String,
-                      style: TextStyle(
-                        fontSize: 11, 
-                        fontWeight: FontWeight.bold, 
-                        color: isNeedsSync ? const Color(0xFFF59E0B) : const Color(0xFF16A34A)
+                      account['balance'] as String,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF1E1E2D),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const Divider(color: Color(0xFFF1F5F9), height: 1),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Text('A/C:', style: TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
-                  const SizedBox(width: 4),
-                  Text(
-                    account['accountNumber'] as String,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Icon(isNeedsSync ? LucideIcons.refreshCwOff : LucideIcons.refreshCw, size: 14, color: const Color(0xFF94A3B8)),
-                  const SizedBox(width: 4),
-                  Text(
-                    'Synced ${account['lastSync']}',
-                    style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8)),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: isSyncing ? null : () => _syncAccount(account),
-                child: Row(
-                  children: [
-                    isSyncing 
-                        ? const SizedBox(height: 14, width: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF6C4CF1)))
-                        : const Icon(LucideIcons.refreshCw, size: 14, color: Color(0xFF6C4CF1)),
-                    const SizedBox(width: 6),
-                    Text(isSyncing ? 'Syncing...' : 'Sync Now', style: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold, fontSize: 13)),
+                    const SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isNeedsSync
+                            ? const Color(0xFFFFFBEB)
+                            : const Color(0xFFF0FDF4),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        account['status'] as String,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: isNeedsSync
+                              ? const Color(0xFFF59E0B)
+                              : const Color(0xFF16A34A),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              Row(
-                children: [
-                  const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Divider(color: Color(0xFFF1F5F9), height: 1),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      'A/C:',
+                      style: TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      account['accountNumber'] as String,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF64748B),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      isNeedsSync
+                          ? LucideIcons.refreshCwOff
+                          : LucideIcons.refreshCw,
+                      size: 14,
+                      color: const Color(0xFF94A3B8),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Synced ${account['lastSync']}',
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF94A3B8),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: isSyncing ? null : () => _syncAccount(account),
+                  child: Row(
+                    children: [
+                      isSyncing
+                          ? const SizedBox(
+                              height: 14,
+                              width: 14,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Color(0xFF6C4CF1),
+                              ),
+                            )
+                          : const Icon(
+                              LucideIcons.refreshCw,
+                              size: 14,
+                              color: Color(0xFF6C4CF1),
+                            ),
+                      const SizedBox(width: 6),
+                      Text(
+                        isSyncing ? 'Syncing...' : 'Sync Now',
+                        style: const TextStyle(
+                          color: Color(0xFF6C4CF1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      'View details',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF0EA5E9),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.arrow_forward,
+                      size: 14,
+                      color: Color(0xFF0EA5E9),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -322,9 +484,9 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
     setState(() {
       account['isSyncing'] = true;
     });
-    
+
     await Future.delayed(const Duration(seconds: 1));
-    
+
     if (mounted) {
       setState(() {
         account['isSyncing'] = false;
@@ -337,7 +499,12 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
             children: [
               Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
               SizedBox(width: 12),
-              Expanded(child: Text('Account synced successfully!', style: TextStyle(fontWeight: FontWeight.bold))),
+              Expanded(
+                child: Text(
+                  'Account synced successfully!',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ],
           ),
           backgroundColor: Color(0xFF16A34A),
@@ -369,13 +536,27 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Account Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const Text(
+                    'Account Details',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(8)),
-                      child: const Icon(LucideIcons.x, size: 20, color: Color(0xFF64748B)),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F5F9),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        LucideIcons.x,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
                     ),
                   ),
                 ],
@@ -393,17 +574,28 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                         color: account['bgColor'] as Color,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(account['icon'] as IconData, color: account['logoColor'] as Color, size: 40),
+                      child: Icon(
+                        account['icon'] as IconData,
+                        color: account['logoColor'] as Color,
+                        size: 40,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       account['bankName'] as String,
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       '${account['accountType']} • ${account['accountNumber']}',
-                      style: const TextStyle(fontSize: 14, color: Color(0xFF64748B)),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF64748B),
+                      ),
                     ),
                     const SizedBox(height: 24),
                     Container(
@@ -415,11 +607,22 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                       ),
                       child: Column(
                         children: [
-                          const Text('Available Balance', style: TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
+                          const Text(
+                            'Available Balance',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF64748B),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           Text(
                             account['balance'] as String,
-                            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                            style: const TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
                           ),
                         ],
                       ),
@@ -432,12 +635,25 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                           Navigator.pop(context);
                           _syncAccount(account);
                         },
-                        icon: const Icon(LucideIcons.refreshCw, size: 16, color: Colors.white),
-                        label: const Text('Sync Account Now', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                        icon: const Icon(
+                          LucideIcons.refreshCw,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                        label: const Text(
+                          'Sync Account Now',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6C4CF1),
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                       ),
                     ),
@@ -452,15 +668,23 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
   }
 
   void _showLinkBankDialog(BuildContext context) {
-    final TextEditingController nameController = TextEditingController(text: 'Axis Bank');
-    final TextEditingController typeController = TextEditingController(text: 'Petty Cash');
-    final TextEditingController accountController = TextEditingController(text: '0000 0000 0000 1234');
+    final TextEditingController nameController = TextEditingController(
+      text: 'Axis Bank',
+    );
+    final TextEditingController typeController = TextEditingController(
+      text: 'Petty Cash',
+    );
+    final TextEditingController accountController = TextEditingController(
+      text: '0000 0000 0000 1234',
+    );
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (BuildContext context) {
         return Padding(
           padding: EdgeInsets.only(
@@ -476,7 +700,14 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Link Bank Account', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const Text(
+                    'Link Bank Account',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: const Icon(Icons.close, color: Color(0xFF64748B)),
@@ -491,7 +722,10 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
               const SizedBox(height: 24),
               _buildFormField('BANK NAME', nameController),
               const SizedBox(height: 16),
-              _buildFormField('ACCOUNT TYPE (e.g. Salary, Operations)', typeController),
+              _buildFormField(
+                'ACCOUNT TYPE (e.g. Salary, Operations)',
+                typeController,
+              ),
               const SizedBox(height: 16),
               _buildFormField('ACCOUNT NUMBER', accountController),
               const SizedBox(height: 24),
@@ -502,13 +736,19 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                     onPressed: () => Navigator.pop(context),
                     style: TextButton.styleFrom(
                       foregroundColor: const Color(0xFF1E1E2D),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: const BorderSide(color: Color(0xFFE2E8F0)),
                       ),
                     ),
-                    child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   ElevatedButton(
@@ -517,7 +757,8 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                         _bankAccounts.insert(0, {
                           'bankName': nameController.text,
                           'accountType': typeController.text,
-                          'accountNumber': 'XXXX XXXX XXXX ${accountController.text.length >= 4 ? accountController.text.substring(accountController.text.length - 4) : accountController.text}',
+                          'accountNumber':
+                              'XXXX XXXX XXXX ${accountController.text.length >= 4 ? accountController.text.substring(accountController.text.length - 4) : accountController.text}',
                           'balance': '₹0',
                           'status': 'Needs Sync',
                           'lastSync': 'Never',
@@ -528,17 +769,29 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
                       });
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${nameController.text} linked successfully!')),
+                        SnackBar(
+                          content: Text(
+                            '${nameController.text} linked successfully!',
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF6C4CF1),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       elevation: 0,
                     ),
-                    child: const Text('Link Account', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Link Account',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -554,7 +807,15 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF64748B), letterSpacing: 0.5)),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF64748B),
+            letterSpacing: 0.5,
+          ),
+        ),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,
@@ -562,7 +823,10 @@ class _AccountantBankAccountsScreenState extends State<AccountantBankAccountsScr
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color(0xFFF8F9FA),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 12,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Color(0xFFE2E8F0)),

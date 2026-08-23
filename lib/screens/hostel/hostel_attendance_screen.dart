@@ -34,12 +34,18 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
 
   Future<void> _loadAttendance() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/hostel_attendance.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/hostel_attendance.json',
+      );
       final data = await json.decode(response);
       if (mounted) {
         setState(() {
-          _blocksAttendance = List<Map<String, dynamic>>.from(data['blocksAttendance']);
-          _studentsAttendance = List<Map<String, dynamic>>.from(data['studentsAttendance']);
+          _blocksAttendance = List<Map<String, dynamic>>.from(
+            data['blocksAttendance'],
+          );
+          _studentsAttendance = List<Map<String, dynamic>>.from(
+            data['studentsAttendance'],
+          );
           _isLoading = false;
         });
       }
@@ -76,18 +82,27 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     if (_isLoading) {
       return Container(
         color: Colors.transparent,
-        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+        child: const Center(
+          child: CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+        ),
       );
     }
-    
+
     if (_activeRollCallBlock != null) {
       return _buildDetailedRollCallView(_activeRollCallBlock!);
     }
 
     int totalBlocksCount = _blocksAttendance.length;
-    int submittedCount = _blocksAttendance.where((b) => b['status'] == 'Submitted').length;
-    int pendingCount = _blocksAttendance.where((b) => b['status'] == 'Pending').length;
-    int totalStudentsCount = _blocksAttendance.fold(0, (sum, b) => sum + (b['totalStudents'] as int));
+    int submittedCount = _blocksAttendance
+        .where((b) => b['status'] == 'Submitted')
+        .length;
+    int pendingCount = _blocksAttendance
+        .where((b) => b['status'] == 'Pending')
+        .length;
+    int totalStudentsCount = _blocksAttendance.fold(
+      0,
+      (sum, b) => sum + (b['totalStudents'] as int),
+    );
 
     final displayedBlocks = _blocksAttendance.where((b) {
       final name = (b['name'] as String).toLowerCase();
@@ -96,8 +111,13 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
       final status = (b['status'] as String);
       final query = _searchQuery.trim().toLowerCase();
 
-      bool matchesQuery = query.isEmpty || name.contains(query) || code.contains(query) || warden.contains(query);
-      bool matchesStatus = _filterStatus == 'All Status' || status == _filterStatus;
+      bool matchesQuery =
+          query.isEmpty ||
+          name.contains(query) ||
+          code.contains(query) ||
+          warden.contains(query);
+      bool matchesStatus =
+          _filterStatus == 'All Status' || status == _filterStatus;
 
       return matchesQuery && matchesStatus;
     }).toList();
@@ -124,15 +144,29 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                            border: Border.all(
+                              color: const Color(0xFFF3EEFF),
+                              width: 1.5,
+                            ),
                           ),
-                          child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                          child: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Color(0xFF1E1E2D),
+                            size: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
                     ],
                     const Expanded(
-                      child: Text('Hostel Attendance', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      child: Text(
+                        'Hostel Attendance',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
@@ -142,12 +176,28 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                         );
                         setState(() => _activeRollCallBlock = pendingBlock);
                       },
-                      icon: const Icon(LucideIcons.userCheck, size: 16, color: Colors.white),
-                      label: const Text('Mark Now', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+                      icon: const Icon(
+                        LucideIcons.userCheck,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Mark Now',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         elevation: 0,
                       ),
                     ),
@@ -164,15 +214,29 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: _buildKpiCard('Total Blocks', '$totalBlocksCount', LucideIcons.building2, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), () {
-                            setState(() => _filterStatus = 'All');
-                          }),
+                          child: _buildKpiCard(
+                            'Total Blocks',
+                            '$totalBlocksCount',
+                            LucideIcons.building2,
+                            const Color(0xFF6C4CF1),
+                            const Color(0xFFF3F0FF),
+                            () {
+                              setState(() => _filterStatus = 'All');
+                            },
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: _buildKpiCard('Submitted', '$submittedCount', LucideIcons.checkCircle2, const Color(0xFF10B981), const Color(0xFFF0FDF4), () {
-                            setState(() => _filterStatus = 'Submitted');
-                          }),
+                          child: _buildKpiCard(
+                            'Submitted',
+                            '$submittedCount',
+                            LucideIcons.checkCircle2,
+                            const Color(0xFF10B981),
+                            const Color(0xFFF0FDF4),
+                            () {
+                              setState(() => _filterStatus = 'Submitted');
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -180,15 +244,29 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: _buildKpiCard('Pending', '$pendingCount', LucideIcons.clock, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), () {
-                            setState(() => _filterStatus = 'Pending');
-                          }),
+                          child: _buildKpiCard(
+                            'Pending',
+                            '$pendingCount',
+                            LucideIcons.clock,
+                            const Color(0xFFF59E0B),
+                            const Color(0xFFFEF3C7),
+                            () {
+                              setState(() => _filterStatus = 'Pending');
+                            },
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: _buildKpiCard('Total Students', '$totalStudentsCount', LucideIcons.users, const Color(0xFF3B82F6), const Color(0xFFEFF6FF), () {
-                            setState(() => _filterStatus = 'All');
-                          }),
+                          child: _buildKpiCard(
+                            'Total Students',
+                            '$totalStudentsCount',
+                            LucideIcons.users,
+                            const Color(0xFF3B82F6),
+                            const Color(0xFFEFF6FF),
+                            () {
+                              setState(() => _filterStatus = 'All');
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -220,55 +298,98 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                                 firstDate: DateTime(2025),
                                 lastDate: DateTime(2030),
                               );
-                              if (picked != null) setState(() => _selectedDate = picked);
+                              if (picked != null) {
+                                setState(() => _selectedDate = picked);
+                              }
                             },
                             child: Row(
                               children: [
-                                const Icon(LucideIcons.calendar, size: 18, color: Color(0xFF6C4CF1)),
+                                const Icon(
+                                  LucideIcons.calendar,
+                                  size: 18,
+                                  color: Color(0xFF6C4CF1),
+                                ),
                                 const SizedBox(width: 8),
                                 Text(
                                   '${_selectedDate.day.toString().padLeft(2, '0')} Aug ${_selectedDate.year}',
-                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1E1E2D),
+                                  ),
                                 ),
-                                const Icon(LucideIcons.chevronDown, size: 16, color: Color(0xFF64748B)),
+                                const Icon(
+                                  LucideIcons.chevronDown,
+                                  size: 16,
+                                  color: Color(0xFF64748B),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(20)),
-                            child: const Text('Live Status', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3F0FF),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Text(
+                              'Live Status',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF6C4CF1),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
                       Row(
-                        children: ['Night Roll Call (09:30 PM)', 'Morning Roll Call (07:00 AM)'].map((session) {
-                          final isSelected = _selectedSession == session;
-                          return Expanded(
-                            child: GestureDetector(
-                              onTap: () => setState(() => _selectedSession = session),
-                              child: Container(
-                                margin: EdgeInsets.only(right: session.contains('Night') ? 8 : 0),
-                                padding: const EdgeInsets.symmetric(vertical: 8),
-                                decoration: BoxDecoration(
-                                  color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFFFFFFF),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    session.contains('Night') ? 'Night Roll Call' : 'Morning Roll Call',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: isSelected ? Colors.white : const Color(0xFF64748B),
+                        children:
+                            [
+                              'Night Roll Call (09:30 PM)',
+                              'Morning Roll Call (07:00 AM)',
+                            ].map((session) {
+                              final isSelected = _selectedSession == session;
+                              return Expanded(
+                                child: GestureDetector(
+                                  onTap: () => setState(
+                                    () => _selectedSession = session,
+                                  ),
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      right: session.contains('Night') ? 8 : 0,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? const Color(0xFF6C4CF1)
+                                          : const Color(0xFFFFFFFF),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        session.contains('Night')
+                                            ? 'Night Roll Call'
+                                            : 'Morning Roll Call',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: isSelected
+                                              ? Colors.white
+                                              : const Color(0xFF64748B),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                              );
+                            }).toList(),
                       ),
                     ],
                   ),
@@ -291,13 +412,19 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                         selectedColor: const Color(0xFFF3F0FF),
                         backgroundColor: Colors.white,
                         labelStyle: TextStyle(
-                          color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D),
+                          color: isSelected
+                              ? const Color(0xFF6C4CF1)
+                              : const Color(0xFF1E1E2D),
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0)),
+                          side: BorderSide(
+                            color: isSelected
+                                ? const Color(0xFF6C4CF1)
+                                : const Color(0xFFE2E8F0),
+                          ),
                         ),
                         onSelected: (selected) {
                           if (selected) setState(() => _filterStatus = st);
@@ -316,11 +443,20 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                     ? Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 40),
-                          child: Text('No blocks found', style: TextStyle(color: Colors.grey.shade500, fontSize: 15, fontWeight: FontWeight.w500)),
+                          child: Text(
+                            'No blocks found',
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       )
                     : Column(
-                        children: displayedBlocks.map((block) => _buildBlockOverviewCard(block)).toList(),
+                        children: displayedBlocks
+                            .map((block) => _buildBlockOverviewCard(block))
+                            .toList(),
                       ),
               ),
               const SizedBox(height: 40),
@@ -331,7 +467,14 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     );
   }
 
-  Widget _buildKpiCard(String label, String count, IconData icon, Color textColor, Color bgColor, [VoidCallback? onTap]) {
+  Widget _buildKpiCard(
+    String label,
+    String count,
+    IconData icon,
+    Color textColor,
+    Color bgColor, [
+    VoidCallback? onTap,
+  ]) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -340,13 +483,22 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFE2E8F0)),
-          boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Icon(icon, color: textColor, size: 20),
             ),
             const SizedBox(width: 12),
@@ -354,8 +506,24 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                  Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(
+                    count,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF6C6C80),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
@@ -367,118 +535,209 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
 
   Widget _buildBlockOverviewCard(Map<String, dynamic> block) {
     final isSubmitted = block['status'] == 'Submitted';
-    final statusBg = isSubmitted ? const Color(0xFFDCFCE7) : const Color(0xFFFEF3C7);
-    final statusTextColor = isSubmitted ? const Color(0xFF16A34A) : const Color(0xFFD97706);
-    final statusText = isSubmitted ? 'Submitted (${block['submittedAt']})' : 'Pending';
+    final statusBg = isSubmitted
+        ? const Color(0xFFDCFCE7)
+        : const Color(0xFFFEF3C7);
+    final statusTextColor = isSubmitted
+        ? const Color(0xFF16A34A)
+        : const Color(0xFFD97706);
+    final statusText = isSubmitted
+        ? 'Submitted (${block['submittedAt']})'
+        : 'Pending';
 
     return GestureDetector(
       onTap: () => setState(() => _activeRollCallBlock = block),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: _getColor(block['bgColor']),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Center(
-                  child: Text(
-                    '${block['code']}',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: _getColor(block['color'])),
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFE2E8F0)),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: _getColor(block['bgColor']),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '${block['code']}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: _getColor(block['color']),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${block['name']}',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                          decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(6)),
-                          child: Text(statusText, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: statusTextColor)),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${block['name']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
                         ),
-                        const SizedBox(width: 8),
-                        Text('${block['totalStudents']} Students', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF6C6C80))),
-                      ],
-                    ),
-                  ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: statusBg,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              statusText,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: statusTextColor,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${block['totalStudents']} Students',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF6C6C80),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          const Divider(color: Color(0xFFFFFFFF), height: 1),
-          const SizedBox(height: 14),
+              ],
+            ),
+            const SizedBox(height: 14),
+            const Divider(color: Color(0xFFFFFFFF), height: 1),
+            const SizedBox(height: 14),
 
-          Row(
-            children: [
-              const Icon(LucideIcons.userCheck, size: 15, color: Color(0xFF6C4CF1)),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text('Warden: ${block['warden']}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF334155))),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-
-          // Action Button on Card
-          SizedBox(
-            width: double.infinity,
-            child: isSubmitted
-                ? OutlinedButton.icon(
-                    onPressed: () => setState(() => _activeRollCallBlock = block),
-                    icon: const Icon(LucideIcons.eye, size: 16, color: Color(0xFF6C4CF1)),
-                    label: const Text('View / Edit Attendance', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF6C4CF1)),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                  )
-                : ElevatedButton.icon(
-                    onPressed: () => setState(() => _activeRollCallBlock = block),
-                    icon: const Icon(LucideIcons.userCheck, size: 16, color: Colors.white),
-                    label: const Text('Mark Now', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C4CF1),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      elevation: 0,
+            Row(
+              children: [
+                const Icon(
+                  LucideIcons.userCheck,
+                  size: 15,
+                  color: Color(0xFF6C4CF1),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Warden: ${block['warden']}',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF334155),
                     ),
                   ),
-          ),
-        ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Action Button on Card
+            SizedBox(
+              width: double.infinity,
+              child: isSubmitted
+                  ? OutlinedButton.icon(
+                      onPressed: () =>
+                          setState(() => _activeRollCallBlock = block),
+                      icon: const Icon(
+                        LucideIcons.eye,
+                        size: 16,
+                        color: Color(0xFF6C4CF1),
+                      ),
+                      label: const Text(
+                        'View / Edit Attendance',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF6C4CF1),
+                        ),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Color(0xFF6C4CF1)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                    )
+                  : ElevatedButton.icon(
+                      onPressed: () =>
+                          setState(() => _activeRollCallBlock = block),
+                      icon: const Icon(
+                        LucideIcons.userCheck,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Mark Now',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6C4CF1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        elevation: 0,
+                      ),
+                    ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
-  void _saveBlockAttendance(Map<String, dynamic> block, List<Map<String, dynamic>> blockStudents, String blockCode) {
-    final timeNow = '${TimeOfDay.now().hour.toString().padLeft(2, '0')}:${TimeOfDay.now().minute.toString().padLeft(2, '0')} PM';
-    final updatedPresent = blockStudents.where((s) => s['status'] == 'Present').length;
-    final updatedAbsent = blockStudents.where((s) => s['status'] == 'Absent').length;
-    final updatedLeave = blockStudents.where((s) => s['status'] == 'Leave' || s['status'] == 'On Outing').length;
+  void _saveBlockAttendance(
+    Map<String, dynamic> block,
+    List<Map<String, dynamic>> blockStudents,
+    String blockCode,
+  ) {
+    final timeNow =
+        '${TimeOfDay.now().hour.toString().padLeft(2, '0')}:${TimeOfDay.now().minute.toString().padLeft(2, '0')} PM';
+    final updatedPresent = blockStudents
+        .where((s) => s['status'] == 'Present')
+        .length;
+    final updatedAbsent = blockStudents
+        .where((s) => s['status'] == 'Absent')
+        .length;
+    final updatedLeave = blockStudents
+        .where((s) => s['status'] == 'Leave' || s['status'] == 'On Outing')
+        .length;
 
     setState(() {
       block['status'] = 'Submitted';
@@ -501,7 +760,13 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
   Widget _buildDetailedRollCallView(Map<String, dynamic> block) {
     final blockName = block['name'] as String;
     final blockCode = block['code'] as String;
-    final blockStudents = _studentsAttendance.where((s) => (s['block'] as String).contains('Block ($blockCode)') || (s['block'] as String) == blockName).toList();
+    final blockStudents = _studentsAttendance
+        .where(
+          (s) =>
+              (s['block'] as String).contains('Block ($blockCode)') ||
+              (s['block'] as String) == blockName,
+        )
+        .toList();
 
     final filteredStudents = blockStudents.where((s) {
       final query = _markSearchQuery.trim().toLowerCase();
@@ -512,9 +777,15 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     }).toList();
 
     int totalCount = blockStudents.length;
-    int presentCount = blockStudents.where((s) => s['status'] == 'Present').length;
-    int absentCount = blockStudents.where((s) => s['status'] == 'Absent').length;
-    int leaveCount = blockStudents.where((s) => s['status'] == 'Leave' || s['status'] == 'On Outing').length;
+    int presentCount = blockStudents
+        .where((s) => s['status'] == 'Present')
+        .length;
+    int absentCount = blockStudents
+        .where((s) => s['status'] == 'Absent')
+        .length;
+    int leaveCount = blockStudents
+        .where((s) => s['status'] == 'Leave' || s['status'] == 'On Outing')
+        .length;
 
     return Container(
       color: Colors.transparent,
@@ -528,16 +799,40 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text('Attendance', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    child: Text(
+                      'Attendance',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () => _saveBlockAttendance(block, blockStudents, blockCode),
-                    icon: const Icon(LucideIcons.save, size: 15, color: Colors.white),
-                    label: const Text('Save Attendance', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+                    onPressed: () =>
+                        _saveBlockAttendance(block, blockStudents, blockCode),
+                    icon: const Icon(
+                      LucideIcons.save,
+                      size: 15,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      'Save Attendance',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF6C4CF1),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       elevation: 0,
                     ),
                   ),
@@ -546,7 +841,11 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                     onTap: () => setState(() => _activeRollCallBlock = null),
                     child: const Padding(
                       padding: EdgeInsets.all(4),
-                      child: Icon(LucideIcons.x, color: Color(0xFF64748B), size: 20),
+                      child: Icon(
+                        LucideIcons.x,
+                        color: Color(0xFF64748B),
+                        size: 20,
+                      ),
                     ),
                   ),
                 ],
@@ -565,17 +864,49 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                     // 4 KPI Cards (2 Rows x 2 Columns Grid)
                     Row(
                       children: [
-                        Expanded(child: _buildMarkKpiCard('Total', '$totalCount', LucideIcons.users, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF))),
+                        Expanded(
+                          child: _buildMarkKpiCard(
+                            'Total',
+                            '$totalCount',
+                            LucideIcons.users,
+                            const Color(0xFF6C4CF1),
+                            const Color(0xFFF3F0FF),
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                        Expanded(child: _buildMarkKpiCard('Present', '$presentCount', LucideIcons.userCheck, const Color(0xFF137333), const Color(0xFFE6F4EA))),
+                        Expanded(
+                          child: _buildMarkKpiCard(
+                            'Present',
+                            '$presentCount',
+                            LucideIcons.userCheck,
+                            const Color(0xFF137333),
+                            const Color(0xFFE6F4EA),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        Expanded(child: _buildMarkKpiCard('Absent', '$absentCount', LucideIcons.userX, const Color(0xFFC5221F), const Color(0xFFFCE8E6))),
+                        Expanded(
+                          child: _buildMarkKpiCard(
+                            'Absent',
+                            '$absentCount',
+                            LucideIcons.userX,
+                            const Color(0xFFC5221F),
+                            const Color(0xFFFCE8E6),
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                        Expanded(child: _buildMarkKpiCard('Leave', '$leaveCount', LucideIcons.planeTakeoff, const Color(0xFF1A73E8), const Color(0xFFE8F0FE))),
+                        Expanded(
+                          child: _buildMarkKpiCard(
+                            'Leave',
+                            '$leaveCount',
+                            LucideIcons.planeTakeoff,
+                            const Color(0xFF1A73E8),
+                            const Color(0xFFE8F0FE),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -585,17 +916,44 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                       children: [
                         Expanded(
                           child: TextField(
-                            onChanged: (val) => setState(() => _markSearchQuery = val),
+                            onChanged: (val) =>
+                                setState(() => _markSearchQuery = val),
                             decoration: InputDecoration(
                               hintText: 'Search student name or room no',
-                              hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13),
-                              prefixIcon: const Icon(LucideIcons.search, color: Color(0xFF94A3B8), size: 18),
+                              hintStyle: const TextStyle(
+                                color: Color(0xFF94A3B8),
+                                fontSize: 13,
+                              ),
+                              prefixIcon: const Icon(
+                                LucideIcons.search,
+                                color: Color(0xFF94A3B8),
+                                size: 18,
+                              ),
                               filled: true,
                               fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 10,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFE2E8F0),
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFE2E8F0),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFF6C4CF1),
+                                  width: 1.5,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -608,12 +966,28 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                               }
                             });
                           },
-                          icon: const Icon(LucideIcons.userCheck, size: 16, color: Color(0xFF1E1E2D)),
-                          label: const Text('Mark All Present', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                          icon: const Icon(
+                            LucideIcons.userCheck,
+                            size: 16,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                          label: const Text(
+                            'Mark All Present',
+                            style: TextStyle(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Color(0xFFE2E8F0)),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 12,
+                            ),
                           ),
                         ),
                       ],
@@ -622,10 +996,15 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
 
                     // Attendance Table Header Row
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
                       decoration: const BoxDecoration(
                         color: Color(0xFFF8FAFC),
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
                         border: Border(
                           top: BorderSide(color: Color(0xFFE2E8F0)),
                           left: BorderSide(color: Color(0xFFE2E8F0)),
@@ -634,10 +1013,52 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                       ),
                       child: const Row(
                         children: [
-                          SizedBox(width: 70, child: Text('ROOM NO', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF64748B)))),
-                          Expanded(child: Text('STUDENT', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF64748B)))),
-                          SizedBox(width: 90, child: Text('STATUS', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF64748B)))),
-                          SizedBox(width: 90, child: Align(alignment: Alignment.centerRight, child: Text('MARK', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF64748B))))),
+                          SizedBox(
+                            width: 70,
+                            child: Text(
+                              'ROOM NO',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              'STUDENT',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 90,
+                            child: Text(
+                              'STATUS',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 90,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'MARK',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -646,20 +1067,36 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
+                        borderRadius: const BorderRadius.vertical(
+                          bottom: Radius.circular(12),
+                        ),
                         border: Border.all(color: const Color(0xFFE2E8F0)),
                       ),
                       child: filteredStudents.isEmpty
                           ? const Padding(
                               padding: EdgeInsets.symmetric(vertical: 30),
-                              child: Center(child: Text('No students found', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 13))),
+                              child: Center(
+                                child: Text(
+                                  'No students found',
+                                  style: TextStyle(
+                                    color: Color(0xFF94A3B8),
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
                             )
                           : Column(
-                              children: filteredStudents.asMap().entries.map((entry) {
+                              children: filteredStudents.asMap().entries.map((
+                                entry,
+                              ) {
                                 final index = entry.key;
                                 final student = entry.value;
-                                final isLast = index == filteredStudents.length - 1;
-                                return _buildTableRowItem(student, showDivider: !isLast);
+                                final isLast =
+                                    index == filteredStudents.length - 1;
+                                return _buildTableRowItem(
+                                  student,
+                                  showDivider: !isLast,
+                                );
                               }).toList(),
                             ),
                     ),
@@ -674,20 +1111,35 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     );
   }
 
-  Widget _buildMarkKpiCard(String label, String count, IconData icon, Color textColor, Color bgColor) {
+  Widget _buildMarkKpiCard(
+    String label,
+    String count,
+    IconData icon,
+    Color textColor,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Icon(icon, color: textColor, size: 20),
           ),
           const SizedBox(width: 12),
@@ -695,8 +1147,24 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(
+                  count,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF6C6C80),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
@@ -705,7 +1173,10 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     );
   }
 
-  Widget _buildTableRowItem(Map<String, dynamic> student, {required bool showDivider}) {
+  Widget _buildTableRowItem(
+    Map<String, dynamic> student, {
+    required bool showDivider,
+  }) {
     final status = student['status'] as String;
 
     Color badgeBg = const Color(0xFFE6F4EA);
@@ -731,12 +1202,26 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
               // Room No Column
               SizedBox(
                 width: 70,
-                child: Text('${student['roomNo']}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                child: Text(
+                  '${student['roomNo']}',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
               ),
 
               // Student Column
               Expanded(
-                child: Text('${student['name']}', style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
+                child: Text(
+                  '${student['name']}',
+                  style: const TextStyle(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
               ),
 
               // Status Badge Column
@@ -745,9 +1230,22 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                 child: UnconstrainedBox(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(6)),
-                    child: Text(statusLabel, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: badgeTextColor)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: badgeBg,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      statusLabel,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: badgeTextColor,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -758,17 +1256,32 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    _buildMarkOptionBtn('P', status == 'Present', const Color(0xFF10B981), () {
-                      setState(() => student['status'] = 'Present');
-                    }),
+                    _buildMarkOptionBtn(
+                      'P',
+                      status == 'Present',
+                      const Color(0xFF10B981),
+                      () {
+                        setState(() => student['status'] = 'Present');
+                      },
+                    ),
                     const SizedBox(width: 4),
-                    _buildMarkOptionBtn('A', status == 'Absent', const Color(0xFFE11D48), () {
-                      setState(() => student['status'] = 'Absent');
-                    }),
+                    _buildMarkOptionBtn(
+                      'A',
+                      status == 'Absent',
+                      const Color(0xFFE11D48),
+                      () {
+                        setState(() => student['status'] = 'Absent');
+                      },
+                    ),
                     const SizedBox(width: 4),
-                    _buildMarkOptionBtn('L', status == 'Leave' || status == 'On Outing', const Color(0xFF3B82F6), () {
-                      setState(() => student['status'] = 'Leave');
-                    }),
+                    _buildMarkOptionBtn(
+                      'L',
+                      status == 'Leave' || status == 'On Outing',
+                      const Color(0xFF3B82F6),
+                      () {
+                        setState(() => student['status'] = 'Leave');
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -780,7 +1293,12 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
     );
   }
 
-  Widget _buildMarkOptionBtn(String label, bool isSelected, Color activeColor, VoidCallback onTap) {
+  Widget _buildMarkOptionBtn(
+    String label,
+    bool isSelected,
+    Color activeColor,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -789,7 +1307,9 @@ class _HostelAttendanceScreenState extends State<HostelAttendanceScreen> {
         decoration: BoxDecoration(
           color: isSelected ? activeColor : Colors.white,
           borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: isSelected ? activeColor : const Color(0xFFE2E8F0)),
+          border: Border.all(
+            color: isSelected ? activeColor : const Color(0xFFE2E8F0),
+          ),
         ),
         child: Center(
           child: Text(

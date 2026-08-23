@@ -5,7 +5,7 @@
       "day": "18",
       "month": "JUL",
       "subject": "Mathematics",
-      "type": "Unit Test 3",
+      "type": "Unit 1",
       "daysLeft": "3 Days Left",
       "colorHex": "6C4CF1"
     },
@@ -14,7 +14,7 @@
       "day": "21",
       "month": "JUL",
       "subject": "Science",
-      "type": "Unit Test 3",
+      "type": "Unit 2",
       "daysLeft": "6 Days Left",
       "colorHex": "22C55E"
     },
@@ -23,7 +23,7 @@
       "day": "25",
       "month": "JUL",
       "subject": "English",
-      "type": "Unit Test 3",
+      "type": "Unit 3",
       "daysLeft": "10 Days Left",
       "colorHex": "F97316"
     },
@@ -32,7 +32,7 @@
       "day": "30",
       "month": "JUL",
       "subject": "Social Studies",
-      "type": "Unit Test 2",
+      "type": "Unit 1",
       "daysLeft": "15 Days Left",
       "colorHex": "3B82F6"
     },
@@ -41,7 +41,7 @@
       "day": "02",
       "month": "AUG",
       "subject": "Computer",
-      "type": "Practical Exam",
+      "type": "Unit 2",
       "daysLeft": "18 Days Left",
       "colorHex": "EC4899"
     }

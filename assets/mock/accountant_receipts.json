@@ -1,0 +1,10 @@
+[
+  {
+    "receipt_no": "REC-8801",
+    "date": "2023-08-19",
+    "received_from": "Priya Patel",
+    "amount": 30000.0,
+    "payment_mode": "Online",
+    "status": "Successful"
+  }
+]

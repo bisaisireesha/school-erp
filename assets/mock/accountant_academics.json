@@ -1,0 +1,23 @@
+{
+  "fees_by_grade": [
+    {
+      "grade": "10th",
+      "total_expected": 500000,
+      "collected": 450000,
+      "pending": 50000
+    },
+    {
+      "grade": "11th",
+      "total_expected": 600000,
+      "collected": 400000,
+      "pending": 200000
+    }
+  ],
+  "scholarships_awarded": [
+    {
+      "student_name": "Rahul Verma",
+      "scholarship_name": "Merit Scholarship",
+      "amount": 20000
+    }
+  ]
+}

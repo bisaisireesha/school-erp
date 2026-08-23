@@ -1,0 +1,59 @@
+{
+  "vehicles": [
+    {
+      "id": "BUS-01",
+      "type": "Bus",
+      "capacity": "40 Seats",
+      "driverName": "Rajesh Kumar",
+      "assignedRoute": "Route 1 - Green Glen",
+      "status": "Active",
+      "statusColor": "green",
+      "lastInspected": "12 Aug 2026",
+      "plateNumber": "KA-01-AB-1234"
+    },
+    {
+      "id": "VAN-04",
+      "type": "Van",
+      "capacity": "15 Seats",
+      "driverName": "Anil Verma",
+      "assignedRoute": "Route 4 - Royal Palms",
+      "status": "Active",
+      "statusColor": "green",
+      "lastInspected": "15 Aug 2026",
+      "plateNumber": "KA-05-CD-5678"
+    },
+    {
+      "id": "BUS-02",
+      "type": "Bus",
+      "capacity": "40 Seats",
+      "driverName": "Suresh Patel",
+      "assignedRoute": "Route 2 - Sunrise Hills",
+      "status": "Active",
+      "statusColor": "green",
+      "lastInspected": "10 Aug 2026",
+      "plateNumber": "KA-01-XY-9876"
+    },
+    {
+      "id": "BUS-03",
+      "type": "Bus",
+      "capacity": "30 Seats",
+      "driverName": "Amit Singh",
+      "assignedRoute": "Unassigned",
+      "status": "Idle",
+      "statusColor": "orange",
+      "lastInspected": "05 Aug 2026",
+      "plateNumber": "KA-02-PQ-4321"
+    },
+    {
+      "id": "BUS-05",
+      "type": "Bus",
+      "capacity": "40 Seats",
+      "driverName": "Unassigned",
+      "assignedRoute": "Unassigned",
+      "status": "Maintenance",
+      "statusColor": "red",
+      "lastInspected": "20 Aug 2026",
+      "plateNumber": "KA-01-LM-8888"
+    }
+  ]
+}

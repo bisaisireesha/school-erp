@@ -39,24 +39,32 @@ class _HostelScreenState extends State<HostelScreen> {
 
   Future<void> _loadHostelData() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/hostel_student_dashboard.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/hostel_student_dashboard.json',
+      );
       final data = await json.decode(response);
-      
-      final String authResponse = await rootBundle.loadString('assets/mock/auth.json', cache: false);
+
+      final String authResponse = await rootBundle.loadString(
+        'assets/mock/auth.json',
+        cache: false,
+      );
       final authData = json.decode(authResponse);
       final users = authData['users'] as List;
-      final warden = users.firstWhere((u) => u['role'] == 'warden', orElse: () => null);
+      final warden = users.firstWhere(
+        (u) => u['role'] == 'warden',
+        orElse: () => null,
+      );
 
       if (mounted) {
         setState(() {
           _mockHostelData = Map<String, dynamic>.from(data['hostelData']);
           _mockOutings = List<Map<String, dynamic>>.from(data['outings']);
           _menuItems = List<Map<String, dynamic>>.from(data['messMenu']);
-          
+
           if (warden != null) {
             _mockHostelData['wardenName'] = warden['name'];
             _mockHostelData['wardenContact'] = warden['email'];
-            
+
             final names = (warden['name'] as String).split(' ');
             if (names.length > 1) {
               _wardenInitials = '${names[0][0]}${names[1][0]}'.toUpperCase();
@@ -64,7 +72,7 @@ class _HostelScreenState extends State<HostelScreen> {
               _wardenInitials = names[0].substring(0, 2).toUpperCase();
             }
           }
-          
+
           _isLoading = false;
         });
       }
@@ -79,14 +87,19 @@ class _HostelScreenState extends State<HostelScreen> {
   Color _getColor(String colorStr) {
     return Color(int.parse(colorStr));
   }
-  
+
   IconData _getIcon(String iconStr) {
     switch (iconStr) {
-      case 'coffee': return LucideIcons.coffee;
-      case 'utensils': return LucideIcons.utensils;
-      case 'cookie': return LucideIcons.cookie;
-      case 'utensils_crossed': return LucideIcons.utensilsCrossed;
-      default: return LucideIcons.utensils;
+      case 'coffee':
+        return LucideIcons.coffee;
+      case 'utensils':
+        return LucideIcons.utensils;
+      case 'cookie':
+        return LucideIcons.cookie;
+      case 'utensils_crossed':
+        return LucideIcons.utensilsCrossed;
+      default:
+        return LucideIcons.utensils;
     }
   }
 
@@ -95,10 +108,12 @@ class _HostelScreenState extends State<HostelScreen> {
     if (_isLoading) {
       return const Scaffold(
         backgroundColor: Color(0xFFF8F9FA),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+        body: Center(
+          child: CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+        ),
       );
     }
-    
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       body: SafeArea(
@@ -107,65 +122,79 @@ class _HostelScreenState extends State<HostelScreen> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-            // Custom App Bar
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: widget.onBack,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-                      ),
-                      child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Text('Hostel & Accommodation', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Profile/Allocation Card
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: _buildAllocationCard(),
-            ),
-            const SizedBox(height: 32),
-
-            // Segmented Control
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
-                ),
+              // Custom App Bar
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
                 child: Row(
                   children: [
-                    Expanded(child: _buildSegmentButton('Overview', 0)),
-                    Expanded(child: _buildSegmentButton('Outings', 1)),
-                    Expanded(child: _buildSegmentButton('Mess Menu', 2)),
+                    GestureDetector(
+                      onTap: widget.onBack,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Text(
+                      'Hostel & Accommodation',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
-            // Dynamic Content Area
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 8, 24, 120),
-              child: _buildDynamicContent(),
-            ),
-          ],
-        ),
+              // Profile/Allocation Card
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: _buildAllocationCard(),
+              ),
+              const SizedBox(height: 32),
+
+              // Segmented Control
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(child: _buildSegmentButton('Overview', 0)),
+                      Expanded(child: _buildSegmentButton('Outings', 1)),
+                      Expanded(child: _buildSegmentButton('Mess Menu', 2)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Dynamic Content Area
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 8, 24, 120),
+                child: _buildDynamicContent(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -201,9 +230,23 @@ class _HostelScreenState extends State<HostelScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Allocated Room', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white70)),
+                    const Text(
+                      'Allocated Room',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white70,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text('${_mockHostelData['block']} - ${_mockHostelData['room']}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Colors.white)),
+                    Text(
+                      '${_mockHostelData['block']} - ${_mockHostelData['room']}',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -213,7 +256,11 @@ class _HostelScreenState extends State<HostelScreen> {
                   color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(LucideIcons.bedDouble, color: Colors.white, size: 28),
+                child: const Icon(
+                  LucideIcons.bedDouble,
+                  color: Colors.white,
+                  size: 28,
+                ),
               ),
             ],
           ),
@@ -221,10 +268,18 @@ class _HostelScreenState extends State<HostelScreen> {
           Row(
             children: [
               Expanded(
-                child: _buildAllocationDetail(LucideIcons.building, 'Hostel', _mockHostelData['hostelName']),
+                child: _buildAllocationDetail(
+                  LucideIcons.building,
+                  'Hostel',
+                  _mockHostelData['hostelName'],
+                ),
               ),
               Expanded(
-                child: _buildAllocationDetail(LucideIcons.bedSingle, 'Bed', _mockHostelData['bed']),
+                child: _buildAllocationDetail(
+                  LucideIcons.bedSingle,
+                  'Bed',
+                  _mockHostelData['bed'],
+                ),
               ),
             ],
           ),
@@ -249,9 +304,21 @@ class _HostelScreenState extends State<HostelScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 11, color: Colors.white70)),
+              Text(
+                label,
+                style: const TextStyle(fontSize: 11, color: Colors.white70),
+              ),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white), maxLines: 1, overflow: TextOverflow.ellipsis),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
           ),
         ),
@@ -276,7 +343,14 @@ class _HostelScreenState extends State<HostelScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Warden Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+        const Text(
+          'Warden Details',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
         const SizedBox(height: 16),
         Container(
           padding: const EdgeInsets.all(20),
@@ -295,7 +369,14 @@ class _HostelScreenState extends State<HostelScreen> {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Text(_wardenInitials, style: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold, fontSize: 18)),
+                  child: Text(
+                    _wardenInitials,
+                    style: const TextStyle(
+                      color: Color(0xFF6C4CF1),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -303,9 +384,23 @@ class _HostelScreenState extends State<HostelScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_mockHostelData['wardenName'], style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    Text(
+                      _mockHostelData['wardenName'],
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text(_mockHostelData['wardenContact'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80))),
+                    Text(
+                      _mockHostelData['wardenContact'],
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF6C6C80),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -313,7 +408,13 @@ class _HostelScreenState extends State<HostelScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Calling Warden ${_mockHostelData['wardenName']}...')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Calling Warden ${_mockHostelData['wardenName']}...',
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),
@@ -321,13 +422,23 @@ class _HostelScreenState extends State<HostelScreen> {
                         color: const Color(0xFFEDF8F1),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(LucideIcons.phone, color: Color(0xFF22C55E), size: 18),
+                      child: const Icon(
+                        LucideIcons.phone,
+                        color: Color(0xFF22C55E),
+                        size: 18,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Opening email for ${_mockHostelData['wardenContact']}...')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Opening email for ${_mockHostelData['wardenContact']}...',
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),
@@ -335,7 +446,11 @@ class _HostelScreenState extends State<HostelScreen> {
                         color: const Color(0xFFE0F2FE),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(LucideIcons.mail, color: Color(0xFF0284C7), size: 18),
+                      child: const Icon(
+                        LucideIcons.mail,
+                        color: Color(0xFF0284C7),
+                        size: 18,
+                      ),
                     ),
                   ),
                 ],
@@ -344,11 +459,24 @@ class _HostelScreenState extends State<HostelScreen> {
           ),
         ),
         const SizedBox(height: 32),
-        const Text('Hostel Rules', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+        const Text(
+          'Hostel Rules',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
         const SizedBox(height: 16),
         _buildRuleItem(LucideIcons.clock, 'In-time is strictly 8:30 PM.'),
-        _buildRuleItem(LucideIcons.volumeX, 'Silence hours from 10:30 PM to 6:00 AM.'),
-        _buildRuleItem(LucideIcons.users, 'Visitors allowed only on Sundays (10 AM - 5 PM).'),
+        _buildRuleItem(
+          LucideIcons.volumeX,
+          'Silence hours from 10:30 PM to 6:00 AM.',
+        ),
+        _buildRuleItem(
+          LucideIcons.users,
+          'Visitors allowed only on Sundays (10 AM - 5 PM).',
+        ),
       ],
     );
   }
@@ -360,7 +488,16 @@ class _HostelScreenState extends State<HostelScreen> {
         children: [
           Icon(icon, size: 18, color: const Color(0xFF6C4CF1)),
           const SizedBox(width: 12),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 14, color: Color(0xFF1E1E2D), height: 1.4))),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Color(0xFF1E1E2D),
+                height: 1.4,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -403,7 +540,11 @@ class _HostelScreenState extends State<HostelScreen> {
                   SizedBox(width: 8),
                   Text(
                     'Request New Outing',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -413,15 +554,30 @@ class _HostelScreenState extends State<HostelScreen> {
           Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 20.0),
-              child: Text('No outings found', style: TextStyle(color: Colors.grey.shade500, fontSize: 16, fontWeight: FontWeight.w500)),
+              child: Text(
+                'No outings found',
+                style: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           )
         else
           ..._mockOutings.map((outing) {
             final isApproved = outing['status'] == 'Approved';
             final isCompleted = outing['status'] == 'Completed';
-            final statusColor = isApproved ? const Color(0xFF16A34A) : (isCompleted ? const Color(0xFF6C6C80) : const Color(0xFFE11D48));
-            final statusBg = isApproved ? const Color(0xFFF0FDF4) : (isCompleted ? const Color(0xFFF3F4F6) : const Color(0xFFFFF1F2));
+            final statusColor = isApproved
+                ? const Color(0xFF16A34A)
+                : (isCompleted
+                      ? const Color(0xFF6C6C80)
+                      : const Color(0xFFE11D48));
+            final statusBg = isApproved
+                ? const Color(0xFFF0FDF4)
+                : (isCompleted
+                      ? const Color(0xFFF3F4F6)
+                      : const Color(0xFFFFF1F2));
 
             return Container(
               margin: const EdgeInsets.only(bottom: 16),
@@ -437,25 +593,60 @@ class _HostelScreenState extends State<HostelScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(outing['date'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      Text(
+                        outing['date'],
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: statusBg,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(outing['status'], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: statusColor)),
+                        child: Text(
+                          outing['status'],
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w900,
+                            color: statusColor,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Text(outing['reason'], style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                  Text(
+                    outing['reason'],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(LucideIcons.clock, size: 14, color: Color(0xFF6C6C80)),
+                      const Icon(
+                        LucideIcons.clock,
+                        size: 14,
+                        color: Color(0xFF6C6C80),
+                      ),
                       const SizedBox(width: 6),
-                      Text('Duration: ${outing['duration']}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80))),
+                      Text(
+                        'Duration: ${outing['duration']}',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF6C6C80),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -495,7 +686,14 @@ class _HostelScreenState extends State<HostelScreen> {
       return Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 40.0),
-          child: Text('No menu found', style: TextStyle(color: Colors.grey.shade500, fontSize: 16, fontWeight: FontWeight.w500)),
+          child: Text(
+            'No menu found',
+            style: TextStyle(
+              color: Colors.grey.shade500,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
       );
     }
@@ -509,16 +707,33 @@ class _HostelScreenState extends State<HostelScreen> {
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Daily Meal Menu", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                Text(
+                  "Daily Meal Menu",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
                 SizedBox(height: 2),
-                Text("Nutritious & hygienic meals", style: TextStyle(fontSize: 12, color: Color(0xFF6C6C80), fontWeight: FontWeight.w500)),
+                Text(
+                  "Nutritious & hygienic meals",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF6C6C80),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
             InkWell(
               onTap: () => _showPrintMenuModal(),
               borderRadius: BorderRadius.circular(12),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFEEF2FF),
                   borderRadius: BorderRadius.circular(12),
@@ -526,9 +741,20 @@ class _HostelScreenState extends State<HostelScreen> {
                 ),
                 child: const Row(
                   children: [
-                    Icon(LucideIcons.printer, size: 16, color: Color(0xFF6C4CF1)),
+                    Icon(
+                      LucideIcons.printer,
+                      size: 16,
+                      color: Color(0xFF6C4CF1),
+                    ),
                     SizedBox(width: 6),
-                    Text('Print Menu', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+                    Text(
+                      'Print Menu',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF6C4CF1),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -536,10 +762,18 @@ class _HostelScreenState extends State<HostelScreen> {
           ],
         ),
         const SizedBox(height: 16),
-        ..._menuItems.map((item) => Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: _buildMenuCard(item['meal'], item['menu'], _getIcon(item['iconStr']), _getColor(item['bgColor']), _getColor(item['iconColor'])),
-        )),
+        ..._menuItems.map(
+          (item) => Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _buildMenuCard(
+              item['meal'],
+              item['menu'],
+              _getIcon(item['iconStr']),
+              _getColor(item['bgColor']),
+              _getColor(item['iconColor']),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -556,9 +790,21 @@ class _HostelScreenState extends State<HostelScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(meal, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+            Text(
+              meal,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF6C4CF1),
+              ),
+            ),
             const SizedBox(height: 2),
-            Text(items, style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)), maxLines: 1, overflow: TextOverflow.ellipsis),
+            Text(
+              items,
+              style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),
@@ -613,7 +859,11 @@ class _HostelScreenState extends State<HostelScreen> {
                             color: const Color(0xFFEEF2FF),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Icon(LucideIcons.printer, color: Color(0xFF6C4CF1), size: 22),
+                          child: const Icon(
+                            LucideIcons.printer,
+                            color: Color(0xFF6C4CF1),
+                            size: 22,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         const Column(
@@ -621,11 +871,19 @@ class _HostelScreenState extends State<HostelScreen> {
                           children: [
                             Text(
                               'Print Mess Menu',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E1E2D),
+                              ),
                             ),
                             Text(
                               'Hostel Dining Schedule',
-                              style: TextStyle(fontSize: 12, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF64748B),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ],
                         ),
@@ -639,7 +897,11 @@ class _HostelScreenState extends State<HostelScreen> {
                           color: Color(0xFFF1F5F9),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.close, color: Color(0xFF64748B), size: 18),
+                        child: const Icon(
+                          Icons.close,
+                          color: Color(0xFF64748B),
+                          size: 18,
+                        ),
                       ),
                     ),
                   ],
@@ -661,60 +923,110 @@ class _HostelScreenState extends State<HostelScreen> {
                         children: [
                           const Row(
                             children: [
-                              Icon(LucideIcons.utensils, size: 16, color: Color(0xFF6C4CF1)),
+                              Icon(
+                                LucideIcons.utensils,
+                                size: 16,
+                                color: Color(0xFF6C4CF1),
+                              ),
                               SizedBox(width: 8),
                               Text(
                                 'SPRINGFIELD HOSTEL MESS',
-                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFF6C4CF1), letterSpacing: 0.8),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFF6C4CF1),
+                                  letterSpacing: 0.8,
+                                ),
                               ),
                             ],
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF10B981).withValues(alpha: 0.12),
+                              color: const Color(
+                                0xFF10B981,
+                              ).withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(6),
                             ),
-                            child: const Text('ACTIVE SCHEDULE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981))),
+                            child: const Text(
+                              'ACTIVE SCHEDULE',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF10B981),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 10),
                       const Text(
                         'Daily Mess Dining Menu',
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
                       ),
                       const SizedBox(height: 4),
                       const Text(
                         'Academic Year 2024-25 • 4 Meals Daily • Timings: 7:30 AM - 9:00 PM',
-                        style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF64748B),
+                        ),
                       ),
                       const SizedBox(height: 12),
                       const Divider(color: Color(0xFFE2E8F0), height: 1),
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          _buildPreviewMealSummary('Breakfast', 'Poha, Jalebi, Tea/Coffee'),
+                          _buildPreviewMealSummary(
+                            'Breakfast',
+                            'Poha, Jalebi, Tea/Coffee',
+                          ),
                           const SizedBox(width: 8),
-                          _buildPreviewMealSummary('Lunch', 'Rice, Dal Makhani, Paneer'),
+                          _buildPreviewMealSummary(
+                            'Lunch',
+                            'Rice, Dal Makhani, Paneer',
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          _buildPreviewMealSummary('Snacks', 'Samosa, Tea/Coffee'),
+                          _buildPreviewMealSummary(
+                            'Snacks',
+                            'Samosa, Tea/Coffee',
+                          ),
                           const SizedBox(width: 8),
-                          _buildPreviewMealSummary('Dinner', 'Fried Rice, Manchurian'),
+                          _buildPreviewMealSummary(
+                            'Dinner',
+                            'Fried Rice, Manchurian',
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Printer Settings', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                const Text(
+                  'Printer Settings',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(12),
@@ -725,12 +1037,27 @@ class _HostelScreenState extends State<HostelScreen> {
                     children: [
                       Row(
                         children: [
-                          const Icon(LucideIcons.printer, size: 18, color: Color(0xFF64748B)),
+                          const Icon(
+                            LucideIcons.printer,
+                            size: 18,
+                            color: Color(0xFF64748B),
+                          ),
                           const SizedBox(width: 10),
-                          Text(selectedPrinter, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
+                          Text(
+                            selectedPrinter,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
-                      const Icon(Icons.keyboard_arrow_down, color: Color(0xFF64748B), size: 20),
+                      const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Color(0xFF64748B),
+                        size: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -739,7 +1066,10 @@ class _HostelScreenState extends State<HostelScreen> {
                   children: [
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF8FAFC),
                           borderRadius: BorderRadius.circular(12),
@@ -748,7 +1078,14 @@ class _HostelScreenState extends State<HostelScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Copies', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF64748B))),
+                            const Text(
+                              'Copies',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
                             Row(
                               children: [
                                 GestureDetector(
@@ -762,13 +1099,26 @@ class _HostelScreenState extends State<HostelScreen> {
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                                      border: Border.all(
+                                        color: const Color(0xFFE2E8F0),
+                                      ),
                                     ),
-                                    child: const Icon(Icons.remove, size: 14, color: Color(0xFF1E1E2D)),
+                                    child: const Icon(
+                                      Icons.remove,
+                                      size: 14,
+                                      color: Color(0xFF1E1E2D),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                Text('$copies', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                                Text(
+                                  '$copies',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1E1E2D),
+                                  ),
+                                ),
                                 const SizedBox(width: 10),
                                 GestureDetector(
                                   onTap: () => setModalState(() => copies++),
@@ -777,9 +1127,15 @@ class _HostelScreenState extends State<HostelScreen> {
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                                      border: Border.all(
+                                        color: const Color(0xFFE2E8F0),
+                                      ),
                                     ),
-                                    child: const Icon(Icons.add, size: 14, color: Color(0xFF1E1E2D)),
+                                    child: const Icon(
+                                      Icons.add,
+                                      size: 14,
+                                      color: Color(0xFF1E1E2D),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -791,7 +1147,10 @@ class _HostelScreenState extends State<HostelScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 12,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF8FAFC),
                           borderRadius: BorderRadius.circular(12),
@@ -800,8 +1159,22 @@ class _HostelScreenState extends State<HostelScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Paper', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF64748B))),
-                            Text('A4 • 1 Page', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                            Text(
+                              'Paper',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                            Text(
+                              'A4 • 1 Page',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E1E2D),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -815,39 +1188,77 @@ class _HostelScreenState extends State<HostelScreen> {
                   children: [
                     Expanded(
                       child: OutlinedButton.icon(
-                        icon: const Icon(LucideIcons.fileText, size: 16, color: Color(0xFF64748B)),
-                        label: const Text('Save PDF', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
+                        icon: const Icon(
+                          LucideIcons.fileText,
+                          size: 16,
+                          color: Color(0xFF64748B),
+                        ),
+                        label: const Text(
+                          'Save PDF',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
                         onPressed: () {
-                          final scaffoldMessenger = ScaffoldMessenger.of(context);
+                          final scaffoldMessenger = ScaffoldMessenger.of(
+                            context,
+                          );
                           Navigator.pop(context);
                           scaffoldMessenger.showSnackBar(
-                            const SnackBar(content: Text('Mess Menu PDF exported successfully to Downloads!')),
+                            const SnackBar(
+                              content: Text(
+                                'Mess Menu PDF exported successfully to Downloads!',
+                              ),
+                            ),
                           );
                         },
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           side: const BorderSide(color: Color(0xFFE2E8F0)),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: ElevatedButton.icon(
-                        icon: const Icon(LucideIcons.printer, size: 16, color: Colors.white),
-                        label: const Text('Print Now', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                        icon: const Icon(
+                          LucideIcons.printer,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                        label: const Text(
+                          'Print Now',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                         onPressed: () {
-                          final scaffoldMessenger = ScaffoldMessenger.of(context);
+                          final scaffoldMessenger = ScaffoldMessenger.of(
+                            context,
+                          );
                           Navigator.pop(context);
                           scaffoldMessenger.showSnackBar(
-                            SnackBar(content: Text('Print job for $copies cop${copies > 1 ? "ies" : "y"} sent to $selectedPrinter successfully! 🖨️')),
+                            SnackBar(
+                              content: Text(
+                                'Print job for $copies cop${copies > 1 ? "ies" : "y"} sent to $selectedPrinter successfully! 🖨️',
+                              ),
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6C4CF1),
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           elevation: 0,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
                       ),
                     ),
@@ -861,7 +1272,13 @@ class _HostelScreenState extends State<HostelScreen> {
     );
   }
 
-  Widget _buildMenuCard(String meal, String menu, IconData icon, Color bgColor, Color iconColor) {
+  Widget _buildMenuCard(
+    String meal,
+    String menu,
+    IconData icon,
+    Color bgColor,
+    Color iconColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -892,9 +1309,24 @@ class _HostelScreenState extends State<HostelScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(meal, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                Text(
+                  meal,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
                 const SizedBox(height: 6),
-                Text(menu, style: const TextStyle(fontSize: 14, color: Color(0xFF6C6C80), height: 1.4, fontWeight: FontWeight.w500)),
+                Text(
+                  menu,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF6C6C80),
+                    height: 1.4,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
           ),
@@ -948,7 +1380,14 @@ class _HostelScreenState extends State<HostelScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Request Outing', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        const Text(
+                          'Request Outing',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: Container(
@@ -957,44 +1396,110 @@ class _HostelScreenState extends State<HostelScreen> {
                               color: Color(0xFFF1F5F9),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.close, color: Color(0xFF64748B), size: 18),
+                            child: const Icon(
+                              Icons.close,
+                              color: Color(0xFF64748B),
+                              size: 18,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 6),
-                    const Text('Submit an outing permission request.', style: TextStyle(fontSize: 13, color: Color(0xFF6C6C80))),
+                    const Text(
+                      'Submit an outing permission request.',
+                      style: TextStyle(fontSize: 13, color: Color(0xFF6C6C80)),
+                    ),
                     const SizedBox(height: 20),
-                    const Text('Title', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Title',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 6),
                     TextField(
                       controller: titleController,
                       decoration: InputDecoration(
                         hintText: 'e.g., Medical Checkup',
-                        hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFF94A3B8),
+                          fontSize: 14,
+                        ),
                         filled: true,
                         fillColor: const Color(0xFFF8FAFC),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 12,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFE2E8F0),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF6C4CF1),
+                            width: 1.5,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFE2E8F0),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text('Reason', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Reason',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 6),
                     TextField(
                       controller: reasonController,
                       maxLines: 2,
                       decoration: InputDecoration(
-                        hintText: 'e.g., Need to visit the dentist for scheduled checkup',
-                        hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13),
+                        hintText:
+                            'e.g., Need to visit the dentist for scheduled checkup',
+                        hintStyle: const TextStyle(
+                          color: Color(0xFF94A3B8),
+                          fontSize: 13,
+                        ),
                         filled: true,
                         fillColor: const Color(0xFFF8FAFC),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 12,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFE2E8F0),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF6C4CF1),
+                            width: 1.5,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFE2E8F0),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -1004,7 +1509,14 @@ class _HostelScreenState extends State<HostelScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('From Date', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                              const Text(
+                                'From Date',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1E1E2D),
+                                ),
+                              ),
                               const SizedBox(height: 6),
                               GestureDetector(
                                 onTap: () async {
@@ -1012,24 +1524,48 @@ class _HostelScreenState extends State<HostelScreen> {
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now(),
-                                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                                    lastDate: DateTime.now().add(
+                                      const Duration(days: 365),
+                                    ),
                                   );
                                   if (date != null) {
-                                    setModalState(() => fromDate = "${date.day}/${date.month}/${date.year}");
+                                    setModalState(
+                                      () => fromDate =
+                                          "${date.day}/${date.month}/${date.year}",
+                                    );
                                   }
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                    vertical: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFF8FAFC),
                                     borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                                    border: Border.all(
+                                      color: const Color(0xFFE2E8F0),
+                                    ),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(fromDate, style: TextStyle(color: fromDate == 'Select Date' ? const Color(0xFF94A3B8) : const Color(0xFF1E1E2D), fontWeight: FontWeight.w600, fontSize: 13)),
-                                      const Icon(LucideIcons.calendar, size: 16, color: Color(0xFF6C4CF1)),
+                                      Text(
+                                        fromDate,
+                                        style: TextStyle(
+                                          color: fromDate == 'Select Date'
+                                              ? const Color(0xFF94A3B8)
+                                              : const Color(0xFF1E1E2D),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                      const Icon(
+                                        LucideIcons.calendar,
+                                        size: 16,
+                                        color: Color(0xFF6C4CF1),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -1042,7 +1578,14 @@ class _HostelScreenState extends State<HostelScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('To Date', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                              const Text(
+                                'To Date',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1E1E2D),
+                                ),
+                              ),
                               const SizedBox(height: 6),
                               GestureDetector(
                                 onTap: () async {
@@ -1050,24 +1593,48 @@ class _HostelScreenState extends State<HostelScreen> {
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now(),
-                                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                                    lastDate: DateTime.now().add(
+                                      const Duration(days: 365),
+                                    ),
                                   );
                                   if (date != null) {
-                                    setModalState(() => toDate = "${date.day}/${date.month}/${date.year}");
+                                    setModalState(
+                                      () => toDate =
+                                          "${date.day}/${date.month}/${date.year}",
+                                    );
                                   }
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                    vertical: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFF8FAFC),
                                     borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                                    border: Border.all(
+                                      color: const Color(0xFFE2E8F0),
+                                    ),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(toDate, style: TextStyle(color: toDate == 'Select Date' ? const Color(0xFF94A3B8) : const Color(0xFF1E1E2D), fontWeight: FontWeight.w600, fontSize: 13)),
-                                      const Icon(LucideIcons.calendar, size: 16, color: Color(0xFF6C4CF1)),
+                                      Text(
+                                        toDate,
+                                        style: TextStyle(
+                                          color: toDate == 'Select Date'
+                                              ? const Color(0xFF94A3B8)
+                                              : const Color(0xFF1E1E2D),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                      const Icon(
+                                        LucideIcons.calendar,
+                                        size: 16,
+                                        color: Color(0xFF6C4CF1),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -1088,9 +1655,18 @@ class _HostelScreenState extends State<HostelScreen> {
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               side: const BorderSide(color: Color(0xFFE2E8F0)),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
                             ),
-                            child: const Text('Cancel', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -1105,21 +1681,44 @@ class _HostelScreenState extends State<HostelScreen> {
                                   _selectedSegment = 1;
                                   _mockOutings.insert(0, {
                                     'date': 'Today',
-                                    'reason': titleText.isNotEmpty ? titleText : (reasonText.isNotEmpty ? reasonText : 'New Outing Request'),
-                                    'duration': (fromDate != 'Select Date' && toDate != 'Select Date') ? '$fromDate - $toDate' : 'Dates Pending',
+                                    'reason': titleText.isNotEmpty
+                                        ? titleText
+                                        : (reasonText.isNotEmpty
+                                              ? reasonText
+                                              : 'New Outing Request'),
+                                    'duration':
+                                        (fromDate != 'Select Date' &&
+                                            toDate != 'Select Date')
+                                        ? '$fromDate - $toDate'
+                                        : 'Dates Pending',
                                     'status': 'Pending',
                                   });
                                 });
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Outing Request Submitted & Saved Successfully')));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Outing Request Submitted & Saved Successfully',
+                                    ),
+                                  ),
+                                );
                               }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF6C4CF1),
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               elevation: 0,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
                             ),
-                            child: const Text('Submit Request', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                            child: const Text(
+                              'Submit Request',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ],

@@ -1,0 +1,88 @@
+{
+  "kpis": [
+    {
+      "title": "Active Fleet",
+      "value": "18 / 20",
+      "status": "90% Operational",
+      "statusColor": "green",
+      "iconType": "bus"
+    },
+    {
+      "title": "Active Routes",
+      "value": "12 Routes",
+      "status": "On Schedule",
+      "statusColor": "blue",
+      "iconType": "map"
+    },
+    {
+      "title": "Students Assigned",
+      "value": "640",
+      "status": "Fully Tracked",
+      "statusColor": "orange",
+      "iconType": "users"
+    },
+    {
+      "title": "Drivers & Staff",
+      "value": "18 / 24",
+      "status": "All On Duty",
+      "statusColor": "green",
+      "iconType": "userCheck"
+    }
+  ],
+  "fleetVehicles": [
+    {
+      "id": "BUS-01",
+      "driver": "Rajesh Kumar",
+      "route": "Route 1 - Green Glen",
+      "status": "On Route",
+      "statusColor": "green"
+    },
+    {
+      "id": "VAN-04",
+      "driver": "Anil Verma",
+      "route": "Route 4 - Royal Palms",
+      "status": "On Route",
+      "statusColor": "green"
+    },
+    {
+      "id": "BUS-02",
+      "driver": "Suresh Patel",
+      "route": "Route 2 - Sunrise Hills",
+      "status": "On Route",
+      "statusColor": "green"
+    },
+    {
+      "id": "BUS-03",
+      "driver": "Amit Singh",
+      "route": "Route 3 - Downtown",
+      "status": "Idle",
+      "statusColor": "orange"
+    }
+  ],
+  "todayAlerts": [
+    {
+      "title": "Traffic Delay",
+      "message": "Heavy traffic reported on Route 4 due to road work.",
+      "time": "10 mins ago",
+      "type": "warning"
+    },
+    {
+      "title": "Maintenance Complete",
+      "message": "BUS-05 has completed its scheduled oil change.",
+      "time": "2 hours ago",
+      "type": "info"
+    },
+    {
+      "title": "Route Change Alert",
+      "message": "Route 2 diverted via MG Road for today.",
+      "time": "3 hours ago",
+      "type": "warning"
+    },
+    {
+      "title": "Driver Update",
+      "message": "New driver assigned to VAN-04.",
+      "time": "4 hours ago",
+      "type": "info"
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "dashboard": {
+    "summary_metrics": {
+      "total_revenue_ytd": 1250000.00,
+      "total_expenses_ytd": 450000.00,
+      "pending_dues": 150000.00,
+      "cash_in_hand": 45000.00,
+      "bank_balance": 850000.00,
+      "monthly_collection_target_progress": 85
+    },
+    "revenue_chart_data": [
+      {"month": "Jan", "amount": 100000},
+      {"month": "Feb", "amount": 110000},
+      {"month": "Mar", "amount": 95000},
+      {"month": "Apr", "amount": 250000},
+      {"month": "May", "amount": 120000},
+      {"month": "Jun", "amount": 105000}
+    ],
+    "recent_activities": [
+      "Generated payroll for July 2023",
+      "Approved vendor payment for Transport Dept",
+      "Collected $10,000 late fees"
+    ]
+  },
+  "invoice": [
+    {
+      "invoice_number": "INV-2023-08-01",
+      "recipient_id": "STU-2023-045",
+      "recipient_name": "Priya Patel",
+      "amount": 30000.00,
+      "date_issued": "2023-08-01T00:00:00Z",
+      "due_date": "2023-09-15T00:00:00Z",
+      "status": "Sent",
+      "items": [
+        {"item": "Tuition Fee Term 2", "amount": 25000.00},
+        {"item": "Transport Fee", "amount": 5000.00}
+      ]
+    }
+  ],
+  "report": {
+    "generated_reports": [
+      {"report_id": "RPT-001", "name": "Monthly Income Statement", "date": "2023-08-01", "type": "Financial", "download_url": "/reports/monthly_inc.pdf"},
+      {"report_id": "RPT-002", "name": "Defaulters List Q2", "date": "2023-07-15", "type": "Defaulters", "download_url": "/reports/defaulters_q2.pdf"}
+    ]
+  },
+  "academics": {
+    "fees_by_grade": [
+      {"grade": "10th", "total_expected": 500000, "collected": 450000, "pending": 50000},
+      {"grade": "11th", "total_expected": 600000, "collected": 400000, "pending": 200000}
+    ],
+    "scholarships_awarded": [
+      {"student_name": "Rahul Verma", "scholarship_name": "Merit Scholarship", "amount": 20000}
+    ]
+  },
+  "transport": {
+    "transport_expenses": [
+      {"vehicle_no": "BUS-01", "fuel_cost": 15000, "maintenance_cost": 5000, "driver_salary": 20000},
+      {"vehicle_no": "BUS-02", "fuel_cost": 12000, "maintenance_cost": 2000, "driver_salary": 20000}
+    ],
+    "transport_revenue": [
+      {"route": "Route A", "collected_fees": 45000, "pending_fees": 5000}
+    ]
+  },
+  "hostel": {
+    "hostel_expenses": [
+      {"category": "Mess Food", "amount": 150000, "month": "August"},
+      {"category": "Maintenance", "amount": 25000, "month": "August"}
+    ],
+    "hostel_revenue": [
+      {"room_type": "2-Seater", "collected": 200000, "pending": 20000}
+    ]
+  },
+  "payment_history": [
+    {
+      "transaction_id": "TXN-9901",
+      "type": "Credit",
+      "amount": 30000.00,
+      "description": "Fee payment by Priya Patel",
+      "date": "2023-08-19T10:15:00Z",
+      "payment_method": "Online Transfer",
+      "reference_number": "REF987654321"
+    },
+    {
+      "transaction_id": "TXN-9902",
+      "type": "Debit",
+      "amount": 15000.00,
+      "description": "Payment to AC Repair Vendor",
+      "date": "2023-08-18T14:30:00Z",
+      "payment_method": "Cheque",
+      "reference_number": "CHQ556677"
+    }
+  ],
+  "fee_reminder": [
+    {
+      "student_name": "Rohan Gupta",
+      "grade": "8-C",
+      "due_amount": 40000.00,
+      "due_date": "2023-08-01",
+      "reminder_status": "Sent on 2023-08-05",
+      "contact_no": "+91-9876543210"
+    }
+  ],
+  "quick_collection": {
+    "recent_collections": [
+      {"student_name": "Aarav Sharma", "amount": 5000, "mode": "Cash", "collected_by": "Admin-1", "time": "10:30 AM"}
+    ],
+    "quick_pay_options": ["Cash", "Card", "UPI", "Cheque"]
+  },
+  "overdue_accounts": [
+    {
+      "account_id": "ACC-101",
+      "name": "Rohan Gupta",
+      "type": "Student Fee",
+      "days_overdue": 18,
+      "amount": 40000.00,
+      "action_taken": "Call scheduled"
+    }
+  ],
+  "bill_expense": [
+    {
+      "bill_id": "BILL-501",
+      "vendor": "PowerCorp Ltd",
+      "category": "Electricity",
+      "amount": 45000.00,
+      "due_date": "2023-08-25",
+      "status": "Unpaid"
+    },
+    {
+      "bill_id": "BILL-502",
+      "vendor": "CleanCo",
+      "category": "Cleaning Supplies",
+      "amount": 12000.00,
+      "due_date": "2023-08-10",
+      "status": "Paid"
+    }
+  ],
+  "payslips": [
+    {
+      "payslip_id": "PS-2023-07-001",
+      "employee_name": "Vikram Singh",
+      "month": "July",
+      "year": 2023,
+      "net_pay": 78000.00,
+      "status": "Generated",
+      "download_url": "/payslips/ps_001.pdf"
+    }
+  ],
+  "salary_structure": {
+    "teachers": {
+      "base": 50000,
+      "hra": 10000,
+      "ta": 5000,
+      "pf_deduction": 4000
+    },
+    "admin_staff": {
+      "base": 30000,
+      "hra": 8000,
+      "ta": 3000,
+      "pf_deduction": 2400
+    }
+  },
+  "financial_summary": {
+    "total_revenue": 1250000.00,
+    "cost_of_goods_sold": 0.00,
+    "gross_profit": 1250000.00,
+    "operating_expenses": 450000.00,
+    "net_income": 800000.00,
+    "assets": 6045000.00,
+    "liabilities": 1045000.00,
+    "equity": 5000000.00
+  },
+  "work_books": [
+    {"book_name": "General Ledger - 2023", "last_updated": "2023-08-19", "entries": 450},
+    {"book_name": "Cash Book - August", "last_updated": "2023-08-19", "entries": 85}
+  ],
+  "bank_account": [
+    {"bank_name": "HDFC Bank", "account_no": "XXXX-XXXX-1234", "type": "Current", "balance": 850000.00},
+    {"bank_name": "SBI", "account_no": "XXXX-XXXX-9876", "type": "Savings (Trust)", "balance": 1500000.00}
+  ],
+  "receipts": [
+    {
+      "receipt_no": "REC-8801",
+      "date": "2023-08-19",
+      "received_from": "Priya Patel",
+      "amount": 30000.00,
+      "payment_mode": "Online",
+      "status": "Successful"
+    }
+  ],
+  "cheque_tracker": [
+    {
+      "cheque_no": "CHQ556677",
+      "bank": "ICICI Bank",
+      "amount": 15000.00,
+      "type": "Outward",
+      "issued_to": "AC Repair Vendor",
+      "status": "Cleared",
+      "date": "2023-08-18"
+    },
+    {
+      "cheque_no": "CHQ112233",
+      "bank": "Axis Bank",
+      "amount": 25000.00,
+      "type": "Inward",
+      "received_from": "Rahul Sharma",
+      "status": "Pending Clearance",
+      "date": "2023-08-19"
+    }
+  ],
+  "deposit": [
+    {
+      "deposit_id": "DEP-001",
+      "amount": 40000.00,
+      "bank": "HDFC Bank",
+      "deposited_by": "Admin-1",
+      "date": "2023-08-18",
+      "status": "Confirmed"
+    }
+  ],
+  "gateway_setup": {
+    "active_gateways": [
+      {"name": "Razorpay", "status": "Active", "transaction_fee": "1.5%", "settlement_cycle": "T+1"},
+      {"name": "Stripe", "status": "Inactive", "transaction_fee": "2.9%", "settlement_cycle": "T+2"}
+    ],
+    "api_keys_configured": true
+  },
+  "payment_links": [
+    {
+      "link_id": "PL-1001",
+      "purpose": "Term 2 Fee - Priya Patel",
+      "amount": 30000.00,
+      "url": "https://pay.schoolerp.com/pl1001",
+      "status": "Paid",
+      "created_at": "2023-08-10"
+    },
+    {
+      "link_id": "PL-1002",
+      "purpose": "Picnic Fee - Class 10",
+      "amount": 1500.00,
+      "url": "https://pay.schoolerp.com/pl1002",
+      "status": "Active",
+      "created_at": "2023-08-18"
+    }
+  ]
+}

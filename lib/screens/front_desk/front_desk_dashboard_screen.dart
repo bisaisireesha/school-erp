@@ -15,7 +15,8 @@ class FrontDeskDashboardScreen extends StatefulWidget {
   const FrontDeskDashboardScreen({super.key});
 
   @override
-  State<FrontDeskDashboardScreen> createState() => _FrontDeskDashboardScreenState();
+  State<FrontDeskDashboardScreen> createState() =>
+      _FrontDeskDashboardScreenState();
 }
 
 class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
@@ -60,7 +61,7 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
       'purpose': 'Fee Payment',
       'time': '12:00 PM',
       'status': 'Checked Out',
-    }
+    },
   ];
 
   final List<Map<String, dynamic>> _pendingTasks = [
@@ -113,26 +114,26 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
       'time': '08:30 AM',
       'title': 'School Bus Arrivals',
       'type': 'Transport',
-      'location': 'Main Gate'
+      'location': 'Main Gate',
     },
     {
       'time': '10:00 AM',
       'title': 'Admissions Open Desk',
       'type': 'Event',
-      'location': 'Lobby Area'
+      'location': 'Lobby Area',
     },
     {
       'time': '02:00 PM',
       'title': 'PTA Meeting Setup',
       'type': 'Meeting',
-      'location': 'Auditorium'
+      'location': 'Auditorium',
     },
     {
       'time': '04:00 PM',
       'title': 'Evening Dispatch',
       'type': 'Task',
-      'location': 'Mail Room'
-    }
+      'location': 'Mail Room',
+    },
   ];
 
   @override
@@ -150,7 +151,12 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           _buildSectionHeader(
             'Today\'s Schedule',
             onViewAll: () {
-              MainLayout.pushSubScreen(context, AppointmentsScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                AppointmentsScreen(
+                  onBack: () => MainLayout.popSubScreen(context),
+                ),
+              );
             },
           ),
           const SizedBox(height: 16),
@@ -159,7 +165,10 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           _buildSectionHeader(
             'Recent Visitors',
             onViewAll: () {
-              MainLayout.pushSubScreen(context, VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)),
+              );
             },
           ),
           const SizedBox(height: 16),
@@ -168,7 +177,10 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           _buildSectionHeader(
             'Pending Tasks',
             onViewAll: () {
-              MainLayout.pushSubScreen(context, TasksScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                TasksScreen(onBack: () => MainLayout.popSubScreen(context)),
+              );
             },
           ),
           const SizedBox(height: 16),
@@ -177,7 +189,12 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           _buildSectionHeader(
             'Upcoming Appointments',
             onViewAll: () {
-              MainLayout.pushSubScreen(context, AppointmentsScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                AppointmentsScreen(
+                  onBack: () => MainLayout.popSubScreen(context),
+                ),
+              );
             },
           ),
           const SizedBox(height: 16),
@@ -186,7 +203,12 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           _buildSectionHeader(
             'Student Help Desk',
             onViewAll: () {
-              MainLayout.pushSubScreen(context, ComplaintsScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                ComplaintsScreen(
+                  onBack: () => MainLayout.popSubScreen(context),
+                ),
+              );
             },
           ),
           const SizedBox(height: 16),
@@ -257,11 +279,19 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                   iconColor: const Color(0xFF6C4CF1),
                   iconBg: const Color(0xFFF3F0FF),
                   title: 'Today Visitor',
-                  valueRichText: const TextSpan(text: '45', style: TextStyle(color: Color(0xFF1E1E2D))),
+                  valueRichText: const TextSpan(
+                    text: '45',
+                    style: TextStyle(color: Color(0xFF1E1E2D)),
+                  ),
                   bottomText: '10 New Today',
                   bottomTextColor: const Color(0xFF4A4A68),
                   onTap: () {
-                    MainLayout.pushSubScreen(context, VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                    MainLayout.pushSubScreen(
+                      context,
+                      VisitorsScreen(
+                        onBack: () => MainLayout.popSubScreen(context),
+                      ),
+                    );
                   },
                 ),
               ),
@@ -272,11 +302,19 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                   iconColor: const Color(0xFF0EA5E9),
                   iconBg: const Color(0xFFE0F2FE),
                   title: 'Pending Enquiries',
-                  valueRichText: const TextSpan(text: '18', style: TextStyle(color: Color(0xFF1E1E2D))),
+                  valueRichText: const TextSpan(
+                    text: '18',
+                    style: TextStyle(color: Color(0xFF1E1E2D)),
+                  ),
                   bottomText: '5 Needs Follow-up',
                   bottomTextColor: const Color(0xFF4A4A68),
                   onTap: () {
-                    MainLayout.pushSubScreen(context, EnquiriesScreen(onBack: () => MainLayout.popSubScreen(context)));
+                    MainLayout.pushSubScreen(
+                      context,
+                      EnquiriesScreen(
+                        onBack: () => MainLayout.popSubScreen(context),
+                      ),
+                    );
                   },
                 ),
               ),
@@ -291,11 +329,19 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                   iconColor: const Color(0xFFF59E0B),
                   iconBg: const Color(0xFFFEF3C7),
                   title: 'Still Inside',
-                  valueRichText: const TextSpan(text: '12', style: TextStyle(color: Color(0xFF1E1E2D))),
+                  valueRichText: const TextSpan(
+                    text: '12',
+                    style: TextStyle(color: Color(0xFF1E1E2D)),
+                  ),
                   bottomText: 'Active Visitors',
                   bottomTextColor: const Color(0xFF4A4A68),
                   onTap: () {
-                    MainLayout.pushSubScreen(context, VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                    MainLayout.pushSubScreen(
+                      context,
+                      VisitorsScreen(
+                        onBack: () => MainLayout.popSubScreen(context),
+                      ),
+                    );
                   },
                 ),
               ),
@@ -306,11 +352,19 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                   iconColor: const Color(0xFFEF4444),
                   iconBg: const Color(0xFFFEE2E2),
                   title: 'Open Complaints',
-                  valueRichText: const TextSpan(text: '4', style: TextStyle(color: Color(0xFF1E1E2D))),
+                  valueRichText: const TextSpan(
+                    text: '4',
+                    style: TextStyle(color: Color(0xFF1E1E2D)),
+                  ),
                   bottomText: 'Awaiting Resolution',
                   bottomTextColor: const Color(0xFF4A4A68),
                   onTap: () {
-                    MainLayout.pushSubScreen(context, ComplaintsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                    MainLayout.pushSubScreen(
+                      context,
+                      ComplaintsScreen(
+                        onBack: () => MainLayout.popSubScreen(context),
+                      ),
+                    );
                   },
                 ),
               ),
@@ -356,16 +410,34 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
               child: Icon(icon, color: iconColor, size: 22),
             ),
             const SizedBox(height: 16),
-            Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF4A4A68))),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF4A4A68),
+              ),
+            ),
             const SizedBox(height: 8),
             RichText(
               text: TextSpan(
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, fontFamily: 'Inter'),
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Inter',
+                ),
                 children: [valueRichText],
               ),
             ),
             const SizedBox(height: 8),
-            Text(bottomText, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: bottomTextColor)),
+            Text(
+              bottomText,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: bottomTextColor,
+              ),
+            ),
           ],
         ),
       ),
@@ -393,10 +465,10 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           children: List.generate(_todaySchedule.length, (index) {
             final item = _todaySchedule[index];
             final isLast = index == _todaySchedule.length - 1;
-            
+
             Color iconColor;
             Color iconBg;
-            
+
             switch (item['type']) {
               case 'Transport':
                 iconColor = const Color(0xFF6C4CF1);
@@ -418,7 +490,12 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                MainLayout.pushSubScreen(context, AppointmentsScreen(onBack: () => MainLayout.popSubScreen(context)));
+                MainLayout.pushSubScreen(
+                  context,
+                  AppointmentsScreen(
+                    onBack: () => MainLayout.popSubScreen(context),
+                  ),
+                );
               },
               child: IntrinsicHeight(
                 child: Row(
@@ -481,7 +558,11 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 6),
-                                const Icon(LucideIcons.mapPin, size: 12, color: Color(0xFF4A4A68)),
+                                const Icon(
+                                  LucideIcons.mapPin,
+                                  size: 12,
+                                  color: Color(0xFF4A4A68),
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   item['location'],
@@ -496,7 +577,11 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                         ),
                       ),
                     ),
-                    const Icon(LucideIcons.chevronRight, size: 16, color: Color(0xFFC4C4D4)),
+                    const Icon(
+                      LucideIcons.chevronRight,
+                      size: 16,
+                      color: Color(0xFFC4C4D4),
+                    ),
                   ],
                 ),
               ),
@@ -517,7 +602,10 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
 
           return GestureDetector(
             onTap: () {
-              MainLayout.pushSubScreen(context, VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)),
+              );
             },
             child: Container(
               margin: const EdgeInsets.only(bottom: 12),
@@ -546,7 +634,11 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                     child: Center(
                       child: Text(
                         visitor['name'][0],
-                        style: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold, fontSize: 18),
+                        style: const TextStyle(
+                          color: Color(0xFF6C4CF1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
@@ -555,21 +647,48 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(visitor['name'], style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        Text(
+                          visitor['name'],
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text(visitor['purpose'], style: const TextStyle(fontSize: 13, color: Color(0xFF4A4A68))),
+                        Text(
+                          visitor['purpose'],
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Color(0xFF4A4A68),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(visitor['time'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF4A4A68))),
+                      Text(
+                        visitor['time'],
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF4A4A68),
+                        ),
+                      ),
                       const SizedBox(height: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: isCheckedIn ? const Color(0xFFE8F5E9) : isWaiting ? const Color(0xFFFFF3E0) : const Color(0xFFF3F4F6),
+                          color: isCheckedIn
+                              ? const Color(0xFFE8F5E9)
+                              : isWaiting
+                              ? const Color(0xFFFFF3E0)
+                              : const Color(0xFFF3F4F6),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -577,14 +696,22 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
-                            color: isCheckedIn ? const Color(0xFF11B136) : isWaiting ? const Color(0xFFF57C00) : const Color(0xFF6B7280),
+                            color: isCheckedIn
+                                ? const Color(0xFF11B136)
+                                : isWaiting
+                                ? const Color(0xFFF57C00)
+                                : const Color(0xFF6B7280),
                           ),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(width: 8),
-                  const Icon(LucideIcons.chevronRight, size: 16, color: Color(0xFFC4C4D4)),
+                  const Icon(
+                    LucideIcons.chevronRight,
+                    size: 16,
+                    color: Color(0xFFC4C4D4),
+                  ),
                 ],
               ),
             ),
@@ -602,7 +729,10 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           final isHigh = task['priority'] == 'High';
           return GestureDetector(
             onTap: () {
-              MainLayout.pushSubScreen(context, TasksScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                TasksScreen(onBack: () => MainLayout.popSubScreen(context)),
+              );
             },
             child: Container(
               margin: const EdgeInsets.only(bottom: 12),
@@ -624,12 +754,16 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: isHigh ? const Color(0xFFFEE2E2) : const Color(0xFFFEF3C7),
+                      color: isHigh
+                          ? const Color(0xFFFEE2E2)
+                          : const Color(0xFFFEF3C7),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
                       isHigh ? LucideIcons.alertCircle : LucideIcons.clock,
-                      color: isHigh ? const Color(0xFFEF4444) : const Color(0xFFF59E0B),
+                      color: isHigh
+                          ? const Color(0xFFEF4444)
+                          : const Color(0xFFF59E0B),
                       size: 20,
                     ),
                   ),
@@ -638,13 +772,30 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(task['title'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        Text(
+                          task['title'],
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text(task['time'], style: const TextStyle(fontSize: 12, color: Color(0xFF4A4A68))),
+                        Text(
+                          task['time'],
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF4A4A68),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  Icon(LucideIcons.chevronRight, color: Colors.grey.shade400, size: 20),
+                  Icon(
+                    LucideIcons.chevronRight,
+                    color: Colors.grey.shade400,
+                    size: 20,
+                  ),
                 ],
               ),
             ),
@@ -661,7 +812,12 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
         children: _upcomingAppointments.map((appt) {
           return GestureDetector(
             onTap: () {
-              MainLayout.pushSubScreen(context, AppointmentsScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                AppointmentsScreen(
+                  onBack: () => MainLayout.popSubScreen(context),
+                ),
+              );
             },
             child: Container(
               margin: const EdgeInsets.only(bottom: 12),
@@ -686,22 +842,50 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                       color: const Color(0xFFE0F2FE),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Icon(LucideIcons.calendar, color: Color(0xFF0EA5E9), size: 20),
+                    child: const Icon(
+                      LucideIcons.calendar,
+                      color: Color(0xFF0EA5E9),
+                      size: 20,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(appt['visitorName'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        Text(
+                          appt['visitorName'],
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text('${appt['purpose']} • ${appt['host']}', style: const TextStyle(fontSize: 12, color: Color(0xFF4A4A68))),
+                        Text(
+                          '${appt['purpose']} • ${appt['host']}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF4A4A68),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  Text(appt['time'].split(',')[0], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6C4CF1))),
+                  Text(
+                    appt['time'].split(',')[0],
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF6C4CF1),
+                    ),
+                  ),
                   const SizedBox(width: 8),
-                  const Icon(LucideIcons.chevronRight, size: 16, color: Color(0xFFC4C4D4)),
+                  const Icon(
+                    LucideIcons.chevronRight,
+                    size: 16,
+                    color: Color(0xFFC4C4D4),
+                  ),
                 ],
               ),
             ),
@@ -719,7 +903,12 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           final isPending = ticket['status'] == 'Pending';
           return GestureDetector(
             onTap: () {
-              MainLayout.pushSubScreen(context, ComplaintsScreen(onBack: () => MainLayout.popSubScreen(context)));
+              MainLayout.pushSubScreen(
+                context,
+                ComplaintsScreen(
+                  onBack: () => MainLayout.popSubScreen(context),
+                ),
+              );
             },
             child: Container(
               margin: const EdgeInsets.only(bottom: 12),
@@ -744,28 +933,57 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                       color: const Color(0xFFF3F0FF),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Icon(LucideIcons.graduationCap, color: Color(0xFF6C4CF1), size: 20),
+                    child: const Icon(
+                      LucideIcons.graduationCap,
+                      color: Color(0xFF6C4CF1),
+                      size: 20,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(ticket['studentName'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                        Text(
+                          ticket['studentName'],
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text('${ticket['issue']} • ${ticket['grade']}', style: const TextStyle(fontSize: 12, color: Color(0xFF4A4A68))),
+                        Text(
+                          '${ticket['issue']} • ${ticket['grade']}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF4A4A68),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(ticket['time'], style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF4A4A68))),
+                      Text(
+                        ticket['time'],
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF4A4A68),
+                        ),
+                      ),
                       const SizedBox(height: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: isPending ? const Color(0xFFFFF3E0) : const Color(0xFFE0F2FE),
+                          color: isPending
+                              ? const Color(0xFFFFF3E0)
+                              : const Color(0xFFE0F2FE),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -773,14 +991,20 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
-                            color: isPending ? const Color(0xFFF57C00) : const Color(0xFF0EA5E9),
+                            color: isPending
+                                ? const Color(0xFFF57C00)
+                                : const Color(0xFF0EA5E9),
                           ),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(width: 8),
-                  const Icon(LucideIcons.chevronRight, size: 16, color: Color(0xFFC4C4D4)),
+                  const Icon(
+                    LucideIcons.chevronRight,
+                    size: 16,
+                    color: Color(0xFFC4C4D4),
+                  ),
                 ],
               ),
             ),
@@ -796,63 +1020,92 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
         'label': 'New\nVisitor',
         'icon': LucideIcons.userPlus,
         'onTap': () {
-          MainLayout.pushSubScreen(context, VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)));
+          MainLayout.pushSubScreen(
+            context,
+            VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
         },
       },
       {
         'label': 'Gate\nPass',
         'icon': LucideIcons.ticket,
         'onTap': () {
-          MainLayout.pushSubScreen(context, VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)));
+          MainLayout.pushSubScreen(
+            context,
+            VisitorsScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
         },
       },
       {
         'label': 'Add\nEnquiry',
         'icon': LucideIcons.messageSquarePlus,
         'onTap': () {
-          MainLayout.pushSubScreen(context, EnquiriesScreen(onBack: () => MainLayout.popSubScreen(context)));
+          MainLayout.pushSubScreen(
+            context,
+            EnquiriesScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
         },
       },
       {
         'label': 'Call\nLog',
         'icon': LucideIcons.phoneCall,
         'onTap': () {
-          MainLayout.pushSubScreen(context, CallLogsScreen(onBack: () => MainLayout.popSubScreen(context)));
+          MainLayout.pushSubScreen(
+            context,
+            CallLogsScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
         },
       },
       {
         'label': 'Postal &\nCourier',
         'icon': LucideIcons.send,
         'onTap': () {
-          MainLayout.pushSubScreen(context, PostalRecordsScreen(onBack: () => MainLayout.popSubScreen(context)));
+          MainLayout.pushSubScreen(
+            context,
+            PostalRecordsScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
         },
       },
       {
         'label': 'Certificates',
         'icon': LucideIcons.award,
         'onTap': () {
-          MainLayout.pushSubScreen(context, CertificatesScreen(onBack: () => MainLayout.popSubScreen(context)));
+          MainLayout.pushSubScreen(
+            context,
+            CertificatesScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
         },
       },
       {
         'label': 'Tasks',
         'icon': LucideIcons.checkSquare,
         'onTap': () {
-          MainLayout.pushSubScreen(context, TasksScreen(onBack: () => MainLayout.popSubScreen(context)));
+          MainLayout.pushSubScreen(
+            context,
+            TasksScreen(onBack: () => MainLayout.popSubScreen(context)),
+          );
         },
       },
       {
         'label': 'Reports',
         'icon': LucideIcons.barChart2,
         'onTap': () {
-          MainLayout.pushSubScreen(context, FrontDeskReportsScreen(onBack: () => MainLayout.popSubScreen(context)));
+          MainLayout.pushSubScreen(
+            context,
+            FrontDeskReportsScreen(
+              onBack: () => MainLayout.popSubScreen(context),
+            ),
+          );
         },
       },
     ];
 
     final filteredActions = actions.where((action) {
       if (_searchQuery.isEmpty) return true;
-      return (action['label'] as String).toLowerCase().replaceAll('\n', ' ').contains(_searchQuery.toLowerCase());
+      return (action['label'] as String)
+          .toLowerCase()
+          .replaceAll('\n', ' ')
+          .contains(_searchQuery.toLowerCase());
     }).toList();
 
     return Padding(
@@ -874,7 +1127,14 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Quick Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+            const Text(
+              'Quick Actions',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
+                color: Color(0xFF1E1E2D),
+              ),
+            ),
             const SizedBox(height: 24),
             GridView.count(
               crossAxisCount: 4,
@@ -898,7 +1158,11 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
     );
   }
 
-  Widget _buildActionItem(String label, IconData icon, {required VoidCallback onTap}) {
+  Widget _buildActionItem(
+    String label,
+    IconData icon, {
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -916,7 +1180,12 @@ class _FrontDeskDashboardScreenState extends State<FrontDeskDashboardScreen> {
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF4A4A68), height: 1.2),
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF4A4A68),
+              height: 1.2,
+            ),
           ),
         ],
       ),

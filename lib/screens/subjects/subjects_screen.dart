@@ -25,7 +25,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   Future<void> _loadSubjects() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/student_subjects.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/student_subjects.json',
+      );
       final data = await json.decode(response);
       if (mounted) {
         setState(() {
@@ -39,6 +41,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final filteredSubjects = _subjects.where((subject) {
@@ -47,7 +50,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       final name = subject['name'].toString().toLowerCase();
       final code = subject['code'].toString().toLowerCase();
       final teacher = subject['teacher'].toString().toLowerCase();
-      return name.contains(query) || code.contains(query) || teacher.contains(query);
+      return name.contains(query) ||
+          code.contains(query) ||
+          teacher.contains(query);
     }).toList();
 
     return Scaffold(
@@ -71,16 +76,25 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFE8E3F8).withValues(alpha: 0.35),
+                              color: const Color(
+                                0xFFE8E3F8,
+                              ).withValues(alpha: 0.35),
                               blurRadius: 6,
                               offset: const Offset(0, 2),
                             ),
                           ],
                         ),
-                        child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -109,10 +123,19 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                     if (_isLoading)
                       const Padding(
                         padding: EdgeInsets.only(top: 60),
-                        child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFF6C4CF1),
+                          ),
+                        ),
                       )
                     else if (filteredSubjects.isEmpty)
-                      const Center(child: Padding(padding: EdgeInsets.only(top: 40), child: Text("No subjects found.")))
+                      const Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 40),
+                          child: Text("No subjects found."),
+                        ),
+                      )
                     else
                       LayoutBuilder(
                         builder: (context, constraints) {
@@ -126,15 +149,17 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: filteredSubjects.length,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: crossAxisCount,
-                              crossAxisSpacing: 14,
-                              mainAxisSpacing: 14,
-                              childAspectRatio: 0.88,
-                            ),
-                            itemBuilder: (context, index) => _buildSubjectCard(filteredSubjects[index]),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: crossAxisCount,
+                                  crossAxisSpacing: 14,
+                                  mainAxisSpacing: 14,
+                                  childAspectRatio: 0.88,
+                                ),
+                            itemBuilder: (context, index) =>
+                                _buildSubjectCard(filteredSubjects[index]),
                           );
-                        }
+                        },
                       ),
                     const SizedBox(height: 120),
                   ],
@@ -152,7 +177,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       builder: (context, constraints) {
         int crossAxisCount = 2;
         double aspectRatio = 2.3;
-        
+
         if (constraints.maxWidth > 900) {
           crossAxisCount = 4;
           aspectRatio = 2.5;
@@ -169,10 +194,30 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           mainAxisSpacing: 14,
           childAspectRatio: aspectRatio,
           children: [
-            _buildKPICard('Total Subjects', '8', const Color(0xFF6C4CF1), Icons.menu_book_rounded),
-            _buildKPICard('Core Subjects', '4', const Color(0xFF3B82F6), Icons.adjust_rounded),
-            _buildKPICard('Completed', '2', const Color(0xFF10B981), Icons.check_circle_outline_rounded),
-            _buildKPICard('Upcoming', '2', const Color(0xFF8B5CF6), Icons.calendar_month_outlined),
+            _buildKPICard(
+              'Total Subjects',
+              '8',
+              const Color(0xFF6C4CF1),
+              Icons.menu_book_rounded,
+            ),
+            _buildKPICard(
+              'Core Subjects',
+              '4',
+              const Color(0xFF3B82F6),
+              Icons.adjust_rounded,
+            ),
+            _buildKPICard(
+              'Completed',
+              '2',
+              const Color(0xFF10B981),
+              Icons.check_circle_outline_rounded,
+            ),
+            _buildKPICard(
+              'Upcoming',
+              '2',
+              const Color(0xFF8B5CF6),
+              Icons.calendar_month_outlined,
+            ),
           ],
         );
       },
@@ -255,7 +300,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       child: TextField(
         onChanged: (val) => setState(() => _searchQuery = val),
         decoration: InputDecoration(
-          icon: const Icon(LucideIcons.search, color: Color(0xFF6C4CF1), size: 18),
+          icon: const Icon(
+            LucideIcons.search,
+            color: Color(0xFF6C4CF1),
+            size: 18,
+          ),
           hintText: 'Search subjects...',
           hintStyle: const TextStyle(color: Color(0xFF8B8B8B), fontSize: 14),
           border: InputBorder.none,
@@ -305,7 +354,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                     ),
                     const SizedBox(width: 6),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 7,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFF3F0FF),
                         borderRadius: BorderRadius.circular(8),
@@ -379,17 +431,45 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Progress', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF9CA3AF))),
+                        const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF9CA3AF),
+                          ),
+                        ),
                         const SizedBox(height: 2),
-                        Text(subject['progress'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
+                        Text(
+                          subject['progress'],
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF111827),
+                          ),
+                        ),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        const Text('Grade', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF9CA3AF))),
+                        const Text(
+                          'Grade',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF9CA3AF),
+                          ),
+                        ),
                         const SizedBox(height: 2),
-                        Text(subject['grade'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
+                        Text(
+                          subject['grade'],
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF111827),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -400,7 +480,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   child: LinearProgressIndicator(
                     value: subject['progressValue'] as double,
                     backgroundColor: const Color(0xFFF3EEFF),
-                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF6C4CF1)),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      Color(0xFF6C4CF1),
+                    ),
                     minHeight: 5,
                   ),
                 ),
@@ -445,29 +527,52 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   Expanded(
                     child: Text(
                       subject['name'],
-                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF111827)),
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF111827),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF3F0FF),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       subject['code'],
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF6C4CF1)),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF6C4CF1),
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 28),
-              _buildDetailRow(Icons.person_outline, 'Teacher', subject['teacher']),
+              _buildDetailRow(
+                Icons.person_outline,
+                'Teacher',
+                subject['teacher'],
+              ),
               const SizedBox(height: 18),
-              _buildDetailRow(Icons.schedule_outlined, 'Schedule', subject['schedule']),
+              _buildDetailRow(
+                Icons.schedule_outlined,
+                'Schedule',
+                subject['schedule'],
+              ),
               const SizedBox(height: 18),
-              _buildDetailRow(Icons.trending_up, 'Progress', subject['progress']),
+              _buildDetailRow(
+                Icons.trending_up,
+                'Progress',
+                subject['progress'],
+              ),
               const SizedBox(height: 18),
               _buildDetailRow(Icons.grade_outlined, 'Grade', subject['grade']),
               const SizedBox(height: 32),
@@ -478,10 +583,19 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6C4CF1),
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                     elevation: 0,
                   ),
-                  child: const Text('Close', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                  child: const Text(
+                    'Close',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -508,9 +622,23 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF6B7280))),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF6B7280),
+                ),
+              ),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF111827),
+                ),
+              ),
             ],
           ),
         ),

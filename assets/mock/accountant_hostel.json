@@ -1,0 +1,21 @@
+{
+  "hostel_expenses": [
+    {
+      "category": "Mess Food",
+      "amount": 150000,
+      "month": "August"
+    },
+    {
+      "category": "Maintenance",
+      "amount": 25000,
+      "month": "August"
+    }
+  ],
+  "hostel_revenue": [
+    {
+      "room_type": "2-Seater",
+      "collected": 200000,
+      "pending": 20000
+    }
+  ]
+}

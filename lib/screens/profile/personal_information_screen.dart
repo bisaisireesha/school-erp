@@ -77,10 +77,20 @@ class PersonalInformationScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: const Color(0xFFF3F0FF),
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFFF3EEFF), width: 2),
+                      border: Border.all(
+                        color: const Color(0xFFF3EEFF),
+                        width: 2,
+                      ),
                     ),
                     child: Center(
-                      child: Text(initials, style: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w800, fontSize: 36)),
+                      child: Text(
+                        initials,
+                        style: const TextStyle(
+                          color: Color(0xFF6C4CF1),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 36,
+                        ),
+                      ),
                     ),
                   ),
                   Container(
@@ -89,7 +99,11 @@ class PersonalInformationScreen extends StatelessWidget {
                       color: Color(0xFF6C4CF1),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(LucideIcons.camera, color: Colors.white, size: 16),
+                    child: const Icon(
+                      LucideIcons.camera,
+                      color: Colors.white,
+                      size: 16,
+                    ),
                   ),
                 ],
               ),
@@ -100,56 +114,126 @@ class PersonalInformationScreen extends StatelessWidget {
             _buildTextField('Full Name', fullName, LucideIcons.user),
             const SizedBox(height: 16),
             if (isStudent) ...[
-              _buildTextField('Class & Grade', 'Class 10-A', LucideIcons.graduationCap),
+              _buildTextField(
+                'Class & Grade',
+                'Class 10-A',
+                LucideIcons.graduationCap,
+              ),
               const SizedBox(height: 16),
               _buildTextField('Roll Number', '1042', LucideIcons.hash),
               const SizedBox(height: 16),
             ] else if (isWarden) ...[
-              _buildTextField('Role / Designation', 'Hostel Warden', LucideIcons.shield),
+              _buildTextField(
+                'Role / Designation',
+                'Hostel Warden',
+                LucideIcons.shield,
+              ),
               const SizedBox(height: 16),
-              _buildTextField('Warden Staff ID', 'WDN-402', LucideIcons.badgeCheck),
+              _buildTextField(
+                'Warden Staff ID',
+                'WDN-402',
+                LucideIcons.badgeCheck,
+              ),
               const SizedBox(height: 16),
-              _buildTextField('Assigned Blocks', 'Boys Hostel Block A & Block B', LucideIcons.building2),
+              _buildTextField(
+                'Assigned Blocks',
+                'Boys Hostel Block A & Block B',
+                LucideIcons.building2,
+              ),
               const SizedBox(height: 16),
             ] else if (isFrontDesk) ...[
-              _buildTextField('Role / Designation', 'Front Desk Executive', LucideIcons.briefcase),
+              _buildTextField(
+                'Role / Designation',
+                'Front Desk Executive',
+                LucideIcons.briefcase,
+              ),
               const SizedBox(height: 16),
               _buildTextField('Staff ID', 'FD-108', LucideIcons.badgeCheck),
               const SizedBox(height: 16),
-              _buildTextField('Desk Location', 'Main Reception Counter 1', LucideIcons.mapPin),
+              _buildTextField(
+                'Desk Location',
+                'Main Reception Counter 1',
+                LucideIcons.mapPin,
+              ),
               const SizedBox(height: 16),
-              _buildTextField('Shift Timings', 'Morning Shift (08:00 AM – 04:30 PM)', LucideIcons.clock),
+              _buildTextField(
+                'Shift Timings',
+                'Morning Shift (08:00 AM – 04:30 PM)',
+                LucideIcons.clock,
+              ),
               const SizedBox(height: 16),
             ] else if (isAccountant) ...[
-              _buildTextField('Role / Designation', 'Accountant', LucideIcons.briefcase),
+              _buildTextField(
+                'Role / Designation',
+                'Accountant',
+                LucideIcons.briefcase,
+              ),
               const SizedBox(height: 16),
-              _buildTextField('Staff ID', 'EMP-FIN-001', LucideIcons.badgeCheck),
+              _buildTextField(
+                'Staff ID',
+                'EMP-FIN-001',
+                LucideIcons.badgeCheck,
+              ),
               const SizedBox(height: 16),
-              _buildTextField('Department', 'Finance Department', LucideIcons.building2),
+              _buildTextField(
+                'Department',
+                'Finance Department',
+                LucideIcons.building2,
+              ),
               const SizedBox(height: 16),
             ] else ...[
               _buildTextField('Role', 'Parent / Guardian', LucideIcons.users),
               const SizedBox(height: 16),
-              _buildTextField('Enrolled Children', 'Akshara (Class 10-A), Aryan (Class 7-B)', LucideIcons.baby),
+              _buildTextField(
+                'Enrolled Children',
+                'Akshara (Class 10-A), Aryan (Class 7-B)',
+                LucideIcons.baby,
+              ),
               const SizedBox(height: 16),
             ],
             _buildSectionTitle('Contact Information'),
             const SizedBox(height: 16),
-            _buildTextField('Email Address', email, LucideIcons.mail, TextInputType.emailAddress),
+            _buildTextField(
+              'Email Address',
+              email,
+              LucideIcons.mail,
+              TextInputType.emailAddress,
+            ),
             if (!isStudent && !isFrontDesk) ...[
               const SizedBox(height: 16),
-              _buildTextField('Phone Number', phone, LucideIcons.phone, TextInputType.phone),
+              _buildTextField(
+                'Phone Number',
+                phone,
+                LucideIcons.phone,
+                TextInputType.phone,
+              ),
             ],
             if (isFrontDesk) ...[
               const SizedBox(height: 16),
-              _buildTextField('Phone Number', phone, LucideIcons.phone, TextInputType.phone),
+              _buildTextField(
+                'Phone Number',
+                phone,
+                LucideIcons.phone,
+                TextInputType.phone,
+              ),
               const SizedBox(height: 16),
-              _buildTextField('Extension', 'Ext 205', LucideIcons.phoneCall, TextInputType.phone),
+              _buildTextField(
+                'Extension',
+                'Ext 205',
+                LucideIcons.phoneCall,
+                TextInputType.phone,
+              ),
             ],
             const SizedBox(height: 24),
             _buildSectionTitle('Address'),
             const SizedBox(height: 16),
-            _buildTextField('Home Address', address, LucideIcons.mapPin, TextInputType.streetAddress, 2),
+            _buildTextField(
+              'Home Address',
+              address,
+              LucideIcons.mapPin,
+              TextInputType.streetAddress,
+              2,
+            ),
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
@@ -157,7 +241,9 @@ class PersonalInformationScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Information saved successfully!')),
+                    const SnackBar(
+                      content: Text('Information saved successfully!'),
+                    ),
                   );
                   Navigator.pop(context);
                 },
@@ -169,7 +255,10 @@ class PersonalInformationScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text('Save Changes', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                child: const Text(
+                  'Save Changes',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ],
@@ -189,7 +278,13 @@ class PersonalInformationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String label, String initialValue, IconData icon, [TextInputType keyboardType = TextInputType.text, int maxLines = 1]) {
+  Widget _buildTextField(
+    String label,
+    String initialValue,
+    IconData icon, [
+    TextInputType keyboardType = TextInputType.text,
+    int maxLines = 1,
+  ]) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -207,10 +302,15 @@ class PersonalInformationScreen extends StatelessWidget {
           keyboardType: keyboardType,
           maxLines: maxLines,
           decoration: InputDecoration(
-            prefixIcon: maxLines == 1 ? Icon(icon, color: const Color(0xFF9090A7), size: 20) : null,
+            prefixIcon: maxLines == 1
+                ? Icon(icon, color: const Color(0xFF9090A7), size: 20)
+                : null,
             filled: true,
             fillColor: const Color(0xFFFAFAFF),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: const BorderSide(color: Color(0xFFF3EEFF)),
@@ -221,7 +321,10 @@ class PersonalInformationScreen extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5),
+              borderSide: const BorderSide(
+                color: Color(0xFF6C4CF1),
+                width: 1.5,
+              ),
             ),
           ),
         ),

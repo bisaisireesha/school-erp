@@ -1,0 +1,17 @@
+{
+  "active_gateways": [
+    {
+      "name": "Razorpay",
+      "status": "Active",
+      "transaction_fee": "1.5%",
+      "settlement_cycle": "T+1"
+    },
+    {
+      "name": "Stripe",
+      "status": "Inactive",
+      "transaction_fee": "2.9%",
+      "settlement_cycle": "T+2"
+    }
+  ],
+  "api_keys_configured": true
+}

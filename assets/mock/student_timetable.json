@@ -6,7 +6,7 @@
     {"type": "class", "startTime": "10:20", "endTime": "11:05 AM", "subject": "Social Studies", "room": "Room 101", "teacher": "Mr. Amit Kumar", "icon": "globe", "iconColor": "0xFF2563EB", "iconBg": "0xFFEFF6FF"},
     {"type": "class", "startTime": "11:05", "endTime": "11:50 AM", "subject": "Mathematics", "room": "Room 101", "teacher": "Mr. Rahul Verma", "icon": "calculator", "iconColor": "0xFF16A34A", "iconBg": "0xFFF0FDF4"},
     {"type": "class", "startTime": "11:50", "endTime": "12:35 PM", "subject": "Computer", "room": "Room 105", "teacher": "Ms. Riya Malhotra", "icon": "monitor", "iconColor": "0xFFBE123C", "iconBg": "0xFFFFE4E6"},
-    {"type": "break", "startTime": "12:35", "endTime": "01:15 PM", "label": "Lunch Time", "icon": "utensils", "bgColor": "0xFFF8F4FF", "iconColor": "0xFF6C4CF1"},
+    {"type": "break", "startTime": "12:35", "endTime": "01:15 PM", "label": "Lunch Time", "icon": "utensils", "bgColor": "0xFFFFF7ED", "iconColor": "0xFFF97316"},
     {"type": "class", "startTime": "01:15", "endTime": "02:00 PM", "subject": "Art & Craft", "room": "Room 103", "teacher": "Ms. Kavita Rao", "icon": "palette", "iconColor": "0xFFD97706", "iconBg": "0xFFFFFBEB"},
     {"type": "class", "startTime": "02:00", "endTime": "02:45 PM", "subject": "Music", "room": "Room 104", "teacher": "Mr. Suresh Iyer", "icon": "music", "iconColor": "0xFF059669", "iconBg": "0xFFECFDF5"}
   ],
@@ -17,7 +17,7 @@
     {"type": "class", "startTime": "10:20", "endTime": "11:05 AM", "subject": "Science", "room": "Room 102", "teacher": "Ms. Neha Singh", "icon": "flaskConical", "iconColor": "0xFFE11D48", "iconBg": "0xFFFFF1F2"},
     {"type": "class", "startTime": "11:05", "endTime": "11:50 AM", "subject": "Computer", "room": "Room 105", "teacher": "Ms. Riya Malhotra", "icon": "monitor", "iconColor": "0xFFBE123C", "iconBg": "0xFFFFE4E6"},
     {"type": "class", "startTime": "11:50", "endTime": "12:35 PM", "subject": "Art & Craft", "room": "Room 103", "teacher": "Ms. Kavita Rao", "icon": "palette", "iconColor": "0xFFD97706", "iconBg": "0xFFFFFBEB"},
-    {"type": "break", "startTime": "12:35", "endTime": "01:15 PM", "label": "Lunch Time", "icon": "utensils", "bgColor": "0xFFF8F4FF", "iconColor": "0xFF6C4CF1"},
+    {"type": "break", "startTime": "12:35", "endTime": "01:15 PM", "label": "Lunch Time", "icon": "utensils", "bgColor": "0xFFFFF7ED", "iconColor": "0xFFF97316"},
     {"type": "class", "startTime": "01:15", "endTime": "02:00 PM", "subject": "Social Studies", "room": "Room 101", "teacher": "Mr. Amit Kumar", "icon": "globe", "iconColor": "0xFF2563EB", "iconBg": "0xFFEFF6FF"},
     {"type": "class", "startTime": "02:00", "endTime": "02:45 PM", "subject": "Computer", "room": "Room 105", "teacher": "Ms. Riya Malhotra", "icon": "monitor", "iconColor": "0xFFBE123C", "iconBg": "0xFFFFE4E6"}
   ]

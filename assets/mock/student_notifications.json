@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Homework Graded",
+    "message": "Your Algebra assignment has been graded. You scored 95/100.",
+    "time": "15m ago",
+    "icon": "bookOpen",
+    "iconColor": "0xFF6C4CF1",
+    "iconBg": "0xFFF3EEFF",
+    "isRead": false,
+    "route": "homework"
+  },
+  {
+    "title": "Library Due Date",
+    "message": "'Physics Principles' is due tomorrow. Please return it to avoid fines.",
+    "time": "3h ago",
+    "icon": "book",
+    "iconColor": "0xFFF59E0B",
+    "iconBg": "0xFFFEF3C7",
+    "isRead": false,
+    "route": "library"
+  },
+  {
+    "title": "Timetable Change",
+    "message": "Period 3 Chemistry is moved to Lab 2 today.",
+    "time": "1d ago",
+    "icon": "calendar",
+    "iconColor": "0xFF10B981",
+    "iconBg": "0xFFD1FAE5",
+    "isRead": true,
+    "route": "timetable"
+  }
+]

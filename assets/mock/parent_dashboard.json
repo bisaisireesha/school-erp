@@ -1,8 +1,8 @@
 {
   "activities": [
-    {"icon": "event_available_rounded", "iconColor": "0xFF6C4CF1", "iconBg": "0xFFF3F0FF", "title": "Assignment Added", "subtitle": "Maths - Worksheet 12", "time": "10:30 AM"},
-    {"icon": "fact_check_outlined", "iconColor": "0xFF4CAF50", "iconBg": "0xFFE8F5E9", "title": "Attendance Marked", "subtitle": "Today's attendance has been updated", "time": "09:15 AM"},
-    {"icon": "campaign_rounded", "iconColor": "0xFFFF9800", "iconBg": "0xFFFFF3E0", "title": "Notice Published", "subtitle": "Holiday on Friday", "time": "Yesterday"}
+    {"type": "Homework", "icon": "fact_check_outlined", "iconColor": "0xFF6C4CF1", "iconBg": "0xFFF3F0FF", "title": "Homework Assigned", "subtitle": "Mathematics – Worksheet on Decimals\nAssigned by: Mr. Rohit Kumar", "time": "10:30 AM"},
+    {"type": "Event", "icon": "event_available_rounded", "iconColor": "0xFF11B136", "iconBg": "0xFFE8F5E9", "title": "Parent Teacher Meeting", "subtitle": "PTM scheduled for Aarav Sharma\nVenue: School Conference Room", "time": "02:00 PM"},
+    {"type": "Transport", "icon": "campaign_rounded", "iconColor": "0xFFFF9800", "iconBg": "0xFFFFF3E0", "title": "Bus Delay", "subtitle": "Bus DS-07 is delayed by 15 mins\nRoute: Green Park → Dino Stars School", "time": "04:15 PM"}
   ],
   "homeworkList": [
     {"subject": "Mathematics", "title": "Algebra Worksheet 12", "dueDate": "Tomorrow", "iconColor": "0xFF6C4CF1", "iconBg": "0xFFF3F0FF"},

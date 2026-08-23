@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
+
 class FeePaymentsScreen extends StatefulWidget {
   final VoidCallback onBack;
 
@@ -70,7 +71,7 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
       "status": "Paid",
       "paymentMethod": "Bank Transfer",
       "icon": LucideIcons.book,
-    }
+    },
   ];
 
   @override
@@ -93,18 +94,32 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
-                        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                        border: Border.all(
+                          color: const Color(0xFFF3EEFF),
+                          width: 1.5,
+                        ),
                       ),
-                      child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                      child: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: Color(0xFF1E1E2D),
+                        size: 20,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
-                  const Text('Fees & Payments', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const Text(
+                    'Fees & Payments',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Overview Cards (4 KPI Grid)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -193,39 +208,106 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                 builder: (context, searchQuery, child) {
                   final query = searchQuery.toLowerCase();
                   final filteredFees = _mockFees.where((fee) {
-                    return query.isEmpty || 
-                           fee['title'].toString().toLowerCase().contains(query) ||
-                           fee['category'].toString().toLowerCase().contains(query);
+                    return query.isEmpty ||
+                        fee['title'].toString().toLowerCase().contains(query) ||
+                        fee['category'].toString().toLowerCase().contains(
+                          query,
+                        );
                   }).toList();
 
                   return ListView(
-                    padding: const EdgeInsets.only(top: 8, left: 24, right: 24, bottom: 120),
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      left: 24,
+                      right: 24,
+                      bottom: 120,
+                    ),
                     physics: const BouncingScrollPhysics(),
                     children: [
                       if (_selectedSegment == 0) ...[
                         _buildSectionHeader('Pending Dues'),
                         const SizedBox(height: 16),
-                        if (filteredFees.where((fee) => fee['status'] != 'Paid').isEmpty)
-                          const Center(child: Padding(padding: EdgeInsets.all(16.0), child: Text("No pending dues!", style: TextStyle(color: Color(0xFF6C6C80))))),
-                        _buildResponsiveList(filteredFees.where((fee) => fee['status'] != 'Paid').toList(), (fee) => _buildPendingCard(fee)),
+                        if (filteredFees
+                            .where((fee) => fee['status'] != 'Paid')
+                            .isEmpty)
+                          const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Text(
+                                "No pending dues!",
+                                style: TextStyle(color: Color(0xFF6C6C80)),
+                              ),
+                            ),
+                          ),
+                        _buildResponsiveList(
+                          filteredFees
+                              .where((fee) => fee['status'] != 'Paid')
+                              .toList(),
+                          (fee) => _buildPendingCard(fee),
+                        ),
                         const SizedBox(height: 24),
                         _buildSectionHeader('Recent Payment History'),
                         const SizedBox(height: 16),
-                        if (filteredFees.where((fee) => fee['status'] == 'Paid').isEmpty)
-                          const Center(child: Padding(padding: EdgeInsets.all(16.0), child: Text("No payment history.", style: TextStyle(color: Color(0xFF6C6C80))))),
-                        _buildResponsiveList(filteredFees.where((fee) => fee['status'] == 'Paid').toList(), (fee) => _buildHistoryCard(fee)),
+                        if (filteredFees
+                            .where((fee) => fee['status'] == 'Paid')
+                            .isEmpty)
+                          const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Text(
+                                "No payment history.",
+                                style: TextStyle(color: Color(0xFF6C6C80)),
+                              ),
+                            ),
+                          ),
+                        _buildResponsiveList(
+                          filteredFees
+                              .where((fee) => fee['status'] == 'Paid')
+                              .toList(),
+                          (fee) => _buildHistoryCard(fee),
+                        ),
                       ] else if (_selectedSegment == 1) ...[
-                        if (filteredFees.where((fee) => fee['status'] != 'Paid').isEmpty)
-                          const Center(child: Padding(padding: EdgeInsets.all(32.0), child: Text("No pending dues!", style: TextStyle(color: Color(0xFF6C6C80))))),
-                        _buildResponsiveList(filteredFees.where((fee) => fee['status'] != 'Paid').toList(), (fee) => _buildPendingCard(fee)),
+                        if (filteredFees
+                            .where((fee) => fee['status'] != 'Paid')
+                            .isEmpty)
+                          const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(32.0),
+                              child: Text(
+                                "No pending dues!",
+                                style: TextStyle(color: Color(0xFF6C6C80)),
+                              ),
+                            ),
+                          ),
+                        _buildResponsiveList(
+                          filteredFees
+                              .where((fee) => fee['status'] != 'Paid')
+                              .toList(),
+                          (fee) => _buildPendingCard(fee),
+                        ),
                       ] else ...[
-                        if (filteredFees.where((fee) => fee['status'] == 'Paid').isEmpty)
-                          const Center(child: Padding(padding: EdgeInsets.all(32.0), child: Text("No payment history.", style: TextStyle(color: Color(0xFF6C6C80))))),
-                        _buildResponsiveList(filteredFees.where((fee) => fee['status'] == 'Paid').toList(), (fee) => _buildHistoryCard(fee)),
+                        if (filteredFees
+                            .where((fee) => fee['status'] == 'Paid')
+                            .isEmpty)
+                          const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(32.0),
+                              child: Text(
+                                "No payment history.",
+                                style: TextStyle(color: Color(0xFF6C6C80)),
+                              ),
+                            ),
+                          ),
+                        _buildResponsiveList(
+                          filteredFees
+                              .where((fee) => fee['status'] == 'Paid')
+                              .toList(),
+                          (fee) => _buildHistoryCard(fee),
+                        ),
                       ],
                     ],
                   );
-                }
+                },
               ),
             ),
           ],
@@ -234,7 +316,10 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
     );
   }
 
-  Widget _buildResponsiveList(List<dynamic> items, Widget Function(dynamic) builder) {
+  Widget _buildResponsiveList(
+    List<dynamic> items,
+    Widget Function(dynamic) builder,
+  ) {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 900) {
@@ -249,9 +334,7 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
             }).toList(),
           );
         } else {
-          return Column(
-            children: items.map((item) => builder(item)).toList(),
-          );
+          return Column(children: items.map((item) => builder(item)).toList());
         }
       },
     );
@@ -260,7 +343,11 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
   Widget _buildSectionHeader(String title) {
     return Text(
       title,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w900,
+        color: Color(0xFF1E1E2D),
+      ),
     );
   }
 
@@ -277,60 +364,72 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
       behavior: HitTestBehavior.opaque,
       child: Container(
         padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: iconBg,
-              borderRadius: BorderRadius.circular(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-            child: Icon(icon, color: iconColor, size: 20),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  value,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  label,
-                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80)),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: iconBg,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: iconColor, size: 20),
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF6C6C80),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 
   Widget _buildPendingCard(Map<String, dynamic> fee) {
     final bool isPaid = fee['status'] == 'Paid';
-    final Color statusColor = isPaid ? const Color(0xFF16A34A) : const Color(0xFFE11D48);
-    final Color statusBg = isPaid ? const Color(0xFFF0FDF4) : const Color(0xFFFFF1F2);
+    final Color statusColor = isPaid
+        ? const Color(0xFF16A34A)
+        : const Color(0xFFE11D48);
+    final Color statusBg = isPaid
+        ? const Color(0xFFF0FDF4)
+        : const Color(0xFFFFF1F2);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -359,7 +458,11 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                   color: const Color(0xFFF8F4FF),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(fee['icon'] as IconData, color: const Color(0xFF6C4CF1), size: 24),
+                child: Icon(
+                  fee['icon'] as IconData,
+                  color: const Color(0xFF6C4CF1),
+                  size: 24,
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -368,25 +471,50 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                   children: [
                     Text(
                       fee['title']?.toString() ?? 'Title',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF1E1E2D),
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       fee['id']?.toString() ?? 'ID',
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80)),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF6C6C80),
+                      ),
                     ),
                     const SizedBox(height: 6),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(4)),
-                      child: Text(fee['category']?.toString() ?? 'Fee', style: const TextStyle(fontSize: 10, color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF3F0FF),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        fee['category']?.toString() ?? 'Fee',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Color(0xFF6C4CF1),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
               Text(
                 fee['amount']?.toString() ?? '₹0',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xFF1E1E2D),
+                ),
               ),
             ],
           ),
@@ -396,21 +524,31 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF3F0FF),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   '#${fee['id']}',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF6C4CF1),
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   fee['description']?.toString() ?? 'No description',
-                  style: const TextStyle(fontSize: 13, color: Color(0xFF6C6C80)),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF6C6C80),
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -426,31 +564,50 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                 children: [
                   const Text(
                     'Due Date',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80)),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF6C6C80),
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(LucideIcons.calendar, size: 14, color: Color(0xFF1E1E2D)),
+                      const Icon(
+                        LucideIcons.calendar,
+                        size: 14,
+                        color: Color(0xFF1E1E2D),
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         fee['dueDate']?.toString() ?? 'Unknown',
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: statusBg,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   fee['status']?.toString() ?? 'Unknown',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: statusColor),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: statusColor,
+                  ),
                 ),
               ),
             ],
@@ -470,7 +627,10 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text('Pay Now', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                child: const Text(
+                  'Pay Now',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],
@@ -502,7 +662,6 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    
                     if (isSuccess) ...[
                       // Success View
                       Container(
@@ -511,12 +670,31 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                           color: Color(0xFFF0FDF4),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(LucideIcons.check, color: Color(0xFF16A34A), size: 48),
+                        child: const Icon(
+                          LucideIcons.check,
+                          color: Color(0xFF16A34A),
+                          size: 48,
+                        ),
                       ),
                       const SizedBox(height: 24),
-                      const Text('Payment Successful!', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                      const Text(
+                        'Payment Successful!',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text('You have successfully paid ${paymentAmountType == 'full' ? fee['amount'] : '₹$customAmount'} for ${fee['title']}.', textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, color: Color(0xFF6C6C80), height: 1.5)),
+                      Text(
+                        'You have successfully paid ${paymentAmountType == 'full' ? fee['amount'] : '₹$customAmount'} for ${fee['title']}.',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF6C6C80),
+                          height: 1.5,
+                        ),
+                      ),
                       const SizedBox(height: 32),
                       SizedBox(
                         width: double.infinity,
@@ -532,9 +710,17 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                             foregroundColor: Colors.white,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
                           ),
-                          child: const Text('Done', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          child: const Text(
+                            'Done',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ] else if (isProcessing) ...[
@@ -542,7 +728,14 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                       const SizedBox(height: 32),
                       const CircularProgressIndicator(color: Color(0xFF6C4CF1)),
                       const SizedBox(height: 24),
-                      const Text('Processing Payment...', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      const Text(
+                        'Processing Payment...',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                       const SizedBox(height: 32),
                     ] else ...[
                       // Payment Selection View
@@ -554,24 +747,55 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(fee['title']?.toString() ?? 'Payment', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                                Text(
+                                  fee['title']?.toString() ?? 'Payment',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xFF1E1E2D),
+                                  ),
+                                ),
                                 const SizedBox(height: 6),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                  decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(4)),
-                                  child: Text(fee['category']?.toString() ?? 'Fee', style: const TextStyle(fontSize: 10, color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold)),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF3F0FF),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    fee['category']?.toString() ?? 'Fee',
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      color: Color(0xFF6C4CF1),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                           GestureDetector(
                             onTap: () => Navigator.pop(context),
-                            child: const Icon(LucideIcons.x, color: Color(0xFF1E1E2D), size: 24),
+                            child: const Icon(
+                              LucideIcons.x,
+                              color: Color(0xFF1E1E2D),
+                              size: 24,
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 24),
-                      const Text('Payment Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                      const Text(
+                        'Payment Amount',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                       const SizedBox(height: 16),
                       Container(
                         padding: const EdgeInsets.all(4),
@@ -584,30 +808,60 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                           children: [
                             Expanded(
                               child: GestureDetector(
-                                onTap: () => setModalState(() => paymentAmountType = 'full'),
+                                onTap: () => setModalState(
+                                  () => paymentAmountType = 'full',
+                                ),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: paymentAmountType == 'full' ? const Color(0xFF6C4CF1) : Colors.transparent,
+                                    color: paymentAmountType == 'full'
+                                        ? const Color(0xFF6C4CF1)
+                                        : Colors.transparent,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Center(
-                                    child: Text('Full', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: paymentAmountType == 'full' ? Colors.white : const Color(0xFF6C6C80))),
+                                    child: Text(
+                                      'Full',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: paymentAmountType == 'full'
+                                            ? Colors.white
+                                            : const Color(0xFF6C6C80),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Expanded(
                               child: GestureDetector(
-                                onTap: () => setModalState(() => paymentAmountType = 'custom'),
+                                onTap: () => setModalState(
+                                  () => paymentAmountType = 'custom',
+                                ),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: paymentAmountType == 'custom' ? const Color(0xFF6C4CF1) : Colors.transparent,
+                                    color: paymentAmountType == 'custom'
+                                        ? const Color(0xFF6C4CF1)
+                                        : Colors.transparent,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Center(
-                                    child: Text('Custom', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: paymentAmountType == 'custom' ? Colors.white : const Color(0xFF6C6C80))),
+                                    child: Text(
+                                      'Custom',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: paymentAmountType == 'custom'
+                                            ? Colors.white
+                                            : const Color(0xFF6C6C80),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -622,21 +876,35 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                           decoration: InputDecoration(
                             hintText: 'Enter amount',
                             prefixText: '₹ ',
-                            prefixStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                            prefixStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E1E2D),
+                            ),
                             filled: true,
                             fillColor: const Color(0xFFF8F9FA),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide: const BorderSide(
+                                color: Color(0xFFE2E8F0),
+                              ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide: const BorderSide(
+                                color: Color(0xFFE2E8F0),
+                              ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 2),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF6C4CF1),
+                                width: 2,
+                              ),
                             ),
                           ),
                           onChanged: (val) {
@@ -650,8 +918,26 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Total to Pay', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80))),
-                          Text(paymentAmountType == 'full' ? fee['amount']?.toString() ?? '' : (customAmount.isEmpty ? '₹0' : '₹$customAmount'), style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                          const Text(
+                            'Total to Pay',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF6C6C80),
+                            ),
+                          ),
+                          Text(
+                            paymentAmountType == 'full'
+                                ? fee['amount']?.toString() ?? ''
+                                : (customAmount.isEmpty
+                                      ? '₹0'
+                                      : '₹$customAmount'),
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 32),
@@ -674,9 +960,17 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                             foregroundColor: Colors.white,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
                           ),
-                          child: Text('Pay ${paymentAmountType == 'full' ? fee['amount']?.toString() ?? '' : (customAmount.isEmpty ? '₹0' : '₹$customAmount')}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          child: Text(
+                            'Pay ${paymentAmountType == 'full' ? fee['amount']?.toString() ?? '' : (customAmount.isEmpty ? '₹0' : '₹$customAmount')}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -692,93 +986,140 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
 
   Widget _buildHistoryCard(Map<String, dynamic> fee) {
     return Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF0FDF4),
+              borderRadius: BorderRadius.circular(12),
             ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0FDF4),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(fee['icon'] as IconData, color: const Color(0xFF16A34A), size: 20),
+            child: Icon(
+              fee['icon'] as IconData,
+              color: const Color(0xFF16A34A),
+              size: 20,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    fee['title']?.toString() ?? 'Title',
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '#${fee['id']}',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
-                  ),
-                  const SizedBox(height: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(4)),
-                    child: Text(fee['category']?.toString() ?? 'Fee', style: const TextStyle(fontSize: 10, color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold)),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Paid on ${fee['dueDate']} • ${fee['paymentMethod'] ?? 'Unknown'}',
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80)),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  fee['amount']?.toString() ?? '₹0',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF16A34A)),
+                  fee['title']?.toString() ?? 'Title',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () => _showInvoiceModal(fee),
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(8)),
-                        child: const Icon(LucideIcons.eye, size: 14, color: Color(0xFF6C4CF1)),
-                      ),
+                const SizedBox(height: 4),
+                Text(
+                  '#${fee['id']}',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF6C4CF1),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF3F0FF),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    fee['category']?.toString() ?? 'Fee',
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Color(0xFF6C4CF1),
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      onTap: () => _simulateDownload('Invoice #${fee['id']}'),
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(8)),
-                        child: const Icon(LucideIcons.download, size: 14, color: Color(0xFF6C4CF1)),
-                      ),
-                    ),
-                  ],
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Paid on ${fee['dueDate']} • ${fee['paymentMethod'] ?? 'Unknown'}',
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF6C6C80),
+                  ),
                 ),
               ],
             ),
-          ],
-        ),
-      );
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                fee['amount']?.toString() ?? '₹0',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xFF16A34A),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () => _showInvoiceModal(fee),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF3F0FF),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        LucideIcons.eye,
+                        size: 14,
+                        color: Color(0xFF6C4CF1),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () => _simulateDownload('Invoice #${fee['id']}'),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF3F0FF),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        LucideIcons.download,
+                        size: 14,
+                        color: Color(0xFF6C4CF1),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   void _showInvoiceModal(Map<String, dynamic> fee) {
@@ -803,28 +1144,65 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                     color: Color(0xFFF0FDF4),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(LucideIcons.receipt, color: Color(0xFF16A34A), size: 32),
+                  child: const Icon(
+                    LucideIcons.receipt,
+                    color: Color(0xFF16A34A),
+                    size: 32,
+                  ),
                 ),
                 const SizedBox(height: 16),
-                const Text('Invoice Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                const Text(
+                  'Invoice Details',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
                 const SizedBox(height: 24),
                 _buildInvoiceRow('Invoice No.', '#${fee['id']}'),
                 const SizedBox(height: 12),
-                _buildInvoiceRow('Category', fee['category']?.toString() ?? 'Fee'),
+                _buildInvoiceRow(
+                  'Category',
+                  fee['category']?.toString() ?? 'Fee',
+                ),
                 const SizedBox(height: 12),
-                _buildInvoiceRow('Description', fee['title']?.toString() ?? 'Payment'),
+                _buildInvoiceRow(
+                  'Description',
+                  fee['title']?.toString() ?? 'Payment',
+                ),
                 const SizedBox(height: 12),
-                _buildInvoiceRow('Date Paid', fee['dueDate']?.toString() ?? 'Unknown'),
+                _buildInvoiceRow(
+                  'Date Paid',
+                  fee['dueDate']?.toString() ?? 'Unknown',
+                ),
                 const SizedBox(height: 12),
-                _buildInvoiceRow('Payment Method', fee['paymentMethod']?.toString() ?? 'Unknown'),
+                _buildInvoiceRow(
+                  'Payment Method',
+                  fee['paymentMethod']?.toString() ?? 'Unknown',
+                ),
                 const SizedBox(height: 16),
                 const Divider(color: Color(0xFFF3EEFF), thickness: 1.5),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Total Paid', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                    Text(fee['amount']?.toString() ?? '₹0', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF16A34A))),
+                    const Text(
+                      'Total Paid',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
+                    Text(
+                      fee['amount']?.toString() ?? '₹0',
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF16A34A),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 32),
@@ -837,9 +1215,17 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
                       foregroundColor: const Color(0xFF6C4CF1),
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
-                    child: const Text('Close', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Close',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -854,8 +1240,22 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80))),
-        Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF6C6C80),
+          ),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
       ],
     );
   }
@@ -873,10 +1273,7 @@ class _FeePaymentsScreenState extends State<FeePaymentsScreen> {
         child: Center(
           child: Text(
             title,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
         ),
       ),

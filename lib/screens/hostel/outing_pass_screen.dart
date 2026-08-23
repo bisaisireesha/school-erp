@@ -30,7 +30,9 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
 
   Future<void> _loadOutingPasses() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/hostel_outing_passes.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/hostel_outing_passes.json',
+      );
       final data = await json.decode(response);
       if (mounted) {
         setState(() {
@@ -64,31 +66,48 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
     if (_isLoading) {
       return Container(
         color: Colors.transparent,
-        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+        child: const Center(
+          child: CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+        ),
       );
     }
-    
+
     List<Map<String, dynamic>> filteredList = _outingPasses;
     if (_selectedFilter == 1) {
-      filteredList = _outingPasses.where((p) => p['status'] == 'Pending').toList();
+      filteredList = _outingPasses
+          .where((p) => p['status'] == 'Pending')
+          .toList();
     } else if (_selectedFilter == 2) {
-      filteredList = _outingPasses.where((p) => p['status'] == 'Approved').toList();
+      filteredList = _outingPasses
+          .where((p) => p['status'] == 'Approved')
+          .toList();
     } else if (_selectedFilter == 3) {
-      filteredList = _outingPasses.where((p) => p['status'] == 'Rejected').toList();
+      filteredList = _outingPasses
+          .where((p) => p['status'] == 'Rejected')
+          .toList();
     }
 
     if (_searchQuery.isNotEmpty) {
       final query = _searchQuery.toLowerCase();
-      filteredList = filteredList.where((p) => 
-        p['studentName'].toString().toLowerCase().contains(query) ||
-        p['reason'].toString().toLowerCase().contains(query) ||
-        p['destination'].toString().toLowerCase().contains(query)
-      ).toList();
+      filteredList = filteredList
+          .where(
+            (p) =>
+                p['studentName'].toString().toLowerCase().contains(query) ||
+                p['reason'].toString().toLowerCase().contains(query) ||
+                p['destination'].toString().toLowerCase().contains(query),
+          )
+          .toList();
     }
 
-    int pendingCount = _outingPasses.where((p) => p['status'] == 'Pending').length;
-    int approvedCount = _outingPasses.where((p) => p['status'] == 'Approved').length;
-    int rejectedCount = _outingPasses.where((p) => p['status'] == 'Rejected').length;
+    int pendingCount = _outingPasses
+        .where((p) => p['status'] == 'Pending')
+        .length;
+    int approvedCount = _outingPasses
+        .where((p) => p['status'] == 'Approved')
+        .length;
+    int rejectedCount = _outingPasses
+        .where((p) => p['status'] == 'Rejected')
+        .length;
 
     return Container(
       color: Colors.transparent,
@@ -111,25 +130,50 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
                         ),
-                        child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     const Expanded(
-                      child: Text('Hostel Outing Passes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      child: Text(
+                        'Hostel Outing Passes',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                     ),
                     ElevatedButton.icon(
                       onPressed: _showIssuePassModal,
                       icon: const Icon(Icons.add_rounded, size: 16),
-                      label: const Text('Issue Pass', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                      label: const Text(
+                        'Issue Pass',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),
                         foregroundColor: Colors.white,
                         elevation: 0,
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ],
@@ -145,11 +189,25 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: _buildKpiCard('Total Outings', '${_outingPasses.length}', LucideIcons.fileText, const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), 0),
+                          child: _buildKpiCard(
+                            'Total Outings',
+                            '${_outingPasses.length}',
+                            LucideIcons.fileText,
+                            const Color(0xFF6C4CF1),
+                            const Color(0xFFF3F0FF),
+                            0,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: _buildKpiCard('Pending', '$pendingCount', LucideIcons.clock, const Color(0xFFD97706), const Color(0xFFFEF3C7), 1),
+                          child: _buildKpiCard(
+                            'Pending',
+                            '$pendingCount',
+                            LucideIcons.clock,
+                            const Color(0xFFD97706),
+                            const Color(0xFFFEF3C7),
+                            1,
+                          ),
                         ),
                       ],
                     ),
@@ -157,11 +215,25 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: _buildKpiCard('Approved', '$approvedCount', LucideIcons.checkCircle2, const Color(0xFF16A34A), const Color(0xFFDCFCE7), 2),
+                          child: _buildKpiCard(
+                            'Approved',
+                            '$approvedCount',
+                            LucideIcons.checkCircle2,
+                            const Color(0xFF16A34A),
+                            const Color(0xFFDCFCE7),
+                            2,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: _buildKpiCard('Rejected', '$rejectedCount', LucideIcons.xCircle, const Color(0xFFE11D48), const Color(0xFFFFE4E6), 3),
+                          child: _buildKpiCard(
+                            'Rejected',
+                            '$rejectedCount',
+                            LucideIcons.xCircle,
+                            const Color(0xFFE11D48),
+                            const Color(0xFFFFE4E6),
+                            3,
+                          ),
                         ),
                       ],
                     ),
@@ -178,7 +250,10 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
+                    border: Border.all(
+                      color: const Color(0xFFF1F5F9),
+                      width: 1.5,
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -199,11 +274,20 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                     ? Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 40),
-                          child: Text('No outing passes found', style: TextStyle(color: Colors.grey.shade500, fontSize: 15, fontWeight: FontWeight.w500)),
+                          child: Text(
+                            'No outing passes found',
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       )
                     : Column(
-                        children: filteredList.map((pass) => _buildOutingPassCard(pass)).toList(),
+                        children: filteredList
+                            .map((pass) => _buildOutingPassCard(pass))
+                            .toList(),
                       ),
               ),
             ],
@@ -213,7 +297,14 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
     );
   }
 
-  Widget _buildKpiCard(String label, String count, IconData icon, Color textColor, Color bgColor, int filterIndex) {
+  Widget _buildKpiCard(
+    String label,
+    String count,
+    IconData icon,
+    Color textColor,
+    Color bgColor,
+    int filterIndex,
+  ) {
     return GestureDetector(
       onTap: () => setState(() => _selectedFilter = filterIndex),
       child: Container(
@@ -222,13 +313,22 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFE2E8F0)),
-          boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Icon(icon, color: textColor, size: 20),
             ),
             const SizedBox(width: 12),
@@ -236,8 +336,24 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                  Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(
+                    count,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF6C6C80),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
@@ -286,8 +402,12 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
       initials = name.substring(0, name.length >= 2 ? 2 : 1).toUpperCase();
     }
 
-    Color statusColor = isApproved ? const Color(0xFF16A34A) : (isPending ? const Color(0xFFD97706) : const Color(0xFFE11D48));
-    Color statusBg = isApproved ? const Color(0xFFDCFCE7) : (isPending ? const Color(0xFFFEF3C7) : const Color(0xFFFFE4E6));
+    Color statusColor = isApproved
+        ? const Color(0xFF16A34A)
+        : (isPending ? const Color(0xFFD97706) : const Color(0xFFE11D48));
+    Color statusBg = isApproved
+        ? const Color(0xFFDCFCE7)
+        : (isPending ? const Color(0xFFFEF3C7) : const Color(0xFFFFE4E6));
 
     return GestureDetector(
       onTap: () {
@@ -295,201 +415,324 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF64748B).withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Row (Avatar + Name + Status Pill)
-          Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF3F0FF),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    initials,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(name, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                        const SizedBox(width: 6),
-                        const Icon(LucideIcons.shieldCheck, color: Color(0xFF16A34A), size: 16),
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                    Text('${pass['roomInfo']} • ${pass['parentApproval']}', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80))),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(10)),
-                child: Text(status, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: statusColor)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-
-          // Reason Pill Row
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF3F0FF),
-              borderRadius: BorderRadius.circular(8),
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF64748B).withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(LucideIcons.fileText, size: 13, color: Color(0xFF6C4CF1)),
-                const SizedBox(width: 6),
-                Text(pass['reason'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
-
-          // Date Range Row
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF8F9FA),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFF3EEFF)),
-            ),
-            child: Row(
-              children: [
-                const Icon(LucideIcons.calendar, size: 14, color: Color(0xFF6C4CF1)),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    '${pass['fromDate']}  →  ${pass['toDate']}',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // Action Buttons
-          if (isPending) ...[
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header Row (Avatar + Name + Status Pill)
             Row(
               children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () => _updatePassStatus(pass, 'Approved'),
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF16A34A),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(color: const Color(0xFF16A34A).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3)),
-                        ],
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(LucideIcons.checkCircle2, size: 16, color: Colors.white),
-                          SizedBox(width: 6),
-                          Text('Approve', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.white)),
-                        ],
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF3F0FF),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      initials,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF6C4CF1),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: InkWell(
-                    onTap: () => _updatePassStatus(pass, 'Rejected'),
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFE11D48).withValues(alpha: 0.5), width: 1),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          Icon(LucideIcons.xCircle, size: 16, color: Color(0xFFE11D48)),
-                          SizedBox(width: 6),
-                          Text('Reject', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFFE11D48))),
+                          Text(
+                            name,
+                            style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          const Icon(
+                            LucideIcons.shieldCheck,
+                            color: Color(0xFF16A34A),
+                            size: 16,
+                          ),
                         ],
                       ),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${pass['roomInfo']} • ${pass['parentApproval']}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF6C6C80),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: statusBg,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    status,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      color: statusColor,
                     ),
                   ),
                 ),
               ],
             ),
-          ] else ...[
-            Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () => _showGatePassModal(pass),
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF6C4CF1).withValues(alpha: 0.3), width: 1),
-                        borderRadius: BorderRadius.circular(12),
-                        color: const Color(0xFFF8F7FF),
+            const SizedBox(height: 14),
+
+            // Reason Pill Row
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF3F0FF),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    LucideIcons.fileText,
+                    size: 13,
+                    color: Color(0xFF6C4CF1),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    pass['reason'],
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF6C4CF1),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+
+            // Date Range Row
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8F9FA),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFF3EEFF)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    LucideIcons.calendar,
+                    size: 14,
+                    color: Color(0xFF6C4CF1),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '${pass['fromDate']}  →  ${pass['toDate']}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
                       ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(LucideIcons.eye, size: 16, color: Color(0xFF6C4CF1)),
-                          SizedBox(width: 8),
-                          Text('View Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF6C4CF1))),
-                        ],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Action Buttons
+            if (isPending) ...[
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => _updatePassStatus(pass, 'Approved'),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF16A34A),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(
+                                0xFF16A34A,
+                              ).withValues(alpha: 0.3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              LucideIcons.checkCircle2,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              'Approve',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => _updatePassStatus(pass, 'Rejected'),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(
+                              0xFFE11D48,
+                            ).withValues(alpha: 0.5),
+                            width: 1,
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              LucideIcons.xCircle,
+                              size: 16,
+                              color: Color(0xFFE11D48),
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              'Reject',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Color(0xFFE11D48),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ] else ...[
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => _showGatePassModal(pass),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color(
+                              0xFF6C4CF1,
+                            ).withValues(alpha: 0.3),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          color: const Color(0xFFF8F7FF),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              LucideIcons.eye,
+                              size: 16,
+                              color: Color(0xFF6C4CF1),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'View Details',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Color(0xFF6C4CF1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ],
-        ],
+        ),
       ),
-    ));
+    );
   }
 
+// ignore: unused_element
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
         Icon(icon, size: 16, color: const Color(0xFF6C4CF1)),
         const SizedBox(width: 8),
-        Text('$label: ', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80))),
-        Expanded(child: Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D)), maxLines: 1, overflow: TextOverflow.ellipsis)),
+        Text(
+          '$label: ',
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF6C6C80),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF1E1E2D),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }
@@ -499,7 +742,11 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
       pass['status'] = newStatus;
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Outing Pass for ${pass['studentName']} set to $newStatus')),
+      SnackBar(
+        content: Text(
+          'Outing Pass for ${pass['studentName']} set to $newStatus',
+        ),
+      ),
     );
   }
 
@@ -538,10 +785,17 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                 children: [
                   const Text(
                     'Issue New Outpass',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close_rounded, color: Color(0xFF6C6C80)),
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      color: Color(0xFF6C6C80),
+                    ),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -549,7 +803,11 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
               const SizedBox(height: 4),
               const Text(
                 'Fill out the details below to manually issue an outpass.',
-                style: TextStyle(fontSize: 13, color: Color(0xFF6C6C80), fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF6C6C80),
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               const SizedBox(height: 20),
 
@@ -596,7 +854,11 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
               // Description (Optional)
               _buildFormLabel('Description (Optional)'),
               const SizedBox(height: 6),
-              _buildFormField(descController, 'Additional details...', maxLines: 3),
+              _buildFormField(
+                descController,
+                'Additional details...',
+                maxLines: 3,
+              ),
               const SizedBox(height: 16),
 
               // Start Date & End Date Row
@@ -620,7 +882,8 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                               lastDate: DateTime(2027),
                             );
                             if (date != null) {
-                              startDateController.text = "${date.day}/${date.month}/${date.year}";
+                              startDateController.text =
+                                  "${date.day}/${date.month}/${date.year}";
                             }
                           },
                         ),
@@ -641,12 +904,15 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                           onTap: () async {
                             final date = await showDatePicker(
                               context: context,
-                              initialDate: DateTime.now().add(const Duration(days: 2)),
+                              initialDate: DateTime.now().add(
+                                const Duration(days: 2),
+                              ),
                               firstDate: DateTime(2026),
                               lastDate: DateTime(2027),
                             );
                             if (date != null) {
-                              endDateController.text = "${date.day}/${date.month}/${date.year}";
+                              endDateController.text =
+                                  "${date.day}/${date.month}/${date.year}";
                             }
                           },
                         ),
@@ -675,10 +941,18 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: const Color(0xFF1E1E2D),
                       side: const BorderSide(color: Color(0xFFE2E8F0)),
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 14,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   ElevatedButton(
@@ -691,28 +965,47 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                         _outingPasses.insert(0, {
                           'id': 'OUT-2026-${_outingPasses.length + 1}',
                           'studentName': name,
-                          'roomInfo': '${blockController.text.trim().isNotEmpty ? blockController.text.trim() : "Block B"} - Room ${roomController.text.trim().isNotEmpty ? roomController.text.trim() : "204"}',
-                          'reason': reasonController.text.trim().isNotEmpty ? reasonController.text.trim() : 'Personal Outing',
+                          'roomInfo':
+                              '${blockController.text.trim().isNotEmpty ? blockController.text.trim() : "Block B"} - Room ${roomController.text.trim().isNotEmpty ? roomController.text.trim() : "204"}',
+                          'reason': reasonController.text.trim().isNotEmpty
+                              ? reasonController.text.trim()
+                              : 'Personal Outing',
                           'destination': 'Home / Authorized Location',
-                          'fromDate': startDateController.text.trim().isNotEmpty ? startDateController.text.trim() : '31 Jul, 2026',
-                          'toDate': endDateController.text.trim().isNotEmpty ? endDateController.text.trim() : '02 Aug, 2026',
+                          'fromDate': startDateController.text.trim().isNotEmpty
+                              ? startDateController.text.trim()
+                              : '31 Jul, 2026',
+                          'toDate': endDateController.text.trim().isNotEmpty
+                              ? endDateController.text.trim()
+                              : '02 Aug, 2026',
                           'parentApproval': 'Parent Approved',
                           'status': 'Approved',
                         });
                       });
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Outpass issued successfully for $name!')),
+                        SnackBar(
+                          content: Text(
+                            'Outpass issued successfully for $name!',
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF6C4CF1),
                       foregroundColor: Colors.white,
                       elevation: 0,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 14,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    child: const Text('Save Outpass', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Save Outpass',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -727,7 +1020,11 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
   Widget _buildFormLabel(String label) {
     return Text(
       label,
-      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+      style: const TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.bold,
+        color: Color(0xFF1E1E2D),
+      ),
     );
   }
 
@@ -745,11 +1042,20 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
       onTap: onTap,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(color: Color(0xFF9E9E9E), fontSize: 13, fontWeight: FontWeight.w500),
+        hintStyle: const TextStyle(
+          color: Color(0xFF9E9E9E),
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+        ),
         filled: true,
         fillColor: const Color(0xFFF8F9FA),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        suffixIcon: suffixIcon != null ? Icon(suffixIcon, color: const Color(0xFF6C6C80), size: 18) : null,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 12,
+        ),
+        suffixIcon: suffixIcon != null
+            ? Icon(suffixIcon, color: const Color(0xFF6C6C80), size: 18)
+            : null,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: Color(0xFFF1F5F9)),
@@ -788,10 +1094,17 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                 children: [
                   const Text(
                     'Outing Pass Details',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close_rounded, color: Color(0xFF6C6C80)),
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      color: Color(0xFF6C6C80),
+                    ),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -804,7 +1117,10 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
+                  border: Border.all(
+                    color: const Color(0xFFF1F5F9),
+                    width: 1.5,
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color(0xFF64748B).withValues(alpha: 0.05),
@@ -824,8 +1140,15 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          pass['studentName'].toString().substring(0, 2).toUpperCase(),
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1)),
+                          pass['studentName']
+                              .toString()
+                              .substring(0, 2)
+                              .toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF6C4CF1),
+                          ),
                         ),
                       ),
                     ),
@@ -834,9 +1157,23 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(pass['studentName'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                          Text(
+                            pass['studentName'],
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                           const SizedBox(height: 4),
-                          Text('${pass['roomInfo']} • ${pass['parentApproval']}', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80))),
+                          Text(
+                            '${pass['roomInfo']} • ${pass['parentApproval']}',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF6C6C80),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -851,7 +1188,10 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
+                  border: Border.all(
+                    color: const Color(0xFFF1F5F9),
+                    width: 1.5,
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color(0xFF64748B).withValues(alpha: 0.05),
@@ -862,15 +1202,35 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                 ),
                 child: Column(
                   children: [
-                    _buildDetailRow(LucideIcons.fileText, 'Pass ID', pass['id']),
+                    _buildDetailRow(
+                      LucideIcons.fileText,
+                      'Pass ID',
+                      pass['id'],
+                    ),
                     const Divider(color: Color(0xFFF1F5F9), height: 20),
-                    _buildDetailRow(LucideIcons.shieldCheck, 'Parent Status', pass['parentApproval']),
+                    _buildDetailRow(
+                      LucideIcons.shieldCheck,
+                      'Parent Status',
+                      pass['parentApproval'],
+                    ),
                     const Divider(color: Color(0xFFF1F5F9), height: 20),
-                    _buildDetailRow(LucideIcons.tag, 'Outing Reason', pass['reason']),
+                    _buildDetailRow(
+                      LucideIcons.tag,
+                      'Outing Reason',
+                      pass['reason'],
+                    ),
                     const Divider(color: Color(0xFFF1F5F9), height: 20),
-                    _buildDetailRow(LucideIcons.calendar, 'From Date', pass['fromDate']),
+                    _buildDetailRow(
+                      LucideIcons.calendar,
+                      'From Date',
+                      pass['fromDate'],
+                    ),
                     const Divider(color: Color(0xFFF1F5F9), height: 20),
-                    _buildDetailRow(LucideIcons.calendarCheck, 'To Date', pass['toDate']),
+                    _buildDetailRow(
+                      LucideIcons.calendarCheck,
+                      'To Date',
+                      pass['toDate'],
+                    ),
                   ],
                 ),
               ),
@@ -886,9 +1246,14 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
                     foregroundColor: Colors.white,
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                  child: const Text('Close Details', style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'Close Details',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
@@ -904,11 +1269,22 @@ class _OutingPassScreenState extends State<OutingPassScreen> {
       children: [
         Icon(icon, size: 16, color: const Color(0xFF6C4CF1)),
         const SizedBox(width: 10),
-        Text('$label: ', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80))),
+        Text(
+          '$label: ',
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF6C6C80),
+          ),
+        ),
         Expanded(
           child: Text(
             value,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF1E1E2D)),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF1E1E2D),
+            ),
             textAlign: TextAlign.right,
           ),
         ),

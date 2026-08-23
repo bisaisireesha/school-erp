@@ -1,0 +1,10 @@
+[
+  {
+    "deposit_id": "DEP-001",
+    "amount": 40000.0,
+    "bank": "HDFC Bank",
+    "deposited_by": "Admin-1",
+    "date": "2023-08-18",
+    "status": "Confirmed"
+  }
+]

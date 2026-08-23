@@ -38,7 +38,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                 child: _buildStudentDetailsCard(context),
               ),
               const SizedBox(height: 24),
-              
+
               if (isDesktop)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -115,11 +115,25 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
         GestureDetector(
           onTap: onSeeAll,
           behavior: HitTestBehavior.opaque,
-          child: const Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+          child: const Text(
+            'See all',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF6C4CF1),
+            ),
+          ),
         ),
       ],
     );
@@ -172,14 +186,21 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                     const Expanded(
                       child: Text(
                         'Akshara',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE8F5E9),
                         borderRadius: BorderRadius.circular(12),
@@ -187,9 +208,20 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: const [
-                          Icon(Icons.check_circle_rounded, color: Color(0xFF4CAF50), size: 14),
+                          Icon(
+                            Icons.check_circle_rounded,
+                            color: Color(0xFF4CAF50),
+                            size: 14,
+                          ),
                           SizedBox(width: 4),
-                          Text('Present', style: TextStyle(color: Color(0xFF4CAF50), fontWeight: FontWeight.w800, fontSize: 11)),
+                          Text(
+                            'Present',
+                            style: TextStyle(
+                              color: Color(0xFF4CAF50),
+                              fontWeight: FontWeight.w800,
+                              fontSize: 11,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -214,20 +246,61 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Today\'s Schedule', onSeeAll: () => MainLayout.pushSubScreen(context, TimetableScreen(onBack: () => MainLayout.popSubScreen(context)))),
+        _buildSectionHeader(
+          'Today\'s Schedule',
+          onSeeAll: () => MainLayout.pushSubScreen(
+            context,
+            TimetableScreen(onBack: () => MainLayout.popSubScreen(context)),
+          ),
+        ),
         const SizedBox(height: 16),
-        _buildFullWidthScheduleCard('08:30 AM - 09:15 AM', 'Mathematics', 'Room 201', const Color(0xFF6C4CF1), const Color(0xFFF3F0FF), Icons.calculate_outlined),
+        _buildFullWidthScheduleCard(
+          '08:30 AM - 09:15 AM',
+          'Mathematics',
+          'Room 201',
+          const Color(0xFF6C4CF1),
+          const Color(0xFFF3F0FF),
+          Icons.calculate_outlined,
+        ),
         const SizedBox(height: 12),
-        _buildFullWidthScheduleCard('09:30 AM - 10:15 AM', 'Science', 'Room 202', const Color(0xFF11B136), const Color(0xFFE8F5E9), Icons.science_outlined),
+        _buildFullWidthScheduleCard(
+          '09:30 AM - 10:15 AM',
+          'Science',
+          'Room 202',
+          const Color(0xFF11B136),
+          const Color(0xFFE8F5E9),
+          Icons.science_outlined,
+        ),
         const SizedBox(height: 12),
-        _buildFullWidthScheduleCard('10:30 AM - 11:15 AM', 'English', 'Room 203', const Color(0xFFF59E0B), const Color(0xFFFFFBEB), Icons.book_outlined),
+        _buildFullWidthScheduleCard(
+          '10:30 AM - 11:15 AM',
+          'English',
+          'Room 203',
+          const Color(0xFFF59E0B),
+          const Color(0xFFFFFBEB),
+          Icons.book_outlined,
+        ),
         const SizedBox(height: 12),
-        _buildFullWidthScheduleCard('11:30 AM - 12:15 PM', 'History', 'Room 204', const Color(0xFF3B82F6), const Color(0xFFEFF6FF), Icons.public_outlined),
+        _buildFullWidthScheduleCard(
+          '11:30 AM - 12:15 PM',
+          'History',
+          'Room 204',
+          const Color(0xFF3B82F6),
+          const Color(0xFFEFF6FF),
+          Icons.public_outlined,
+        ),
       ],
     );
   }
 
-  Widget _buildFullWidthScheduleCard(String time, String subject, String room, Color color, Color bgColor, IconData icon) {
+  Widget _buildFullWidthScheduleCard(
+    String time,
+    String subject,
+    String room,
+    Color color,
+    Color bgColor,
+    IconData icon,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -258,14 +331,32 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(subject, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                Text(
+                  subject,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
                 const SizedBox(height: 6),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.access_time_rounded, size: 14, color: Color(0xFF6C6C80)),
+                    const Icon(
+                      Icons.access_time_rounded,
+                      size: 14,
+                      color: Color(0xFF6C6C80),
+                    ),
                     const SizedBox(width: 4),
-                    Text(time, style: const TextStyle(fontSize: 13, color: Color(0xFF6C6C80), fontWeight: FontWeight.w600)),
+                    Text(
+                      time,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF6C6C80),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -281,9 +372,20 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.location_on_rounded, size: 14, color: Color(0xFF4A4A68)),
+                const Icon(
+                  Icons.location_on_rounded,
+                  size: 14,
+                  color: Color(0xFF4A4A68),
+                ),
                 const SizedBox(width: 4),
-                Text(room, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF4A4A68))),
+                Text(
+                  room,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF4A4A68),
+                  ),
+                ),
               ],
             ),
           ),
@@ -292,11 +394,18 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
     );
   }
 
+// ignore: unused_element
   Widget _buildTodaysActivitySection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Today\'s Activity', onSeeAll: () => MainLayout.pushSubScreen(context, ActivityScreen(onBack: () => MainLayout.popSubScreen(context)))),
+        _buildSectionHeader(
+          'Today\'s Activity',
+          onSeeAll: () => MainLayout.pushSubScreen(
+            context,
+            ActivityScreen(onBack: () => MainLayout.popSubScreen(context)),
+          ),
+        ),
         const SizedBox(height: 16),
         Container(
           decoration: BoxDecoration(
@@ -350,10 +459,18 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                 iconColor: const Color(0xFF0EA5E9),
                 iconBg: const Color(0xFFE0F2FE),
                 title: 'Today\'s Classes',
-                valueRichText: const TextSpan(text: '6 Classes', style: TextStyle(color: Color(0xFF1E1E2D))),
+                valueRichText: const TextSpan(
+                  text: '6 Classes',
+                  style: TextStyle(color: Color(0xFF1E1E2D)),
+                ),
                 bottomText: 'Next: Science',
                 bottomTextColor: const Color(0xFF4A4A68),
-                onTap: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context))),
+                onTap: () => MainLayout.pushSubScreen(
+                  context,
+                  CalendarScreen(
+                    onBack: () => MainLayout.popSubScreen(context),
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -363,10 +480,18 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                 iconColor: const Color(0xFFF59E0B),
                 iconBg: const Color(0xFFFEF3C7),
                 title: 'Pending Homework',
-                valueRichText: const TextSpan(text: '2 Tasks', style: TextStyle(color: Color(0xFF1E1E2D))),
+                valueRichText: const TextSpan(
+                  text: '2 Tasks',
+                  style: TextStyle(color: Color(0xFF1E1E2D)),
+                ),
                 bottomText: 'Maths, Science',
                 bottomTextColor: const Color(0xFF4A4A68),
-                onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
+                onTap: () => MainLayout.pushSubScreen(
+                  context,
+                  HomeworkScreen(
+                    onBack: () => MainLayout.popSubScreen(context),
+                  ),
+                ),
               ),
             ),
           ],
@@ -380,10 +505,16 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                 iconColor: const Color(0xFF6C4CF1),
                 iconBg: const Color(0xFFF3F0FF),
                 title: 'Next Exam',
-                valueRichText: const TextSpan(text: 'Unit Test', style: TextStyle(color: Color(0xFF1E1E2D))),
+                valueRichText: const TextSpan(
+                  text: 'Unit Test',
+                  style: TextStyle(color: Color(0xFF1E1E2D)),
+                ),
                 bottomText: 'Starts 12 May',
                 bottomTextColor: const Color(0xFF4A4A68),
-                onTap: () => MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context))),
+                onTap: () => MainLayout.pushSubScreen(
+                  context,
+                  ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -393,10 +524,18 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                 iconColor: const Color(0xFF11B136),
                 iconBg: const Color(0xFFE8F5E9),
                 title: 'Attendance',
-                valueRichText: const TextSpan(text: '92%', style: TextStyle(color: Color(0xFF1E1E2D))),
+                valueRichText: const TextSpan(
+                  text: '92%',
+                  style: TextStyle(color: Color(0xFF1E1E2D)),
+                ),
                 bottomText: 'Present 23 days',
                 bottomTextColor: const Color(0xFF4A4A68),
-                onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))),
+                onTap: () => MainLayout.pushSubScreen(
+                  context,
+                  AttendanceScreen(
+                    onBack: () => MainLayout.popSubScreen(context),
+                  ),
+                ),
               ),
             ),
           ],
@@ -409,7 +548,13 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Recent Homework', onSeeAll: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)))),
+        _buildSectionHeader(
+          'Recent Homework',
+          onSeeAll: () => MainLayout.pushSubScreen(
+            context,
+            HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
+          ),
+        ),
         const SizedBox(height: 16),
         Container(
           decoration: BoxDecoration(
@@ -448,9 +593,18 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
     );
   }
 
-  Widget _buildCompactHomeworkRow({required String subject, required String title, required String dueDate, required Color iconColor, required Color iconBg}) {
+  Widget _buildCompactHomeworkRow({
+    required String subject,
+    required String title,
+    required String dueDate,
+    required Color iconColor,
+    required Color iconBg,
+  }) {
     return GestureDetector(
-      onTap: () => MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context))),
+      onTap: () => MainLayout.pushSubScreen(
+        context,
+        HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
+      ),
       behavior: HitTestBehavior.opaque,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -458,29 +612,70 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)),
-              child: Icon(Icons.assignment_outlined, color: iconColor, size: 20),
+              decoration: BoxDecoration(
+                color: iconBg,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                Icons.assignment_outlined,
+                color: iconColor,
+                size: 20,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Text(subject, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: iconColor)),
+                      Text(
+                        subject,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: iconColor,
+                        ),
+                      ),
                       const SizedBox(width: 8),
-                      Container(width: 4, height: 4, decoration: const BoxDecoration(color: Color(0xFFD1D5DB), shape: BoxShape.circle)),
+                      Container(
+                        width: 4,
+                        height: 4,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFD1D5DB),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                       const SizedBox(width: 8),
-                      Text(dueDate, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFFFF5630))),
+                      Text(
+                        dueDate,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFFFF5630),
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFFD1D5DB), size: 14),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Color(0xFFD1D5DB),
+              size: 14,
+            ),
           ],
         ),
       ),
@@ -514,70 +709,102 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             ),
           ],
         ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: iconBg,
-                  borderRadius: BorderRadius.circular(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: iconBg,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(icon, color: iconColor, size: 20),
                 ),
-                child: Icon(icon, color: iconColor, size: 20),
-              ),
-              Container(
-                padding: const EdgeInsets.all(4),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFFF8F9FA),
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFF8F9FA),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Color(0xFF9CA3AF),
+                    size: 10,
+                  ),
                 ),
-                child: const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF9CA3AF), size: 10),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF6B7280),
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF6B7280)), maxLines: 1, overflow: TextOverflow.ellipsis),
-          const SizedBox(height: 4),
-          RichText(
-            text: TextSpan(
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, fontFamily: 'Inter', color: Color(0xFF111827)),
-              children: [valueRichText],
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: bottomTextColor.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              bottomText,
-              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: bottomTextColor),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-          ),
-        ],
+            const SizedBox(height: 4),
+            RichText(
+              text: TextSpan(
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Inter',
+                  color: Color(0xFF111827),
+                ),
+                children: [valueRichText],
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: bottomTextColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                bottomText,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: bottomTextColor,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 
-  Widget _buildActivityRow({required IconData icon, required Color iconColor, required Color iconBg, required String title, required String subtitle, required String time}) {
+  Widget _buildActivityRow({
+    required IconData icon,
+    required Color iconColor,
+    required Color iconBg,
+    required String title,
+    required String subtitle,
+    required String time,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: iconBg,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Icon(icon, color: iconColor, size: 24),
           ),
           const SizedBox(width: 12),
@@ -585,18 +812,39 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
                 const SizedBox(height: 2),
-                Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+                Text(
+                  subtitle,
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                ),
               ],
             ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(time, style: TextStyle(fontSize: 11, color: Colors.grey.shade500, fontWeight: FontWeight.bold)),
+              Text(
+                time,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 4),
-              const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF9E9E9E), size: 14),
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Color(0xFF9E9E9E),
+                size: 14,
+              ),
             ],
           ),
         ],
@@ -623,7 +871,14 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Quick Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+          const Text(
+            'Quick Actions',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 24),
           GridView.count(
             crossAxisCount: 4,
@@ -634,30 +889,101 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             crossAxisSpacing: 8,
             childAspectRatio: 0.70,
             children: [
-              _buildActionItem(Icons.menu_book_rounded, 'Subjects', onTap: () {
-                MainLayout.pushSubScreen(context, SubjectsScreen(onBack: () => MainLayout.popSubScreen(context)));
-              }),
-              _buildActionItem(Icons.event_available_outlined, 'Attendance', onTap: () {
-                MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context)));
-              }),
-              _buildActionItem(Icons.assignment_outlined, 'Grades', onTap: () {
-                MainLayout.pushSubScreen(context, ExamsScreen(onBack: () => MainLayout.popSubScreen(context)));
-              }),
-              _buildActionItem(Icons.menu_book_rounded, 'Homework', onTap: () {
-                MainLayout.pushSubScreen(context, HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)));
-              }),
-              _buildActionItem(Icons.calendar_today_outlined, 'Events', onTap: () {
-                MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context)));
-              }),
-              _buildActionItem(Icons.campaign_outlined, 'Notices', onTap: () {
-                MainLayout.pushSubScreen(context, MessagesScreen(onBack: () => MainLayout.popSubScreen(context)));
-              }),
-              _buildActionItem(Icons.directions_bus_outlined, 'Transport', onTap: () {
-                MainLayout.pushSubScreen(context, TransportScreen(onBack: () => MainLayout.popSubScreen(context)));
-              }),
-              _buildActionItem(Icons.local_library_outlined, 'Library', onTap: () {
-                MainLayout.pushSubScreen(context, LibraryScreen(onBack: () => MainLayout.popSubScreen(context), isStudentPortal: true));
-              }),
+              _buildActionItem(
+                Icons.menu_book_rounded,
+                'Subjects',
+                onTap: () {
+                  MainLayout.pushSubScreen(
+                    context,
+                    SubjectsScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+              ),
+              _buildActionItem(
+                Icons.event_available_outlined,
+                'Attendance',
+                onTap: () {
+                  MainLayout.pushSubScreen(
+                    context,
+                    AttendanceScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+              ),
+              _buildActionItem(
+                Icons.assignment_outlined,
+                'Grades',
+                onTap: () {
+                  MainLayout.pushSubScreen(
+                    context,
+                    ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+                  );
+                },
+              ),
+              _buildActionItem(
+                Icons.menu_book_rounded,
+                'Homework',
+                onTap: () {
+                  MainLayout.pushSubScreen(
+                    context,
+                    HomeworkScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+              ),
+              _buildActionItem(
+                Icons.calendar_today_outlined,
+                'Events',
+                onTap: () {
+                  MainLayout.pushSubScreen(
+                    context,
+                    CalendarScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+              ),
+              _buildActionItem(
+                Icons.campaign_outlined,
+                'Notices',
+                onTap: () {
+                  MainLayout.pushSubScreen(
+                    context,
+                    MessagesScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+              ),
+              _buildActionItem(
+                Icons.directions_bus_outlined,
+                'Transport',
+                onTap: () {
+                  MainLayout.pushSubScreen(
+                    context,
+                    TransportScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+              ),
+              _buildActionItem(
+                Icons.local_library_outlined,
+                'Library',
+                onTap: () {
+                  MainLayout.pushSubScreen(
+                    context,
+                    LibraryScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                      isStudentPortal: true,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ],
@@ -687,7 +1013,11 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             Text(
               label,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1E1E2D),
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -696,7 +1026,9 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
       ),
     );
   }
+// ignore: unused_element
 
+// ignore: unused_element
   Widget _buildAttendanceSummarySection(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -718,10 +1050,29 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Attendance Summary', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+              const Text(
+                'Attendance Summary',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
               GestureDetector(
-                onTap: () => MainLayout.pushSubScreen(context, AttendanceScreen(onBack: () => MainLayout.popSubScreen(context))),
-                child: const Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+                onTap: () => MainLayout.pushSubScreen(
+                  context,
+                  AttendanceScreen(
+                    onBack: () => MainLayout.popSubScreen(context),
+                  ),
+                ),
+                child: const Text(
+                  'See all',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF6C4CF1),
+                  ),
+                ),
               ),
             ],
           ),
@@ -741,8 +1092,8 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                       child: CustomPaint(
                         painter: DonutChartPainter(
                           percentage1: 92, // Green
-                          percentage2: 5,  // Red
-                          percentage3: 3,  // Orange
+                          percentage2: 5, // Red
+                          percentage3: 3, // Orange
                           strokeWidth: 16,
                         ),
                       ),
@@ -750,8 +1101,23 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
-                        Text('92%', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D), height: 1.1)),
-                        Text('Present', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
+                        Text(
+                          '92%',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF1E1E2D),
+                            height: 1.1,
+                          ),
+                        ),
+                        Text(
+                          'Present',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -765,27 +1131,60 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                   decoration: BoxDecoration(
                     color: const Color(0xFFFBFaff),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFF3EEFF), width: 1.0),
+                    border: Border.all(
+                      color: const Color(0xFFF3EEFF),
+                      width: 1.0,
+                    ),
                   ),
                   child: Column(
                     children: [
-                      _buildAttendanceStatRow(color: const Color(0xFF22C55E), label: 'Present', value: '92% (23 Days)'),
+                      _buildAttendanceStatRow(
+                        color: const Color(0xFF22C55E),
+                        label: 'Present',
+                        value: '92% (23 Days)',
+                      ),
                       const Divider(height: 16, color: Color(0xFFF3EEFF)),
-                      _buildAttendanceStatRow(color: const Color(0xFFEF4444), label: 'Absent', value: '5% (2 Days)'),
+                      _buildAttendanceStatRow(
+                        color: const Color(0xFFEF4444),
+                        label: 'Absent',
+                        value: '5% (2 Days)',
+                      ),
                       const Divider(height: 16, color: Color(0xFFF3EEFF)),
-                      _buildAttendanceStatRow(color: const Color(0xFFF59E0B), label: 'Late', value: '3% (1 Day)'),
+                      _buildAttendanceStatRow(
+                        color: const Color(0xFFF59E0B),
+                        label: 'Late',
+                        value: '3% (1 Day)',
+                      ),
                       const Divider(height: 16, color: Color(0xFFF3EEFF)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: const [
-                              Icon(Icons.calendar_month_outlined, color: Color(0xFF6C4CF1), size: 16),
+                              Icon(
+                                Icons.calendar_month_outlined,
+                                color: Color(0xFF6C4CF1),
+                                size: 16,
+                              ),
                               SizedBox(width: 8),
-                              Text('Total Days', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                              Text(
+                                'Total Days',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1E1E2D),
+                                ),
+                              ),
                             ],
                           ),
-                          const Text('26', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+                          const Text(
+                            '26',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -799,18 +1198,40 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
     );
   }
 
-  Widget _buildAttendanceStatRow({required Color color, required String label, required String value}) {
+  Widget _buildAttendanceStatRow({
+    required Color color,
+    required String label,
+    required String value,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
-            Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+            Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
             const SizedBox(width: 8),
-            Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1E1E2D),
+              ),
+            ),
           ],
         ),
-        Text(value, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF4A4A68))),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF4A4A68),
+          ),
+        ),
       ],
     );
   }
@@ -830,10 +1251,29 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Upcoming Events', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+              const Text(
+                'Upcoming Events',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
               GestureDetector(
-                onTap: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context))),
-                child: const Text('See all', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+                onTap: () => MainLayout.pushSubScreen(
+                  context,
+                  CalendarScreen(
+                    onBack: () => MainLayout.popSubScreen(context),
+                  ),
+                ),
+                child: const Text(
+                  'See all',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF6C4CF1),
+                  ),
+                ),
               ),
             ],
           ),
@@ -846,7 +1286,10 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             title: 'PTM (Parent Teacher Meeting)',
             subtitle: 'Tuesday, 21 May 2024',
             rightText: '11:00 AM',
-            onTap: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context))),
+            onTap: () => MainLayout.pushSubScreen(
+              context,
+              CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+            ),
           ),
           const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
           _buildEventRow(
@@ -857,7 +1300,10 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             title: 'Science Exhibition',
             subtitle: 'Saturday, 25 May 2024',
             rightText: '09:00 AM',
-            onTap: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context))),
+            onTap: () => MainLayout.pushSubScreen(
+              context,
+              CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+            ),
           ),
           const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
           _buildEventRow(
@@ -868,7 +1314,10 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             title: 'Summer Break Begins',
             subtitle: 'Saturday, 01 June 2024',
             rightText: 'All Day',
-            onTap: () => MainLayout.pushSubScreen(context, CalendarScreen(onBack: () => MainLayout.popSubScreen(context))),
+            onTap: () => MainLayout.pushSubScreen(
+              context,
+              CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+            ),
           ),
         ],
       ),
@@ -900,8 +1349,23 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(dateDay, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: color, height: 1.1)),
-                Text(dateMonth, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+                Text(
+                  dateDay,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: color,
+                    height: 1.1,
+                  ),
+                ),
+                Text(
+                  dateMonth,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
               ],
             ),
           ),
@@ -910,26 +1374,48 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(subtitle, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
               ],
             ),
           ),
           Row(
             children: [
-              Text(rightText, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: color)),
+              Text(
+                rightText,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
               const SizedBox(width: 8),
-              const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF4A4A68), size: 14),
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Color(0xFF4A4A68),
+                size: 14,
+              ),
             ],
           ),
         ],
       ),
     );
   }
-
-
-
 }
 
 class DonutChartPainter extends CustomPainter {
@@ -949,21 +1435,24 @@ class DonutChartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = math.min(size.width / 2, size.height / 2) - strokeWidth / 2;
-    
+
     final paint1 = Paint()
-      ..color = const Color(0xFF22C55E) // Green
+      ..color =
+          const Color(0xFF22C55E) // Green
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.butt;
-      
+
     final paint2 = Paint()
-      ..color = const Color(0xFFEF4444) // Red
+      ..color =
+          const Color(0xFFEF4444) // Red
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.butt;
-      
+
     final paint3 = Paint()
-      ..color = const Color(0xFFF59E0B) // Orange
+      ..color =
+          const Color(0xFFF59E0B) // Orange
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.butt;
@@ -974,15 +1463,33 @@ class DonutChartPainter extends CustomPainter {
     final double sweepOrange = (percentage3 / total) * 2 * math.pi;
 
     double startAngle = -math.pi / 2;
-    
+
     // Orange
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), startAngle, sweepOrange, false, paint3);
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      startAngle,
+      sweepOrange,
+      false,
+      paint3,
+    );
     startAngle += sweepOrange;
     // Green
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), startAngle, sweepGreen, false, paint1);
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      startAngle,
+      sweepGreen,
+      false,
+      paint1,
+    );
     startAngle += sweepGreen;
     // Red
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), startAngle, sweepRed, false, paint2);
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      startAngle,
+      sweepRed,
+      false,
+      paint2,
+    );
   }
 
   @override
@@ -1026,7 +1533,9 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
 
   Future<void> _loadCardsData() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/student_dashboard.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/student_dashboard.json',
+      );
       final data = await json.decode(response);
       if (mounted) {
         setState(() {
@@ -1043,11 +1552,16 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
 
   IconData _getIcon(String iconStr) {
     switch (iconStr) {
-      case 'menu_book_rounded': return Icons.menu_book_rounded;
-      case 'directions_bus_rounded': return Icons.directions_bus_rounded;
-      case 'account_balance_wallet_rounded': return Icons.account_balance_wallet_rounded;
-      case 'event_available_rounded': return Icons.event_available_rounded;
-      default: return Icons.info;
+      case 'menu_book_rounded':
+        return Icons.menu_book_rounded;
+      case 'directions_bus_rounded':
+        return Icons.directions_bus_rounded;
+      case 'account_balance_wallet_rounded':
+        return Icons.account_balance_wallet_rounded;
+      case 'event_available_rounded':
+        return Icons.event_available_rounded;
+      default:
+        return Icons.info;
     }
   }
 
@@ -1070,8 +1584,10 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
   void _onDragUpdate(DragUpdateDetails details) {
     if (_isAnimating) return;
     setState(() {
-      _dragOffset = (_dragOffset + details.delta.dy)
-          .clamp(-_revealDistance, _revealDistance);
+      _dragOffset = (_dragOffset + details.delta.dy).clamp(
+        -_revealDistance,
+        _revealDistance,
+      );
     });
   }
 
@@ -1090,16 +1606,18 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
 
   void _animateTo(double target) {
     _isAnimating = true;
-    _anim = Tween<double>(begin: _dragOffset, end: target)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic))
-      ..addListener(() {
-        setState(() => _dragOffset = _anim!.value);
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _finalize(target);
-        }
-      });
+    _anim =
+        Tween<double>(begin: _dragOffset, end: target).animate(
+            CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+          )
+          ..addListener(() {
+            setState(() => _dragOffset = _anim!.value);
+          })
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              _finalize(target);
+            }
+          });
     _controller.forward(from: 0.0);
   }
 
@@ -1129,7 +1647,11 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
         return (dy: -pUp * _lift, scale: 1.0 - 0.06 * pUp, opacity: 1.0 - pUp);
       }
       if (pDown > 0) {
-        return (dy: pDown * _peek, scale: 1.0 - 0.07 * pDown, opacity: 1.0 - pDown);
+        return (
+          dy: pDown * _peek,
+          scale: 1.0 - 0.07 * pDown,
+          opacity: 1.0 - pDown,
+        );
       }
       return (dy: 0.0, scale: 1.0, opacity: 1.0);
     }
@@ -1260,7 +1782,11 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.circle, color: _getColor(cardData['tagColor']), size: 8),
+                    Icon(
+                      Icons.circle,
+                      color: _getColor(cardData['tagColor']),
+                      size: 8,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       cardData['tagText'] as String,
@@ -1276,7 +1802,11 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
             ],
           ),
         ),
-        const Icon(Icons.more_horiz_rounded, color: Color(0xFF9E9E9E), size: 24),
+        const Icon(
+          Icons.more_horiz_rounded,
+          color: Color(0xFF9E9E9E),
+          size: 24,
+        ),
       ],
     );
   }
@@ -1286,7 +1816,9 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
     if (_isLoading) {
       return SizedBox(
         height: _cardHeight + _peek,
-        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+        child: const Center(
+          child: CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+        ),
       );
     }
     if (_cardsData.isEmpty) return const SizedBox.shrink();
@@ -1305,17 +1837,9 @@ class _FlippableHighlightCardState extends State<FlippableHighlightCard>
         width: double.infinity,
         child: Stack(
           alignment: Alignment.topCenter,
-          children: [
-            _layer(prev),
-            _layer(nextNext),
-            _layer(next),
-            _layer(cur),
-          ],
+          children: [_layer(prev), _layer(nextNext), _layer(next), _layer(cur)],
         ),
       ),
     );
   }
 }
-
-
-

@@ -13,20 +13,343 @@ import 'report_card_screen.dart';
 class ExamsScreen extends StatefulWidget {
   final VoidCallback onBack;
   final int initialTabIndex;
+  final String? initialExamToOpen;
 
-  const ExamsScreen({super.key, required this.onBack, this.initialTabIndex = 0});
+  const ExamsScreen({
+    super.key,
+    required this.onBack,
+    this.initialTabIndex = 0,
+    this.initialExamToOpen,
+  });
 
   @override
   State<ExamsScreen> createState() => _ExamsScreenState();
+
+  static Future<void> downloadReport(BuildContext context, String title) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+              const SizedBox(height: 20),
+              Text(
+                'Downloading $title PDF...',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Please wait a moment...',
+                style: TextStyle(color: Colors.grey, fontSize: 13),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    try {
+      final pdf = pw.Document();
+      pdf.addPage(
+        pw.Page(
+          pageFormat: PdfPageFormat.a4,
+          build: (pw.Context context) {
+            return pw.Container(
+              padding: const pw.EdgeInsets.all(32),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(
+                    'SCHOOL ERP - OFFICIAL REPORT CARD',
+                    style: pw.TextStyle(
+                      fontSize: 20,
+                      fontWeight: pw.FontWeight.bold,
+                      color: PdfColors.deepPurple900,
+                    ),
+                  ),
+                  pw.SizedBox(height: 10),
+                  pw.Divider(color: PdfColors.deepPurple, thickness: 2),
+                  pw.SizedBox(height: 15),
+                  pw.Text(
+                    'Exam: $title',
+                    style: pw.TextStyle(
+                      fontSize: 16,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    'Student: Akshara | Class: 10-A | Roll No: 1042',
+                    style: const pw.TextStyle(
+                      fontSize: 12,
+                      color: PdfColors.grey700,
+                    ),
+                  ),
+                  pw.SizedBox(height: 25),
+                  pw.TableHelper.fromTextArray(
+                    headers: [
+                      'Subject',
+                      'Marks Obtained',
+                      'Max Marks',
+                      'Grade',
+                    ],
+                    data: [
+                      ['Mathematics', '95', '100', 'A+'],
+                      ['Science', '92', '100', 'A+'],
+                      ['English', '88', '100', 'A'],
+                      ['Social Studies', '90', '100', 'A+'],
+                      ['Computer Science', '98', '100', 'A+'],
+                    ],
+                  ),
+                  pw.SizedBox(height: 25),
+                  pw.Text(
+                    'Overall Result: PASSED (Grade: A+)',
+                    style: pw.TextStyle(
+                      fontSize: 14,
+                      fontWeight: pw.FontWeight.bold,
+                      color: PdfColors.green700,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+
+      final output = await getTemporaryDirectory();
+      final file = File(
+        '${output.path}/${title.replaceAll(' ', '_')}_ReportCard.pdf',
+      );
+      await file.writeAsBytes(await pdf.save());
+
+      if (context.mounted) {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
+        Navigator.pop(context);
+
+        scaffoldMessenger.showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle_rounded, color: Colors.white),
+                const SizedBox(width: 12),
+                Expanded(child: Text('$title report card downloaded!')),
+              ],
+            ),
+            backgroundColor: const Color(0xFF16A34A),
+            duration: const Duration(seconds: 4),
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: 'OPEN',
+              textColor: Colors.white,
+              onPressed: () {
+                OpenFile.open(file.path);
+              },
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
+        Navigator.pop(context);
+        scaffoldMessenger.showSnackBar(
+          SnackBar(
+            content: Text('Downloaded $title Report Card PDF'),
+            backgroundColor: const Color(0xFF16A34A),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
+  }
+
+  static void showTimetableBottomSheet(
+    BuildContext context,
+    String examTitle,
+    List<dynamic> relatedExams,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    '$examTitle Timetable',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.close_rounded,
+                    color: Color(0xFF6C6C80),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            ...relatedExams.map(
+              (exam) => ExamsScreen.buildTimetableRow(
+                exam['subject'],
+                '${exam['day']} ${exam['month']} 2026',
+                '09:00 AM - 12:00 PM',
+              ),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ExamsScreen.downloadReport(context, '$examTitle Syllabus');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6C4CF1),
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                icon: const Icon(LucideIcons.download, size: 20),
+                label: const Text(
+                  'Download Syllabus PDF',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget buildTimetableRow(String subject, String date, String time) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F9FA),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                subject,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  const Icon(
+                    LucideIcons.calendar,
+                    size: 14,
+                    color: Color(0xFF6C6C80),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    date,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF6C6C80),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE3F2FD),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              time,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2196F3),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStateMixin {
+
+class _ExamsScreenState extends State<ExamsScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final GlobalKey _dropdownKey = GlobalKey();
+
+  String _selectedYear = '2025 - 2026';
+  // Dynamically generating 15 years as an example
+  final List<String> _academicYears = List.generate(15, (index) {
+    int startYear = 2025 - index;
+    return '$startYear - ${startYear + 1}';
+  });
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this, initialIndex: widget.initialTabIndex);
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: widget.initialTabIndex,
+    );
+    
+    if (widget.initialExamToOpen != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final data = await rootBundle.loadString('assets/mock/upcoming_exams.json');
+        final allData = json.decode(data)['exams'] as List;
+        final relatedExams = allData
+            .where((e) => e['type'] == widget.initialExamToOpen)
+            .toList();
+        if (mounted) {
+          ExamsScreen.showTimetableBottomSheet(context, widget.initialExamToOpen!, relatedExams);
+        }
+      });
+    }
   }
 
   @override
@@ -35,181 +358,173 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
-      valueListenable: MainLayout.globalSearchQuery,
-      builder: (context, searchQuery, child) {
-        final query = searchQuery.toLowerCase();
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-          // App Bar Area
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Row(
+  void _showCustomYearDropdown() {
+    final RenderBox renderBox =
+        _dropdownKey.currentContext!.findRenderObject() as RenderBox;
+    final offset = renderBox.localToGlobal(Offset.zero);
+    final size = renderBox.size;
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      useSafeArea: false,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Stack(
               children: [
-                GestureDetector(
-                  onTap: widget.onBack,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-                    ),
-                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                Positioned.fill(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => Navigator.pop(context),
+                    child: Container(),
                   ),
                 ),
-                const SizedBox(width: 16),
-                const Text('Exams & Results', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-          _buildPerformanceSummaryCards(),
-          const SizedBox(height: 24),
-
-          // Custom Tab Bar
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF3F0FF),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF6C4CF1).withValues(alpha: 0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
+                Positioned(
+                  top: offset.dy + size.height + 8,
+                  right:
+                      MediaQuery.of(context).size.width -
+                      offset.dx -
+                      size.width,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Container(
+                      width: 140,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(
+                              0xFF6C4CF1,
+                            ).withValues(alpha: 0.1),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(height: 8),
+                          ..._academicYears.take(6).map((year) {
+                            final isSelected = year == _selectedYear;
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _selectedYear = year;
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                color: isSelected
+                                    ? const Color(0xFFF3F0FF)
+                                    : Colors.transparent,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 10,
+                                ),
+                                child: Row(
+                                  children: [
+                                    if (isSelected)
+                                      const Icon(
+                                        Icons.check,
+                                        color: Color(0xFF6C4CF1),
+                                        size: 16,
+                                      )
+                                    else
+                                      const SizedBox(width: 16),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      year,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.w600,
+                                        color: isSelected
+                                            ? const Color(0xFF6C4CF1)
+                                            : const Color(0xFF1E1E2D),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                          const SizedBox(height: 8),
+                        ],
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-                labelColor: const Color(0xFF6C4CF1),
-                unselectedLabelColor: const Color(0xFF6C6C80),
-                labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                indicatorSize: TabBarIndicatorSize.tab,
-                dividerColor: Colors.transparent,
-                tabs: const [
-                  Tab(text: 'Upcoming Exams'),
-                  Tab(text: 'Exam Results'),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Tab Bar View content
-          AnimatedBuilder(
-            animation: _tabController,
-            builder: (context, _) {
-              return _tabController.index == 0 
-                ? _buildUpcomingExamsTab(query) 
-                : _buildExamResultsTab(query);
-            },
-          ),
-          const SizedBox(height: 120), // Bottom padding for navbar
-        ],
-      ),
-    );
+              ],
+            );
+          },
+        );
       },
     );
   }
 
   Widget _buildUpcomingExamsTab(String query) {
     return FutureBuilder<String>(
-      future: rootBundle.loadString('assets/mock/exams_upcoming.json'),
+      future: rootBundle.loadString('assets/mock/upcoming_exams.json'),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
         var data = json.decode(snapshot.data!)['exams'] as List;
-        
+
         if (query.isNotEmpty) {
-          data = data.where((item) => item['title'].toString().toLowerCase().contains(query)).toList();
+          data = data
+              .where(
+                (item) =>
+                    item['subject'].toString().toLowerCase().contains(query) ||
+                    item['type'].toString().toLowerCase().contains(query),
+              )
+              .toList();
         }
 
         if (data.isEmpty) {
           return Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 40.0),
-              child: Text('No exams found', style: TextStyle(color: Colors.grey.shade500, fontSize: 16, fontWeight: FontWeight.w500)),
+              child: Text(
+                'No exams found',
+                style: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           );
         }
 
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth > 900) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: data.map((item) {
-                    return SizedBox(
-                      width: (constraints.maxWidth - 48 - 32) / 3,
-                      child: _buildExamCard(
-                        title: item['title'],
-                        dateRange: item['dateRange'],
-                        subjects: item['subjects'],
-                        status: item['status'],
-                        statusColor: Color(int.parse("0xFF${item['statusColorHex']}")),
-                        statusBg: Color(int.parse("0xFF${item['statusBgHex']}")),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              );
-            } else if (constraints.maxWidth > 500) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: data.map((item) {
-                    return SizedBox(
-                      width: (constraints.maxWidth - 48 - 16) / 2,
-                      child: _buildExamCard(
-                        title: item['title'],
-                        dateRange: item['dateRange'],
-                        subjects: item['subjects'],
-                        status: item['status'],
-                        statusColor: Color(int.parse("0xFF${item['statusColorHex']}")),
-                        statusBg: Color(int.parse("0xFF${item['statusBgHex']}")),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              );
-            } else {
-              return ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: data.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  final item = data[index];
-                  return _buildExamCard(
-                    title: item['title'],
-                    dateRange: item['dateRange'],
-                    subjects: item['subjects'],
-                    status: item['status'],
-                    statusColor: Color(int.parse("0xFF${item['statusColorHex']}")),
-                    statusBg: Color(int.parse("0xFF${item['statusBgHex']}")),
-                  );
-                },
-              );
-            }
-          }
+        return ListView.separated(
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: data.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 16),
+          itemBuilder: (context, index) {
+            final item = data[index];
+            Color itemColor = Color(int.parse("0xFF${item['colorHex']}"));
+            return _buildExamCard(
+              title: item['type'],
+              dateRange: '${item['day']} ${item['month']}',
+              subject: item['subject'],
+              status: item['daysLeft'],
+              statusColor: itemColor,
+              statusBg: itemColor.withValues(alpha: 0.1),
+              onTimetableTap: () {
+                final relatedExams = data
+                    .where((e) => e['type'] == item['type'])
+                    .toList();
+                ExamsScreen.showTimetableBottomSheet(context, item['type'], relatedExams);
+              },
+            );
+          },
         );
       },
     );
@@ -225,19 +540,44 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Full Year', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF3F0FF),
-                borderRadius: BorderRadius.circular(20),
+            const Text(
+              'Full Year',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1E1E2D),
               ),
-              child: const Row(
-                children: [
-                  Text('2025 - 2026', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
-                  SizedBox(width: 4),
-                  Icon(Icons.keyboard_arrow_down_rounded, color: Color(0xFF6C4CF1), size: 16),
-                ],
+            ),
+            GestureDetector(
+              key: _dropdownKey,
+              onTap: _showCustomYearDropdown,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3EEFF),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      _selectedYear,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF6C4CF1),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: Color(0xFF6C4CF1),
+                      size: 16,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -246,18 +586,35 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
         FutureBuilder<String>(
           future: rootBundle.loadString('assets/mock/exams_results.json'),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Padding(padding: EdgeInsets.all(32.0), child: Center(child: CircularProgressIndicator()));
+            if (!snapshot.hasData) {
+              return const Padding(
+                padding: EdgeInsets.all(32.0),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
             var data = json.decode(snapshot.data!)['results'] as List;
-            
+
             if (query.isNotEmpty) {
-              data = data.where((item) => item['title'].toString().toLowerCase().contains(query)).toList();
+              data = data
+                  .where(
+                    (item) =>
+                        item['title'].toString().toLowerCase().contains(query),
+                  )
+                  .toList();
             }
 
             if (data.isEmpty) {
               return Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 40.0),
-                  child: Text('No results found', style: TextStyle(color: Colors.grey.shade500, fontSize: 16, fontWeight: FontWeight.w500)),
+                  child: Text(
+                    'No results found',
+                    style: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               );
             }
@@ -303,7 +660,8 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: data.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: 16),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16),
                     itemBuilder: (context, index) {
                       final item = data[index];
                       return _buildResultCard(
@@ -316,7 +674,7 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
                     },
                   );
                 }
-              }
+              },
             );
           },
         ),
@@ -327,10 +685,11 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
   Widget _buildExamCard({
     required String title,
     required String dateRange,
-    required int subjects,
+    required String subject,
     required String status,
     required Color statusColor,
     required Color statusBg,
+    required VoidCallback onTimetableTap,
   }) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -355,18 +714,29 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: statusBg,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   status,
-                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: statusColor),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: statusColor,
+                  ),
                 ),
               ),
             ],
@@ -374,32 +744,59 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
           const SizedBox(height: 16),
           Row(
             children: [
-              const Icon(LucideIcons.calendar, size: 16, color: Color(0xFF6C6C80)),
+              const Icon(
+                LucideIcons.calendar,
+                size: 16,
+                color: Color(0xFF6C6C80),
+              ),
               const SizedBox(width: 6),
-              Text(dateRange, style: const TextStyle(fontSize: 13, color: Color(0xFF4A4A68), fontWeight: FontWeight.w500)),
+              Text(
+                dateRange,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF4A4A68),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              const Icon(LucideIcons.bookOpen, size: 16, color: Color(0xFF6C6C80)),
+              const Icon(
+                LucideIcons.bookOpen,
+                size: 16,
+                color: Color(0xFF6C6C80),
+              ),
               const SizedBox(width: 6),
-              Text('$subjects Subjects', style: const TextStyle(fontSize: 13, color: Color(0xFF4A4A68), fontWeight: FontWeight.w500)),
+              Text(
+                subject,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF4A4A68),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 20),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => _showTimetableBottomSheet(context, title),
+              onPressed: onTimetableTap,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFF3F0FF),
                 foregroundColor: const Color(0xFF6C4CF1),
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
-              child: const Text('View Timetable & Syllabus', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              child: const Text(
+                'View Timetable & Syllabus',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
             ),
           ),
         ],
@@ -441,23 +838,44 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
                       ),
                       if (isNew) ...[
                         const SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFFF4B4B),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: const Text('NEW', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 0.5)),
+                          child: const Text(
+                            'NEW',
+                            style: TextStyle(
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
                         ),
                       ],
                     ],
                   ),
                   const SizedBox(height: 4),
-                  Text(date, style: const TextStyle(fontSize: 13, color: Color(0xFF6C6C80))),
+                  Text(
+                    date,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFF6C6C80),
+                    ),
+                  ),
                 ],
               ),
               Container(
@@ -466,7 +884,11 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
                   color: const Color(0xFFF3F0FF),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(LucideIcons.award, color: Color(0xFF6C4CF1), size: 24),
+                child: const Icon(
+                  LucideIcons.award,
+                  color: Color(0xFF6C4CF1),
+                  size: 24,
+                ),
               ),
             ],
           ),
@@ -483,9 +905,23 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
                   ),
                   child: Column(
                     children: [
-                      const Text('Percentage', style: TextStyle(fontSize: 11, color: Color(0xFF6C6C80), fontWeight: FontWeight.w600)),
+                      const Text(
+                        'Percentage',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF6C6C80),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(percentage, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                      Text(
+                        percentage,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -501,9 +937,23 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
                   ),
                   child: Column(
                     children: [
-                      const Text('Grade', style: TextStyle(fontSize: 11, color: Color(0xFF6C6C80), fontWeight: FontWeight.w600)),
+                      const Text(
+                        'Grade',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF6C6C80),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(grade, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF22C55E))),
+                      Text(
+                        grade,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF22C55E),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -521,25 +971,35 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
                     foregroundColor: const Color(0xFF6C4CF1),
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   icon: const Icon(LucideIcons.eye, size: 16),
-                  label: const Text('View', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                  label: const Text(
+                    'View',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: () => _downloadReport(context, title),
+                  onPressed: () => ExamsScreen.downloadReport(context, title),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6C4CF1),
                     foregroundColor: Colors.white,
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   icon: const Icon(LucideIcons.download, size: 16),
-                  label: const Text('Download', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                  label: const Text(
+                    'Download',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                 ),
               ),
             ],
@@ -559,115 +1019,7 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
     );
   }
 
-  Future<void> _downloadReport(BuildContext context, String title) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircularProgressIndicator(color: Color(0xFF6C4CF1)),
-              const SizedBox(height: 20),
-              Text(
-                'Downloading $title PDF...',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Please wait a moment...',
-                style: TextStyle(color: Colors.grey, fontSize: 13),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
 
-    try {
-      final pdf = pw.Document();
-      pdf.addPage(
-        pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (pw.Context context) {
-            return pw.Container(
-              padding: const pw.EdgeInsets.all(32),
-              child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Text('SCHOOL ERP - OFFICIAL REPORT CARD', style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold, color: PdfColors.deepPurple900)),
-                  pw.SizedBox(height: 10),
-                  pw.Divider(color: PdfColors.deepPurple, thickness: 2),
-                  pw.SizedBox(height: 15),
-                  pw.Text('Exam: $title', style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
-                  pw.Text('Student: Akshara | Class: 10-A | Roll No: 1042', style: const pw.TextStyle(fontSize: 12, color: PdfColors.grey700)),
-                  pw.SizedBox(height: 25),
-                  pw.TableHelper.fromTextArray(
-                    headers: ['Subject', 'Marks Obtained', 'Max Marks', 'Grade'],
-                    data: [
-                      ['Mathematics', '95', '100', 'A+'],
-                      ['Science', '92', '100', 'A+'],
-                      ['English', '88', '100', 'A'],
-                      ['Social Studies', '90', '100', 'A+'],
-                      ['Computer Science', '98', '100', 'A+'],
-                    ],
-                  ),
-                  pw.SizedBox(height: 25),
-                  pw.Text('Overall Result: PASSED (Grade: A+)', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold, color: PdfColors.green700)),
-                ],
-              ),
-            );
-          },
-        ),
-      );
-
-      final output = await getTemporaryDirectory();
-      final file = File('${output.path}/${title.replaceAll(' ', '_')}_ReportCard.pdf');
-      await file.writeAsBytes(await pdf.save());
-
-      if (context.mounted) {
-        final scaffoldMessenger = ScaffoldMessenger.of(context);
-        Navigator.pop(context);
-
-        scaffoldMessenger.showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                const Icon(Icons.check_circle_rounded, color: Colors.white),
-                const SizedBox(width: 12),
-                Expanded(child: Text('$title report card downloaded!')),
-              ],
-            ),
-            backgroundColor: const Color(0xFF16A34A),
-            duration: const Duration(seconds: 4),
-            behavior: SnackBarBehavior.floating,
-            action: SnackBarAction(
-              label: 'OPEN',
-              textColor: Colors.white,
-              onPressed: () {
-                OpenFile.open(file.path);
-              },
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      if (context.mounted) {
-        final scaffoldMessenger = ScaffoldMessenger.of(context);
-        Navigator.pop(context);
-        scaffoldMessenger.showSnackBar(
-          SnackBar(
-            content: Text('Downloaded $title Report Card PDF'),
-            backgroundColor: const Color(0xFF16A34A),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    }
-  }
 
   Widget _buildPerformanceSummaryCards() {
     return Padding(
@@ -766,12 +1118,21 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
               children: [
                 Text(
                   value,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   label,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80), height: 1.2),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF6C6C80),
+                    height: 1.2,
+                  ),
                 ),
               ],
             ),
@@ -781,98 +1142,117 @@ class _ExamsScreenState extends State<ExamsScreen> with SingleTickerProviderStat
     );
   }
 
-  void _showTimetableBottomSheet(BuildContext context, String examTitle) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(child: Text('$examTitle Timetable', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)))),
-                IconButton(
-                  icon: const Icon(Icons.close_rounded, color: Color(0xFF6C6C80)),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            _buildTimetableRow('Mathematics', '15 Oct 2026', '09:00 AM - 12:00 PM'),
-            _buildTimetableRow('Science', '17 Oct 2026', '09:00 AM - 12:00 PM'),
-            _buildTimetableRow('English', '19 Oct 2026', '09:00 AM - 12:00 PM'),
-            _buildTimetableRow('Social Studies', '21 Oct 2026', '09:00 AM - 12:00 PM'),
-            const SizedBox(height: 32),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _downloadReport(context, '$examTitle Syllabus');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF6C4CF1),
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                ),
-                icon: const Icon(LucideIcons.download, size: 20),
-                label: const Text('Download Syllabus PDF', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget _buildTimetableRow(String subject, String date, String time) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F9FA),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<String>(
+      valueListenable: MainLayout.globalSearchQuery,
+      builder: (context, searchQuery, child) {
+        final query = searchQuery.toLowerCase();
+        return SingleChildScrollView(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(subject, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  const Icon(LucideIcons.calendar, size: 14, color: Color(0xFF6C6C80)),
-                  const SizedBox(width: 4),
-                  Text(date, style: const TextStyle(fontSize: 12, color: Color(0xFF6C6C80), fontWeight: FontWeight.w500)),
-                ],
+              // App Bar Area
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: widget.onBack,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Text(
+                      'Exams & Results',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              const SizedBox(height: 24),
+              _buildPerformanceSummaryCards(),
+              const SizedBox(height: 24),
+
+              // Custom Tab Bar
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF3F0FF),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: TabBar(
+                    controller: _tabController,
+                    indicator: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF6C4CF1).withValues(alpha: 0.1),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    labelColor: const Color(0xFF6C4CF1),
+                    unselectedLabelColor: const Color(0xFF6C6C80),
+                    labelStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    dividerColor: Colors.transparent,
+                    tabs: const [
+                      Tab(text: 'Upcoming Exams'),
+                      Tab(text: 'Exam Results'),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Tab Bar View content
+              AnimatedBuilder(
+                animation: _tabController,
+                builder: (context, _) {
+                  return _tabController.index == 0
+                      ? _buildUpcomingExamsTab(query)
+                      : _buildExamResultsTab(query);
+                },
+              ),
+              const SizedBox(height: 120), // Bottom padding for navbar
             ],
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE3F2FD),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(time, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF2196F3))),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

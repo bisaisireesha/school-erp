@@ -14,6 +14,7 @@ class TimetableScreen extends StatefulWidget {
 
 class _TimetableScreenState extends State<TimetableScreen> {
   int _selectedDateIndex = 0;
+// ignore: unused_field
   final DateTime _startDate = DateTime.now();
   Map<String, List<Map<String, dynamic>>> _timetableData = {};
   bool _isLoading = true;
@@ -26,7 +27,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
   Future<void> _loadTimetable() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/student_timetable.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/student_timetable.json',
+      );
       final data = await json.decode(response);
       if (mounted) {
         setState(() {
@@ -46,16 +49,26 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
   IconData _getIcon(String iconStr) {
     switch (iconStr) {
-      case 'flaskConical': return LucideIcons.flaskConical;
-      case 'bookOpen': return LucideIcons.bookOpen;
-      case 'coffee': return LucideIcons.coffee;
-      case 'globe': return LucideIcons.globe;
-      case 'calculator': return LucideIcons.calculator;
-      case 'monitor': return LucideIcons.monitor;
-      case 'utensils': return LucideIcons.utensils;
-      case 'palette': return LucideIcons.palette;
-      case 'music': return LucideIcons.music;
-      default: return LucideIcons.circle;
+      case 'flaskConical':
+        return LucideIcons.flaskConical;
+      case 'bookOpen':
+        return LucideIcons.bookOpen;
+      case 'coffee':
+        return LucideIcons.coffee;
+      case 'globe':
+        return LucideIcons.globe;
+      case 'calculator':
+        return LucideIcons.calculator;
+      case 'monitor':
+        return LucideIcons.monitor;
+      case 'utensils':
+        return LucideIcons.utensils;
+      case 'palette':
+        return LucideIcons.palette;
+      case 'music':
+        return LucideIcons.music;
+      default:
+        return LucideIcons.circle;
     }
   }
 
@@ -73,44 +86,66 @@ class _TimetableScreenState extends State<TimetableScreen> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-            // Custom App Bar
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: widget.onBack,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+              // Custom App Bar
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: widget.onBack,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
-                      child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Text('Class Timetable', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                ],
+                    const SizedBox(width: 16),
+                    const Text(
+                      'Class Timetable',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            _buildSummaryCards(),
-            const SizedBox(height: 24),
+              const SizedBox(height: 16),
+              _buildSummaryCards(),
+              const SizedBox(height: 24),
 
-            // Calendar Strip
-            Container(
-              height: 75,
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: ListView.separated(
+              // Calendar Strip
+              Container(
+                height: 75,
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   itemCount: 6,
-                  separatorBuilder: (context, index) => const SizedBox(width: 12),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 12),
                   itemBuilder: (context, index) {
                     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                    final dates = ['27 May', '28 May', '29 May', '30 May', '31 May', '01 Jun'];
+                    final dates = [
+                      '27 May',
+                      '28 May',
+                      '29 May',
+                      '30 May',
+                      '31 May',
+                      '01 Jun',
+                    ];
                     final isSelected = index == _selectedDateIndex;
                     return GestureDetector(
                       onTap: () {
@@ -121,7 +156,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       child: Container(
                         width: 75,
                         decoration: BoxDecoration(
-                          color: isSelected ? const Color(0xFF6C4CF1) : Colors.transparent,
+                          color: isSelected
+                              ? const Color(0xFF6C4CF1)
+                              : Colors.transparent,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Column(
@@ -132,7 +169,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
-                                color: isSelected ? Colors.white : const Color(0xFF1E1E2D),
+                                color: isSelected
+                                    ? Colors.white
+                                    : const Color(0xFF1E1E2D),
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -141,7 +180,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: isSelected ? Colors.white.withValues(alpha: 0.8) : const Color(0xFF6C6C80),
+                                color: isSelected
+                                    ? Colors.white.withValues(alpha: 0.8)
+                                    : const Color(0xFF6C6C80),
                               ),
                             ),
                           ],
@@ -153,34 +194,40 @@ class _TimetableScreenState extends State<TimetableScreen> {
               ),
               const SizedBox(height: 16),
 
-            // Main Schedule White Container
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 24),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-                    blurRadius: 15,
-                    offset: const Offset(0, -5),
+              // Main Schedule White Container
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
                   ),
-                ],
-              ),
-              child: _isLoading 
-                  ? const Padding(
-                      padding: EdgeInsets.only(top: 100),
-                      child: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
-                    )
-                  : Column(
-                      children: [
-                        ..._buildDailySchedule(_selectedDateIndex),
-                        const SizedBox(height: 120), // Padding for bottom nav
-                      ],
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+                      blurRadius: 15,
+                      offset: const Offset(0, -5),
                     ),
-            ),
-          ],
-        ),
+                  ],
+                ),
+                child: _isLoading
+                    ? const Padding(
+                        padding: EdgeInsets.only(top: 100),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFF6C4CF1),
+                          ),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          ..._buildDailySchedule(_selectedDateIndex),
+                          const SizedBox(height: 120), // Padding for bottom nav
+                        ],
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -189,13 +236,22 @@ class _TimetableScreenState extends State<TimetableScreen> {
   List<Widget> _buildDailySchedule(int dayIndex) {
     if (_timetableData.isEmpty) return [];
     final isOddDay = dayIndex % 2 != 0;
-    List<Map<String, dynamic>> scheduleData = isOddDay ? _timetableData['oddDay']! : _timetableData['evenDay']!;
+    List<Map<String, dynamic>> scheduleData = isOddDay
+        ? _timetableData['oddDay']!
+        : _timetableData['evenDay']!;
 
     return [
       const SizedBox(height: 16),
       ...scheduleData.map((item) {
         if (item['type'] == 'break') {
-          return _buildBreakRow(item['startTime'], item['endTime'], item['label'], _getIcon(item['icon']), _getColor(item['bgColor']), _getColor(item['iconColor']));
+          return _buildBreakRow(
+            item['startTime'],
+            item['endTime'],
+            item['label'],
+            _getIcon(item['icon']),
+            _getColor(item['bgColor']),
+            _getColor(item['iconColor']),
+          );
         }
         return _buildScheduleRow(
           startTime: item['startTime'],
@@ -204,8 +260,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
           room: item['room'],
           teacher: item['teacher'],
           icon: _getIcon(item['icon']),
-          iconColor: _getColor(item['iconColor']),
-          iconBg: _getColor(item['iconBg']),
+          iconColor: const Color(0xFF6C4CF1), // Enforce brand purple for subjects
+          iconBg: const Color(0xFFF3F0FF),
         );
       }),
     ];
@@ -233,8 +289,22 @@ class _TimetableScreenState extends State<TimetableScreen> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 const SizedBox(height: 20),
-                Text(startTime, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                Text(endTime, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80))),
+                Text(
+                  startTime,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
+                Text(
+                  endTime,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF6C6C80),
+                  ),
+                ),
               ],
             ),
           ),
@@ -251,15 +321,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 3),
                   boxShadow: [
-                    BoxShadow(color: iconColor.withValues(alpha: 0.3), blurRadius: 4),
+                    BoxShadow(
+                      color: iconColor.withValues(alpha: 0.3),
+                      blurRadius: 4,
+                    ),
                   ],
                 ),
               ),
               Expanded(
-                child: Container(
-                  width: 2,
-                  color: const Color(0xFFE2E8F0),
-                ),
+                child: Container(width: 2, color: const Color(0xFFE2E8F0)),
               ),
             ],
           ),
@@ -287,7 +357,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: iconBg,
-                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.circle,
                     ),
                     child: Icon(icon, color: iconColor, size: 24),
                   ),
@@ -297,21 +367,50 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(subject, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: iconColor)),
+                        Text(
+                          subject,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
                         const SizedBox(height: 6),
                         Row(
                           children: [
-                            const Icon(LucideIcons.mapPin, size: 12, color: Color(0xFF4A4A68)),
+                            const Icon(
+                              LucideIcons.mapPin,
+                              size: 12,
+                              color: Color(0xFF4A4A68),
+                            ),
                             const SizedBox(width: 4),
-                            Text(room, style: const TextStyle(fontSize: 12, color: Color(0xFF4A4A68), fontWeight: FontWeight.w600)),
+                            Text(
+                              room,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF4A4A68),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 2),
                         Row(
                           children: [
-                            const Icon(LucideIcons.user, size: 12, color: Color(0xFF4A4A68)),
+                            const Icon(
+                              LucideIcons.user,
+                              size: 12,
+                              color: Color(0xFF4A4A68),
+                            ),
                             const SizedBox(width: 4),
-                            Text(teacher, style: const TextStyle(fontSize: 12, color: Color(0xFF4A4A68), fontWeight: FontWeight.w500)),
+                            Text(
+                              teacher,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF4A4A68),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -326,7 +425,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
     );
   }
 
-  Widget _buildBreakRow(String startTime, String endTime, String label, IconData icon, Color bgColor, Color iconColor) {
+  Widget _buildBreakRow(
+    String startTime,
+    String endTime,
+    String label,
+    IconData icon,
+    Color bgColor,
+    Color iconColor,
+  ) {
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -339,8 +445,22 @@ class _TimetableScreenState extends State<TimetableScreen> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 const SizedBox(height: 20),
-                Text(startTime, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: iconColor)),
-                Text(endTime, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: iconColor.withValues(alpha: 0.7))),
+                Text(
+                  startTime,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: iconColor,
+                  ),
+                ),
+                Text(
+                  endTime,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: iconColor.withValues(alpha: 0.7),
+                  ),
+                ),
               ],
             ),
           ),
@@ -359,10 +479,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                 ),
               ),
               Expanded(
-                child: Container(
-                  width: 2,
-                  color: const Color(0xFFE2E8F0),
-                ),
+                child: Container(width: 2, color: const Color(0xFFE2E8F0)),
               ),
             ],
           ),
@@ -390,12 +507,19 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: bgColor,
-                      borderRadius: BorderRadius.circular(8),
+                      shape: BoxShape.circle,
                     ),
                     child: Icon(icon, color: iconColor, size: 20),
                   ),
                   const SizedBox(width: 12),
-                  Text(label, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: iconColor)),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w900,
+                      color: iconColor,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -502,12 +626,21 @@ class _TimetableScreenState extends State<TimetableScreen> {
               children: [
                 Text(
                   value,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   label,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C6C80), height: 1.2),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF6C6C80),
+                    height: 1.2,
+                  ),
                 ),
               ],
             ),

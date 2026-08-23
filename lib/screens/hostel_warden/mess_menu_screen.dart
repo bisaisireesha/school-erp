@@ -14,7 +14,15 @@ class MessMenuScreen extends StatefulWidget {
 
 class _MessMenuScreenState extends State<MessMenuScreen> {
   String _searchQuery = '';
-  final List<String> _days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  final List<String> _days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
 
   @override
   void initState() {
@@ -49,7 +57,9 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
   Future<void> _loadMenuData() async {
     if (!_isLoading && _weeklyMenuData.isNotEmpty) return;
     try {
-      final String response = await rootBundle.loadString('assets/mock/mess_menu.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/mess_menu.json',
+      );
       final data = await json.decode(response);
       if (mounted) {
         setState(() {
@@ -71,10 +81,12 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
     if (_isLoading) {
       return const Scaffold(
         backgroundColor: Color(0xFFF8F9FA),
-        body: Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+        body: Center(
+          child: CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+        ),
       );
     }
-    
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
@@ -113,17 +125,38 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    border: Border.all(
+                      color: const Color(0xFFF3EEFF),
+                      width: 1.5,
+                    ),
                   ),
-                  child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  child: const Icon(
+                    Icons.arrow_back_rounded,
+                    color: Color(0xFF1E1E2D),
+                    size: 20,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Mess Menu', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                  Text('Manage weekly food schedules', style: TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
+                  Text(
+                    'Mess Menu',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
+                  Text(
+                    'Manage weekly food schedules',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFF64748B),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -131,15 +164,25 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
           Row(
             children: [
               IconButton(
-                icon: const Icon(LucideIcons.printer, color: Color(0xFF6C4CF1), size: 22),
+                icon: const Icon(
+                  LucideIcons.printer,
+                  color: Color(0xFF6C4CF1),
+                  size: 22,
+                ),
                 tooltip: 'Print Menu',
                 onPressed: () => _showPrintMenuModal(context),
               ),
               IconButton(
-                icon: const Icon(LucideIcons.download, color: Color(0xFF6C4CF1), size: 22),
+                icon: const Icon(
+                  LucideIcons.download,
+                  color: Color(0xFF6C4CF1),
+                  size: 22,
+                ),
                 tooltip: 'Export Menu',
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Exporting menu as PDF...')));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Exporting menu as PDF...')),
+                  );
                 },
               ),
             ],
@@ -161,9 +204,21 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(meal, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+            Text(
+              meal,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF6C4CF1),
+              ),
+            ),
             const SizedBox(height: 2),
-            Text(items, style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)), maxLines: 1, overflow: TextOverflow.ellipsis),
+            Text(
+              items,
+              style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),
@@ -218,7 +273,11 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                             color: const Color(0xFFEEF2FF),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Icon(LucideIcons.printer, color: Color(0xFF6C4CF1), size: 22),
+                          child: const Icon(
+                            LucideIcons.printer,
+                            color: Color(0xFF6C4CF1),
+                            size: 22,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         const Column(
@@ -226,11 +285,19 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                           children: [
                             Text(
                               'Print Mess Menu',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E1E2D),
+                              ),
                             ),
                             Text(
                               'Weekly Food Schedule',
-                              style: TextStyle(fontSize: 12, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF64748B),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ],
                         ),
@@ -244,7 +311,11 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                           color: Color(0xFFF1F5F9),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.close, color: Color(0xFF64748B), size: 18),
+                        child: const Icon(
+                          Icons.close,
+                          color: Color(0xFF64748B),
+                          size: 18,
+                        ),
                       ),
                     ),
                   ],
@@ -266,60 +337,110 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                         children: [
                           const Row(
                             children: [
-                              Icon(LucideIcons.utensils, size: 16, color: Color(0xFF6C4CF1)),
+                              Icon(
+                                LucideIcons.utensils,
+                                size: 16,
+                                color: Color(0xFF6C4CF1),
+                              ),
                               SizedBox(width: 8),
                               Text(
                                 'SPRINGFIELD HOSTEL MESS',
-                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFF6C4CF1), letterSpacing: 0.8),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFF6C4CF1),
+                                  letterSpacing: 0.8,
+                                ),
                               ),
                             ],
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF10B981).withValues(alpha: 0.12),
+                              color: const Color(
+                                0xFF10B981,
+                              ).withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(6),
                             ),
-                            child: const Text('ACTIVE SCHEDULE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981))),
+                            child: const Text(
+                              'ACTIVE SCHEDULE',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF10B981),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 10),
                       const Text(
                         'Weekly Dining Menu (Mon - Sun)',
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
+                        ),
                       ),
                       const SizedBox(height: 4),
                       const Text(
                         'Academic Year 2024-25 • 4 Meals Daily • Timings: 7:30 AM - 9:00 PM',
-                        style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF64748B),
+                        ),
                       ),
                       const SizedBox(height: 12),
                       const Divider(color: Color(0xFFE2E8F0), height: 1),
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          _buildPreviewMealSummary('Breakfast', 'Idli, Poha, Dosa...'),
+                          _buildPreviewMealSummary(
+                            'Breakfast',
+                            'Idli, Poha, Dosa...',
+                          ),
                           const SizedBox(width: 8),
-                          _buildPreviewMealSummary('Lunch', 'Thali, Biryani, Rice...'),
+                          _buildPreviewMealSummary(
+                            'Lunch',
+                            'Thali, Biryani, Rice...',
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          _buildPreviewMealSummary('Snacks', 'Samosa, Tea, Biscuits...'),
+                          _buildPreviewMealSummary(
+                            'Snacks',
+                            'Samosa, Tea, Biscuits...',
+                          ),
                           const SizedBox(width: 8),
-                          _buildPreviewMealSummary('Dinner', 'Pulao, Paneer, Curry...'),
+                          _buildPreviewMealSummary(
+                            'Dinner',
+                            'Pulao, Paneer, Curry...',
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Printer Settings', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                const Text(
+                  'Printer Settings',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(12),
@@ -330,12 +451,27 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                     children: [
                       Row(
                         children: [
-                          const Icon(LucideIcons.printer, size: 18, color: Color(0xFF64748B)),
+                          const Icon(
+                            LucideIcons.printer,
+                            size: 18,
+                            color: Color(0xFF64748B),
+                          ),
                           const SizedBox(width: 10),
-                          Text(selectedPrinter, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
+                          Text(
+                            selectedPrinter,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
                         ],
                       ),
-                      const Icon(Icons.keyboard_arrow_down, color: Color(0xFF64748B), size: 20),
+                      const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Color(0xFF64748B),
+                        size: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -344,7 +480,10 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                   children: [
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF8FAFC),
                           borderRadius: BorderRadius.circular(12),
@@ -353,7 +492,14 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Copies', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF64748B))),
+                            const Text(
+                              'Copies',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
                             Row(
                               children: [
                                 GestureDetector(
@@ -367,13 +513,26 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                                      border: Border.all(
+                                        color: const Color(0xFFE2E8F0),
+                                      ),
                                     ),
-                                    child: const Icon(Icons.remove, size: 14, color: Color(0xFF1E1E2D)),
+                                    child: const Icon(
+                                      Icons.remove,
+                                      size: 14,
+                                      color: Color(0xFF1E1E2D),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                Text('$copies', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                                Text(
+                                  '$copies',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1E1E2D),
+                                  ),
+                                ),
                                 const SizedBox(width: 10),
                                 GestureDetector(
                                   onTap: () => setModalState(() => copies++),
@@ -382,9 +541,15 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                                      border: Border.all(
+                                        color: const Color(0xFFE2E8F0),
+                                      ),
                                     ),
-                                    child: const Icon(Icons.add, size: 14, color: Color(0xFF1E1E2D)),
+                                    child: const Icon(
+                                      Icons.add,
+                                      size: 14,
+                                      color: Color(0xFF1E1E2D),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -396,7 +561,10 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 12,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF8FAFC),
                           borderRadius: BorderRadius.circular(12),
@@ -405,8 +573,22 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Paper', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF64748B))),
-                            Text('A4 • 1 Page', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                            Text(
+                              'Paper',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                            Text(
+                              'A4 • 1 Page',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E1E2D),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -420,39 +602,77 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                   children: [
                     Expanded(
                       child: OutlinedButton.icon(
-                        icon: const Icon(LucideIcons.fileText, size: 16, color: Color(0xFF64748B)),
-                        label: const Text('Save PDF', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
+                        icon: const Icon(
+                          LucideIcons.fileText,
+                          size: 16,
+                          color: Color(0xFF64748B),
+                        ),
+                        label: const Text(
+                          'Save PDF',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
                         onPressed: () {
-                          final scaffoldMessenger = ScaffoldMessenger.of(context);
+                          final scaffoldMessenger = ScaffoldMessenger.of(
+                            context,
+                          );
                           Navigator.pop(context);
                           scaffoldMessenger.showSnackBar(
-                            const SnackBar(content: Text('Mess Menu PDF exported successfully to Downloads!')),
+                            const SnackBar(
+                              content: Text(
+                                'Mess Menu PDF exported successfully to Downloads!',
+                              ),
+                            ),
                           );
                         },
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           side: const BorderSide(color: Color(0xFFE2E8F0)),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: ElevatedButton.icon(
-                        icon: const Icon(LucideIcons.printer, size: 16, color: Colors.white),
-                        label: const Text('Print Now', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                        icon: const Icon(
+                          LucideIcons.printer,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                        label: const Text(
+                          'Print Now',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                         onPressed: () {
-                          final scaffoldMessenger = ScaffoldMessenger.of(context);
+                          final scaffoldMessenger = ScaffoldMessenger.of(
+                            context,
+                          );
                           Navigator.pop(context);
                           scaffoldMessenger.showSnackBar(
-                            SnackBar(content: Text('Print job for $copies cop${copies > 1 ? "ies" : "y"} sent to $selectedPrinter successfully! 🖨️')),
+                            SnackBar(
+                              content: Text(
+                                'Print job for $copies cop${copies > 1 ? "ies" : "y"} sent to $selectedPrinter successfully! 🖨️',
+                              ),
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6C4CF1),
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           elevation: 0,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
                       ),
                     ),
@@ -473,17 +693,49 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
         children: [
           Row(
             children: [
-              Expanded(child: _buildMealTimingCard('Breakfast', '7:30 - 9:00 AM', LucideIcons.coffee, const Color(0xFFF59E0B), const Color(0xFFFFFBEB))),
+              Expanded(
+                child: _buildMealTimingCard(
+                  'Breakfast',
+                  '7:30 - 9:00 AM',
+                  LucideIcons.coffee,
+                  const Color(0xFFF59E0B),
+                  const Color(0xFFFFFBEB),
+                ),
+              ),
               const SizedBox(width: 12),
-              Expanded(child: _buildMealTimingCard('Lunch', '12:30 - 2:00 PM', LucideIcons.utensils, const Color(0xFF10B981), const Color(0xFFF0FDF4))),
+              Expanded(
+                child: _buildMealTimingCard(
+                  'Lunch',
+                  '12:30 - 2:00 PM',
+                  LucideIcons.utensils,
+                  const Color(0xFF10B981),
+                  const Color(0xFFF0FDF4),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _buildMealTimingCard('Snacks', '4:30 - 5:30 PM', LucideIcons.cookie, const Color(0xFF0EA5E9), const Color(0xFFF0F9FF))),
+              Expanded(
+                child: _buildMealTimingCard(
+                  'Snacks',
+                  '4:30 - 5:30 PM',
+                  LucideIcons.cookie,
+                  const Color(0xFF0EA5E9),
+                  const Color(0xFFF0F9FF),
+                ),
+              ),
               const SizedBox(width: 12),
-              Expanded(child: _buildMealTimingCard('Dinner', '7:30 - 9:00 PM', LucideIcons.moon, const Color(0xFF8B5CF6), const Color(0xFFF5F3FF))),
+              Expanded(
+                child: _buildMealTimingCard(
+                  'Dinner',
+                  '7:30 - 9:00 PM',
+                  LucideIcons.moon,
+                  const Color(0xFF8B5CF6),
+                  const Color(0xFFF5F3FF),
+                ),
+              ),
             ],
           ),
         ],
@@ -491,7 +743,13 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
     );
   }
 
-  Widget _buildMealTimingCard(String title, String time, IconData icon, Color iconColor, Color bgColor) {
+  Widget _buildMealTimingCard(
+    String title,
+    String time,
+    IconData icon,
+    Color iconColor,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -504,13 +762,30 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
             child: Icon(icon, color: iconColor, size: 20),
           ),
           const SizedBox(height: 16),
-          Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 2),
-          Text(time, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF94A3B8))),
+          Text(
+            time,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF94A3B8),
+            ),
+          ),
         ],
       ),
     );
@@ -522,10 +797,24 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('Weekly Menu', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
+          const Text(
+            'Weekly Menu',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           GestureDetector(
             onTap: () => _showEditMenuSheet(context),
-            child: const Text('Edit menu', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+            child: const Text(
+              'Edit menu',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF6C4CF1),
+              ),
+            ),
           ),
         ],
       ),
@@ -539,7 +828,7 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
       filteredDays = _days.where((day) {
         final meals = _weeklyMenuData[day]!;
         return day.toLowerCase().contains(query) ||
-               meals.values.any((item) => item.toLowerCase().contains(query));
+            meals.values.any((item) => item.toLowerCase().contains(query));
       }).toList();
     }
 
@@ -561,15 +850,24 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                         height: 16,
                         margin: const EdgeInsets.only(top: 24),
                         decoration: BoxDecoration(
-                          color: isToday ? const Color(0xFF6C4CF1) : Colors.white,
+                          color: isToday
+                              ? const Color(0xFF6C4CF1)
+                              : Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: isToday ? const Color(0xFF6C4CF1) : const Color(0xFFCBD5E1), width: 3),
+                          border: Border.all(
+                            color: isToday
+                                ? const Color(0xFF6C4CF1)
+                                : const Color(0xFFCBD5E1),
+                            width: 3,
+                          ),
                         ),
                       ),
                       Expanded(
                         child: Container(
                           width: 2,
-                          color: day == 'Sunday' ? Colors.transparent : const Color(0xFFE2E8F0),
+                          color: day == 'Sunday'
+                              ? Colors.transparent
+                              : const Color(0xFFE2E8F0),
                         ),
                       ),
                     ],
@@ -583,9 +881,18 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                     decoration: BoxDecoration(
                       color: isToday ? const Color(0xFFF8F5FF) : Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: isToday ? const Color(0xFF6C4CF1).withValues(alpha: 0.3) : const Color(0xFFF1F5F9), width: 1.5),
+                      border: Border.all(
+                        color: isToday
+                            ? const Color(0xFF6C4CF1).withValues(alpha: 0.3)
+                            : const Color(0xFFF1F5F9),
+                        width: 1.5,
+                      ),
                       boxShadow: [
-                        BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.4), blurRadius: 10, offset: const Offset(0, 4)),
+                        BoxShadow(
+                          color: const Color(0xFFE8E3F8).withValues(alpha: 0.4),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
                       ],
                     ),
                     child: Column(
@@ -594,23 +901,74 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(day, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: isToday ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D))),
+                            Text(
+                              day,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                                color: isToday
+                                    ? const Color(0xFF6C4CF1)
+                                    : const Color(0xFF1E1E2D),
+                              ),
+                            ),
                             if (isToday)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(color: const Color(0xFF6C4CF1), borderRadius: BorderRadius.circular(12)),
-                                child: const Text('TODAY', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF6C4CF1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Text(
+                                  'TODAY',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                           ],
                         ),
                         const SizedBox(height: 16),
-                        _buildTimelineMealRow(LucideIcons.coffee, 'Breakfast', _weeklyMenuData[day]!['Breakfast']!, const Color(0xFFF59E0B)),
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Divider(height: 1, color: Color(0xFFF1F5F9))),
-                        _buildTimelineMealRow(LucideIcons.utensils, 'Lunch', _weeklyMenuData[day]!['Lunch']!, const Color(0xFF10B981)),
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Divider(height: 1, color: Color(0xFFF1F5F9))),
-                        _buildTimelineMealRow(LucideIcons.cookie, 'Snacks', _weeklyMenuData[day]!['Snacks']!, const Color(0xFF0EA5E9)),
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Divider(height: 1, color: Color(0xFFF1F5F9))),
-                        _buildTimelineMealRow(LucideIcons.moon, 'Dinner', _weeklyMenuData[day]!['Dinner']!, const Color(0xFF8B5CF6)),
+                        _buildTimelineMealRow(
+                          LucideIcons.coffee,
+                          'Breakfast',
+                          _weeklyMenuData[day]!['Breakfast']!,
+                          const Color(0xFFF59E0B),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          child: Divider(height: 1, color: Color(0xFFF1F5F9)),
+                        ),
+                        _buildTimelineMealRow(
+                          LucideIcons.utensils,
+                          'Lunch',
+                          _weeklyMenuData[day]!['Lunch']!,
+                          const Color(0xFF10B981),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          child: Divider(height: 1, color: Color(0xFFF1F5F9)),
+                        ),
+                        _buildTimelineMealRow(
+                          LucideIcons.cookie,
+                          'Snacks',
+                          _weeklyMenuData[day]!['Snacks']!,
+                          const Color(0xFF0EA5E9),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          child: Divider(height: 1, color: Color(0xFFF1F5F9)),
+                        ),
+                        _buildTimelineMealRow(
+                          LucideIcons.moon,
+                          'Dinner',
+                          _weeklyMenuData[day]!['Dinner']!,
+                          const Color(0xFF8B5CF6),
+                        ),
                       ],
                     ),
                   ),
@@ -623,7 +981,12 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
     );
   }
 
-  Widget _buildTimelineMealRow(IconData icon, String title, String items, Color color) {
+  Widget _buildTimelineMealRow(
+    IconData icon,
+    String title,
+    String items,
+    Color color,
+  ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -633,9 +996,24 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF64748B),
+                ),
+              ),
               const SizedBox(height: 2),
-              Text(items, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D), height: 1.3)),
+              Text(
+                items,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1E1E2D),
+                  height: 1.3,
+                ),
+              ),
             ],
           ),
         ),
@@ -664,7 +1042,14 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Edit Weekly Menu', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const Text(
+                    'Edit Weekly Menu',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   IconButton(
                     icon: const Icon(LucideIcons.x, color: Color(0xFF64748B)),
                     onPressed: () => Navigator.pop(context),
@@ -685,15 +1070,28 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
                       onPressed: () {
                         final scaffoldMessenger = ScaffoldMessenger.of(context);
                         Navigator.pop(context);
-                        scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Menu updated successfully!')));
+                        scaffoldMessenger.showSnackBar(
+                          const SnackBar(
+                            content: Text('Menu updated successfully!'),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                         elevation: 0,
                       ),
-                      child: const Text('Save Changes', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                      child: const Text(
+                        'Save Changes',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -711,7 +1109,14 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(day, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          Text(
+            day,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 12),
           _buildTextField('Breakfast', _weeklyMenuData[day]!['Breakfast']!),
           const SizedBox(height: 12),
@@ -731,8 +1136,14 @@ class _MessMenuScreenState extends State<MessMenuScreen> {
         labelStyle: const TextStyle(color: Color(0xFF64748B), fontSize: 14),
         filled: true,
         fillColor: const Color(0xFFF8F9FA),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.5),
+        ),
       ),
     );
   }

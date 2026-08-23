@@ -29,7 +29,10 @@ class PrivacyPolicyScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Effective Date: August 1, 2026', style: TextStyle(fontSize: 14, color: Color(0xFF9090A7))),
+            const Text(
+              'Effective Date: August 1, 2026',
+              style: TextStyle(fontSize: 14, color: Color(0xFF9090A7)),
+            ),
             const SizedBox(height: 24),
             _buildSectionTitle('1. Information We Collect'),
             _buildSectionText(

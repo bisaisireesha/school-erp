@@ -14,10 +14,21 @@ class PrototypeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xFF1E1E2D), size: 20),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Color(0xFF1E1E2D),
+            size: 20,
+          ),
           onPressed: onBack,
         ),
-        title: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
         centerTitle: true,
       ),
       body: Center(
@@ -31,12 +42,20 @@ class PrototypeScreen extends StatelessWidget {
                 color: const Color(0xFFF4F8FF),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.construction_rounded, size: 60, color: Color(0xFF3B82F6)),
+              child: const Icon(
+                Icons.construction_rounded,
+                size: 60,
+                color: Color(0xFF3B82F6),
+              ),
             ),
             const SizedBox(height: 24),
             Text(
               '$title coming soon!',
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1E1E2D),
+              ),
             ),
             const SizedBox(height: 12),
             const Padding(
@@ -44,7 +63,11 @@ class PrototypeScreen extends StatelessWidget {
               child: Text(
                 'This screen is currently a prototype. Real functionality will be added here in the future.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15, color: Color(0xFF7A7A9D), height: 1.5),
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Color(0xFF7A7A9D),
+                  height: 1.5,
+                ),
               ),
             ),
           ],

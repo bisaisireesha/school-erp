@@ -80,18 +80,37 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                    border: Border.all(
+                      color: const Color(0xFFF3EEFF),
+                      width: 1.5,
+                    ),
                   ),
-                  child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                  child: const Icon(
+                    Icons.arrow_back_rounded,
+                    color: Color(0xFF1E1E2D),
+                    size: 20,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
-              const Text('Profile', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+              const Text(
+                'Profile',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
             ],
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const PersonalInformationScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PersonalInformationScreen(),
+                ),
+              );
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -99,7 +118,14 @@ class ProfileScreen extends StatelessWidget {
                 color: const Color(0xFFF3EEFF),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Text('Edit', style: TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.bold, fontSize: 14)),
+              child: const Text(
+                'Edit',
+                style: TextStyle(
+                  color: Color(0xFF6C4CF1),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
             ),
           ),
         ],
@@ -172,7 +198,11 @@ class ProfileScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
           boxShadow: [
-            BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.5), blurRadius: 20, offset: const Offset(0, 10)),
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
           ],
         ),
         child: Column(
@@ -187,7 +217,9 @@ class ProfileScreen extends StatelessWidget {
                   Container(
                     height: 100,
                     decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(22),
+                      ),
                       gradient: LinearGradient(
                         colors: [Color(0xFF6C4CF1), Color(0xFF9B7BFF)],
                         begin: Alignment.topLeft,
@@ -205,7 +237,13 @@ class ProfileScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 4),
                         boxShadow: [
-                          BoxShadow(color: const Color(0xFF6C4CF1).withValues(alpha: 0.15), blurRadius: 10, offset: const Offset(0, 5)),
+                          BoxShadow(
+                            color: const Color(
+                              0xFF6C4CF1,
+                            ).withValues(alpha: 0.15),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
                         ],
                       ),
                       child: Container(
@@ -214,7 +252,14 @@ class ProfileScreen extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Center(
-                          child: Text(initials, style: const TextStyle(color: Color(0xFF6C4CF1), fontWeight: FontWeight.w800, fontSize: 30)),
+                          child: Text(
+                            initials,
+                            style: const TextStyle(
+                              color: Color(0xFF6C4CF1),
+                              fontWeight: FontWeight.w800,
+                              fontSize: 30,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -223,9 +268,23 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            Text(name, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Color(0xFF1E1E2D))),
+            Text(
+              name,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF1E1E2D),
+              ),
+            ),
             const SizedBox(height: 4),
-            Text(subtitle, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF6C4CF1))),
+            Text(
+              subtitle,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF6C4CF1),
+              ),
+            ),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -235,11 +294,15 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Text(
                 badge,
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: badgeColor),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: badgeColor,
+                ),
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Contact info pills
             Wrap(
               alignment: WrapAlignment.center,
@@ -248,7 +311,8 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 _buildContactPill(LucideIcons.mail, email),
                 _buildContactPill(contact2Icon, contact2),
-                if (extraPill != null) _buildContactPill(LucideIcons.phoneCall, extraPill),
+                if (extraPill != null)
+                  _buildContactPill(LucideIcons.phoneCall, extraPill),
               ],
             ),
             const SizedBox(height: 24),
@@ -280,7 +344,11 @@ class ProfileScreen extends StatelessWidget {
         children: [
           const Text(
             'Front Desk Duty & Desk Info',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
           const SizedBox(height: 16),
           Container(
@@ -299,15 +367,35 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _buildDutyInfoRow(LucideIcons.badgeCheck, 'Staff ID', 'FD-108 (Permanent Staff)'),
+                _buildDutyInfoRow(
+                  LucideIcons.badgeCheck,
+                  'Staff ID',
+                  'FD-108 (Permanent Staff)',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.clock, 'Shift Timings', 'Morning: 08:00 AM – 04:30 PM'),
+                _buildDutyInfoRow(
+                  LucideIcons.clock,
+                  'Shift Timings',
+                  'Morning: 08:00 AM – 04:30 PM',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.mapPin, 'Desk Location', 'Main Reception Counter 1 (Ground Fl.)'),
+                _buildDutyInfoRow(
+                  LucideIcons.mapPin,
+                  'Desk Location',
+                  'Main Reception Counter 1 (Ground Fl.)',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.phoneCall, 'Desk Intercom', 'Ext 205 / Line 2'),
+                _buildDutyInfoRow(
+                  LucideIcons.phoneCall,
+                  'Desk Intercom',
+                  'Ext 205 / Line 2',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.userCheck, 'Reporting Authority', 'Administrative Officer (Main Office)'),
+                _buildDutyInfoRow(
+                  LucideIcons.userCheck,
+                  'Reporting Authority',
+                  'Administrative Officer (Main Office)',
+                ),
               ],
             ),
           ),
@@ -324,7 +412,11 @@ class ProfileScreen extends StatelessWidget {
         children: [
           const Text(
             'Hostel Administration & Duty Info',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
           const SizedBox(height: 16),
           Container(
@@ -343,15 +435,35 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _buildDutyInfoRow(LucideIcons.shield, 'Warden ID', 'WDN-402 (Hostel Chief)'),
+                _buildDutyInfoRow(
+                  LucideIcons.shield,
+                  'Warden ID',
+                  'WDN-402 (Hostel Chief)',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.building2, 'Assigned Blocks', 'Boys Hostel Block A & Block B'),
+                _buildDutyInfoRow(
+                  LucideIcons.building2,
+                  'Assigned Blocks',
+                  'Boys Hostel Block A & Block B',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.users, 'Total Boarders', '450 Resident Students'),
+                _buildDutyInfoRow(
+                  LucideIcons.users,
+                  'Total Boarders',
+                  '450 Resident Students',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.phoneCall, 'Hostel Helpline', 'Ext 104 (Control Room)'),
+                _buildDutyInfoRow(
+                  LucideIcons.phoneCall,
+                  'Hostel Helpline',
+                  'Ext 104 (Control Room)',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.clock, 'Duty Hours', '06:00 AM – 10:00 PM (Resident)'),
+                _buildDutyInfoRow(
+                  LucideIcons.clock,
+                  'Duty Hours',
+                  '06:00 AM – 10:00 PM (Resident)',
+                ),
               ],
             ),
           ),
@@ -368,7 +480,11 @@ class ProfileScreen extends StatelessWidget {
         children: [
           const Text(
             'Academic & Class Info',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
           const SizedBox(height: 16),
           Container(
@@ -387,13 +503,29 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _buildDutyInfoRow(LucideIcons.graduationCap, 'Class & Section', 'Class 10-A (Secondary)'),
+                _buildDutyInfoRow(
+                  LucideIcons.graduationCap,
+                  'Class & Section',
+                  'Class 10-A (Secondary)',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.hash, 'Roll Number & ID', 'Roll No: 1042 · ADM-2024-1042'),
+                _buildDutyInfoRow(
+                  LucideIcons.hash,
+                  'Roll Number & ID',
+                  'Roll No: 1042 · ADM-2024-1042',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.user, 'Class Teacher', 'Mrs. Sunita Rao (Mathematics)'),
+                _buildDutyInfoRow(
+                  LucideIcons.user,
+                  'Class Teacher',
+                  'Mrs. Sunita Rao (Mathematics)',
+                ),
                 const Divider(color: Color(0xFFF1F1F5), height: 20),
-                _buildDutyInfoRow(LucideIcons.flag, 'House Group', 'Ruby House (Red Tigers)'),
+                _buildDutyInfoRow(
+                  LucideIcons.flag,
+                  'House Group',
+                  'Ruby House (Red Tigers)',
+                ),
               ],
             ),
           ),
@@ -418,9 +550,23 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF8F90A6))),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF8F90A6),
+                ),
+              ),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
             ],
           ),
         ),
@@ -441,7 +587,14 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Icon(icon, size: 14, color: const Color(0xFF9090A7)),
           const SizedBox(width: 6),
-          Text(text, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF4A4A68))),
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF4A4A68),
+            ),
+          ),
         ],
       ),
     );
@@ -453,16 +606,35 @@ class ProfileScreen extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Text('My Children', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          child: Text(
+            'My Children',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
         ),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             children: [
-              _buildChildCard('Akshara', 'Class 10-A · Roll No: 1042', 'AK', const Color(0xFF6C4CF1), const Color(0xFFF3F0FF)),
+              _buildChildCard(
+                'Akshara',
+                'Class 10-A · Roll No: 1042',
+                'AK',
+                const Color(0xFF6C4CF1),
+                const Color(0xFFF3F0FF),
+              ),
               const SizedBox(height: 12),
-              _buildChildCard('Aryan', 'Class 7-B · Roll No: 708', 'AR', const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
+              _buildChildCard(
+                'Aryan',
+                'Class 7-B · Roll No: 708',
+                'AR',
+                const Color(0xFF0EA5E9),
+                const Color(0xFFE0F2FE),
+              ),
             ],
           ),
         ),
@@ -470,7 +642,13 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildChildCard(String name, String grade, String initials, Color color, Color bgColor) {
+  Widget _buildChildCard(
+    String name,
+    String grade,
+    String initials,
+    Color color,
+    Color bgColor,
+  ) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -479,7 +657,11 @@ class ProfileScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
-          BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Row(
@@ -489,7 +671,14 @@ class ProfileScreen extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
             child: Center(
-              child: Text(initials, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 16)),
+              child: Text(
+                initials,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -497,13 +686,33 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 const SizedBox(height: 4),
-                Text(grade, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF6C6C80))),
+                Text(
+                  grade,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF6C6C80),
+                  ),
+                ),
               ],
             ),
           ),
-          const Icon(LucideIcons.chevronRight, color: Color(0xFFD1D5DB), size: 20),
+          const Icon(
+            LucideIcons.chevronRight,
+            color: Color(0xFFD1D5DB),
+            size: 20,
+          ),
         ],
       ),
     );
@@ -515,25 +724,62 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Account Settings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          const Text(
+            'Account Settings',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 16),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const PersonalInformationScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PersonalInformationScreen(),
+                ),
+              );
             },
-            child: _buildSettingsItem(LucideIcons.user, 'Personal Information', const Color(0xFF6C4CF1), const Color(0xFFF3EEFF)),
+            child: _buildSettingsItem(
+              LucideIcons.user,
+              'Personal Information',
+              const Color(0xFF6C4CF1),
+              const Color(0xFFF3EEFF),
+            ),
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationsSettingsScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsSettingsScreen(),
+                ),
+              );
             },
-            child: _buildSettingsItem(LucideIcons.bell, 'Notifications', const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
+            child: _buildSettingsItem(
+              LucideIcons.bell,
+              'Notifications',
+              const Color(0xFF0EA5E9),
+              const Color(0xFFE0F2FE),
+            ),
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HelpSupportScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HelpSupportScreen(),
+                ),
+              );
             },
-            child: _buildSettingsItem(LucideIcons.headphones, 'Help & Support', const Color(0xFF16A34A), const Color(0xFFF0FDF4)),
+            child: _buildSettingsItem(
+              LucideIcons.headphones,
+              'Help & Support',
+              const Color(0xFF16A34A),
+              const Color(0xFFF0FDF4),
+            ),
           ),
           const SizedBox(height: 24),
           GestureDetector(
@@ -545,14 +791,26 @@ class ProfileScreen extends StatelessWidget {
                 (route) => false,
               );
             },
-            child: _buildSettingsItem(LucideIcons.logOut, 'Log Out', const Color(0xFFE11D48), const Color(0xFFFFF1F2), hideChevron: true),
+            child: _buildSettingsItem(
+              LucideIcons.logOut,
+              'Log Out',
+              const Color(0xFFE11D48),
+              const Color(0xFFFFF1F2),
+              hideChevron: true,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSettingsItem(IconData icon, String title, Color color, Color bgColor, {bool hideChevron = false}) {
+  Widget _buildSettingsItem(
+    IconData icon,
+    String title,
+    Color color,
+    Color bgColor, {
+    bool hideChevron = false,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -561,22 +819,40 @@ class ProfileScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
         boxShadow: [
-          BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 2)),
+          BoxShadow(
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
         ],
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Icon(icon, color: color, size: 20),
           ),
           const SizedBox(width: 16),
           Expanded(
-            child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF1E1E2D),
+              ),
+            ),
           ),
           if (!hideChevron)
-            const Icon(Icons.chevron_right_rounded, color: Color(0xFF9090A7), size: 20),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: Color(0xFF9090A7),
+              size: 20,
+            ),
         ],
       ),
     );

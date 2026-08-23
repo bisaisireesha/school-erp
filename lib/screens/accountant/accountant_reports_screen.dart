@@ -7,7 +7,8 @@ class AccountantReportsScreen extends StatefulWidget {
   const AccountantReportsScreen({super.key, required this.onBack});
 
   @override
-  State<AccountantReportsScreen> createState() => _AccountantReportsScreenState();
+  State<AccountantReportsScreen> createState() =>
+      _AccountantReportsScreenState();
 }
 
 class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
@@ -106,7 +107,10 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -116,9 +120,16 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
                         ),
-                        child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -126,22 +137,50 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Financial Reports', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D))),
-                          Text('Generate & download reports', style: TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
+                          Text(
+                            'Financial Reports',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
+                          Text(
+                            'Generate & download reports',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF64748B),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF6C4CF1),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
                         children: const [
-                          Text('This Month', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+                          Text(
+                            'This Month',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           SizedBox(width: 4),
-                          Icon(Icons.arrow_drop_down, color: Colors.white, size: 16),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                            size: 16,
+                          ),
                         ],
                       ),
                     ),
@@ -160,14 +199,20 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
                     if (constraints.maxWidth > 900) {
                       return Wrap(
                         spacing: 16,
-                        children: filteredReports.map((report) => SizedBox(
-                          width: (constraints.maxWidth - 16) / 2,
-                          child: _buildReportCard(report),
-                        )).toList(),
+                        children: filteredReports
+                            .map(
+                              (report) => SizedBox(
+                                width: (constraints.maxWidth - 16) / 2,
+                                child: _buildReportCard(report),
+                              ),
+                            )
+                            .toList(),
                       );
                     }
                     return Column(
-                      children: filteredReports.map((report) => _buildReportCard(report)).toList(),
+                      children: filteredReports
+                          .map((report) => _buildReportCard(report))
+                          .toList(),
                     );
                   },
                 ),
@@ -190,7 +235,13 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: const Color(0xFFF1F5F9)),
-          boxShadow: [BoxShadow(color: const Color(0xFFE8E3F8).withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 3))],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.2),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Row(
           children: [
@@ -200,18 +251,41 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
                 color: report['bg'] as Color,
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(report['icon'] as IconData, color: report['color'] as Color, size: 22),
+              child: Icon(
+                report['icon'] as IconData,
+                color: report['color'] as Color,
+                size: 22,
+              ),
             ),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(report['title'] as String, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  Text(
+                    report['title'] as String,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   const SizedBox(height: 3),
-                  Text(report['description'] as String, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                  Text(
+                    report['description'] as String,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF64748B),
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text('Last: ${report['lastGenerated']}', style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
+                  Text(
+                    'Last: ${report['lastGenerated']}',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF94A3B8),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -221,7 +295,11 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
                 color: const Color(0xFFF3F0FF),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(LucideIcons.download, color: Color(0xFF6C4CF1), size: 18),
+              child: const Icon(
+                LucideIcons.download,
+                color: Color(0xFF6C4CF1),
+                size: 18,
+              ),
             ),
           ],
         ),
@@ -260,17 +338,49 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
         children: [
           Row(
             children: [
-              Expanded(child: _buildKPI('Total Reports', '24 Generated', 'This period', LucideIcons.fileText, const Color(0xFF6C4CF1))),
+              Expanded(
+                child: _buildKPI(
+                  'Total Reports',
+                  '24 Generated',
+                  'This period',
+                  LucideIcons.fileText,
+                  const Color(0xFF6C4CF1),
+                ),
+              ),
               const SizedBox(width: 16),
-              Expanded(child: _buildKPI('Pending Reviews', '5 Reports', 'Needs action', LucideIcons.alertCircle, const Color(0xFFF59E0B))),
+              Expanded(
+                child: _buildKPI(
+                  'Pending Reviews',
+                  '5 Reports',
+                  'Needs action',
+                  LucideIcons.alertCircle,
+                  const Color(0xFFF59E0B),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildKPI('Shared Docs', '18 Shared', 'With Mgmt.', LucideIcons.share2, const Color(0xFF10B981))),
+              Expanded(
+                child: _buildKPI(
+                  'Shared Docs',
+                  '18 Shared',
+                  'With Mgmt.',
+                  LucideIcons.share2,
+                  const Color(0xFF10B981),
+                ),
+              ),
               const SizedBox(width: 16),
-              Expanded(child: _buildKPI('Scheduled', '12 Reports', 'Auto-generation', LucideIcons.calendarClock, const Color(0xFF3B82F6))),
+              Expanded(
+                child: _buildKPI(
+                  'Scheduled',
+                  '12 Reports',
+                  'Auto-generation',
+                  LucideIcons.calendarClock,
+                  const Color(0xFF3B82F6),
+                ),
+              ),
             ],
           ),
         ],
@@ -278,7 +388,13 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
     );
   }
 
-  Widget _buildKPI(String title, String value, String subtitle, IconData icon, Color color) {
+  Widget _buildKPI(
+    String title,
+    String value,
+    String subtitle,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -292,18 +408,38 @@ class _AccountantReportsScreenState extends State<AccountantReportsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
+              Text(
+                title,
+                style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+              ),
               Container(
                 padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(color: color.withValues(alpha: 0.1), shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
                 child: Icon(icon, color: color, size: 14),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
+          ),
           const SizedBox(height: 8),
-          Text(subtitle, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color)),
+          Text(
+            subtitle,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
+          ),
         ],
       ),
     );

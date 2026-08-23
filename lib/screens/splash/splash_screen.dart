@@ -21,10 +21,12 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
 
     _fadeController = AnimationController(
       vsync: this,
@@ -45,9 +47,10 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(parent: _scaleController, curve: Curves.elasticOut),
     );
 
-    _slideAnimation = Tween<double>(begin: 40.0, end: 0.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
+    _slideAnimation = Tween<double>(
+      begin: 40.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
 
     _scaleController.forward();
     _fadeController.forward();
@@ -80,11 +83,7 @@ class _SplashScreenState extends State<SplashScreen>
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFFEDE9FA),
-                Color(0xFFE8E4F8),
-                Color(0xFFF0EDF9),
-              ],
+              colors: [Color(0xFFEDE9FA), Color(0xFFE8E4F8), Color(0xFFF0EDF9)],
             ),
           ),
           child: Stack(
@@ -130,7 +129,9 @@ class _SplashScreenState extends State<SplashScreen>
                           borderRadius: BorderRadius.circular(32),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF9C8DDB).withValues(alpha: 0.18),
+                              color: const Color(
+                                0xFF9C8DDB,
+                              ).withValues(alpha: 0.18),
                               blurRadius: 30,
                               offset: const Offset(0, 10),
                             ),
@@ -141,11 +142,12 @@ class _SplashScreenState extends State<SplashScreen>
                             'lib/assets/graduation logo.png',
                             width: 90,
                             height: 90,
-                            errorBuilder: (context, error, stackTrace) => const Icon(
-                              Icons.school,
-                              size: 60,
-                              color: Color(0xFF9C8DDB),
-                            ),
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(
+                                  Icons.school,
+                                  size: 60,
+                                  color: Color(0xFF9C8DDB),
+                                ),
                           ),
                         ),
                       ),
@@ -160,9 +162,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Container(
                       width: 52,
                       height: 52,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFE6E3ED),
-                      ),
+                      decoration: const BoxDecoration(color: Color(0xFFE6E3ED)),
                       child: const Center(
                         child: Text(
                           'LOGO',
@@ -208,7 +208,9 @@ class _SplashScreenState extends State<SplashScreen>
                     opacity: _fadeAnimation,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 22, vertical: 9),
+                        horizontal: 22,
+                        vertical: 9,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFEDE9FA),
                         borderRadius: BorderRadius.circular(30),
@@ -267,8 +269,6 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
-
-
 
 class _DecorativeCircle extends StatelessWidget {
   final double size;

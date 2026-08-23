@@ -7,9 +7,6 @@ class ScreenBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xFFFFFFFF),
-      child: child,
-    );
+    return Container(color: const Color(0xFFFFFFFF), child: child);
   }
 }

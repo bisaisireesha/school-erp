@@ -43,7 +43,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
     'Hostel',
     'Mess',
     'Inventory',
-    'Maintenance'
+    'Maintenance',
   ];
 
   Map<String, dynamic> _mockData = {};
@@ -58,7 +58,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Future<void> _loadReports() async {
     if (!_isLoading && _mockData.isNotEmpty) return;
     try {
-      final String response = await rootBundle.loadString('assets/mock/hostel_warden_reports.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/hostel_warden_reports.json',
+      );
       final data = await json.decode(response);
       if (mounted) {
         setState(() {
@@ -79,15 +81,24 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
   IconData _getIcon(String iconStr) {
     switch (iconStr) {
-      case 'bedDouble': return LucideIcons.bedDouble;
-      case 'utensils': return LucideIcons.utensils;
-      case 'package': return LucideIcons.package;
-      case 'briefcase': return LucideIcons.briefcase;
-      case 'fileText': return LucideIcons.fileText;
-      case 'wrench': return LucideIcons.wrench;
-      case 'building': return LucideIcons.building;
-      case 'store': return LucideIcons.store;
-      default: return LucideIcons.fileText;
+      case 'bedDouble':
+        return LucideIcons.bedDouble;
+      case 'utensils':
+        return LucideIcons.utensils;
+      case 'package':
+        return LucideIcons.package;
+      case 'briefcase':
+        return LucideIcons.briefcase;
+      case 'fileText':
+        return LucideIcons.fileText;
+      case 'wrench':
+        return LucideIcons.wrench;
+      case 'building':
+        return LucideIcons.building;
+      case 'store':
+        return LucideIcons.store;
+      default:
+        return LucideIcons.fileText;
     }
   }
 
@@ -132,23 +143,30 @@ class _ReportsScreenState extends State<ReportsScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Container(
         color: Colors.transparent,
-        child: const Center(child: CircularProgressIndicator(color: Color(0xFF6C4CF1))),
+        child: const Center(
+          child: CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+        ),
       );
     }
-    
+
     final currentData = _mockData[_timeFilter] ?? _mockData['This Month']!;
-    final currentReports = List<Map<String, dynamic>>.from(currentData['reports']);
+    final currentReports = List<Map<String, dynamic>>.from(
+      currentData['reports'],
+    );
     final currentKpis = List<Map<String, dynamic>>.from(currentData['kpis']);
 
     final filteredReports = currentReports.where((report) {
-      final matchesFilter = _selectedFilter == 'All Reports' || report['category'] == _selectedFilter;
-      final matchesSearch = report['title'].toString().toLowerCase().contains(_searchQuery.toLowerCase());
+      final matchesFilter =
+          _selectedFilter == 'All Reports' ||
+          report['category'] == _selectedFilter;
+      final matchesSearch = report['title'].toString().toLowerCase().contains(
+        _searchQuery.toLowerCase(),
+      );
       return matchesFilter && matchesSearch;
     }).toList();
 
@@ -168,9 +186,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 16,
+                      ),
                       itemCount: filteredReports.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 16),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 16),
                       itemBuilder: (context, index) {
                         return _buildReportCard(filteredReports[index]);
                       },
@@ -202,16 +224,27 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+                      border: Border.all(
+                        color: const Color(0xFFF3EEFF),
+                        width: 1.5,
+                      ),
                     ),
-                    child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+                    child: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Color(0xFF1E1E2D),
+                      size: 20,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
                 const Expanded(
                   child: Text(
                     'Reports',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -226,21 +259,26 @@ class _ReportsScreenState extends State<ReportsScreen> {
               });
             },
             offset: const Offset(0, 50),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             color: Colors.white,
-            itemBuilder: (BuildContext context) => ['Today', 'This Month', 'This Year'].map((String value) {
-              return PopupMenuItem<String>(
-                value: value,
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    color: _timeFilter == value ? const Color(0xFF6C4CF1) : const Color(0xFF1E1E2D),
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              );
-            }).toList(),
+            itemBuilder: (BuildContext context) =>
+                ['Today', 'This Month', 'This Year'].map((String value) {
+                  return PopupMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                        color: _timeFilter == value
+                            ? const Color(0xFF6C4CF1)
+                            : const Color(0xFF1E1E2D),
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                }).toList(),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
@@ -252,10 +290,18 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 children: [
                   Text(
                     _timeFilter,
-                    style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(LucideIcons.chevronDown, size: 18, color: Colors.white),
+                  const Icon(
+                    LucideIcons.chevronDown,
+                    size: 18,
+                    color: Colors.white,
+                  ),
                 ],
               ),
             ),
@@ -266,7 +312,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
   }
 
   Widget _buildCategoryKpiCards(List<Map<String, dynamic>> kpis) {
-
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
@@ -308,7 +353,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
               color: _getColor(kpi['bg']),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(_getIcon(kpi['iconStr']), color: _getColor(kpi['color']), size: 24),
+            child: Icon(
+              _getIcon(kpi['iconStr']),
+              color: _getColor(kpi['color']),
+              size: 24,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -317,11 +366,19 @@ class _ReportsScreenState extends State<ReportsScreen> {
               children: [
                 Text(
                   kpi['count'] as String,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
                 ),
                 Text(
                   kpi['title'] as String,
-                  style: const TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF64748B),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
@@ -348,7 +405,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFF6C4CF1) : Colors.transparent,
+                color: isSelected
+                    ? const Color(0xFF6C4CF1)
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -392,169 +451,208 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
   Widget _buildReportCard(Map<String, dynamic> report) {
     final style = _getCategoryStyle(report['category'] as String);
-    
+
     return GestureDetector(
       onTap: () {
         _showViewDetailsModal(report);
       },
       child: Container(
         padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE2E8F0).withValues(alpha: 0.3),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: style['bg'] as Color,
-                  borderRadius: BorderRadius.circular(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE2E8F0).withValues(alpha: 0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: style['bg'] as Color,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    report['iconStr'] != null
+                        ? _getIcon(report['iconStr'])
+                        : (style['icon'] as IconData),
+                    color: style['color'] as Color,
+                    size: 24,
+                  ),
                 ),
-                child: Icon(report['iconStr'] != null ? _getIcon(report['iconStr']) : (style['icon'] as IconData), color: style['color'] as Color, size: 24),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              report['title'] as String,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E1E2D),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF8FAFC),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: const Color(0xFFE2E8F0),
+                              ),
+                            ),
+                            child: Text(
+                              report['category'] as String,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        report['desc'] as String,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF64748B),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Divider(height: 1, color: Color(0xFFF1F5F9)),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            report['title'] as String,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1E1E2D),
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF8FAFC),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: const Color(0xFFE2E8F0)),
-                          ),
-                          child: Text(
-                            report['category'] as String,
-                            style: const TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF64748B),
-                            ),
-                          ),
-                        ),
-                      ],
+                    const Text(
+                      'Total Records',
+                      style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 2),
                     Text(
-                      report['desc'] as String,
+                      report['records'] as String,
                       style: const TextStyle(
-                        fontSize: 13,
-                        color: Color(0xFF64748B),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Total Records',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Color(0xFF64748B),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    report['records'] as String,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1E1E2D),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => _showViewDetailsModal(report),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFFE2E8F0)),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: const [
-                          Icon(LucideIcons.eye, size: 16, color: Color(0xFF64748B)),
-                          SizedBox(width: 6),
-                          Text('View', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
-                        ],
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => _showViewDetailsModal(report),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: const [
+                            Icon(
+                              LucideIcons.eye,
+                              size: 16,
+                              color: Color(0xFF64748B),
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              'View',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: _showExportModal,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF6C4CF1),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: const [
-                          Icon(LucideIcons.download, size: 16, color: Colors.white),
-                          SizedBox(width: 6),
-                          Text('Export', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
-                        ],
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: _showExportModal,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF6C4CF1),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: const [
+                            Icon(
+                              LucideIcons.download,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              'Export',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   void _showViewDetailsModal(Map<String, dynamic> report) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (context) {
         final style = _getCategoryStyle(report['category'] as String);
         return Container(
@@ -571,32 +669,70 @@ class _ReportsScreenState extends State<ReportsScreen> {
                       color: style['bg'] as Color,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(style['icon'] as IconData, color: style['color'] as Color, size: 24),
+                    child: Icon(
+                      style['icon'] as IconData,
+                      color: style['color'] as Color,
+                      size: 24,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(report['title'] as String, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                        Text(report['category'] as String, style: TextStyle(fontSize: 14, color: style['color'] as Color, fontWeight: FontWeight.w600)),
+                        Text(
+                          report['title'] as String,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E1E2D),
+                          ),
+                        ),
+                        Text(
+                          report['category'] as String,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: style['color'] as Color,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: const Icon(LucideIcons.x, color: Color(0xFF64748B), size: 24),
+                    child: const Icon(
+                      LucideIcons.x,
+                      color: Color(0xFF64748B),
+                      size: 24,
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 24),
-              const Text('Description', style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
+              const Text(
+                'Description',
+                style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+              ),
               const SizedBox(height: 4),
-              Text(report['desc'] as String, style: const TextStyle(fontSize: 15, color: Color(0xFF1E1E2D))),
+              Text(
+                report['desc'] as String,
+                style: const TextStyle(fontSize: 15, color: Color(0xFF1E1E2D)),
+              ),
               const SizedBox(height: 16),
-              const Text('Total Records', style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
+              const Text(
+                'Total Records',
+                style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+              ),
               const SizedBox(height: 4),
-              Text(report['records'] as String, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+              Text(
+                report['records'] as String,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
+              ),
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
@@ -605,12 +741,24 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     Navigator.pop(context);
                     _showExportModal();
                   },
-                  icon: const Icon(LucideIcons.download, size: 18, color: Colors.white),
-                  label: const Text('Export Report', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  icon: const Icon(
+                    LucideIcons.download,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Export Report',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6C4CF1),
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     elevation: 0,
                   ),
                 ),
@@ -618,65 +766,155 @@ class _ReportsScreenState extends State<ReportsScreen> {
             ],
           ),
         );
-      }
+      },
     );
   }
 
   void _showExportModal() {
     showModalBottomSheet(
-      context: context, 
-      backgroundColor: Colors.white, 
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))), 
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.fromLTRB(24, 20, 24, 24), 
+          padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
           child: Column(
-            mainAxisSize: MainAxisSize.min, 
-            crossAxisAlignment: CrossAxisAlignment.start, 
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  const Expanded(child: Text('Export Report', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)))), 
+                  const Expanded(
+                    child: Text(
+                      'Export Report',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
+                  ),
                   GestureDetector(
-                    onTap: () => Navigator.pop(context), 
-                    child: const Padding(padding: EdgeInsets.all(4), child: Icon(LucideIcons.x, color: Color(0xFF64748B), size: 20)),
+                    onTap: () => Navigator.pop(context),
+                    child: const Padding(
+                      padding: EdgeInsets.all(4),
+                      child: Icon(
+                        LucideIcons.x,
+                        color: Color(0xFF64748B),
+                        size: 20,
+                      ),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 6), 
-              const Text('Choose the format to export your records.', style: TextStyle(fontSize: 13, color: Color(0xFF64748B))), 
+              const SizedBox(height: 6),
+              const Text(
+                'Choose the format to export your records.',
+                style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+              ),
               const SizedBox(height: 20),
-              _buildExportOption('PDF Document', '.pdf', LucideIcons.fileText, const Color(0xFFE11D48), const Color(0xFFFEE2E2)),
+              _buildExportOption(
+                'PDF Document',
+                '.pdf',
+                LucideIcons.fileText,
+                const Color(0xFFE11D48),
+                const Color(0xFFFEE2E2),
+              ),
               const SizedBox(height: 12),
-              _buildExportOption('Excel Spreadsheet', '.xlsx', LucideIcons.table2, const Color(0xFF16A34A), const Color(0xFFDCFCE7)),
+              _buildExportOption(
+                'Excel Spreadsheet',
+                '.xlsx',
+                LucideIcons.table2,
+                const Color(0xFF16A34A),
+                const Color(0xFFDCFCE7),
+              ),
               const SizedBox(height: 12),
-              _buildExportOption('CSV File', '.csv', LucideIcons.fileSpreadsheet, const Color(0xFF2563EB), const Color(0xFFEFF6FF)),
-            ]
-          )
+              _buildExportOption(
+                'CSV File',
+                '.csv',
+                LucideIcons.fileSpreadsheet,
+                const Color(0xFF2563EB),
+                const Color(0xFFEFF6FF),
+              ),
+            ],
+          ),
         );
-      }
+      },
     );
   }
 
-  Widget _buildExportOption(String title, String format, IconData icon, Color iconColor, Color bgColor) {
+  Widget _buildExportOption(
+    String title,
+    String format,
+    IconData icon,
+    Color iconColor,
+    Color bgColor,
+  ) {
     return GestureDetector(
       onTap: () {
         final scaffoldMessenger = ScaffoldMessenger.of(context);
         Navigator.pop(context);
-        scaffoldMessenger.showSnackBar(SnackBar(content: Text('Exporting as $format...'), behavior: SnackBarBehavior.floating, backgroundColor: const Color(0xFF1E1E2D), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), margin: const EdgeInsets.all(16)));
+        scaffoldMessenger.showSnackBar(
+          SnackBar(
+            content: Text('Exporting as $format...'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: const Color(0xFF1E1E2D),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.all(16),
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: const Color(0xFFE2E8F0))),
-        child: Row(children: [
-          Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(10)), child: Icon(icon, size: 20, color: iconColor)),
-          const SizedBox(width: 16),
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-            Text('Export to $format format', style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-          ])),
-          const Icon(LucideIcons.chevronRight, size: 18, color: Color(0xFF94A3B8)),
-        ]),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE2E8F0)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, size: 20, color: iconColor),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
+                  Text(
+                    'Export to $format format',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF64748B),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(
+              LucideIcons.chevronRight,
+              size: 18,
+              color: Color(0xFF94A3B8),
+            ),
+          ],
+        ),
       ),
     );
   }

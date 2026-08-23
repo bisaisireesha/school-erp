@@ -1,0 +1,18 @@
+[
+  {
+    "bill_id": "BILL-501",
+    "vendor": "PowerCorp Ltd",
+    "category": "Electricity",
+    "amount": 45000.0,
+    "due_date": "2023-08-25",
+    "status": "Unpaid"
+  },
+  {
+    "bill_id": "BILL-502",
+    "vendor": "CleanCo",
+    "category": "Cleaning Supplies",
+    "amount": 12000.0,
+    "due_date": "2023-08-10",
+    "status": "Paid"
+  }
+]

@@ -5,10 +5,12 @@ class NotificationsSettingsScreen extends StatefulWidget {
   const NotificationsSettingsScreen({super.key});
 
   @override
-  State<NotificationsSettingsScreen> createState() => _NotificationsSettingsScreenState();
+  State<NotificationsSettingsScreen> createState() =>
+      _NotificationsSettingsScreenState();
 }
 
-class _NotificationsSettingsScreenState extends State<NotificationsSettingsScreen> {
+class _NotificationsSettingsScreenState
+    extends State<NotificationsSettingsScreen> {
   bool _pushNotifications = true;
   bool _emailNotifications = false;
   bool _smsNotifications = true;
@@ -42,13 +44,37 @@ class _NotificationsSettingsScreenState extends State<NotificationsSettingsScree
           children: [
             _buildSectionTitle('Alert Preferences'),
             const SizedBox(height: 16),
-            _buildSwitchTile(LucideIcons.bellRing, 'Push Notifications', 'Receive alerts on your device', _pushNotifications, (val) => setState(() => _pushNotifications = val)),
-            _buildSwitchTile(LucideIcons.mail, 'Email Notifications', 'Receive daily summary emails', _emailNotifications, (val) => setState(() => _emailNotifications = val)),
-            _buildSwitchTile(LucideIcons.messageSquare, 'SMS Notifications', 'Receive urgent alerts via SMS', _smsNotifications, (val) => setState(() => _smsNotifications = val)),
+            _buildSwitchTile(
+              LucideIcons.bellRing,
+              'Push Notifications',
+              'Receive alerts on your device',
+              _pushNotifications,
+              (val) => setState(() => _pushNotifications = val),
+            ),
+            _buildSwitchTile(
+              LucideIcons.mail,
+              'Email Notifications',
+              'Receive daily summary emails',
+              _emailNotifications,
+              (val) => setState(() => _emailNotifications = val),
+            ),
+            _buildSwitchTile(
+              LucideIcons.messageSquare,
+              'SMS Notifications',
+              'Receive urgent alerts via SMS',
+              _smsNotifications,
+              (val) => setState(() => _smsNotifications = val),
+            ),
             const SizedBox(height: 32),
             _buildSectionTitle('Do Not Disturb'),
             const SizedBox(height: 16),
-            _buildSwitchTile(LucideIcons.bellOff, 'Mute All Notifications', 'Temporarily pause all alerts', _muteAll, (val) => setState(() => _muteAll = val)),
+            _buildSwitchTile(
+              LucideIcons.bellOff,
+              'Mute All Notifications',
+              'Temporarily pause all alerts',
+              _muteAll,
+              (val) => setState(() => _muteAll = val),
+            ),
           ],
         ),
       ),
@@ -66,7 +92,13 @@ class _NotificationsSettingsScreenState extends State<NotificationsSettingsScree
     );
   }
 
-  Widget _buildSwitchTile(IconData icon, String title, String subtitle, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildSwitchTile(
+    IconData icon,
+    String title,
+    String subtitle,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Container(
@@ -77,8 +109,17 @@ class _NotificationsSettingsScreenState extends State<NotificationsSettingsScree
         ),
         child: Icon(icon, color: const Color(0xFF0EA5E9), size: 20),
       ),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
-      subtitle: Text(subtitle, style: const TextStyle(fontSize: 12, color: Color(0xFF9090A7))),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF1E1E2D),
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF9090A7)),
+      ),
       trailing: Switch(
         value: value,
         onChanged: onChanged,

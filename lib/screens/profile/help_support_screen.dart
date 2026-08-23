@@ -36,33 +36,83 @@ class HelpSupportScreen extends StatelessWidget {
           children: [
             _buildSectionTitle('Need Help?'),
             const SizedBox(height: 16),
-            _buildListTile(LucideIcons.messageCircle, 'Contact Support', 'Chat with our support team', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ContactSupportScreen()));
-            }),
-            _buildListTile(LucideIcons.helpCircle, 'FAQs', 'Frequently asked questions', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const FaqsScreen()));
-            }),
+            _buildListTile(
+              LucideIcons.messageCircle,
+              'Contact Support',
+              'Chat with our support team',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ContactSupportScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildListTile(
+              LucideIcons.helpCircle,
+              'FAQs',
+              'Frequently asked questions',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FaqsScreen()),
+                );
+              },
+            ),
             const SizedBox(height: 32),
             _buildSectionTitle('About'),
             const SizedBox(height: 16),
-            _buildListTile(LucideIcons.info, 'App Version', 'v1.0.0 (Build 42)', onTap: () {
-              showAboutDialog(
-                context: context,
-                applicationName: 'School ERP Parent',
-                applicationVersion: 'v1.0.0 (Build 42)',
-                applicationIcon: const Icon(LucideIcons.graduationCap, size: 48, color: Color(0xFF6C4CF1)),
-                children: const [
-                  SizedBox(height: 16),
-                  Text('A comprehensive platform for parents to track and manage their children\'s academic progress, attendance, and activities.', style: TextStyle(fontSize: 14)),
-                ],
-              );
-            }),
-            _buildListTile(LucideIcons.fileText, 'Terms of Service', 'Read our terms and conditions', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const TermsOfServiceScreen()));
-            }),
-            _buildListTile(LucideIcons.shield, 'Privacy Policy', 'Review our privacy policy', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen()));
-            }),
+            _buildListTile(
+              LucideIcons.info,
+              'App Version',
+              'v1.0.0 (Build 42)',
+              onTap: () {
+                showAboutDialog(
+                  context: context,
+                  applicationName: 'School ERP Parent',
+                  applicationVersion: 'v1.0.0 (Build 42)',
+                  applicationIcon: const Icon(
+                    LucideIcons.graduationCap,
+                    size: 48,
+                    color: Color(0xFF6C4CF1),
+                  ),
+                  children: const [
+                    SizedBox(height: 16),
+                    Text(
+                      'A comprehensive platform for parents to track and manage their children\'s academic progress, attendance, and activities.',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                );
+              },
+            ),
+            _buildListTile(
+              LucideIcons.fileText,
+              'Terms of Service',
+              'Read our terms and conditions',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TermsOfServiceScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildListTile(
+              LucideIcons.shield,
+              'Privacy Policy',
+              'Review our privacy policy',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PrivacyPolicyScreen(),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -80,7 +130,12 @@ class HelpSupportScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile(IconData icon, String title, String subtitle, {required VoidCallback onTap}) {
+  Widget _buildListTile(
+    IconData icon,
+    String title,
+    String subtitle, {
+    required VoidCallback onTap,
+  }) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Container(
@@ -91,9 +146,21 @@ class HelpSupportScreen extends StatelessWidget {
         ),
         child: Icon(icon, color: const Color(0xFF16A34A), size: 20),
       ),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E1E2D))),
-      subtitle: Text(subtitle, style: const TextStyle(fontSize: 12, color: Color(0xFF9090A7))),
-      trailing: const Icon(Icons.chevron_right_rounded, color: Color(0xFF9090A7)),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF1E1E2D),
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF9090A7)),
+      ),
+      trailing: const Icon(
+        Icons.chevron_right_rounded,
+        color: Color(0xFF9090A7),
+      ),
       onTap: onTap,
     );
   }

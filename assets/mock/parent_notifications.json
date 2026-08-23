@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Fee Receipt Generated",
+    "message": "Term 2 payment of ₹12,500 processed successfully.",
+    "time": "20m ago",
+    "icon": "banknote",
+    "iconColor": "0xFF10B981",
+    "iconBg": "0xFFD1FAE5",
+    "isRead": false,
+    "route": "fees"
+  },
+  {
+    "title": "Attendance Alert",
+    "message": "Arjun was marked absent for Period 1 today.",
+    "time": "4h ago",
+    "icon": "userX",
+    "iconColor": "0xFFEF4444",
+    "iconBg": "0xFFFEE2E2",
+    "isRead": false,
+    "route": "attendance"
+  },
+  {
+    "title": "Exams Results Published",
+    "message": "Mid-term examination results are now available.",
+    "time": "1d ago",
+    "icon": "clipboardCheck",
+    "iconColor": "0xFF6C4CF1",
+    "iconBg": "0xFFF3EEFF",
+    "isRead": true,
+    "route": "exams"
+  }
+]

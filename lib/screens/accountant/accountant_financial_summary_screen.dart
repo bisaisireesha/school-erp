@@ -7,12 +7,19 @@ class AccountantFinancialSummaryScreen extends StatefulWidget {
   const AccountantFinancialSummaryScreen({super.key, required this.onBack});
 
   @override
-  State<AccountantFinancialSummaryScreen> createState() => _AccountantFinancialSummaryScreenState();
+  State<AccountantFinancialSummaryScreen> createState() =>
+      _AccountantFinancialSummaryScreenState();
 }
 
-class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSummaryScreen> {
+class _AccountantFinancialSummaryScreenState
+    extends State<AccountantFinancialSummaryScreen> {
   String _selectedPeriod = 'This Month';
-  final List<String> _periods = ['This Month', 'Last Month', 'This Quarter', 'This Year'];
+  final List<String> _periods = [
+    'This Month',
+    'Last Month',
+    'This Quarter',
+    'This Year',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +36,11 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
               shape: BoxShape.circle,
               border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
             ),
-            child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF1E1E2D), size: 20),
+            child: const Icon(
+              Icons.arrow_back_rounded,
+              color: Color(0xFF1E1E2D),
+              size: 20,
+            ),
           ),
           onPressed: widget.onBack,
         ),
@@ -49,7 +60,11 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
                 SnackBar(
                   content: Row(
                     children: [
-                      const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+                      const Icon(
+                        LucideIcons.checkCircle,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                       const SizedBox(width: 12),
                       const Expanded(
                         child: Text(
@@ -61,7 +76,9 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
                   ),
                   backgroundColor: const Color(0xFF16A34A),
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   margin: const EdgeInsets.all(24),
                   duration: const Duration(seconds: 3),
                 ),
@@ -118,10 +135,30 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
                   ),
                   const SizedBox(height: 16),
                   _buildBreakdownSection([
-                    _buildBreakdownRow('Tuition Fees', '₹8,50,000', 0.68, const Color(0xFF6C4CF1)),
-                    _buildBreakdownRow('Transport Fees', '₹2,10,000', 0.17, const Color(0xFF3B82F6)),
-                    _buildBreakdownRow('Hostel Fees', '₹1,50,000', 0.12, const Color(0xFFF59E0B)),
-                    _buildBreakdownRow('Other Income', '₹35,000', 0.03, const Color(0xFF10B981)),
+                    _buildBreakdownRow(
+                      'Tuition Fees',
+                      '₹8,50,000',
+                      0.68,
+                      const Color(0xFF6C4CF1),
+                    ),
+                    _buildBreakdownRow(
+                      'Transport Fees',
+                      '₹2,10,000',
+                      0.17,
+                      const Color(0xFF3B82F6),
+                    ),
+                    _buildBreakdownRow(
+                      'Hostel Fees',
+                      '₹1,50,000',
+                      0.12,
+                      const Color(0xFFF59E0B),
+                    ),
+                    _buildBreakdownRow(
+                      'Other Income',
+                      '₹35,000',
+                      0.03,
+                      const Color(0xFF10B981),
+                    ),
                   ]),
                   const SizedBox(height: 24),
                   const Text(
@@ -134,10 +171,30 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
                   ),
                   const SizedBox(height: 16),
                   _buildBreakdownSection([
-                    _buildBreakdownRow('Staff Salaries', '₹2,80,000', 0.66, const Color(0xFFEF4444)),
-                    _buildBreakdownRow('Maintenance', '₹65,000', 0.15, const Color(0xFFF97316)),
-                    _buildBreakdownRow('Utilities', '₹45,000', 0.11, const Color(0xFF8B5CF6)),
-                    _buildBreakdownRow('Miscellaneous', '₹30,000', 0.08, const Color(0xFF64748B)),
+                    _buildBreakdownRow(
+                      'Staff Salaries',
+                      '₹2,80,000',
+                      0.66,
+                      const Color(0xFFEF4444),
+                    ),
+                    _buildBreakdownRow(
+                      'Maintenance',
+                      '₹65,000',
+                      0.15,
+                      const Color(0xFFF97316),
+                    ),
+                    _buildBreakdownRow(
+                      'Utilities',
+                      '₹45,000',
+                      0.11,
+                      const Color(0xFF8B5CF6),
+                    ),
+                    _buildBreakdownRow(
+                      'Miscellaneous',
+                      '₹30,000',
+                      0.08,
+                      const Color(0xFF64748B),
+                    ),
                   ]),
                   const SizedBox(height: 24),
                   const Text(
@@ -150,9 +207,24 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
                   ),
                   const SizedBox(height: 16),
                   _buildBreakdownSection([
-                    _buildBreakdownRow('Online (UPI/Bank)', '₹8,10,000', 0.65, const Color(0xFF3B82F6)),
-                    _buildBreakdownRow('Cash', '₹3,75,000', 0.30, const Color(0xFF10B981)),
-                    _buildBreakdownRow('Cheque', '₹60,000', 0.05, const Color(0xFFF59E0B)),
+                    _buildBreakdownRow(
+                      'Online (UPI/Bank)',
+                      '₹8,10,000',
+                      0.65,
+                      const Color(0xFF3B82F6),
+                    ),
+                    _buildBreakdownRow(
+                      'Cash',
+                      '₹3,75,000',
+                      0.30,
+                      const Color(0xFF10B981),
+                    ),
+                    _buildBreakdownRow(
+                      'Cheque',
+                      '₹60,000',
+                      0.05,
+                      const Color(0xFFF59E0B),
+                    ),
                   ]),
                   const SizedBox(height: 24),
                 ],
@@ -184,19 +256,30 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
                 },
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFF6C4CF1) : Colors.transparent,
+                    color: isSelected
+                        ? const Color(0xFF6C4CF1)
+                        : Colors.transparent,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: isSelected ? const Color(0xFF6C4CF1) : const Color(0xFFE2E8F0),
+                      color: isSelected
+                          ? const Color(0xFF6C4CF1)
+                          : const Color(0xFFE2E8F0),
                     ),
                   ),
                   child: Text(
                     period,
                     style: TextStyle(
-                      color: isSelected ? Colors.white : const Color(0xFF64748B),
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                      color: isSelected
+                          ? Colors.white
+                          : const Color(0xFF64748B),
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w500,
                       fontSize: 14,
                     ),
                   ),
@@ -249,11 +332,18 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(LucideIcons.trendingUp, color: Colors.greenAccent.shade100, size: 16),
+                  Icon(
+                    LucideIcons.trendingUp,
+                    color: Colors.greenAccent.shade100,
+                    size: 16,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     '+18.2% vs last period',
-                    style: TextStyle(color: Colors.greenAccent.shade100, fontSize: 12),
+                    style: TextStyle(
+                      color: Colors.greenAccent.shade100,
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
@@ -265,14 +355,25 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
               color: Colors.white.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
-            child: const Icon(LucideIcons.wallet, color: Colors.white, size: 28),
+            child: const Icon(
+              LucideIcons.wallet,
+              color: Colors.white,
+              size: 28,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMetricCard(String title, String amount, String trend, IconData icon, Color color, Color bgColor) {
+  Widget _buildMetricCard(
+    String title,
+    String amount,
+    String trend,
+    IconData icon,
+    Color color,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -303,12 +404,20 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
           const SizedBox(height: 12),
           Text(
             amount,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E1E2D),
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             trend,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
           ),
         ],
       ),
@@ -323,13 +432,16 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
-      child: Column(
-        children: children,
-      ),
+      child: Column(children: children),
     );
   }
 
-  Widget _buildBreakdownRow(String label, String amount, double percentage, Color color) {
+  Widget _buildBreakdownRow(
+    String label,
+    String amount,
+    double percentage,
+    Color color,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
@@ -340,11 +452,19 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
             children: [
               Text(
                 label,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFF1E1E2D)),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF1E1E2D),
+                ),
               ),
               Text(
                 amount,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D)),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E2D),
+                ),
               ),
             ],
           ),
@@ -367,7 +487,10 @@ class _AccountantFinancialSummaryScreenState extends State<AccountantFinancialSu
                 width: 40,
                 child: Text(
                   '${(percentage * 100).toInt()}%',
-                  style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF64748B),
+                  ),
                   textAlign: TextAlign.end,
                 ),
               ),

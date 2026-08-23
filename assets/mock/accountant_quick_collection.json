@@ -1,0 +1,27 @@
+{
+  "invoices": [
+    {"id": "INV-2025-1549", "name": "Aditi Verma", "due": 4500},
+    {"id": "INV-2025-1550", "name": "Rahul Singh", "due": 1200},
+    {"id": "INV-2025-1551", "name": "Neha Sharma", "due": 3000}
+  ],
+  "recent_collections": [
+    {
+      "name": "Aarav Sharma", 
+      "subtitle": "INV-2025-1548 • 13 May 2025, 10:45 AM", 
+      "amount": "2,500", 
+      "mode": "UPI"
+    },
+    {
+      "name": "Myra Patel", 
+      "subtitle": "INV-2025-1547 • 13 May 2025, 10:20 AM", 
+      "amount": "3,000", 
+      "mode": "Cash"
+    },
+    {
+      "name": "Vihaan Mehta", 
+      "subtitle": "INV-2025-1546 • 13 May 2025, 09:55 AM", 
+      "amount": "2,500", 
+      "mode": "Card"
+    }
+  ]
+}

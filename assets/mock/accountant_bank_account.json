@@ -1,0 +1,14 @@
+[
+  {
+    "bank_name": "HDFC Bank",
+    "account_no": "XXXX-XXXX-1234",
+    "type": "Current",
+    "balance": 850000.0
+  },
+  {
+    "bank_name": "SBI",
+    "account_no": "XXXX-XXXX-9876",
+    "type": "Savings (Trust)",
+    "balance": 1500000.0
+  }
+]

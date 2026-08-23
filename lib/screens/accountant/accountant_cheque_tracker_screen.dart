@@ -80,9 +80,7 @@ class _AccountantChequeTrackerScreenState
 
   List<Map<String, dynamic>> get _filteredCheques {
     if (_selectedFilter == 'All') return _cheques;
-    return _cheques
-        .where((c) => c['status'] == _selectedFilter)
-        .toList();
+    return _cheques.where((c) => c['status'] == _selectedFilter).toList();
   }
 
   int get _pendingCount =>
@@ -105,67 +103,89 @@ class _AccountantChequeTrackerScreenState
             children: [
               // Header
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: widget.onBack,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            color: const Color(0xFFF3EEFF), width: 1.5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: widget.onBack,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFFF3EEFF),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF1E1E2D),
+                          size: 20,
+                        ),
                       ),
-                      child: const Icon(Icons.arrow_back_rounded,
-                          color: Color(0xFF1E1E2D), size: 20),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Cheque Tracker',
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF1E1E2D))),
-                        Text('Track & manage cheque payments',
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Color(0xFF64748B),
-                                fontWeight: FontWeight.w500)),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => _showAddChequeDialog(context),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF6C4CF1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Row(
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(LucideIcons.plus, color: Colors.white, size: 16),
-                          SizedBox(width: 6),
-                          Text('Add',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13)),
+                          Text(
+                            'Cheque Tracker',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
+                            ),
+                          ),
+                          Text(
+                            'Track & manage cheque payments',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF64748B),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    GestureDetector(
+                      onTap: () => _showAddChequeDialog(context),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF6C4CF1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(
+                              LucideIcons.plus,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              'Add',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
               // KPI grid — 2 rows × 2 columns
               Padding(
@@ -178,23 +198,39 @@ class _AccountantChequeTrackerScreenState
                   mainAxisSpacing: 12,
                   childAspectRatio: 2.1,
                   children: [
-                    _buildKpiCard('Total Cheques', _totalCount,
-                        const Color(0xFF6C4CF1), const Color(0xFFF3F0FF),
-                        LucideIcons.fileText),
-                    _buildKpiCard('Pending', _pendingCount,
-                        const Color(0xFFF59E0B), const Color(0xFFFFFBEB),
-                        LucideIcons.clock),
-                    _buildKpiCard('Cleared', _clearedCount,
-                        const Color(0xFF16A34A), const Color(0xFFF0FDF4),
-                        LucideIcons.checkCircle2),
-                    _buildKpiCard('Bounced', _bouncedCount,
-                        const Color(0xFFDC2626), const Color(0xFFFEF2F2),
-                        LucideIcons.xCircle),
+                    _buildKpiCard(
+                      'Total Cheques',
+                      _totalCount,
+                      const Color(0xFF6C4CF1),
+                      const Color(0xFFF3F0FF),
+                      LucideIcons.fileText,
+                    ),
+                    _buildKpiCard(
+                      'Pending',
+                      _pendingCount,
+                      const Color(0xFFF59E0B),
+                      const Color(0xFFFFFBEB),
+                      LucideIcons.clock,
+                    ),
+                    _buildKpiCard(
+                      'Cleared',
+                      _clearedCount,
+                      const Color(0xFF16A34A),
+                      const Color(0xFFF0FDF4),
+                      LucideIcons.checkCircle2,
+                    ),
+                    _buildKpiCard(
+                      'Bounced',
+                      _bouncedCount,
+                      const Color(0xFFDC2626),
+                      const Color(0xFFFEF2F2),
+                      LucideIcons.xCircle,
+                    ),
                   ],
                 ),
               ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Filter tabs
               Padding(
@@ -209,7 +245,9 @@ class _AccountantChequeTrackerScreenState
                         child: Container(
                           margin: const EdgeInsets.only(right: 8),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? const Color(0xFF6C4CF1)
@@ -257,8 +295,13 @@ class _AccountantChequeTrackerScreenState
     );
   }
 
-  Widget _buildKpiCard(String label, int count, Color color, Color bgColor,
-      IconData icon) {
+  Widget _buildKpiCard(
+    String label,
+    int count,
+    Color color,
+    Color bgColor,
+    IconData icon,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -270,7 +313,7 @@ class _AccountantChequeTrackerScreenState
             color: color.withValues(alpha: 0.08),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Row(
@@ -293,15 +336,19 @@ class _AccountantChequeTrackerScreenState
                 Text(
                   count.toString(),
                   style: const TextStyle(
-                      fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF1E1E2D)),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E2D),
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   label,
                   style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF64748B)),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF64748B),
+                  ),
                 ),
               ],
             ),
@@ -326,127 +373,157 @@ class _AccountantChequeTrackerScreenState
           border: Border.all(color: const Color(0xFFF1F5F9)),
           boxShadow: [
             BoxShadow(
-                color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4))
+              color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
           ],
         ),
         child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Top row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                cheque['chequeNo'] as String,
-                style: const TextStyle(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Top row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  cheque['chequeNo'] as String,
+                  style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF6C4CF1)),
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: statusBg,
-                  borderRadius: BorderRadius.circular(6),
+                    color: Color(0xFF6C4CF1),
+                  ),
                 ),
-                child: Text(
-                  cheque['status'] as String,
-                  style: TextStyle(
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: statusBg,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    cheque['status'] as String,
+                    style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
-                      color: statusColor),
+                      color: statusColor,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
+              ],
+            ),
+            const SizedBox(height: 14),
 
-          // Payer + amount
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8F9FA),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
+            // Payer + amount
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8F9FA),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: const Icon(
+                    LucideIcons.user,
+                    color: Color(0xFF64748B),
+                    size: 18,
+                  ),
                 ),
-                child: const Icon(LucideIcons.user,
-                    color: Color(0xFF64748B), size: 18),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      cheque['payer'] as String,
-                      style: const TextStyle(
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        cheque['payer'] as String,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF1E1E2D)),
+                          color: Color(0xFF1E1E2D),
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        '${cheque['bank']} • ${cheque['purpose']}',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF64748B),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      cheque['amount'] as String,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF1E1E2D),
+                      ),
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      '${cheque['bank']} • ${cheque['purpose']}',
+                      'Due: ${cheque['dueDate']}',
                       style: const TextStyle(
-                          fontSize: 13, color: Color(0xFF64748B)),
+                        fontSize: 11,
+                        color: Color(0xFF94A3B8),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    cheque['amount'] as String,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF1E1E2D)),
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    'Due: ${cheque['dueDate']}',
-                    style: const TextStyle(
-                        fontSize: 11, color: Color(0xFF94A3B8)),
-                  ),
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
 
-          const SizedBox(height: 14),
-          const Divider(color: Color(0xFFF1F5F9), height: 1),
-          const SizedBox(height: 14),
+            const SizedBox(height: 14),
+            const Divider(color: Color(0xFFF1F5F9), height: 1),
+            const SizedBox(height: 14),
 
-          // Footer actions
-          Row(
-            children: [
-              Icon(LucideIcons.calendar,
-                  size: 13, color: const Color(0xFF94A3B8)),
-              const SizedBox(width: 4),
-              Text(
-                'Issued: ${cheque['date']}',
-                style: const TextStyle(
-                    fontSize: 12, color: Color(0xFF94A3B8)),
-              ),
-              const Spacer(),
-              Row(
-                children: [
-                  const Text('View details', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0EA5E9))),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF0EA5E9)),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+            // Footer actions
+            Row(
+              children: [
+                Icon(
+                  LucideIcons.calendar,
+                  size: 13,
+                  color: const Color(0xFF94A3B8),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  'Issued: ${cheque['date']}',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF94A3B8),
+                  ),
+                ),
+                const Spacer(),
+                Row(
+                  children: [
+                    const Text(
+                      'View details',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF0EA5E9),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.arrow_forward,
+                      size: 14,
+                      color: Color(0xFF0EA5E9),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -462,22 +539,27 @@ class _AccountantChequeTrackerScreenState
         cheque['statusBg'] = const Color(0xFFFEF2F2);
       }
     });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
-              const SizedBox(width: 12),
-              Expanded(child: Text('Cheque status updated successfully!', style: const TextStyle(fontWeight: FontWeight.bold))),
-            ],
-          ),
-          backgroundColor: const Color(0xFF16A34A),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          margin: const EdgeInsets.all(24),
-          duration: const Duration(seconds: 3),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(LucideIcons.checkCircle, color: Colors.white, size: 20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Cheque status updated successfully!',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
         ),
-      );
+        backgroundColor: const Color(0xFF16A34A),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.all(24),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 
   void _showChequeDetails(Map<String, dynamic> cheque) {
@@ -501,13 +583,27 @@ class _AccountantChequeTrackerScreenState
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Cheque Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                  const Text(
+                    'Cheque Details',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E1E2D),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(8)),
-                      child: const Icon(LucideIcons.x, size: 20, color: Color(0xFF64748B)),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F5F9),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        LucideIcons.x,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
                     ),
                   ),
                 ],
@@ -522,22 +618,43 @@ class _AccountantChequeTrackerScreenState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(cheque['chequeNo'] as String, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF6C4CF1))),
+                        Text(
+                          cheque['chequeNo'] as String,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF6C4CF1),
+                          ),
+                        ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: cheque['statusBg'] as Color,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
                             cheque['status'] as String,
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: cheque['statusColor'] as Color),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: cheque['statusColor'] as Color,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 24),
-                    const Text('Payer Information', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Payer Information',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -552,12 +669,22 @@ class _AccountantChequeTrackerScreenState
                           const Divider(height: 24, color: Color(0xFFE2E8F0)),
                           _buildDetailRow('Bank', cheque['bank'] as String),
                           const Divider(height: 24, color: Color(0xFFE2E8F0)),
-                          _buildDetailRow('Purpose', cheque['purpose'] as String),
+                          _buildDetailRow(
+                            'Purpose',
+                            cheque['purpose'] as String,
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Text('Payment Details', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Payment Details',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -570,9 +697,15 @@ class _AccountantChequeTrackerScreenState
                         children: [
                           _buildDetailRow('Amount', cheque['amount'] as String),
                           const Divider(height: 24, color: Color(0xFFE2E8F0)),
-                          _buildDetailRow('Issued Date', cheque['date'] as String),
+                          _buildDetailRow(
+                            'Issued Date',
+                            cheque['date'] as String,
+                          ),
                           const Divider(height: 24, color: Color(0xFFE2E8F0)),
-                          _buildDetailRow('Due Date', cheque['dueDate'] as String),
+                          _buildDetailRow(
+                            'Due Date',
+                            cheque['dueDate'] as String,
+                          ),
                         ],
                       ),
                     ),
@@ -586,13 +719,28 @@ class _AccountantChequeTrackerScreenState
                                 Navigator.pop(context);
                                 _updateStatus(cheque, 'Cleared');
                               },
-                              icon: const Icon(LucideIcons.checkCircle, size: 16, color: Colors.white),
-                              label: const Text('Mark Cleared', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                              icon: const Icon(
+                                LucideIcons.checkCircle,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              label: const Text(
+                                'Mark Cleared',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF16A34A),
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 elevation: 0,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
                             ),
                           ),
@@ -603,13 +751,28 @@ class _AccountantChequeTrackerScreenState
                                 Navigator.pop(context);
                                 _updateStatus(cheque, 'Bounced');
                               },
-                              icon: const Icon(LucideIcons.xCircle, size: 16, color: Colors.white),
-                              label: const Text('Mark Bounced', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                              icon: const Icon(
+                                LucideIcons.xCircle,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              label: const Text(
+                                'Mark Bounced',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFDC2626),
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 elevation: 0,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
                             ),
                           ),
@@ -630,8 +793,18 @@ class _AccountantChequeTrackerScreenState
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
-        Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1E1E2D),
+          ),
+        ),
       ],
     );
   }
@@ -648,11 +821,13 @@ class _AccountantChequeTrackerScreenState
       isScrollControlled: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (ctx) {
         return Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(ctx).viewInsets.bottom,
+          ),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -662,50 +837,58 @@ class _AccountantChequeTrackerScreenState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Add Cheque',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF1E1E2D))),
+                    const Text(
+                      'Add Cheque',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E2D),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () => Navigator.pop(ctx),
-                      child:
-                          const Icon(Icons.close, color: Color(0xFF64748B)),
+                      child: const Icon(Icons.close, color: Color(0xFF64748B)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 6),
                 const Text(
                   'Enter cheque details to start tracking.',
-                  style:
-                      TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+                  style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
                 ),
                 const SizedBox(height: 24),
                 Row(
                   children: [
                     Expanded(
-                        flex: 2,
-                        child: _buildField('PAYER NAME', payerController)),
+                      flex: 2,
+                      child: _buildField('PAYER NAME', payerController),
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
-                        flex: 1,
-                        child: _buildField('CHEQUE NO', chequeNoController)),
+                      flex: 1,
+                      child: _buildField('CHEQUE NO', chequeNoController),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
-                        child: _buildField('BANK NAME', bankController)),
+                    Expanded(child: _buildField('BANK NAME', bankController)),
                     const SizedBox(width: 12),
                     Expanded(
-                        child: _buildField('AMOUNT (₹)', amountController,
-                            isNumber: true)),
+                      child: _buildField(
+                        'AMOUNT (₹)',
+                        amountController,
+                        isNumber: true,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 _buildField(
-                    'PURPOSE (e.g. Term Fee, Transport)', purposeController),
+                  'PURPOSE (e.g. Term Fee, Transport)',
+                  purposeController,
+                ),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -715,15 +898,18 @@ class _AccountantChequeTrackerScreenState
                       style: TextButton.styleFrom(
                         foregroundColor: const Color(0xFF1E1E2D),
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12),
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side:
-                              const BorderSide(color: Color(0xFFE2E8F0)),
+                          side: const BorderSide(color: Color(0xFFE2E8F0)),
                         ),
                       ),
-                      child: const Text('Cancel',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     ElevatedButton(
@@ -754,21 +940,26 @@ class _AccountantChequeTrackerScreenState
                         Navigator.pop(ctx);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content:
-                                  Text('Cheque added successfully!')),
+                            content: Text('Cheque added successfully!'),
+                          ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C4CF1),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12),
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                         elevation: 0,
                       ),
-                      child: const Text('Add Cheque',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'Add Cheque',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
@@ -781,28 +972,35 @@ class _AccountantChequeTrackerScreenState
     );
   }
 
-  Widget _buildField(String label, TextEditingController controller,
-      {bool isNumber = false}) {
+  Widget _buildField(
+    String label,
+    TextEditingController controller, {
+    bool isNumber = false,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF64748B),
-                letterSpacing: 0.5)),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF64748B),
+            letterSpacing: 0.5,
+          ),
+        ),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,
-          keyboardType:
-              isNumber ? TextInputType.number : TextInputType.text,
+          keyboardType: isNumber ? TextInputType.number : TextInputType.text,
           style: const TextStyle(fontSize: 14, color: Color(0xFF1E1E2D)),
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color(0xFFF8F9FA),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 12,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Color(0xFFE2E8F0)),

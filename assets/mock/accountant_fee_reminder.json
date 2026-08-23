@@ -1,0 +1,10 @@
+[
+  {
+    "student_name": "Rohan Gupta",
+    "grade": "8-C",
+    "due_amount": 40000.0,
+    "due_date": "2023-08-01",
+    "reminder_status": "Sent on 2023-08-05",
+    "contact_no": "+91-9876543210"
+  }
+]

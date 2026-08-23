@@ -1,0 +1,18 @@
+{
+  "generated_reports": [
+    {
+      "report_id": "RPT-001",
+      "name": "Monthly Income Statement",
+      "date": "2023-08-01",
+      "type": "Financial",
+      "download_url": "/reports/monthly_inc.pdf"
+    },
+    {
+      "report_id": "RPT-002",
+      "name": "Defaulters List Q2",
+      "date": "2023-07-15",
+      "type": "Defaulters",
+      "download_url": "/reports/defaulters_q2.pdf"
+    }
+  ]
+}
