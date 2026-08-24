@@ -1,0 +1,50 @@
+[
+  {
+    "id": "DRV-001",
+    "firstName": "Rajesh",
+    "lastName": "Kumar",
+    "email": "rajesh.k@school.edu",
+    "role": "Driver",
+    "licenseNumber": "DL-KA-2015-1049382",
+    "licenseExpiry": "2027-10-15",
+    "medicalCertExpiry": "2025-06-30",
+    "trainingCertExpiry": "2026-12-01",
+    "basicSalary": "25000",
+    "assignedVehicle": "BUS-01",
+    "phone": "+91 98765 43210",
+    "status": "Active",
+    "assignedRoute": "Route 1 - Green Glen"
+  },
+  {
+    "id": "DRV-002",
+    "firstName": "Suresh",
+    "lastName": "Singh",
+    "email": "suresh.s@school.edu",
+    "role": "Driver",
+    "licenseNumber": "DL-KA-2018-8472910",
+    "licenseExpiry": "2025-04-20",
+    "medicalCertExpiry": "2024-10-15",
+    "trainingCertExpiry": "2025-08-22",
+    "basicSalary": "24000",
+    "assignedVehicle": "BUS-02",
+    "phone": "+91 99887 76655",
+    "status": "On Leave",
+    "assignedRoute": "Route 2 - Whitefield"
+  },
+  {
+    "id": "STF-001",
+    "firstName": "Sunita",
+    "lastName": "Devi",
+    "email": "sunita.d@school.edu",
+    "role": "Attendant",
+    "licenseNumber": "",
+    "licenseExpiry": "",
+    "medicalCertExpiry": "2025-11-10",
+    "trainingCertExpiry": "2026-03-15",
+    "basicSalary": "15000",
+    "assignedVehicle": "BUS-01",
+    "phone": "+91 88776 65544",
+    "status": "Active",
+    "assignedRoute": "Route 1 - Green Glen"
+  }
+]

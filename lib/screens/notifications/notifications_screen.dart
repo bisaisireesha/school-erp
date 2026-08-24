@@ -22,6 +22,31 @@ class NotificationsScreen extends StatefulWidget {
     this.onMarkAllRead,
   });
 
+  static void show(BuildContext context, String role, VoidCallback? onMarkAllRead) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) => Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 80,
+            left: 64, // More space on left
+            right: 16, // Less space on right
+          ),
+          child: Material(
+            type: MaterialType.transparency,
+            child: NotificationsScreen(
+              role: role,
+              onBack: () => Navigator.pop(context),
+              onMarkAllRead: onMarkAllRead,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   State<NotificationsScreen> createState() => _NotificationsScreenState();
 }
@@ -83,53 +108,62 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   void _navigateToScreen(String route) {
+    // Capture a stable context before this widget is popped
+    final stableContext = MainLayout.currentState!.context;
+
+    void handleBack() {
+      MainLayout.popSubScreen(stableContext);
+      // Re-open notifications screen when they go back using the stable context
+      NotificationsScreen.show(stableContext, widget.role, widget.onMarkAllRead);
+    }
+
     switch (route) {
       case 'fees':
-        MainLayout.pushSubScreen(context, const FeesScreen());
+        MainLayout.pushSubScreen(stableContext, FeesScreen(onBack: handleBack));
         break;
       case 'exams':
         MainLayout.pushSubScreen(
-          context,
-          ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+          stableContext,
+          ExamsScreen(onBack: handleBack),
         );
         break;
       case 'attendance':
         MainLayout.pushSubScreen(
-          context,
-          AttendanceScreen(onBack: () => MainLayout.popSubScreen(context)),
+          stableContext,
+          AttendanceScreen(onBack: handleBack),
         );
         break;
       case 'timetable':
         MainLayout.pushSubScreen(
-          context,
-          TimetableScreen(onBack: () => MainLayout.popSubScreen(context)),
+          stableContext,
+          TimetableScreen(onBack: handleBack),
         );
         break;
       case 'transport':
         MainLayout.pushSubScreen(
-          context,
-          TransportScreen(onBack: () => MainLayout.popSubScreen(context)),
+          stableContext,
+          TransportScreen(onBack: handleBack),
         );
         break;
       case 'library':
         MainLayout.pushSubScreen(
-          context,
+          stableContext,
           LibraryScreen(
-            onBack: () => MainLayout.popSubScreen(context),
+            onBack: handleBack,
             isStudentPortal: true,
           ),
         );
         break;
       case 'leave':
         MainLayout.pushSubScreen(
-          context,
-          LeaveRequestScreen(onBack: () => MainLayout.popSubScreen(context)),
+          stableContext,
+          LeaveRequestScreen(onBack: handleBack),
         );
         break;
       case 'calendar':
         MainLayout.pushSubScreen(
-          context,
-          CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+          stableContext,
+          CalendarScreen(onBack: handleBack),
         );
         break;
     }

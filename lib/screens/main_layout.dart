@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'transport_portal/transport_routes_screen.dart';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 // import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -139,6 +140,7 @@ class _MainLayoutState extends State<MainLayout> {
       return [
         const TransportDashboardScreen(),
         TransportVehiclesScreen(onBack: () => switchTab(0)),
+        TransportRoutesScreen(onBack: () => switchTab(0)),
         const TransportMoreScreen(),
       ];
     }
@@ -305,32 +307,14 @@ class _MainLayoutState extends State<MainLayout> {
                                 badgeColor: const Color(0xFFFF4B4B),
                                 onTap: () {
                                   final role = Provider.of<AuthProvider>(context, listen: false).currentUser?.role ?? 'teacher';
-                                  showDialog(
-                                    context: context,
-                                    barrierColor: Colors.transparent,
-                                    builder: (context) => Align(
-                                      alignment: Alignment.topCenter,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 80,
-                                          left: 64, // More space on left
-                                          right: 16, // Less space on right
-                                        ),
-                                        child: Material(
-                                          type: MaterialType.transparency,
-                                          child: NotificationsScreen(
-                                            role: role,
-                                            onBack: () =>
-                                                Navigator.pop(context),
-                                            onMarkAllRead: () {
-                                              setState(() {
-                                                _unreadNotificationsCount = 0;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                  NotificationsScreen.show(
+                                    context,
+                                    role,
+                                    () {
+                                      setState(() {
+                                        _unreadNotificationsCount = 0;
+                                      });
+                                    },
                                   );
                                 },
                               ),
@@ -372,8 +356,7 @@ class _MainLayoutState extends State<MainLayout> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ProfileScreen(),
+                                          builder: (context) => const ProfileScreen(),
                                         ),
                                       );
                                     },
@@ -610,84 +593,135 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   Widget _buildBottomNavigationBar() {
-    return SafeArea(
-      bottom: true,
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(24, 0, 24, 12),
-        child: Stack(
-          children: [
-            // 1. Shadow layer (clipped in the center so it doesn't ruin the glass effect)
-            ClipPath(
-              clipper: _HoleClipper(radius: 36),
-              child: Container(
-                height: 72,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(36),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFFE8E3F8).withValues(alpha: 0.8), // Shadow color
-                      blurRadius: 20,
-                      offset: const Offset(0, 0), // 4-sided shadow
-                    ),
-                  ],
-                ),
+    final role = Provider.of<AuthProvider>(context).currentUser?.role ?? 'parent';
+    List<Map<String, dynamic>> navItems = [
+      {'icon': Icons.home_outlined, 'activeIcon': Icons.home_rounded, 'label': 'Home'},
+      {'icon': Icons.menu_book_outlined, 'activeIcon': Icons.menu_book_rounded, 'label': 'Academics'},
+      {'icon': Icons.account_balance_wallet_outlined, 'activeIcon': Icons.account_balance_wallet_rounded, 'label': 'Fees'},
+      {'icon': Icons.grid_view_outlined, 'activeIcon': Icons.grid_view_rounded, 'label': 'More'},
+    ];
+
+    if (role == 'student') {
+      navItems = [
+        {'icon': Icons.home_outlined, 'activeIcon': Icons.home_rounded, 'label': 'Home'},
+        {'icon': Icons.menu_book_outlined, 'activeIcon': Icons.menu_book_rounded, 'label': 'Academics'},
+        {'icon': Icons.assignment_outlined, 'activeIcon': Icons.assignment_rounded, 'label': 'Exams'},
+        {'icon': Icons.grid_view_outlined, 'activeIcon': Icons.grid_view_rounded, 'label': 'More'},
+      ];
+    } else if (role == 'warden') {
+      navItems = [
+        {'icon': Icons.home_outlined, 'activeIcon': Icons.home_rounded, 'label': 'Home'},
+        {'icon': Icons.badge_outlined, 'activeIcon': Icons.badge_rounded, 'label': 'Staff'},
+        {'icon': Icons.bed_outlined, 'activeIcon': Icons.bed_rounded, 'label': 'Hostel'},
+        {'icon': Icons.grid_view_outlined, 'activeIcon': Icons.grid_view_rounded, 'label': 'More'},
+      ];
+    } else if (role == 'front_desk') {
+      navItems = [
+        {'icon': Icons.home_outlined, 'activeIcon': Icons.home_rounded, 'label': 'Home'},
+        {'icon': Icons.how_to_reg_outlined, 'activeIcon': Icons.how_to_reg_rounded, 'label': 'Register'},
+        {'icon': Icons.support_agent_outlined, 'activeIcon': Icons.support_agent_rounded, 'label': 'Support'},
+        {'icon': Icons.grid_view_outlined, 'activeIcon': Icons.grid_view_rounded, 'label': 'More'},
+      ];
+    } else if (role == 'accountant') {
+      navItems = [
+        {'icon': Icons.home_outlined, 'activeIcon': Icons.home_rounded, 'label': 'Home'},
+        {'icon': Icons.payments_outlined, 'activeIcon': Icons.payments_rounded, 'label': 'Payments'},
+        {'icon': Icons.bar_chart_outlined, 'activeIcon': Icons.bar_chart_rounded, 'label': 'Reports'},
+        {'icon': Icons.grid_view_outlined, 'activeIcon': Icons.grid_view_rounded, 'label': 'More'},
+      ];
+    } else if (role == 'transport') {
+      navItems = [
+        {'icon': Icons.home_outlined, 'activeIcon': Icons.home_rounded, 'label': 'Home'},
+        {'icon': Icons.directions_bus_outlined, 'activeIcon': Icons.directions_bus_rounded, 'label': 'Buses'},
+        {'icon': Icons.map_outlined, 'activeIcon': Icons.map_rounded, 'label': 'Routes'},
+        {'icon': Icons.grid_view_outlined, 'activeIcon': Icons.grid_view_rounded, 'label': 'More'},
+      ];
+    }
+
+    final safeIndex = _currentIndex >= navItems.length ? navItems.length - 1 : _currentIndex;
+
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final totalHeight = 72.0 + bottomPadding;
+
+    return Container(
+      margin: EdgeInsets.zero,
+      child: Stack(
+        children: [
+          // 1. Shadow layer (clipped in the center so it doesn't ruin the glass effect)
+          ClipPath(
+            clipper: _HoleClipper(radius: 8),
+            child: Container(
+              height: totalHeight,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFE8E3F8).withValues(alpha: 0.8), // Shadow color
+                    blurRadius: 20,
+                    offset: const Offset(0, 0), // 4-sided shadow
+                  ),
+                ],
               ),
             ),
-            // 2. Glassmorphism layer
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(36),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 1.5), // Brighter, crisp border
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(36),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0), // Extremely faint 5% blur
-                  child: Container(
-                    height: 72,
-                    color: Colors.white.withValues(alpha: 0.05), // Ultra transparent 5% tint
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        final tabWidth = constraints.maxWidth / 4;
-                        final leftOffset = (tabWidth * _currentIndex) + (tabWidth / 2) - 38; // Center pill (76 / 2 = 38)
+          ),
+          // 2. Glassmorphism layer
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 1.5), // Brighter, crisp border
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0), // Strong frosted glass blur
+                child: Container(
+                  height: totalHeight,
+                  padding: EdgeInsets.only(bottom: bottomPadding),
+                  color: Colors.white.withValues(alpha: 0.05), // Ultra transparent 5% tint
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final tabWidth = constraints.maxWidth / navItems.length;
+                      final leftOffset = (tabWidth * safeIndex) + (tabWidth / 2) - 38; // Center pill (76 / 2 = 38)
 
-                        return Stack(
-                          children: [
-                            // Sliding Pill Animation
-                            AnimatedPositioned(
-                              duration: const Duration(milliseconds: 100), // Ultra-fast snappy transmission
-                              curve: Curves.easeOut,
-                              left: leftOffset,
-                              top: 12, // (72 total height - 48 pill height) / 2
-                              child: Container(
-                                width: 76,
-                                height: 48,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24),
-                                  color: const Color(0xFF6C4CF1).withValues(alpha: 0.15),
-                                ),
+                      return Stack(
+                        children: [
+                          // Sliding Pill Animation
+                          AnimatedPositioned(
+                            duration: const Duration(milliseconds: 100), // Ultra-fast snappy transmission
+                            curve: Curves.easeOut,
+                            left: leftOffset,
+                            top: 12, // (72 total height - 48 pill height) / 2
+                            child: Container(
+                              width: 76,
+                              height: 48,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                color: const Color(0xFF6C4CF1).withValues(alpha: 0.15),
                               ),
                             ),
-                            // Icons Row
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                _buildNavItem(icon: Icons.home_outlined, activeIcon: Icons.home_rounded, isActive: _currentIndex == 0, index: 0),
-                                _buildNavItem(icon: Icons.menu_book_outlined, activeIcon: Icons.menu_book_rounded, isActive: _currentIndex == 1, index: 1),
-                                _buildNavItem(icon: Icons.account_balance_wallet_outlined, activeIcon: Icons.account_balance_wallet_rounded, isActive: _currentIndex == 2, index: 2),
-                                _buildNavItem(icon: Icons.grid_view_outlined, activeIcon: Icons.grid_view_rounded, isActive: _currentIndex == 3, index: 3),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                          ),
+                          // Icons Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: List.generate(navItems.length, (index) {
+                              return _buildNavItem(
+                                icon: navItems[index]['icon'] as IconData,
+                                activeIcon: navItems[index]['activeIcon'] as IconData,
+                                label: navItems[index]['label'] as String,
+                                isActive: safeIndex == index,
+                                index: index,
+                              );
+                            }),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -695,6 +729,7 @@ class _MainLayoutState extends State<MainLayout> {
   Widget _buildNavItem({
     required IconData icon,
     required IconData activeIcon,
+    required String label,
     required bool isActive,
     required int index,
   }) {
@@ -715,14 +750,28 @@ class _MainLayoutState extends State<MainLayout> {
         child: SizedBox(
           height: 72, // Full height of navbar for huge tap target area
           child: Center(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 100), // Fast icon switch
-              child: Icon(
-                isActive ? activeIcon : icon,
-                key: ValueKey(isActive), // Animates color change
-                color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF94A3B8), // Soft Slate when inactive
-                size: 24, // Keep icon size perfectly identical for both states
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 100), // Fast icon switch
+                  child: Icon(
+                    isActive ? activeIcon : icon,
+                    key: ValueKey(isActive), // Animates color change
+                    color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF757575), // Bold grey when inactive
+                    size: 24, // Keep icon size perfectly identical for both states
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: isActive ? FontWeight.bold : FontWeight.w600, // Bold for inactive too
+                    color: isActive ? const Color(0xFF6C4CF1) : const Color(0xFF757575),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -739,7 +788,13 @@ class _HoleClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     return Path()
       ..addRect(Rect.fromLTRB(-100, -100, size.width + 100, size.height + 100)) // Outer bounds for shadow
-      ..addRRect(RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius))) // Inner bounds to cut out
+      ..addRRect(RRect.fromRectAndCorners(
+        Offset.zero & size,
+        topLeft: Radius.circular(radius),
+        topRight: Radius.circular(radius),
+        bottomLeft: Radius.zero,
+        bottomRight: Radius.zero,
+      )) // Inner bounds to cut out
       ..fillType = PathFillType.evenOdd;
   }
 

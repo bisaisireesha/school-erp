@@ -160,7 +160,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: () => setState(() => _isCalendarView = true),
+                          onTap: () {
+   if (!mounted) return;
+   setState(() => _isCalendarView = true);
+ },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
@@ -193,7 +196,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => setState(() => _isCalendarView = false),
+                          onTap: () {
+   if (!mounted) return;
+   setState(() => _isCalendarView = false);
+ },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
@@ -714,6 +720,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () {
+                      if (!mounted) return;
+
                       setState(() {
                         _currentDate = DateTime.now();
                       });
@@ -743,6 +751,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      if (!mounted) return;
+
                       setState(() {
                         _currentDate = DateTime(
                           _currentDate.year,
@@ -759,6 +769,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   const SizedBox(width: 16),
                   GestureDetector(
                     onTap: () {
+                      if (!mounted) return;
+
                       setState(() {
                         _currentDate = DateTime(
                           _currentDate.year,
@@ -892,6 +904,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
               return GestureDetector(
                 onTap: () {
+                  if (!mounted) return;
+
                   setState(() {
                     _selectedDate = DateTime(
                       _currentDate.year,
@@ -1124,6 +1138,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 builder: (context) => DateRangePickerBottomSheet(
                   initialRange: _selectedListRange,
                   onRangeSelected: (range, option) {
+                    if (!mounted) return;
+
                     setState(() {
                       _selectedListRange = range;
                       _selectedQuickOption = option;
@@ -1458,6 +1474,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             final isSelected = year == _selectedAcademicYear;
                             return InkWell(
                               onTap: () {
+                                if (!mounted) return;
+
                                 setState(() {
                                   _selectedAcademicYear = year;
                                   // Update the calendar's year when the academic year changes
@@ -1581,6 +1599,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             (_currentDate.year == selectedYear);
                         return GestureDetector(
                           onTap: () {
+                            if (!mounted) return;
+
                             setState(() {
                               _currentDate = DateTime(
                                 selectedYear,

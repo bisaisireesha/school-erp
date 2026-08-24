@@ -10,6 +10,8 @@ import '../attendance/attendance_screen.dart';
 import '../exams/exams_screen.dart';
 import '../homework/homework_screen.dart';
 import '../calendar/calendar_screen.dart';
+import '../calendar/event_details_screen.dart';
+
 import '../messages/messages_screen.dart';
 import '../transport/transport_screen.dart';
 import '../leave/leave_request_screen.dart';
@@ -531,24 +533,51 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> with Auto
 
     return GestureDetector(
       onTap: () {
-        Widget screen;
         switch (type) {
           case 'Homework':
-            screen = HomeworkScreen(onBack: () => MainLayout.popSubScreen(context));
+            MainLayout.pushSubScreen(
+              context,
+              HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
+            );
             break;
           case 'Academic':
-            screen = ExamsScreen(onBack: () => MainLayout.popSubScreen(context));
+            MainLayout.pushSubScreen(
+              context,
+              ExamsScreen(onBack: () => MainLayout.popSubScreen(context)),
+            );
             break;
           case 'Transport':
-            screen = TransportScreen(onBack: () => MainLayout.popSubScreen(context));
+            MainLayout.pushSubScreen(
+              context,
+              TransportScreen(onBack: () => MainLayout.popSubScreen(context)),
+            );
             break;
           case 'Event':
-            screen = CalendarScreen(onBack: () => MainLayout.popSubScreen(context));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => EventDetailsScreen(
+                  event: {
+                    'title': title,
+                    'time': item['time'] ?? '09:00 AM',
+                    'description': item['subtitle']?.toString().replaceAll('\n', ' ') ?? title,
+                    'type': 'event',
+                    'category': 'School Event',
+                    'location': 'School Campus',
+                    'teacher': 'Admin',
+                  },
+                  dateString: 'Today',
+                  eventColor: themeColor,
+                ),
+              ),
+            );
             break;
           default:
-            screen = ActivityScreen(onBack: () => MainLayout.popSubScreen(context));
+            MainLayout.pushSubScreen(
+              context,
+              ActivityScreen(onBack: () => MainLayout.popSubScreen(context)),
+            );
         }
-        MainLayout.pushSubScreen(context, screen);
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
@@ -1518,10 +1547,23 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen> with Auto
               subtitle: events[i]['subtitle'],
               rightText: events[i]['rightText'],
               onTap: () {
-                MainLayout.pushSubScreen(
+                final ev = events[i];
+                Navigator.push(
                   context,
-                  CalendarScreen(
-                    onBack: () => MainLayout.popSubScreen(context),
+                  MaterialPageRoute(
+                    builder: (_) => EventDetailsScreen(
+                      event: {
+                        'title': ev['title'],
+                        'time': ev['rightText'] ?? 'All Day',
+                        'description': ev['subtitle'],
+                        'type': 'event',
+                        'category': 'School Event',
+                        'location': 'School Campus',
+                        'teacher': 'Admin',
+                      },
+                      dateString: '${ev['dateMonth']} ${ev['dateDay']}',
+                      eventColor: _getColor(ev['color']),
+                    ),
                   ),
                 );
               },

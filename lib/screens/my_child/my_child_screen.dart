@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:parent_app/screens/main_layout.dart';
+
 
 class MyChildScreen extends StatefulWidget {
   final VoidCallback onBack;
@@ -325,21 +325,17 @@ class _MyChildScreenState extends State<MyChildScreen> {
 
         return Scaffold(
           backgroundColor: const Color(0xFFFFFFFF),
-          body: SafeArea(
-            bottom: false,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
                   // Custom Header matching HomeworkScreen
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            MainLayout.popSubScreen(context);
-                          },
+                          onTap: widget.onBack,
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
@@ -632,9 +628,9 @@ class _MyChildScreenState extends State<MyChildScreen> {
                 ],
               ),
             ),
-          ),
         );
       },
     );
   }
 }
+

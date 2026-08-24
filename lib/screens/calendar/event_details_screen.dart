@@ -5,12 +5,14 @@ class EventDetailsScreen extends StatelessWidget {
   final Map<String, dynamic> event;
   final String dateString;
   final Color eventColor;
+  final VoidCallback? onBack;
 
   const EventDetailsScreen({
     super.key,
     required this.event,
     required this.dateString,
     required this.eventColor,
+    this.onBack,
   });
 
   @override
@@ -27,7 +29,7 @@ class EventDetailsScreen extends StatelessWidget {
         elevation: 0,
         leadingWidth: 120,
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: onBack ?? () => Navigator.pop(context),
           child: Container(
             padding: const EdgeInsets.only(left: 8.0),
             color: Colors.transparent,

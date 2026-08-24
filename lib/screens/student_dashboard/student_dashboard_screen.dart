@@ -267,8 +267,8 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           '09:30 AM - 10:15 AM',
           'Science',
           'Room 202',
-          const Color(0xFF11B136),
-          const Color(0xFFE8F5E9),
+          const Color(0xFF6C4CF1),
+          const Color(0xFFF3F0FF),
           Icons.science_outlined,
         ),
         const SizedBox(height: 12),
@@ -276,8 +276,8 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           '10:30 AM - 11:15 AM',
           'English',
           'Room 203',
-          const Color(0xFFF59E0B),
-          const Color(0xFFFFFBEB),
+          const Color(0xFF6C4CF1),
+          const Color(0xFFF3F0FF),
           Icons.book_outlined,
         ),
         const SizedBox(height: 12),
@@ -285,8 +285,8 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           '11:30 AM - 12:15 PM',
           'History',
           'Room 204',
-          const Color(0xFF3B82F6),
-          const Color(0xFFEFF6FF),
+          const Color(0xFF6C4CF1),
+          const Color(0xFFF3F0FF),
           Icons.public_outlined,
         ),
       ],
@@ -549,135 +549,122 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionHeader(
-          'Recent Homework',
+          'Homework & Assignments',
           onSeeAll: () => MainLayout.pushSubScreen(
             context,
             HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
           ),
         ),
         const SizedBox(height: 16),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-                blurRadius: 15,
-                offset: const Offset(0, 5),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              _buildCompactHomeworkRow(
-                subject: 'Mathematics',
-                title: 'Algebra Worksheet 12',
-                dueDate: 'Tomorrow',
-                iconColor: const Color(0xFF6C4CF1),
-                iconBg: const Color(0xFFF3F0FF),
-              ),
-              const Divider(height: 1, thickness: 1, color: Color(0xFFF3EEFF)),
-              _buildCompactHomeworkRow(
-                subject: 'Science',
-                title: 'Photosynthesis Q&A',
-                dueDate: 'Due in 2 days',
-                iconColor: const Color(0xFF11B136),
-                iconBg: const Color(0xFFE8F5E9),
-              ),
-            ],
-          ),
+        _buildHomeworkCard(
+          subject: 'English',
+          title: 'Read Chapter 5 and practice reading aloud.',
+          status: 'Pending',
+          dueDate: 'Due Today',
+          isDueToday: true,
+        ),
+        const SizedBox(height: 12),
+        _buildHomeworkCard(
+          subject: 'Science',
+          title: 'Solar System Project',
+          status: 'Pending',
+          dueDate: 'Due Today',
+          isDueToday: true,
+        ),
+        const SizedBox(height: 12),
+        _buildHomeworkCard(
+          subject: 'Social Studies',
+          title: 'Learn Chapter 3 - Our Environment',
+          status: 'Pending',
+          dueDate: 'Tomorrow',
+          isDueToday: false,
         ),
       ],
     );
   }
 
-  Widget _buildCompactHomeworkRow({
+  Widget _buildHomeworkCard({
     required String subject,
     required String title,
+    required String status,
     required String dueDate,
-    required Color iconColor,
-    required Color iconBg,
+    required bool isDueToday,
   }) {
-    return GestureDetector(
-      onTap: () => MainLayout.pushSubScreen(
-        context,
-        HomeworkScreen(onBack: () => MainLayout.popSubScreen(context)),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
       ),
-      behavior: HitTestBehavior.opaque,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: iconBg,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.assignment_outlined,
-                color: iconColor,
-                size: 20,
-              ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: const BoxDecoration(
+              color: Color(0xFFF3F0FF),
+              shape: BoxShape.circle,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
+            child: const Icon(Icons.menu_book_rounded, color: Color(0xFF6C4CF1), size: 24),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  subject,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E2D),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF6C6C80),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF7ED),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    status,
                     style: const TextStyle(
-                      fontSize: 14,
+                      color: Color(0xFFF59E0B),
+                      fontSize: 11,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF1E1E2D),
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Text(
-                        subject,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: iconColor,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        width: 4,
-                        height: 4,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFD1D5DB),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        dueDate,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFFFF5630),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: isDueToday ? const Color(0xFFFEF2F2) : const Color(0xFFF3F4F6),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              dueDate,
+              style: TextStyle(
+                color: isDueToday ? const Color(0xFFEF4444) : const Color(0xFF4B5563),
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            const Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Color(0xFFD1D5DB),
-              size: 14,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -1237,90 +1224,64 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
   }
 
   Widget _buildUpcomingEventsSection(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFBFaff),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Upcoming Events',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF1E1E2D),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSectionHeader(
+          'Upcoming Events',
+          onSeeAll: () => MainLayout.pushSubScreen(
+            context,
+            CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFE8E3F8).withValues(alpha: 0.3),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
-              GestureDetector(
+            ],
+          ),
+          child: Column(
+            children: [
+              _buildEventRow(
+                dateDay: '21',
+                dateMonth: 'MAY',
+                color: const Color(0xFF6C4CF1),
+                bgColor: const Color(0xFFF3F0FF),
+                title: 'PTM (Parent Teacher Meeting)',
+                subtitle: 'Tuesday, 21 May 2024',
+                rightText: '11:00 AM',
                 onTap: () => MainLayout.pushSubScreen(
                   context,
-                  CalendarScreen(
-                    onBack: () => MainLayout.popSubScreen(context),
-                  ),
+                  CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
                 ),
-                child: const Text(
-                  'See all',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF6C4CF1),
-                  ),
+              ),
+              const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
+              _buildEventRow(
+                dateDay: '25',
+                dateMonth: 'MAY',
+                color: const Color(0xFF11B136),
+                bgColor: const Color(0xFFE8F5E9),
+                title: 'Science Exhibition',
+                subtitle: 'Saturday, 25 May 2024',
+                rightText: '09:00 AM',
+                onTap: () => MainLayout.pushSubScreen(
+                  context,
+                  CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
-          _buildEventRow(
-            dateDay: '21',
-            dateMonth: 'MAY',
-            color: const Color(0xFF6C4CF1),
-            bgColor: const Color(0xFFF3F0FF),
-            title: 'PTM (Parent Teacher Meeting)',
-            subtitle: 'Tuesday, 21 May 2024',
-            rightText: '11:00 AM',
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-          const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
-          _buildEventRow(
-            dateDay: '25',
-            dateMonth: 'MAY',
-            color: const Color(0xFF11B136),
-            bgColor: const Color(0xFFE8F5E9),
-            title: 'Science Exhibition',
-            subtitle: 'Saturday, 25 May 2024',
-            rightText: '09:00 AM',
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-          const Divider(height: 32, thickness: 1, color: Color(0xFFF3EEFF)),
-          _buildEventRow(
-            dateDay: '01',
-            dateMonth: 'JUN',
-            color: const Color(0xFFFF9800),
-            bgColor: const Color(0xFFFFF3E0),
-            title: 'Summer Break Begins',
-            subtitle: 'Saturday, 01 June 2024',
-            rightText: 'All Day',
-            onTap: () => MainLayout.pushSubScreen(
-              context,
-              CalendarScreen(onBack: () => MainLayout.popSubScreen(context)),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

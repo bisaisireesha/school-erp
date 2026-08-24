@@ -1,21 +1,35 @@
+import "../main_layout.dart";
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../auth/login_screen.dart';
+import '../my_child/my_child_screen.dart';
 import 'personal_information_screen.dart';
 import 'notifications_settings_screen.dart';
 import 'help_support_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  final VoidCallback? onBack;
+
+  const ProfileScreen({super.key, this.onBack});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
   Widget build(BuildContext context) {
+    return _buildMainProfile(context);
+  }
+
+  Widget _buildMainProfile(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final role = authProvider.currentUser?.role ?? 'parent';
 
     return Scaffold(
+      key: const ValueKey('MainProfile'),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -52,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   _buildProfileSection(role),
                   const SizedBox(height: 24),
-                  _buildRoleDetailsSection(role),
+                  _buildRoleDetailsSection(context, role),
                   const SizedBox(height: 32),
                   _buildSettingsList(context),
                   const SizedBox(height: 40),
@@ -322,7 +336,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRoleDetailsSection(String role) {
+  Widget _buildRoleDetailsSection(BuildContext context, String role) {
     if (role == 'front_desk') {
       return _buildFrontDeskDetailsSection();
     } else if (role == 'warden') {
@@ -332,7 +346,7 @@ class ProfileScreen extends StatelessWidget {
     } else if (role == 'accountant') {
       return const SizedBox.shrink();
     } else {
-      return _buildMyChildrenSection();
+      return _buildMyChildrenSection(context);
     }
   }
 
@@ -600,7 +614,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMyChildrenSection() {
+  Widget _buildMyChildrenSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -620,20 +634,44 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             children: [
-              _buildChildCard(
-                'Akshara',
-                'Class 10-A · Roll No: 1042',
-                'AK',
-                const Color(0xFF6C4CF1),
-                const Color(0xFFF3F0FF),
+              GestureDetector(
+                onTap: () {
+                  MyChildScreen.selectedChildIndex.value = 0; // Akshara
+                  Navigator.pop(context); // Close ProfileScreen
+                  MainLayout.pushSubScreen(
+                    context,
+                    MyChildScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+                child: _buildChildCard(
+                  'Akshara',
+                  'Class 10-A · Roll No: 1042',
+                  'AK',
+                  const Color(0xFF6C4CF1),
+                  const Color(0xFFF3F0FF),
+                ),
               ),
               const SizedBox(height: 12),
-              _buildChildCard(
-                'Aryan',
-                'Class 7-B · Roll No: 708',
-                'AR',
-                const Color(0xFF0EA5E9),
-                const Color(0xFFE0F2FE),
+              GestureDetector(
+                onTap: () {
+                  MyChildScreen.selectedChildIndex.value = 1; // Aryan
+                  Navigator.pop(context); // Close ProfileScreen
+                  MainLayout.pushSubScreen(
+                    context,
+                    MyChildScreen(
+                      onBack: () => MainLayout.popSubScreen(context),
+                    ),
+                  );
+                },
+                child: _buildChildCard(
+                  'Aryan',
+                  'Class 7-B · Roll No: 708',
+                  'AR',
+                  const Color(0xFF0EA5E9),
+                  const Color(0xFFE0F2FE),
+                ),
               ),
             ],
           ),

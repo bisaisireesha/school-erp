@@ -8,7 +8,84 @@
     "assignedVehicle": "BUS-01",
     "driverName": "Rajesh Kumar",
     "status": "Active",
-    "statusColor": "green"
+    "statusColor": "green",
+    "distance": "14.2 km",
+    "morningPickup": "07:15 AM - 08:05 AM",
+    "eveningDrop": "03:30 PM - 04:20 PM",
+    "stopsList": [
+      {
+        "name": "School Gate",
+        "students": 3,
+        "morningTime": "7:00 AM",
+        "eveningTime": "3:30 PM"
+      },
+      {
+        "name": "Green Glen Gate 2",
+        "students": 7,
+        "morningTime": "7:07 AM",
+        "eveningTime": "3:35 PM"
+      },
+      {
+        "name": "Oakridge Apartments",
+        "students": 4,
+        "morningTime": "7:14 AM",
+        "eveningTime": "3:40 PM"
+      },
+      {
+        "name": "Metro Pillar 104",
+        "students": 8,
+        "morningTime": "7:21 AM",
+        "eveningTime": "3:45 PM"
+      },
+      {
+        "name": "Sunrise Club House",
+        "students": 5,
+        "morningTime": "8:28 AM",
+        "eveningTime": "4:50 PM"
+      },
+      {
+        "name": "Royal Palms Gate 1",
+        "students": 9,
+        "morningTime": "8:35 AM",
+        "eveningTime": "4:55 PM"
+      },
+      {
+        "name": "City Mall Junction",
+        "students": 6,
+        "morningTime": "8:42 AM",
+        "eveningTime": "4:30 PM"
+      },
+      {
+        "name": "Lake View Park",
+        "students": 3,
+        "morningTime": "8:49 AM",
+        "eveningTime": "4:35 PM"
+      },
+      {
+        "name": "Stop 9",
+        "students": 3,
+        "morningTime": "7:00 AM",
+        "eveningTime": "3:30 PM"
+      },
+      {
+        "name": "Stop 10",
+        "students": 7,
+        "morningTime": "7:07 AM",
+        "eveningTime": "3:35 PM"
+      },
+      {
+        "name": "Stop 11",
+        "students": 4,
+        "morningTime": "7:14 AM",
+        "eveningTime": "3:40 PM"
+      },
+      {
+        "name": "Stop 12",
+        "students": 8,
+        "morningTime": "7:21 AM",
+        "eveningTime": "3:45 PM"
+      }
+    ]
   },
   {
     "id": "RT-02",
@@ -19,7 +96,60 @@
     "assignedVehicle": "BUS-02",
     "driverName": "Suresh Singh",
     "status": "Delayed",
-    "statusColor": "orange"
+    "statusColor": "orange",
+    "distance": "14.2 km",
+    "morningPickup": "07:15 AM - 08:05 AM",
+    "eveningDrop": "03:30 PM - 04:20 PM",
+    "stopsList": [
+      {
+        "name": "School Gate",
+        "students": 3,
+        "morningTime": "7:00 AM",
+        "eveningTime": "3:30 PM"
+      },
+      {
+        "name": "Green Glen Gate 2",
+        "students": 7,
+        "morningTime": "7:07 AM",
+        "eveningTime": "3:35 PM"
+      },
+      {
+        "name": "Oakridge Apartments",
+        "students": 4,
+        "morningTime": "7:14 AM",
+        "eveningTime": "3:40 PM"
+      },
+      {
+        "name": "Metro Pillar 104",
+        "students": 8,
+        "morningTime": "7:21 AM",
+        "eveningTime": "3:45 PM"
+      },
+      {
+        "name": "Sunrise Club House",
+        "students": 5,
+        "morningTime": "8:28 AM",
+        "eveningTime": "4:50 PM"
+      },
+      {
+        "name": "Royal Palms Gate 1",
+        "students": 9,
+        "morningTime": "8:35 AM",
+        "eveningTime": "4:55 PM"
+      },
+      {
+        "name": "City Mall Junction",
+        "students": 6,
+        "morningTime": "8:42 AM",
+        "eveningTime": "4:30 PM"
+      },
+      {
+        "name": "Lake View Park",
+        "students": 3,
+        "morningTime": "8:49 AM",
+        "eveningTime": "4:35 PM"
+      }
+    ]
   },
   {
     "id": "RT-03",
@@ -30,7 +160,102 @@
     "assignedVehicle": "VAN-01",
     "driverName": "Dinesh Patel",
     "status": "Active",
-    "statusColor": "green"
+    "statusColor": "green",
+    "distance": "14.2 km",
+    "morningPickup": "07:15 AM - 08:05 AM",
+    "eveningDrop": "03:30 PM - 04:20 PM",
+    "stopsList": [
+      {
+        "name": "School Gate",
+        "students": 3,
+        "morningTime": "7:00 AM",
+        "eveningTime": "3:30 PM"
+      },
+      {
+        "name": "Green Glen Gate 2",
+        "students": 7,
+        "morningTime": "7:07 AM",
+        "eveningTime": "3:35 PM"
+      },
+      {
+        "name": "Oakridge Apartments",
+        "students": 4,
+        "morningTime": "7:14 AM",
+        "eveningTime": "3:40 PM"
+      },
+      {
+        "name": "Metro Pillar 104",
+        "students": 8,
+        "morningTime": "7:21 AM",
+        "eveningTime": "3:45 PM"
+      },
+      {
+        "name": "Sunrise Club House",
+        "students": 5,
+        "morningTime": "8:28 AM",
+        "eveningTime": "4:50 PM"
+      },
+      {
+        "name": "Royal Palms Gate 1",
+        "students": 9,
+        "morningTime": "8:35 AM",
+        "eveningTime": "4:55 PM"
+      },
+      {
+        "name": "City Mall Junction",
+        "students": 6,
+        "morningTime": "8:42 AM",
+        "eveningTime": "4:30 PM"
+      },
+      {
+        "name": "Lake View Park",
+        "students": 3,
+        "morningTime": "8:49 AM",
+        "eveningTime": "4:35 PM"
+      },
+      {
+        "name": "Stop 9",
+        "students": 3,
+        "morningTime": "7:00 AM",
+        "eveningTime": "3:30 PM"
+      },
+      {
+        "name": "Stop 10",
+        "students": 7,
+        "morningTime": "7:07 AM",
+        "eveningTime": "3:35 PM"
+      },
+      {
+        "name": "Stop 11",
+        "students": 4,
+        "morningTime": "7:14 AM",
+        "eveningTime": "3:40 PM"
+      },
+      {
+        "name": "Stop 12",
+        "students": 8,
+        "morningTime": "7:21 AM",
+        "eveningTime": "3:45 PM"
+      },
+      {
+        "name": "Stop 13",
+        "students": 5,
+        "morningTime": "8:28 AM",
+        "eveningTime": "4:50 PM"
+      },
+      {
+        "name": "Stop 14",
+        "students": 9,
+        "morningTime": "8:35 AM",
+        "eveningTime": "4:55 PM"
+      },
+      {
+        "name": "Stop 15",
+        "students": 6,
+        "morningTime": "8:42 AM",
+        "eveningTime": "4:30 PM"
+      }
+    ]
   },
   {
     "id": "RT-04",
@@ -41,6 +266,41 @@
     "assignedVehicle": "Unassigned",
     "driverName": "Unassigned",
     "status": "Pending",
-    "statusColor": "purple"
+    "statusColor": "purple",
+    "distance": "14.2 km",
+    "morningPickup": "07:15 AM - 08:05 AM",
+    "eveningDrop": "03:30 PM - 04:20 PM",
+    "stopsList": [
+      {
+        "name": "School Gate",
+        "students": 3,
+        "morningTime": "7:00 AM",
+        "eveningTime": "3:30 PM"
+      },
+      {
+        "name": "Green Glen Gate 2",
+        "students": 7,
+        "morningTime": "7:07 AM",
+        "eveningTime": "3:35 PM"
+      },
+      {
+        "name": "Oakridge Apartments",
+        "students": 4,
+        "morningTime": "7:14 AM",
+        "eveningTime": "3:40 PM"
+      },
+      {
+        "name": "Metro Pillar 104",
+        "students": 8,
+        "morningTime": "7:21 AM",
+        "eveningTime": "3:45 PM"
+      },
+      {
+        "name": "Sunrise Club House",
+        "students": 5,
+        "morningTime": "8:28 AM",
+        "eveningTime": "4:50 PM"
+      }
+    ]
   }
 ]

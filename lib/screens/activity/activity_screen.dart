@@ -56,13 +56,13 @@ class _ActivityScreenState extends State<ActivityScreen> {
         {
           'title': 'Quiz Completed',
           'type': 'Academic',
-          'subtitle': 'Science Quiz on Plant Life Cycle\nScore: 8/10',
+          'subtitle': 'Science Quiz on Plant Life Cycle',
           'time': '11:20 AM',
         },
         {
           'title': 'Field Trip',
           'type': 'Event',
-          'subtitle': 'Trip to Nehru Science Centre\nAttended by Aarav Sharma',
+          'subtitle': 'Trip to Nehru Science Centre',
           'time': '09:00 AM',
         },
       ]
