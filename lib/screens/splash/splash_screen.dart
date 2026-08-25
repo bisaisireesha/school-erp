@@ -111,11 +111,15 @@ class _SplashScreenState extends State<SplashScreen>
               ),
 
               // Main centered content
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Spacer(),
+              Positioned.fill(
+                child: SingleChildScrollView(
+                  child: Container(
+                    height: size.height > 600 ? size.height : 600,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 60),
 
                   // Icon card — centered
                   Center(
@@ -231,37 +235,43 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                   ),
 
-                  const Spacer(),
-
-                  // TAP ANYWHERE TO START — centered at bottom
-                  FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'TAP ANYWHERE TO START',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF9C8DDB),
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          width: 1.5,
-                          height: 30,
-                          color: const Color(0xFF9C8DDB).withValues(alpha: 0.5),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 36),
-                ],
+                  ],
+                ),
               ),
+            ),
+          ),
+              
+          // TAP ANYWHERE TO START — centered at bottom
+              Positioned(
+                bottom: 40,
+                left: 0,
+                right: 0,
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'TAP ANYWHERE TO START',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF9C8DDB),
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: 1.5,
+                        height: 30,
+                        color: const Color(0xFF9C8DDB).withValues(alpha: 0.5),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
             ],
           ),
         ),

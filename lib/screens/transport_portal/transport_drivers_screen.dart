@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'driver_details_screen.dart';
+import '../main_layout.dart';
 
 class TransportDriversScreen extends StatefulWidget {
   const TransportDriversScreen({super.key});
@@ -115,149 +117,6 @@ class _TransportDriversScreenState extends State<TransportDriversScreen> {
     );
   }
 
-  void _showStaffDetails(BuildContext context, Map<String, dynamic> staff) {
-    final fullName = '${staff['firstName']} ${staff['lastName']}';
-    
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.9,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
-          ),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Center(
-                  child: Container(
-                    width: 48,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE5E7EB),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Staff Profile Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E1E2D))),
-                    IconButton(
-                      icon: const Icon(LucideIcons.x, color: Color(0xFF9CA3AF)),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF6C4CF1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.all(20),
-                        margin: const EdgeInsets.only(bottom: 24),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(Icons.person_outline, color: Colors.white),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(fullName, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                                  const SizedBox(height: 4),
-                                  Text('${staff['designation'] ?? 'Senior Bus Driver'} • ${staff['role']}', style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12)),
-                                  const SizedBox(height: 2),
-                                  Text('Experience: ${staff['experience'] ?? '8 Years'} • Full-Time', style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF10B981),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Text('ACTIVE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 0.5)),
-                            ),
-                          ],
-                        ),
-                      ),
-                      
-                      _buildDetailSection(
-                        title: 'Professional & Employment Information',
-                        children: [
-                          _buildDetailListItem(icon: LucideIcons.briefcase, iconColor: const Color(0xFF8B5CF6), label: 'Designation', value: staff['designation'] ?? 'Senior Bus Driver'),
-                          _buildDetailListItem(icon: LucideIcons.building, iconColor: const Color(0xFF3B82F6), label: 'Department', value: staff['department'] ?? 'Transport & Fleet Logistics'),
-                          _buildDetailListItem(icon: LucideIcons.userCheck, iconColor: const Color(0xFF10B981), label: 'Employment Type', value: 'Full-Time'),
-                          _buildDetailListItem(icon: LucideIcons.award, iconColor: const Color(0xFFF59E0B), label: 'Total Working Experience', value: staff['experience'] ?? '8 Years'),
-                          _buildDetailListItem(icon: LucideIcons.history, iconColor: const Color(0xFF8B5CF6), label: 'Previous Employer', value: 'BMTC Transit Metro Division'),
-                          _buildDetailListItem(icon: LucideIcons.calendar, iconColor: const Color(0xFF6C6C80), label: 'Joining Date', value: staff['joiningDate'] ?? '01 Jun 2021', showDivider: false),
-                        ],
-                      ),
-                      
-                      _buildDetailSection(
-                        title: 'Licensing & Vehicle Authorization',
-                        children: [
-                          _buildDetailListItem(icon: LucideIcons.fileText, iconColor: const Color(0xFF8B5CF6), label: 'License Number', value: staff['licenseNumber'] ?? 'DL-09201500341'),
-                          _buildDetailListItem(icon: LucideIcons.calendarClock, iconColor: const Color(0xFF10B981), label: 'License Expiry', value: staff['licenseExpiry'] ?? '12 Nov 2029'),
-                          _buildDetailListItem(icon: LucideIcons.shieldCheck, iconColor: const Color(0xFF3B82F6), label: 'Vehicle Category Authorized', value: 'Heavy Passenger Vehicle (Bus)'),
-                          _buildDetailListItem(icon: LucideIcons.truck, iconColor: const Color(0xFFF59E0B), label: 'Assigned Bus No.', value: staff['assignedVehicle'] ?? 'BUS-02'),
-                          _buildDetailListItem(icon: LucideIcons.mapPin, iconColor: const Color(0xFF06B6D4), label: 'Primary Route', value: staff['assignedRoute'] ?? 'Route 2 - Sunrise Hills', showDivider: false),
-                        ],
-                      ),
-                      
-                      _buildDetailSection(
-                        title: 'Certifications & Qualifications',
-                        children: [
-                          _buildDetailListItem(icon: LucideIcons.checkCircle, iconColor: const Color(0xFF10B981), label: 'Certifications', value: 'Defensive Driving, First Aid Certified'),
-                          _buildDetailListItem(icon: LucideIcons.wrench, iconColor: const Color(0xFF8B5CF6), label: 'Skills & Expertise', value: 'Heavy Passenger Driving, CPR First Responder'),
-                          _buildDetailListItem(icon: LucideIcons.activity, iconColor: const Color(0xFF10B981), label: 'Medical Fitness', value: 'Valid • Annual Safety Inspection Clear', showDivider: false),
-                        ],
-                      ),
-                      
-                      _buildDetailSection(
-                        title: 'Contact & Emergency Details',
-                        children: [
-                          _buildDetailListItem(icon: LucideIcons.phone, iconColor: const Color(0xFF10B981), label: 'Phone Number', value: staff['phone'] ?? '+91 98765 43211'),
-                          _buildDetailListItem(icon: LucideIcons.phoneCall, iconColor: const Color(0xFFEF4444), label: 'Emergency Contact', value: staff['emergencyContact'] ?? 'Sunita Kumar (+91 98112 33445)'),
-                          _buildDetailListItem(icon: LucideIcons.mail, iconColor: const Color(0xFF8B5CF6), label: 'Staff Email', value: staff['email'] ?? 'suresh.patel@sunriseschool.edu', showDivider: false),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
 
   void _showAddStaffBottomSheet(BuildContext context, {Map<String, dynamic>? existingStaff}) {
@@ -290,7 +149,7 @@ class _TransportDriversScreenState extends State<TransportDriversScreen> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () => MainLayout.popSubScreen(context),
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -377,7 +236,14 @@ class _TransportDriversScreenState extends State<TransportDriversScreen> {
                               return Padding(
                                 padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
                                 child: GestureDetector(
-                                  onTap: () => _showStaffDetails(context, staff),
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (context) => DriverDetailsScreen(staff: staff),
+                                    );
+                                  },
                                   child: Container(
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(

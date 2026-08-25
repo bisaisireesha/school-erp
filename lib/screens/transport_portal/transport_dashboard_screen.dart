@@ -2,12 +2,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../main_layout.dart';
+import 'transport_compliance_screen.dart';
+import 'transport_vehicles_screen.dart';
 
 class TransportDashboardScreen extends StatefulWidget {
   const TransportDashboardScreen({super.key});
 
   @override
-  State<TransportDashboardScreen> createState() => _TransportDashboardScreenState();
+  State<TransportDashboardScreen> createState() =>
+      _TransportDashboardScreenState();
 }
 
 class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
@@ -62,11 +66,26 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
         children: [
           _buildKpiGrid(),
           const SizedBox(height: 32),
-          _buildSectionHeader('Fleet Vehicles', 'View All >'),
+          _buildSectionHeader(
+            'Fleet Vehicles',
+            'View All >',
+            onTap: () {
+              MainLayout.switchTab(1); // Navigates to Vehicles tab
+            },
+          ),
           const SizedBox(height: 16),
           _buildFleetVehiclesList(),
           const SizedBox(height: 32),
-          _buildSectionHeader('Today\'s Alerts', 'View All >'),
+          _buildSectionHeader(
+            'Today\'s Alerts',
+            'View All >',
+            onTap: () {
+              MainLayout.pushSubScreen(
+                context,
+                const TransportComplianceScreen(),
+              );
+            },
+          ),
           const SizedBox(height: 16),
           _buildAlertsList(),
           const SizedBox(height: 32),
@@ -236,7 +255,11 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
     );
   }
 
-  Widget _buildSectionHeader(String title, String actionText) {
+  Widget _buildSectionHeader(
+    String title,
+    String actionText, {
+    VoidCallback? onTap,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -249,7 +272,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: onTap ?? () {},
           child: Row(
             children: [
               Text(
@@ -288,91 +311,101 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
           statusBgColor = const Color(0xFFF3F0FF);
         }
 
-        return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+        return GestureDetector(
+          onTap: () {
+            MainLayout.pushSubScreen(
+              context,
+              TransportVehiclesScreen(
+                onBack: () => MainLayout.popSubScreen(context),
               ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF3F0FF),
-                  borderRadius: BorderRadius.circular(12),
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
                 ),
-                child: const Icon(
-                  LucideIcons.bus,
-                  color: Color(0xFF6C4CF1),
-                  size: 20,
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF3F0FF),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    LucideIcons.bus,
+                    color: Color(0xFF6C4CF1),
+                    size: 20,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          vehicle['id'],
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF1E1E2D),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: statusBgColor,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            vehicle['status'],
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                              color: statusColor,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            vehicle['id'],
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1E1E2D),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${vehicle['driver']} • ${vehicle['route']}',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Color(0xFF6C6C80),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: statusBgColor,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              vehicle['status'],
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: statusColor,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                      const SizedBox(height: 4),
+                      Text(
+                        '${vehicle['driver']} • ${vehicle['route']}',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF6C6C80),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(
-                LucideIcons.chevronRight,
-                color: Color(0xFF9E9E9E),
-                size: 20,
-              ),
-            ],
+                const SizedBox(width: 8),
+                const Icon(
+                  LucideIcons.chevronRight,
+                  color: Color(0xFF9E9E9E),
+                  size: 20,
+                ),
+              ],
+            ),
           ),
         );
       }).toList(),

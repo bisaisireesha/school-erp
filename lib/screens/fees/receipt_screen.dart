@@ -326,6 +326,7 @@ class ReceiptScreen extends StatelessWidget {
                         if (!context.mounted) return;
                         await OpenFile.open(file.path);
                       } catch (e) {
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Failed to open PDF: $e')),
                         );
@@ -347,8 +348,10 @@ class ReceiptScreen extends StatelessWidget {
                       try {
                         final file = await _generatePdf();
                         if (!context.mounted) return;
+                        // ignore: deprecated_member_use
                         await Share.shareXFiles([XFile(file.path)], text: 'Fee Receipt');
                       } catch (e) {
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Failed to share PDF: $e')),
                         );

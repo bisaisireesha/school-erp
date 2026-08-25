@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../main_layout.dart';
-import '../profile/profile_screen.dart';
 import 'transport_drivers_screen.dart';
+import 'transport_compliance_screen.dart';
+import 'transport_student_assignment_screen.dart';
+import 'transport_fee_collection_screen.dart';
+import 'transport_calendar_screen.dart';
+import 'transport_profile_screen.dart';
 
 class TransportMoreScreen extends StatefulWidget {
   const TransportMoreScreen({super.key});
@@ -38,7 +42,7 @@ class _TransportMoreScreenState extends State<TransportMoreScreen> {
   static const List<Map<String, dynamic>> _transportActions = [
     {'title': 'Drivers & Staff', 'icon': LucideIcons.users, 'key': 'Drivers & Staff'},
     {'title': 'Compliance', 'icon': LucideIcons.shieldCheck, 'key': 'Compliance'},
-    {'title': 'Route Builder', 'icon': LucideIcons.mapPin, 'key': 'Route Builder'},
+    {'title': 'Fee Collection', 'icon': LucideIcons.wallet, 'key': 'Fee Collection'},
     {'title': 'Student Assignments', 'icon': LucideIcons.userCheck, 'key': 'Student Assignments'},
     {'title': 'Calendar & Events', 'icon': LucideIcons.calendar, 'key': 'Calendar & Events'},
   ];
@@ -94,7 +98,7 @@ class _TransportMoreScreenState extends State<TransportMoreScreen> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ProfileScreen()),
+          MaterialPageRoute(builder: (context) => const TransportProfileScreen()),
         );
       },
       child: Container(
@@ -273,6 +277,14 @@ class _TransportMoreScreenState extends State<TransportMoreScreen> {
   void _handleTap(BuildContext context, String key) {
     if (key == 'Drivers & Staff') {
       MainLayout.pushSubScreen(context, const TransportDriversScreen());
+    } else if (key == 'Compliance') {
+      MainLayout.pushSubScreen(context, const TransportComplianceScreen());
+    } else if (key == 'Student Assignments') {
+      MainLayout.pushSubScreen(context, const TransportStudentAssignmentScreen());
+    } else if (key == 'Fee Collection') {
+      MainLayout.pushSubScreen(context, const TransportFeeCollectionScreen());
+    } else if (key == 'Calendar & Events') {
+      MainLayout.pushSubScreen(context, TransportCalendarScreen(onBack: () => MainLayout.popSubScreen(context)));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Navigating to $key...')),

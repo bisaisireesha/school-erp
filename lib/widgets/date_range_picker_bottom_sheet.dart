@@ -20,16 +20,7 @@ class _DateRangePickerBottomSheetState extends State<DateRangePickerBottomSheet>
   late DateTime _calendarMonth;
   DateTime? _startDate;
   DateTime? _endDate;
-  String _selectedQuickOption = 'This Month';
 
-  final List<String> _quickOptions = [
-    'This Month',
-    'Last Month',
-    '3 Months',
-    '6 Months',
-    'This Year',
-    'Custom Range',
-  ];
 
   @override
   void initState() {
@@ -40,7 +31,6 @@ class _DateRangePickerBottomSheetState extends State<DateRangePickerBottomSheet>
     if (widget.initialRange != null) {
       _startDate = widget.initialRange!.start;
       _endDate = widget.initialRange!.end;
-      _selectedQuickOption = 'Custom Range';
       _calendarMonth = DateTime(_startDate!.year, _startDate!.month);
     } else {
       _applyQuickOption('This Month');
@@ -50,7 +40,6 @@ class _DateRangePickerBottomSheetState extends State<DateRangePickerBottomSheet>
   void _applyQuickOption(String option) {
     final now = DateTime.now();
     setState(() {
-      _selectedQuickOption = option;
       if (option == 'This Month') {
         _startDate = DateTime(now.year, now.month, 1);
         _endDate = DateTime(now.year, now.month + 1, 0);
@@ -77,7 +66,6 @@ class _DateRangePickerBottomSheetState extends State<DateRangePickerBottomSheet>
 
   void _onDaySelected(DateTime date) {
     setState(() {
-      _selectedQuickOption = 'Custom Range';
       if (_startDate == null || (_startDate != null && _endDate != null)) {
         _startDate = date;
         _endDate = null;

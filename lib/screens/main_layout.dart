@@ -30,6 +30,7 @@ import 'accountant/accountant_more_screen.dart';
 import 'transport_portal/transport_dashboard_screen.dart';
 import 'transport_portal/transport_vehicles_screen.dart';
 import 'transport_portal/transport_more_screen.dart';
+import 'transport_portal/transport_profile_screen.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -353,12 +354,21 @@ class _MainLayoutState extends State<MainLayout> {
                                     bgColor: bgColor,
                                     textColor: textColor,
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const ProfileScreen(),
-                                        ),
-                                      );
+                                      if (role == 'transport') {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const TransportProfileScreen(),
+                                          ),
+                                        );
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const ProfileScreen(),
+                                          ),
+                                        );
+                                      }
                                     },
                                   );
                                 },
@@ -605,7 +615,7 @@ class _MainLayoutState extends State<MainLayout> {
       navItems = [
         {'icon': Icons.home_outlined, 'activeIcon': Icons.home_rounded, 'label': 'Home'},
         {'icon': Icons.menu_book_outlined, 'activeIcon': Icons.menu_book_rounded, 'label': 'Academics'},
-        {'icon': Icons.assignment_outlined, 'activeIcon': Icons.assignment_rounded, 'label': 'Exams'},
+        {'icon': Icons.assignment_outlined, 'activeIcon': Icons.assignment_rounded, 'label': 'Homework'},
         {'icon': Icons.grid_view_outlined, 'activeIcon': Icons.grid_view_rounded, 'label': 'More'},
       ];
     } else if (role == 'warden') {

@@ -187,98 +187,92 @@ class _StudentMoreScreenState extends State<StudentMoreScreen> {
   }
 
   Widget _buildQuickActions(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Quick Actions',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w900,
-            color: Color(0xFF1E1E2D),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFFF3EEFF), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFE8E3F8).withValues(alpha: 0.5),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
-        ),
-        const SizedBox(height: 16),
-        if (_isLoading)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 40),
-            child: Center(
-              child: CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Quick Actions',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
+              color: Color(0xFF1E1E2D),
             ),
-          )
-        else
-          GridView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: _quickActions.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 14,
-              mainAxisSpacing: 14,
-              childAspectRatio: 0.90,
-            ),
-            itemBuilder: (context, index) {
-              final item = _quickActions[index];
-              return GestureDetector(
-                onTap: () => _handleTap(context, item['key'] as String),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(
-                      color: const Color(0xFFF3EEFF),
-                      width: 1.5,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFE8E3F8).withValues(alpha: 0.45),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
+          ),
+          const SizedBox(height: 24),
+          if (_isLoading)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 40),
+              child: Center(
+                child: CircularProgressIndicator(color: Color(0xFF6C4CF1)),
+              ),
+            )
+          else
+            GridView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _quickActions.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 8,
+                childAspectRatio: 0.70,
+              ),
+              itemBuilder: (context, index) {
+                final item = _quickActions[index];
+                return GestureDetector(
+                  onTap: () => _handleTap(context, item['key'] as String),
+                  behavior: HitTestBehavior.opaque,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFF3F0FF),
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF6C4CF1).withValues(alpha: 0.08),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           _getIcon(item['icon']),
                           color: const Color(0xFF6C4CF1),
-                          size: 28,
+                          size: 26,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Flexible(
-                        child: Text(
-                          item['title'] as String,
-                          style: const TextStyle(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF1E1E2D),
-                            height: 1.2,
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                      Text(
+                        item['title'] as String,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E1E2D),
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                ),
-              );
-            },
-          ),
-      ],
+                );
+              },
+            ),
+        ],
+      ),
     );
   }
 

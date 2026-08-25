@@ -161,6 +161,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
 
   List<Map<String, dynamic>> _assignments = [];
   bool _isLoading = true;
+  final Set<String> _submittedSubjects = {};
 
   @override
   void initState() {
@@ -221,7 +222,13 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       final item = Map<String, dynamic>.from(shuffledAssignments[i]);
       item['icon'] = _getIcon(item['icon'] ?? 'bookOpen');
       final isPending = (date.day + i) % 2 == 0;
-      item['status'] = isPending ? 'Pending' : 'Submitted';
+      
+      if (_submittedSubjects.contains(item['subject'])) {
+        item['status'] = 'Submitted';
+      } else {
+        item['status'] = isPending ? 'Pending' : 'Submitted';
+      }
+      
       item['isToday'] =
           (i < 3); // First 3 are today's homework, rest are today's assignments
       result.add(item);
@@ -1393,6 +1400,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                           Navigator.pop(context);
                           setState(() {
                             item['status'] = 'Submitted';
+                            _submittedSubjects.add(item['subject']);
                           });
                         },
                         icon: const Icon(
